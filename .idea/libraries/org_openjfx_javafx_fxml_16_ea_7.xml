@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="org.openjfx:javafx-fxml:16-ea+7" type="repository">
+    <properties maven-id="org.openjfx:javafx-fxml:16-ea+7" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/16-ea+7/javafx-fxml-16-ea+7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/16-ea+7/javafx-fxml-16-ea+7-win.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/16-ea+7/javafx-controls-16-ea+7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/16-ea+7/javafx-controls-16-ea+7-win.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/16-ea+7/javafx-graphics-16-ea+7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/16-ea+7/javafx-graphics-16-ea+7-win.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/16-ea+7/javafx-base-16-ea+7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/16-ea+7/javafx-base-16-ea+7-win.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
