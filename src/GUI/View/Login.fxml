@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXPasswordField layoutX="290.0" layoutY="322.0" prefHeight="25.0" prefWidth="220.0" promptText="Password" />
+      <JFXTextField layoutX="290.0" layoutY="249.0" prefHeight="25.0" prefWidth="220.0" promptText="Username" />
+      <Label layoutX="304.0" layoutY="101.0" text="LOGO">
+         <font>
+            <Font size="72.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="350.0" layoutY="404.0" prefHeight="25.0" prefWidth="100.0" ripplerFill="TRANSPARENT" text="Login" textAlignment="CENTER" />
+      <JFXButton layoutX="350.0" layoutY="444.0" prefHeight="25.0" prefWidth="100.0" text="Cancel" textAlignment="CENTER" />
+   </children>
+</AnchorPane>
