@@ -7,9 +7,9 @@ public class User {
     private String userName;
     private String email;
     private Enum userRole;
-    private int password;
+    private String password;
 
-    public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password) {
+    public User(int id, String firstName, String lastName, String userName, String email, int userRole, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -65,11 +65,11 @@ public class User {
         this.userName = userName;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

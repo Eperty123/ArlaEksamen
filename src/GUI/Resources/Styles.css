@@ -1,0 +1,61 @@
+.background{
+  -fx-background-image: url("LoginBaggrund.png");
+}
+
+.bar{
+  -fx-background-color: rgba(0,0,0, 0.10);
+}
+
+.loginButtons{
+  -fx-background-color: rgba(255,255,255,0.25);
+}
+
+.close{
+  -fx-fill: #60646D;
+}
+
+.close:hover{
+  -fx-fill: #CF000F;
+}
+
+.minimize{
+  -fx-fill: #60646D;
+}
+
+.minimize:hover{
+  -fx-fill: #F29B34;
+}
+
+.maximize{
+  -fx-fill: #60646D;
+}
+
+.maximize:hover{
+  -fx-fill: #97CE68;
+}
+
+/*
+ADMIN DASHBOARD
+ */
+
+.adminDashboardButtons{
+  -fx-background-color: rgba(255,255,255,0.25);
+}
+
+.headerPanel{
+  -fx-background-color: #c8f0fc;
+}
+
+.midPanel{
+  -fx-background-color: #add8e5;
+}
+
+.logout{
+  -fx-background-color: #c8f0fc;
+}
+.logout:hover{
+  -fx-background-color: #E01931;
+}
+.dataPanel{
+  -fx-background-color: #4c707a;
+}

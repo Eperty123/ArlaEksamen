@@ -33,7 +33,7 @@ public class AdminScreenCreator2 implements Initializable {
 
         choice1.getSelectionModel().selectFirst();
         choice2.getSelectionModel().selectFirst();
-        
+
         choiceSkærm.setItems(skærmMængde);
         choiceSkærm.getSelectionModel().selectFirst();
     }

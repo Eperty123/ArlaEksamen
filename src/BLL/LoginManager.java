@@ -4,6 +4,7 @@ import BE.User;
 import DAL.UserDAL;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class LoginManager {
 
