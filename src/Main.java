@@ -8,9 +8,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("GUI/View/Login.fxml"));
-        primaryStage.setTitle("Login");
-        primaryStage.setScene(new Scene(root, 800, 600));
+        Parent root = FXMLLoader.load(getClass().getResource("GUI/View/AdminScreenCreator2.fxml"));
+        primaryStage.setTitle("Admin Screen Creator");
+        primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
     }
 
