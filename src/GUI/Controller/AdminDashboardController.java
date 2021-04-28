@@ -53,6 +53,15 @@ public class AdminDashboardController implements Initializable {
 
     }
 
+    public void minimize(){
+        Stage stage = (Stage) root.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    public void exit(){
+        System.exit(0);
+    }
+
     public void Logout(ActionEvent actionEvent) throws IOException {
         Stage root1 = (Stage) root.getScene().getWindow();
 

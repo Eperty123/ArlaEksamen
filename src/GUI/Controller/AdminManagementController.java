@@ -34,7 +34,7 @@ public class AdminManagementController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<User> users = FXCollections.observableArrayList();
-        
+
         try {
             users.addAll(UserModel.getInstance().getAllUsers());
         } catch (SQLException throwables) {

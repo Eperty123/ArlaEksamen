@@ -59,9 +59,9 @@
                         </Pane>
                         <Pane prefHeight="25.0" prefWidth="365.0">
                            <children>
-                              <FontAwesomeIconView glyphName="CIRCLE" layoutX="161.0" layoutY="17.0" styleClass="close" />
+                              <FontAwesomeIconView glyphName="CIRCLE" layoutX="161.0" layoutY="17.0" onMouseClicked="#exit" styleClass="close" />
                               <FontAwesomeIconView glyphName="CIRCLE" layoutX="141.0" layoutY="17.0" styleClass="maximize" />
-                              <FontAwesomeIconView glyphName="CIRCLE" layoutX="121.0" layoutY="17.0" styleClass="minimize" />
+                              <FontAwesomeIconView glyphName="CIRCLE" layoutX="121.0" layoutY="17.0" onMouseClicked="#minimize" styleClass="minimize" />
                            </children>
                         </Pane>
                      </children>
