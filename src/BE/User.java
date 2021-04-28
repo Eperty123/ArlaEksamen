@@ -1,31 +1,22 @@
 package BE;
 
 public class User {
+    private int id;
     private String firstName;
     private String lastName;
     private String userName;
-    private int userId;
     private String email;
     private Enum userRole;
-    private String password;
+    private int password;
 
-
-    public User(String firstName, String lastName, String userName, int userId, String email, Enum userRole, String password) {
+    public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
-        this.userId = userId;
         this.email = email;
-        this.userRole = userRole;
+        setUserRole(userRole);
         this.password = password;
-    }
-
-    public User(String firstName, String lastName, int userId, String email, Enum userRole) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userId = userId;
-        this.email = email;
-        this.userRole = userRole;
     }
 
     public String getFirstName() {
@@ -44,13 +35,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public String getEmail() {
         return email;
@@ -64,8 +48,13 @@ public class User {
         return userRole;
     }
 
-    public void setUserRole(Enum userRole) {
-        this.userRole = userRole;
+    public void setUserRole(int userRole) {
+        if(userRole == 0){
+            this.userRole = UserType.Admin;
+        } else{
+            this.userRole = UserType.User;
+        }
+
     }
 
     public String getUserName() {
@@ -76,11 +65,24 @@ public class User {
         this.userName = userName;
     }
 
-    public String getPassword() {
+    public int getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(int password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", userRole=" + userRole +
+                ", password=" + password +
+                '}';
     }
 }

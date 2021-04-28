@@ -1,0 +1,8 @@
+# MySQL
+# MSSQL
+DatabaseType=MSSQL
+Server=10.176.111.31
+Database=ARLA
+User=CSe20A_23
+Password=DiscoDucks
+Port=1433
