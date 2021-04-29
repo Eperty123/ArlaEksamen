@@ -1,4 +1,4 @@
-package DAL;
+package DAL.Parser;
 
 import BE.CSVData;
 import BE.IParsedData;
@@ -40,9 +40,9 @@ public class CSVParser implements IFileParser {
         var _file = new File(file);
 
         try {
-            var fs = new FileInputStream(_file.getPath());
+            var fs = new FileInputStream(_file.toURI().getPath());
 
-            // To avoid any utf bom issues we must use the BOMInputStream.
+            // To avoid any utf-8 bom issues we must use the BOMInputStream.
             // https://stackoverflow.com/questions/23551683/two-identical-strings-are-not-equalnot-pointer-reference-mistake
             // https://stackoverflow.com/questions/56189424/opencsv-csvtobean-first-column-not-read-for-utf-8-without-bom/56222034
             // Took me a while to figure out why identical strings didn't match and that's because of said issue.
@@ -88,8 +88,7 @@ public class CSVParser implements IFileParser {
                                 var columnName = line[h].strip().trim();
 
                                 // Add the column name.
-                                if (!header.contains(columnName)) header.add(columnName);
-                                else continue;
+                                header.add(columnName);
                                 //System.out.println(columnName);
                             }
                         } else {

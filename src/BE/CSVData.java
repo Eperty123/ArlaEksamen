@@ -1,5 +1,7 @@
 package BE;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -50,6 +52,11 @@ public class CSVData implements IParsedData {
             }
         }
         return null;
+    }
+
+    @Override
+    public Collection<IColumnData> getAllColumnData() {
+        return new ArrayList<>(data.values());
     }
 
     /**
