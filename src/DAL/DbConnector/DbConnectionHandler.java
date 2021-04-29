@@ -1,9 +1,6 @@
-package DAL;
+package DAL.DbConnector;
 
 import BE.DatabaseType;
-import DAL.DbMSSQLConnectionProvider;
-import DAL.DbMysqlConnectionProvider;
-import DAL.IDbConnectionProvider;
 
 import java.io.File;
 import java.io.FileInputStream;
