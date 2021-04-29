@@ -2,6 +2,7 @@ package DAL;
 
 import BE.User;
 import BE.UserType;
+import DAL.DbConnector.DbConnectionHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

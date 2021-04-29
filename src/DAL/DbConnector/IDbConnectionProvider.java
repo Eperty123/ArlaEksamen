@@ -1,4 +1,4 @@
-package DAL;
+package DAL.DbConnector;
 
 import java.sql.Connection;
 import java.util.Properties;

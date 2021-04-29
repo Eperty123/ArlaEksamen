@@ -8,18 +8,24 @@ import java.util.List;
 
 public class LoginManager {
 
-    private static User currentUser;
 
-    public void attemptLogin(String username, String password) throws SQLException {
+    private User currentUser;
+
+    public boolean attemptLogin(String username, String password) throws SQLException {
+        PasswordManager passwordManager = new PasswordManager();
         UserDAL userDAL = new UserDAL();
         for (User u : userDAL.getUsers()) {
-            if (username.equalsIgnoreCase(u.getUserName()) && password.equals(u.getPassword())) {
+            if (username.equals(u.getUserName()) && passwordManager.encrypt(password) == (u.getPassword())) {
                 currentUser=u;
+                return true;
             }
         }
+        return false;
     }
 
-    public static User getCurrentUser() {
+    public User getCurrentUser() {
         return currentUser;
     }
+
+
 }
