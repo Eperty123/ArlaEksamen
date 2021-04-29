@@ -29,7 +29,7 @@ public class UserDAL {
                 String lastName = rs.getString("LastName");
                 String userName = rs.getString("UserName");
                 String email = rs.getString("Email");
-                String password = rs.getString("Password");
+                int password = rs.getInt("Password");
                 int userRole = rs.getInt("UserRole");
 
                 allUsers.add(new User(id, firstName, lastName, userName, email, userRole, password));
