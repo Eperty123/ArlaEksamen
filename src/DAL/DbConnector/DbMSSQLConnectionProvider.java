@@ -1,10 +1,16 @@
-package DAL;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package DAL.DbConnector;
+
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -12,53 +18,56 @@ import java.util.Properties;
  * Author: Carlo De Leon
  * Version: 1.1.1
  */
-public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
+public class DbMSSQLConnectionProvider implements IDbConnectionProvider {
 
     protected String host;
     protected String user;
     protected String password;
     protected String database;
-    protected int port = 3306;
+    protected int port = 1433;
+    private SQLServerDataSource ds;
+    private static DbMSSQLConnectionProvider instance;
 
     protected String databasePath;
     protected Properties databaseFileProperties;
-    protected Connection connection;
-    private static DbMysqlConnectionProvider instance;
 
-    public DbMysqlConnectionProvider() {
+    public DbMSSQLConnectionProvider() {
     }
 
-    public DbMysqlConnectionProvider(String settingsFile) {
+    public DbMSSQLConnectionProvider(String settingsFile) {
         loadSettingsFile(settingsFile);
         connect();
     }
 
-    public static DbMysqlConnectionProvider getInstance() {
-        if (instance == null) instance = new DbMysqlConnectionProvider();
+    public static DbMSSQLConnectionProvider getInstance() {
+        if (instance == null) instance = new DbMSSQLConnectionProvider();
         return instance;
     }
 
     /**
      * Connect to the database.
      */
-    @Override
     public Connection connect() {
-        try {
-            // Connect to the database.
-            connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", getHost(), getPort(), getDatabase()), getUser(), getPassword());
-            System.out.println(String.format("[%s]: Successfully connected to database: %s!", this.getClass().getSimpleName(), getDatabase()));
-        } catch (SQLException e) {
-            System.out.println(String.format("MySQL connect exception: %s", e.getMessage()));
-        }
-        return connection;
+        ds = new SQLServerDataSource();
+        ds.setServerName(getHost());
+        ds.setDatabaseName(getDatabase());
+        ds.setUser(getUser());
+        ds.setPassword(getPassword());
+        ds.setPortNumber(getPort());
+
+        System.out.println(String.format("[%s]: Successfully connected to database: %s!", this.getClass().getSimpleName(), getDatabase()));
+        return getConnection();
     }
 
+    /**
+     * Reconnect to the database.
+     */
     @Override
     public Connection reconnect() {
         try {
-            if (connection == null || connection.isClosed())
+            if (ds == null || ds.getConnection() != null && ds.getConnection().isClosed())
                 return connect();
-            return connection;
+            return ds.getConnection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -69,7 +78,7 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
     /**
      * Get the current connection.
      *
-     * @return The current connection.
+     * @return The current Connection instance.
      */
     @Override
     public Connection getConnection() {
@@ -77,7 +86,7 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
     }
 
     /**
-     * Get the databse name.
+     * Get the database name.
      *
      * @return The database name.
      */
@@ -97,9 +106,9 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
     }
 
     /**
-     * Get the database's user.
+     * Gets the user.
      *
-     * @return The database's user.
+     * @return The user.
      */
     @Override
     public String getUser() {
@@ -107,9 +116,9 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
     }
 
     /**
-     * Get the database user password.
+     * Get the password.
      *
-     * @return The database user's password.
+     * @return The password.
      */
     @Override
     public String getPassword() {
@@ -117,7 +126,7 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
     }
 
     /**
-     * Get the port of the database.
+     * Get the port.
      *
      * @return The port.
      */
@@ -138,9 +147,9 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
     }
 
     /**
-     * Set the host for the database.
+     * Set the host.
      *
-     * @param host The host for the database.
+     * @param host The host.
      */
     @Override
     public void setHost(String host) {
@@ -149,9 +158,9 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
     }
 
     /**
-     * Set the database user.
+     * Set the user for the database.
      *
-     * @param user The database user.
+     * @param user The user for the database.
      */
     @Override
     public void setUser(String user) {
@@ -160,9 +169,9 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
     }
 
     /**
-     * Set the database user's password.
+     * Set the password for the database's user.
      *
-     * @param password The database user's password.
+     * @param password The password for the user.
      */
     @Override
     public void setPassword(String password) {
@@ -171,7 +180,7 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
     }
 
     /**
-     * Set the database port.
+     * Set the port for the database.
      *
      * @param port The database port.
      */
@@ -180,6 +189,7 @@ public class DbMysqlConnectionProvider implements DAL.IDbConnectionProvider {
         if (port <= 0) return;
         this.port = port;
     }
+
 
     /**
      * Load the specified database file from the given path.
