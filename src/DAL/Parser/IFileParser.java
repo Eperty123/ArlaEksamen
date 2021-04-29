@@ -1,4 +1,4 @@
-package DAL;
+package DAL.Parser;
 
 import BE.IParsedData;
 

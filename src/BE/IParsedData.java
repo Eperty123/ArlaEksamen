@@ -1,5 +1,7 @@
 package BE;
 
+import java.util.Collection;
+
 /**
  * Author: Carlo De Leon
  * Version: 1.0.0
@@ -15,7 +17,7 @@ public interface IParsedData {
     public void addColumnData(String columnName, String columnValue);
 
     /**
-     * Get a CSVColumnData with the given column name and column value.
+     * Get an IColumnData with the given column name and column value.
      *
      * @param columnName  The column name.
      * @param columnValue The column value.
@@ -24,7 +26,13 @@ public interface IParsedData {
     public IColumnData getColumnData(String columnName, String columnValue);
 
     /**
-     * Get a CSVColumnData with the given line index.
+     * Get all parsed the IColumnData.
+     * @return Returns a list of IColumnData.
+     */
+    public Collection<IColumnData> getAllColumnData();
+
+    /**
+     * Get a IColumnData from given line index.
      *
      * @param lineIndex The line index of the ColumnData.
      * @return
