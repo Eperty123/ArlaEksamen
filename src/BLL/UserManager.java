@@ -15,15 +15,15 @@ public class UserManager {
         return userDAL.getUsers();
     }
 
-    public void deleteUser(){
-        // TODO
+    public void deleteUser(int userId){
+        userDAL.deleteUser(userId);
     }
 
-    public void addUser(){
-        // TODO
+    public void addUser(User user){
+        userDAL.addUser(user);
     }
 
-    public void updateUser(){
-        // TODO
+    public void updateUser(User user, User updatedUser){
+        userDAL.updateUser(user, updatedUser);
     }
 }

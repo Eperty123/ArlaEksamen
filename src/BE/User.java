@@ -6,10 +6,10 @@ public class User {
     private String lastName;
     private String userName;
     private String email;
-    private Enum userRole;
     private int password;
+    private Enum userRole;
 
-    public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password) {
+    public User(int id, String firstName, String lastName, String userName, String email, int password, int userRole) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,6 +17,15 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
+    }
+
+    public User(String firstName, String lastName, String userName, String email, int password, int userRole) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        setUserRole(userRole);
     }
 
     public String getFirstName() {
@@ -34,7 +43,6 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 
     public String getEmail() {
         return email;
@@ -73,6 +81,14 @@ public class User {
         this.password = password;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -81,8 +97,8 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
-                ", userRole=" + userRole +
                 ", password=" + password +
+                ", userRole=" + userRole +
                 '}';
     }
 }
