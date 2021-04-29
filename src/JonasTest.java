@@ -15,9 +15,16 @@ public class JonasTest {
         UserDAL userDAL = new UserDAL();
         List<User> users = userDAL.getUsers();
 
-        for(User u : users){
-            System.out.println(users);
-        }
+        User j1 = new User("Jonas", "Buus", "jbn", "j@test.dk", 34567, 1);
+        User j2 = new User("Jonas", "Fabricius", "jf", "j@tesst.dk", 345678, 0);
+
+        //userDAL.addUser(new User("Jonas", "Buus", "jbn", "j@test.dk", 34567, 1));
+
+        //userDAL.deleteUser(3);
+
+        userDAL.updateUser(users.get(1), j2);
+
+        //System.out.println(users.get(1));
 
     }
 }
