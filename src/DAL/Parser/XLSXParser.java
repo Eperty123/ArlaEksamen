@@ -143,4 +143,17 @@ public class XLSXParser implements IFileParser {
         return xlsxData;
     }
 
+    /**
+     * STATIC METHODS
+     */
+
+    /**
+     * Parse a XLSX file.
+     * @param file The file to parse.
+     * @return Returns an instance of XLSXParser with parsed data.
+     */
+    public static XLSXParser parseFile(String file) {
+        return new XLSXParser(file);
+    }
+
 }
