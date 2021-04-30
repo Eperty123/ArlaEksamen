@@ -18,5 +18,6 @@
     <orderEntry type="library" name="com.opencsv:opencsv:5.4" level="project" />
     <orderEntry type="library" name="org.apache.poi:poi:4.1.1" level="project" />
     <orderEntry type="library" name="commons-io:commons-io:2.8.0" level="project" />
+    <orderEntry type="library" name="org.apache.poi:poi-ooxml:4.1.1" level="project" />
   </component>
 </module>

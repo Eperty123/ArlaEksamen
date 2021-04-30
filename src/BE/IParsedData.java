@@ -26,7 +26,7 @@ public interface IParsedData {
     public IColumnData getColumnData(String columnName, String columnValue);
 
     /**
-     * Get all parsed the IColumnData.
+     * Get all parsed IColumnData.
      * @return Returns a list of IColumnData.
      */
     public Collection<IColumnData> getAllColumnData();
