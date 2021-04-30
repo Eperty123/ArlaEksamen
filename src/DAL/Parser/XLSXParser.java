@@ -1,7 +1,7 @@
 package DAL.Parser;
 
 import BE.IParsedData;
-import BE.XLSVData;
+import BE.XLSXData;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -18,15 +18,15 @@ import java.util.Iterator;
  * Author: Carlo De Leon
  * Version: 1.0.0
  */
-public class XLSVParser implements IFileParser {
+public class XLSXParser implements IFileParser {
     protected XSSFWorkbook excelSheet;
-    protected XLSVData xlsvData;
+    protected XLSXData xlsxData;
 
-    public XLSVParser() {
+    public XLSXParser() {
 
     }
 
-    public XLSVParser(String file) {
+    public XLSXParser(String file) {
         loadFile(file);
     }
 
@@ -58,7 +58,7 @@ public class XLSVParser implements IFileParser {
     public <T> T parse() {
         if (excelSheet != null) {
             try {
-                var xlsvData = new XLSVData();
+                var xlsvData = new XLSXData();
 
                 // Return first sheet from the XLSX workbook
                 XSSFSheet mySheet = excelSheet.getSheetAt(0);
@@ -129,8 +129,8 @@ public class XLSVParser implements IFileParser {
                     row_index++;
                 }
 
-                this.xlsvData = xlsvData;
-                return (T) this.xlsvData;
+                this.xlsxData = xlsvData;
+                return (T) this.xlsxData;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -140,7 +140,7 @@ public class XLSVParser implements IFileParser {
 
     @Override
     public IParsedData getParsedData() {
-        return xlsvData;
+        return xlsxData;
     }
 
 }
