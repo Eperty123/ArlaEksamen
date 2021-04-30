@@ -119,4 +119,17 @@ public class CSVParser implements IFileParser {
         return csvData;
     }
 
+
+    /**
+     * STATIC METHODS
+     */
+
+    /**
+     * Parse a CSV file.
+     * @param file The file to parse.
+     * @return Returns an instance of CSVParser with parsed data.
+     */
+    public static CSVParser parseFile(String file) {
+        return new CSVParser(file);
+    }
 }
