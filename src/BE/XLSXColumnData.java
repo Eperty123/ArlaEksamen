@@ -4,11 +4,11 @@ package BE;
  * Author: Carlo De Leon
  * Version: 1.0.0
  */
-public class XLSVColumnData implements IColumnData {
+public class XLSXColumnData implements IColumnData {
     private String columnName;
     private String columnValue;
 
-    public XLSVColumnData(String columnName, String columnValue) {
+    public XLSXColumnData(String columnName, String columnValue) {
         setColumnName(columnName);
         setColumnValue(columnValue);
     }

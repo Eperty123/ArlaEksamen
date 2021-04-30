@@ -8,10 +8,10 @@ import java.util.HashMap;
  * Author: Carlo De Leon
  * Version: 1.0.0
  */
-public class XLSVData implements IParsedData {
-    HashMap<Integer, XLSVColumnData> data;
+public class XLSXData implements IParsedData {
+    HashMap<Integer, XLSXColumnData> data;
 
-    public XLSVData() {
+    public XLSXData() {
         initialize();
     }
 
@@ -31,7 +31,7 @@ public class XLSVData implements IParsedData {
     public void addColumnData(String columnName, String columnValue) {
         if (data != null) {
             Integer index = data.size() > 0 ? data.size() + 1 : data.size();
-            data.put(index, new XLSVColumnData(columnName, columnValue));
+            data.put(index, new XLSXColumnData(columnName, columnValue));
         }
     }
 
@@ -42,11 +42,11 @@ public class XLSVData implements IParsedData {
      * @param columnValue The column value.
      * @return Returns the found  CSVColumnData otherwise null.
      */
-    public XLSVColumnData getColumnData(String columnName, String columnValue) {
+    public XLSXColumnData getColumnData(String columnName, String columnValue) {
         if (data.size() > 0) {
             var values = data.values().toArray();
             for (int i = 0; i < values.length; i++) {
-                var columnData = ((XLSVColumnData) values[i]);
+                var columnData = ((XLSXColumnData) values[i]);
                 if (columnData.getColumnName().equals(columnName) && columnData.getColumnValue().startsWith(columnValue))
                     return columnData;
             }
@@ -65,7 +65,7 @@ public class XLSVData implements IParsedData {
      * @param lineIndex The line index of the ColumnData.
      * @return
      */
-    public XLSVColumnData getColumnData(int lineIndex) {
+    public XLSXColumnData getColumnData(int lineIndex) {
         return data.get(lineIndex);
     }
 
@@ -79,7 +79,7 @@ public class XLSVData implements IParsedData {
         if (data.size() > 0) {
             var values = data.values().toArray();
             for (int i = 0; i < values.length; i++) {
-                var columnData = ((XLSVColumnData) values[i]);
+                var columnData = ((XLSXColumnData) values[i]);
                 return columnData.getColumnName().equals(columnName);
             }
         }
@@ -97,7 +97,7 @@ public class XLSVData implements IParsedData {
         if (data.size() > 0) {
             var values = data.values().toArray();
             for (int i = 0; i < values.length; i++) {
-                var columnData = ((XLSVColumnData) values[i]);
+                var columnData = ((XLSXColumnData) values[i]);
                 return columnData.getColumnName().equals(columnName) && columnData.getColumnValue().startsWith(columnValue);
             }
         }
