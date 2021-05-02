@@ -3,6 +3,8 @@ package GUI.Controller;
 import BE.User;
 import BE.UserType;
 import BLL.LoginManager;
+import BLL.PasswordManager;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.EventHandler;
@@ -29,8 +31,11 @@ public class LoginController {
     private AnchorPane root;
     @FXML
     private Label lblError;
+    @FXML
+    private JFXButton btnLogin;
 
     private final LoginManager loginManager = new LoginManager();
+    private final sample.Timer timer = new sample.Timer();
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -82,7 +87,11 @@ public class LoginController {
             System.out.println("c:");
         }else{
             //TODO set error text til DP's password Timer
-            lblError.setText("Test");
+            timer.startTimer();
+            lblError.setText(timer.getTxt().getText());
+
+            timer.setNodeToDisable(btnLogin);
+
             txtPassword.clear();
             txtUsername.clear();
         }
@@ -90,8 +99,13 @@ public class LoginController {
 
 
     public void loginWithEnter(KeyEvent keyEvent) throws SQLException, IOException {
-        if (keyEvent.getCode() == KeyCode.ENTER){
-            login();
+
+        if (!btnLogin.isDisabled()) {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                login();
+            }
+        }else{
+            lblError.setText(timer.getTxt().getText());
         }
     }
 

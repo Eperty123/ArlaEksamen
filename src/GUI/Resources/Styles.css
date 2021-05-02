@@ -63,3 +63,37 @@ ADMIN DASHBOARD
 .adminDashboardBar{
   -fx-background-color: #c8f0fc;
 }
+
+/*
+POP UP
+ */
+
+.popupBaggrund{
+  -fx-background-color: #4c707a;
+}
+
+.popupForground{
+  -fx-background-color: #c8f0fc;
+}
+
+.ja{
+  -fx-background-color: rgba(255,255,255,0.25);
+}
+
+.ja:hover{
+  -fx-background-color: #97CE68;
+  -fx-text-fill: WHITE;
+}
+
+.nej{
+  -fx-background-color: rgba(255,255,255,0.25);
+}
+
+.nej:hover{
+  -fx-background-color: #E01931;
+  -fx-text-fill: WHITE;
+}
+
+.textarea{
+  -fx-text-fill: #4c707a;
+}

@@ -9,7 +9,7 @@ import java.util.List;
 public class LoginManager {
 
 
-    private User currentUser;
+    private static User currentUser;
 
     public boolean attemptLogin(String username, String password) throws SQLException {
         PasswordManager passwordManager = new PasswordManager();
@@ -23,7 +23,7 @@ public class LoginManager {
         return false;
     }
 
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         return currentUser;
     }
 
