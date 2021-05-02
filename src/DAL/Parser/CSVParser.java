@@ -79,10 +79,10 @@ public class CSVParser implements IFileParser {
                     for (int i = 0; i < lines.size(); i++) {
                         var line = lines.get(i);
 
-                    /* Get the header information.
-                    /* Index 0 is always the header information. We NEED the header in order to
-                    /* know what the values refer to what.
-                    */
+                        /* Get the header information.
+                        /* Index 0 is always the header information. We NEED the header in order to
+                        /* know what the values refer to what.
+                        */
                         if (i == 0) {
                             for (int h = 0; h < line.length; h++) {
                                 var columnName = line[h].strip().trim();
@@ -119,4 +119,17 @@ public class CSVParser implements IFileParser {
         return csvData;
     }
 
+
+    /**
+     * STATIC METHODS
+     */
+
+    /**
+     * Parse a CSV file.
+     * @param file The file to parse.
+     * @return Returns an instance of CSVParser with parsed data.
+     */
+    public static CSVParser parseFile(String file) {
+        return new CSVParser(file);
+    }
 }

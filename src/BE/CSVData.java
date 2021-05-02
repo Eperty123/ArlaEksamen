@@ -47,7 +47,7 @@ public class CSVData implements IParsedData {
             var values = data.values().toArray();
             for (int i = 0; i < values.length; i++) {
                 var columnData = ((CSVColumnData) values[i]);
-                if (columnData.getColumnName().equals(columnName) && columnData.getColumnValue().equals(columnValue))
+                if (columnData.getColumnName().equals(columnName) && columnData.getColumnValue().startsWith(columnValue))
                     return columnData;
             }
         }
@@ -66,7 +66,6 @@ public class CSVData implements IParsedData {
      * @return
      */
     public CSVColumnData getColumnData(int lineIndex) {
-
         return data.get(lineIndex);
     }
 
@@ -99,7 +98,7 @@ public class CSVData implements IParsedData {
             var values = data.values().toArray();
             for (int i = 0; i < values.length; i++) {
                 var columnData = ((CSVColumnData) values[i]);
-                return columnData.getColumnName().equals(columnName) && columnData.getColumnValue().equals(columnValue);
+                return columnData.getColumnName().equals(columnName) && columnData.getColumnValue().startsWith(columnValue);
             }
         }
         return false;
