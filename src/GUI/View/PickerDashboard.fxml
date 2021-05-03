@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.PickerDashboardController">
+   <top>
+      <Pane prefHeight="25.0" prefWidth="600.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
+         <children>
+            <FontAwesomeIconView glyphName="CIRCLE" layoutX="569.0" layoutY="17.0" onMouseClicked="#handleExit" styleClass="close" />
+            <FontAwesomeIconView glyphName="CIRCLE" layoutX="549.0" layoutY="17.0" onMouseClicked="#handleMaximize" styleClass="maximize" />
+            <FontAwesomeIconView glyphName="CIRCLE" layoutX="529.0" layoutY="17.0" onMouseClicked="#handleMinimize" styleClass="minimize" />
+         </children>
+      </Pane>
+   </top>
+   <bottom>
+      <Pane prefHeight="35.0" prefWidth="600.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton layoutX="514.0" layoutY="5.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Cancel" />
+            <JFXButton layoutX="444.0" layoutY="5.0" onAction="#handleSave" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Save" />
+         </children>
+      </Pane>
+   </bottom>
+</BorderPane>

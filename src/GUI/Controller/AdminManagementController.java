@@ -159,21 +159,15 @@ public class AdminManagementController implements Initializable {
 
         Scene removeEmployeeScene = new Scene(root);
 
-        removeEmployeeScene.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            }
+        removeEmployeeScene.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
         });
 
-        removeEmployeeScene.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                removeEmployeeStage.setX(event.getScreenX() - xOffset);
-                removeEmployeeStage.setY(event.getScreenY() - yOffset);
-                removeEmployeeStage.setOpacity(0.8f);
-            }
+        removeEmployeeScene.setOnMouseDragged(event -> {
+            removeEmployeeStage.setX(event.getScreenX() - xOffset);
+            removeEmployeeStage.setY(event.getScreenY() - yOffset);
+            removeEmployeeStage.setOpacity(0.8f);
         });
 
         removeEmployeeScene.setOnMouseDragExited((event) -> {
