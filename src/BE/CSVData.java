@@ -3,13 +3,15 @@ package BE;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Author: Carlo De Leon
  * Version: 1.0.0
  */
 public class CSVData implements IParsedData {
-    HashMap<Integer, CSVColumnData> data;
+    HashMap<Integer, List<IColumnData>> data;
+    List<String> columns;
 
     public CSVData() {
         initialize();
@@ -25,13 +27,13 @@ public class CSVData implements IParsedData {
     /**
      * Add a new column with value.
      *
-     * @param columnName  The column name.
-     * @param columnValue The value.
+     * @param columnData The column data array list to add.
      */
-    public void addColumnData(String columnName, String columnValue) {
+    @Override
+    public void addColumnData(List<IColumnData> columnData) {
         if (data != null) {
             Integer index = data.size() > 0 ? data.size() + 1 : data.size();
-            data.put(index, new CSVColumnData(columnName, columnValue));
+            data.put(index, columnData);
         }
     }
 
@@ -42,21 +44,17 @@ public class CSVData implements IParsedData {
      * @param columnValue The column value.
      * @return Returns the found  CSVColumnData otherwise null.
      */
-    public CSVColumnData getColumnData(String columnName, String columnValue) {
+    @Override
+    public IColumnData getColumnData(int lineIndex, String columnName, String columnValue) {
         if (data.size() > 0) {
-            var values = data.values().toArray();
-            for (int i = 0; i < values.length; i++) {
-                var columnData = ((CSVColumnData) values[i]);
+            var values = data.get(lineIndex);
+            for (int i = 0; i < values.size(); i++) {
+                var columnData = ((IColumnData) values.get(i));
                 if (columnData.getColumnName().equals(columnName) && columnData.getColumnValue().startsWith(columnValue))
-                    return columnData;
+                    return (IColumnData) columnData;
             }
         }
         return null;
-    }
-
-    @Override
-    public Collection<IColumnData> getAllColumnData() {
-        return new ArrayList<>(data.values());
     }
 
     /**
@@ -65,43 +63,102 @@ public class CSVData implements IParsedData {
      * @param lineIndex The line index of the ColumnData.
      * @return
      */
-    public CSVColumnData getColumnData(int lineIndex) {
-        return data.get(lineIndex);
+    @Override
+    public IColumnData getColumnData(int lineIndex, int columnIndex) {
+        return data.get(lineIndex).get(columnIndex);
     }
 
-    /**
-     * Does the specified column name exist?
-     *
-     * @param columnName The column name to find.
-     * @return Returns true if yes and false if not.
-     */
-    public boolean hasColumn(String columnName) {
-        if (data.size() > 0) {
-            var values = data.values().toArray();
-            for (int i = 0; i < values.length; i++) {
-                var columnData = ((CSVColumnData) values[i]);
-                return columnData.getColumnName().equals(columnName);
-            }
+    @Override
+    public IColumnData getColumnData(int lineIndex, String columnName) {
+        var desired = data.get(lineIndex);
+        for (int i = 0; i < desired.size(); i++) {
+            var desiredData = desired.get(i);
+            if (desiredData.getColumnName().equals(columnName))
+                return desiredData;
         }
-        return false;
+        return null;
     }
 
-    /**
-     * Does the specified CSVColumnData with the given column name and column value exist?
-     *
-     * @param columnName  The column name to find.
-     * @param columnValue The associated column value.
-     * @return Returns true if yes otherwise false.
-     */
+    @Override
+    public HashMap<Integer, List<IColumnData>> getAllColumnData() {
+        return data;
+    }
+
+    @Override
     public boolean hasColumnValue(String columnName, String columnValue) {
         if (data.size() > 0) {
             var values = data.values().toArray();
             for (int i = 0; i < values.length; i++) {
-                var columnData = ((CSVColumnData) values[i]);
+                var columnData = ((IColumnData) values[i]);
                 return columnData.getColumnName().equals(columnName) && columnData.getColumnValue().startsWith(columnValue);
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean hasColumnValue(int lineIndex, String columnName, String columnValue) {
+        if (data.size() > 0) {
+            var values = data.get(lineIndex);
+            for (int i = 0; i < values.size(); i++) {
+                var columnData = ((IColumnData) values.get(i));
+                return columnData.getColumnName().equals(columnName) && columnData.getColumnValue().startsWith(columnValue);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void addColumn(String columnName) {
+        columns.add(columnName);
+    }
+
+    @Override
+    public String getColumn(String columnName) {
+        for (int i = 0; i < columns.size(); i++) {
+            var column = columns.get(i);
+            if (column.equals(columnName)) return column;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean hasColumn(String columnName) {
+        return columns.contains(columnName);
+    }
+
+    @Override
+    public String getColumn(int columnIndex) {
+        return columns.get(columnIndex);
+    }
+
+    @Override
+    public void removeColumn(String columnName) {
+        for (int i = 0; i < columns.size(); i++) {
+            var column = columns.get(i);
+            if (column.equals(columnName)) columns.remove(column);
+        }
+    }
+
+    @Override
+    public void removeColumn(int columnIndex) {
+        if (columns.size() >= columnIndex)
+            columns.remove(columnIndex);
+    }
+
+    @Override
+    public Collection<String> getColumns() {
+        return columns;
+    }
+
+    @Override
+    public void setColumns(Collection<String> columns) {
+        this.columns = new ArrayList<>(columns);
+    }
+
+    @Override
+    public boolean isValid() {
+        return data != null && data.size() > 0 && columns.size() > 0;
     }
 
     @Override

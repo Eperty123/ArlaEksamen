@@ -5,12 +5,24 @@ package BE;
  * Version: 1.0.0
  */
 public class CSVColumnData implements IColumnData {
+    private int lineIndex;
     private String columnName;
     private String columnValue;
 
     public CSVColumnData(String columnName, String columnValue) {
         setColumnName(columnName);
         setColumnValue(columnValue);
+    }
+
+    public CSVColumnData(int lineIndex, String columnName, String columnValue) {
+        setLineIndex(lineIndex);
+        setColumnName(columnName);
+        setColumnValue(columnValue);
+    }
+
+    @Override
+    public int getLineIndex() {
+        return lineIndex;
     }
 
     /**
@@ -47,6 +59,11 @@ public class CSVColumnData implements IColumnData {
      */
     public void setColumnValue(String columnValue) {
         this.columnValue = columnValue;
+    }
+
+    @Override
+    public void setLineIndex(int lineIndex) {
+        this.lineIndex = lineIndex;
     }
 
     @Override

@@ -2,6 +2,8 @@ package DAL.Parser;
 
 import BE.IParsedData;
 
+import java.util.List;
+
 /**
  * Author: Carlo De Leon
  * Version: 1.0.0
@@ -14,6 +16,11 @@ public interface IFileParser {
      * @param file The file to parse.
      */
     void loadFile(String file);
+
+    /**
+     * Save the file.
+     */
+    void saveFile(String outputFile);
 
     /**
      * Load and parse the given file.

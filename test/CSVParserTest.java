@@ -20,9 +20,18 @@ public class CSVParserTest {
     public void getSpecificColumnValueTest() {
         var csvReader = new CSVParser();
         csvReader.loadFile("src/Resources/BarChart_mockData.csv");
-        var data = csvReader.getParsedData().getColumnData("Time", "10");
+        var data = csvReader.getParsedData().getColumnData(0,"Time", "10");
         System.out.println(data);
 
         Assertions.assertNotNull(data);
+    }
+
+    @DisplayName("Save test")
+    @org.junit.jupiter.api.Test
+    public void saveTest() {
+        var csvReader = new CSVParser();
+        csvReader.loadFile("src/Resources/BarChart_mockData.csv");
+
+        csvReader.saveFile("src/Resources/test.csv");
     }
 }
