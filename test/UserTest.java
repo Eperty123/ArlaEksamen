@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserTest {
 
-    @DisplayName("Login with valid info")
+    @DisplayName("Login with valid info should succeed")
     @Test
     public void validInfoLoginTest(){
         LoginManager loginManager = new LoginManager();
@@ -26,7 +26,7 @@ public class UserTest {
 
     }
 
-    @DisplayName("Login with invalid info")
+    @DisplayName("Login with invalid info should fail")
     @Test
     public void invalidInfoLoginTest(){
         LoginManager loginManager = new LoginManager();
@@ -42,7 +42,7 @@ public class UserTest {
 
     }
 
-    @DisplayName("Correct username, wrong password login test")
+    @DisplayName("Correct username, wrong password login should fail")
     @Test
     public void wrongPasswordLoginTest(){
         LoginManager loginManager = new LoginManager();
@@ -58,7 +58,7 @@ public class UserTest {
 
     }
 
-    @DisplayName("Wrong username, correct password login test")
+    @DisplayName("Wrong username, correct password login should fail")
     @Test
     public void wrongUsernameLoginTest(){
         LoginManager loginManager = new LoginManager();
@@ -74,7 +74,7 @@ public class UserTest {
 
     }
 
-    @DisplayName("Login with no info")
+    @DisplayName("Login with no info should fail")
     @Test
     public void noInfoLoginTest(){
         LoginManager loginManager = new LoginManager();
@@ -89,19 +89,6 @@ public class UserTest {
         Assertions.assertEquals(expectedResult, actualResult);
     }
 
-    @DisplayName("Login with null info")
-    @Test
-    public void nullInfoLoginTest(){
-        LoginManager loginManager = new LoginManager();
 
-        // Username and password are both null.
-        String adminUserName = null;
-        String adminPassword = null;
-
-        boolean expectedResult = false;
-        boolean actualResult = loginManager.attemptLogin(adminUserName, adminPassword);
-
-        Assertions.assertEquals(expectedResult, actualResult);
-    }
 
 }
