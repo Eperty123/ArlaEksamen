@@ -97,3 +97,11 @@ POP UP
 .textarea{
   -fx-text-fill: #4c707a;
 }
+
+/*
+  SCREEN MANAGEMENT CSS
+ */
+
+.SMButtons:hover {
+  -fx-fill: rgba(255, 255, 255, 0.25);
+}

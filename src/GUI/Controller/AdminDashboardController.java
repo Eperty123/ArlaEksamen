@@ -57,8 +57,11 @@ public class AdminDashboardController implements Initializable {
         borderPane.setCenter(fxmlLoader.load());
     }
 
-    public void handleScreenManagement() {
+    public void handleScreenManagement() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminScreenManagement.fxml"));
 
+        borderPane.setCenter(fxmlLoader.load());
     }
 
     public void minimize() {
