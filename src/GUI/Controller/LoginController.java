@@ -85,9 +85,7 @@ public class LoginController {
 
                 root1.close();
             }
-            System.out.println("c:");
         }else{
-            //TODO set error text til DP's password Timer
             timer.startTimer();
             lblError.setText(timer.getTxt().getText());
 
@@ -107,6 +105,7 @@ public class LoginController {
             }
         }else{
             lblError.setText(timer.getTxt().getText());
+
         }
     }
 

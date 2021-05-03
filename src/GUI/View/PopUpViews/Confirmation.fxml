@@ -14,14 +14,14 @@
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="20.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="200.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
-            <Label alignment="TOP_CENTER" layoutX="115.0" layoutY="9.0" text="Er du sikker ?" textFill="#4c707a">
+            <Label alignment="TOP_CENTER" layoutX="112.0" layoutY="10.0" text="Are you sure?" textFill="#4c707a">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
             <JFXTextArea fx:id="textArea" editable="false" focusColor="#add8e5" layoutX="20.0" layoutY="39.0" prefHeight="122.0" prefWidth="264.0" styleClass="textarea" text="Pellentesque nec semper nulla. Vestibulum ac imperdiet nisl. Integer a risus id lorem laoreet efficitur eu eget risus. Integer ac condimentum augue. Donec at iaculis elit. Nullam euismod, lacus id mollis imperdiet, odio leo condimentum risus, sollicitudin maximus magna ex vitae diam. Mauris lacus nisi, lobortis non dapibus non, porttitor nec magna. Morbi at cursus lacus." unFocusColor="#add8e5" />
-            <JFXButton layoutX="42.0" layoutY="168.0" onAction="#handleJa" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Ja" />
-            <JFXButton layoutX="182.0" layoutY="168.0" onAction="#handleNej" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Nej" />
+            <JFXButton layoutX="42.0" layoutY="168.0" onAction="#handleJa" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Yes" />
+            <JFXButton layoutX="182.0" layoutY="168.0" onAction="#handleNej" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="No" />
          </children></Pane>
    </children>
 </AnchorPane>

@@ -27,9 +27,9 @@
                   <Pane prefHeight="30.0" prefWidth="445.0" />
                   <Pane prefHeight="30.0" prefWidth="360.0">
                      <children>
-                        <MaterialDesignIconView glyphName="ACCOUNT_PLUS" layoutX="244.0" layoutY="25.0" size="24" styleClass="maximize" />
-                        <MaterialDesignIconView glyphName="ACCOUNT_EDIT" layoutX="274.0" layoutY="25.0" size="24" styleClass="minimize" />
-                        <MaterialDesignIconView glyphName="ACCOUNT_MINUS" layoutX="304.0" layoutY="25.0" size="24" styleClass="close" />
+                        <MaterialDesignIconView glyphName="ACCOUNT_PLUS" layoutX="244.0" layoutY="25.0" onMouseClicked="#handleAddEmployee" size="24" styleClass="maximize" />
+                        <MaterialDesignIconView glyphName="ACCOUNT_EDIT" layoutX="274.0" layoutY="25.0" onMouseClicked="#handleEditEmployee" size="24" styleClass="minimize" />
+                        <MaterialDesignIconView glyphName="ACCOUNT_MINUS" layoutX="304.0" layoutY="25.0" onMouseClicked="#handleRemoveEmployee" size="24" styleClass="close" />
                      </children>
                   </Pane>
                </children>

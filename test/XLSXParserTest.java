@@ -20,7 +20,7 @@ public class XLSXParserTest {
     public void getSpecificColumnValueTest() {
         var xlsxParser = new XLSXParser();
         xlsxParser.loadFile("src/Resources/Excel_mockData.xlsx");
-        var data = xlsxParser.getParsedData().getColumnData("Time", "10");
+        var data = xlsxParser.getParsedData().getColumnData(0,"Time", "10");
         System.out.println(data);
 
         Assertions.assertNotNull(data);
