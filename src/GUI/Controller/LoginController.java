@@ -91,7 +91,7 @@ public class LoginController {
             timer.startTimer();
             lblError.setText(timer.getTxt().getText());
 
-            timer.setNodeToDisable(btnLogin);
+            timer.addNodeToDisable(btnLogin);
 
             txtPassword.clear();
             txtUsername.clear();
