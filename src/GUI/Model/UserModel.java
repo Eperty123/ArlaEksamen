@@ -15,10 +15,14 @@ public class UserModel {
 
     private static UserManager userManager;
 
-    public UserModel() throws SQLException {
+    public UserModel()  {
         userManager = new UserManager();
         allUsers = FXCollections.observableArrayList();
-        allUsers.addAll(userManager.getUsers());
+        try {
+            allUsers.addAll(userManager.getUsers());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 

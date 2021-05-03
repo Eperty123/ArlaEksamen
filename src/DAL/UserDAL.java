@@ -14,7 +14,7 @@ import java.util.List;
 public class UserDAL {
     private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
 
-    public List<User> getUsers() throws SQLException {
+    public List<User> getUsers() {
         List<User> allUsers = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
@@ -35,6 +35,8 @@ public class UserDAL {
 
                 allUsers.add(new User(id, firstName, lastName, userName, email, userRole, password));
             }
+        } catch (SQLException throwables){
+            throwables.printStackTrace();
         }
         return allUsers;
     }

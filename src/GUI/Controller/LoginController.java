@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.Timer;
 import BE.User;
 import BE.UserType;
 import BLL.LoginManager;
@@ -35,7 +36,7 @@ public class LoginController {
     private JFXButton btnLogin;
 
     private final LoginManager loginManager = new LoginManager();
-    private final sample.Timer timer = new sample.Timer();
+    private final Timer timer = new Timer();
 
     private double xOffset = 0;
     private double yOffset = 0;
