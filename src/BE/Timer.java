@@ -33,7 +33,7 @@ public class Timer {
                 executor.shutdownNow();
                 if (!nodesToDisable.isEmpty())
                     nodesToDisable.forEach(node -> {
-                        if (!node.isDisabled())
+                        if (node.isDisabled())
                             node.setDisable(false);
                     });
             }
