@@ -1,6 +1,5 @@
 package DAL.Parser;
 
-import BE.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -11,7 +10,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Author: Carlo De Leon
@@ -19,17 +20,24 @@ import java.util.Iterator;
  */
 public class XLSXParser implements IFileParser {
     protected XSSFWorkbook excelSheet;
-    protected XLSXData xlsxData;
+    protected HashMap<Integer, List<Object>> rows;
 
     public XLSXParser() {
-
+        initialize();
     }
 
     public XLSXParser(String file) {
+        initialize();
         loadFile(file);
     }
 
-    @Override
+    /**
+     * Initialize the class.
+     */
+    private void initialize() {
+        rows = new HashMap<Integer, List<Object>>();
+    }
+
     public void loadFile(String file) {
         var _file = new File(file);
 
@@ -47,95 +55,53 @@ public class XLSXParser implements IFileParser {
         }
     }
 
-    @Override
-    public void saveFile(String outputFile) {
-
-    }
-
-    @Override
     public <T> T parse(String file) {
         loadFile(file);
         return parse();
     }
 
-    @Override
     public <T> T parse() {
         if (excelSheet != null) {
             try {
-                var xlsvData = new XLSXData();
-
                 // Return first sheet from the XLSX workbook
                 XSSFSheet mySheet = excelSheet.getSheetAt(0);
 
                 // Get iterator to all the rows in current sheet
                 Iterator<Row> rowIterator = mySheet.iterator();
 
-                // Data
-                var header = new ArrayList<String>();
+                var row_index = 0;
 
-                int row_index = 0;
                 // Traversing over each row of XLSX file
                 while (rowIterator.hasNext()) {
                     Row row = rowIterator.next();
-                    int column_index = 0;
-                    var columnData = new ArrayList<IColumnData>();
 
-                    // For each row, iterate through each columns
                     Iterator<Cell> cellIterator = row.cellIterator();
+                    var values = new ArrayList<Object>();
                     while (cellIterator.hasNext()) {
 
                         Cell cell = cellIterator.next();
-
-                        /* Get the header information.
-                        /* Index 0 is always the header information. We NEED the header in order to
-                        /* know what the values refer to what.
-                        */
-                        if (row_index == 0) {
-
-                            // Read header information. Get the column names.
-                            if (cell != null) {
-                                String columnName = "";
-
-                                switch (cell.getCellType()) {
-                                    case STRING:
-                                        columnName = cell.getStringCellValue();
-                                        break;
-                                    case NUMERIC:
-                                        columnName = Double.toString(cell.getNumericCellValue());
-                                        break;
-                                    case BOOLEAN:
-                                        columnName = Boolean.toString(cell.getBooleanCellValue());
-                                        break;
-                                }
-                                header.add(columnName);
-                            }
-                        } else {
-                            // Got the header information, now read all the column values.
-                            String value = "";
-                            switch (cell.getCellType()) {
-                                case STRING:
-                                    value = row.getCell(column_index).toString();
-                                    break;
-                                case NUMERIC:
-                                    value = Double.toString(cell.getNumericCellValue());
-                                    break;
-                                case BOOLEAN:
-                                    value = Boolean.toString(cell.getBooleanCellValue());
-                                    break;
-                            }
-                            // Add the column value.
-                            columnData.add(new XLSXColumnData(row_index, header.get(column_index), value));
+                        // Got the header information, now read all the column values.
+                        String value = "";
+                        switch (cell.getCellType()) {
+                            case STRING:
+                                value = cell.getStringCellValue();
+                                break;
+                            case NUMERIC:
+                                value = Double.toString(cell.getNumericCellValue());
+                                break;
+                            case BOOLEAN:
+                                value = Boolean.toString(cell.getBooleanCellValue());
+                                break;
                         }
-                        // Increase the column index to get the next column.
-                        column_index++;
+                        values.add(value);
                     }
-                    xlsvData.addColumnData(columnData);
+
+                    // Columns included.
+                    rows.put(row_index, values);
                     row_index++;
                 }
 
-                xlsvData.setColumns(header);
-                this.xlsxData = xlsvData;
-                return (T) this.xlsxData;
+                return (T) this.rows;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -143,9 +109,24 @@ public class XLSXParser implements IFileParser {
         return null;
     }
 
-    @Override
-    public IParsedData getParsedData() {
-        return xlsxData;
+    /**
+     * Get the XLSX content from the given line index.
+     *
+     * @param rowIndex The row index.
+     * @return Returns the CSV content associated with the line.
+     */
+    public <T> T getRow(int rowIndex) {
+        return (T) rows.get(rowIndex);
+    }
+
+    /**
+     * Get the parsed XLSX content.
+     *
+     * @param <T> The return type.
+     * @return Returns the parsed XLSX content.
+     */
+    public <T> T getParsedData() {
+        return (T) rows;
     }
 
     /**
