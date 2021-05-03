@@ -5,32 +5,46 @@ package BE;
  * Version: 1.0.0
  */
 public interface IColumnData {
+
+    /**
+     * Get the line index of where this IColumnData belongs to.
+     *
+     * @return
+     */
+    int getLineIndex();
+
     /**
      * Get the column name.
      *
      * @return Returns the column name.
      */
-    public String getColumnName();
+    String getColumnName();
 
     /**
      * Set the column name.
      *
      * @param columnName The column name to use.
      */
-    public void setColumnName(String columnName);
+    void setColumnName(String columnName);
 
     /**
      * Get the column value.
      *
      * @return Returns the column value.
      */
-    public String getColumnValue();
+    String getColumnValue();
 
     /**
      * Set the column value.
      *
      * @param columnValue The column value to use.
      */
-    public void setColumnValue(String columnValue);
+    void setColumnValue(String columnValue);
 
+    /**
+     * Set the line index for this IColumn Data.
+     *
+     * @param lineIndex The line index.
+     */
+    void setLineIndex(int lineIndex);
 }

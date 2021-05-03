@@ -1,7 +1,6 @@
 package DAL.Parser;
 
-import BE.IParsedData;
-import BE.XLSXData;
+import BE.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -49,6 +48,11 @@ public class XLSXParser implements IFileParser {
     }
 
     @Override
+    public void saveFile(String outputFile) {
+
+    }
+
+    @Override
     public <T> T parse(String file) {
         loadFile(file);
         return parse();
@@ -74,6 +78,7 @@ public class XLSXParser implements IFileParser {
                 while (rowIterator.hasNext()) {
                     Row row = rowIterator.next();
                     int column_index = 0;
+                    var columnData = new ArrayList<IColumnData>();
 
                     // For each row, iterate through each columns
                     Iterator<Cell> cellIterator = row.cellIterator();
@@ -119,16 +124,16 @@ public class XLSXParser implements IFileParser {
                                     break;
                             }
                             // Add the column value.
-                            xlsvData.addColumnData(header.get(column_index), value);
+                            columnData.add(new XLSXColumnData(row_index, header.get(column_index), value));
                         }
-
                         // Increase the column index to get the next column.
                         column_index++;
                     }
-
+                    xlsvData.addColumnData(columnData);
                     row_index++;
                 }
 
+                xlsvData.setColumns(header);
                 this.xlsxData = xlsvData;
                 return (T) this.xlsxData;
             } catch (Exception e) {
@@ -149,6 +154,7 @@ public class XLSXParser implements IFileParser {
 
     /**
      * Parse a XLSX file.
+     *
      * @param file The file to parse.
      * @return Returns an instance of XLSXParser with parsed data.
      */
