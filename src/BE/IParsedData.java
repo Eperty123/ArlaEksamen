@@ -1,6 +1,8 @@
 package BE;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Author: Carlo De Leon
@@ -8,13 +10,17 @@ import java.util.Collection;
  */
 public interface IParsedData {
 
+    /* ==============================
+    /* COLUMN DATA
+    /* ===============================
+    */
+
     /**
      * Add a new column with value.
      *
-     * @param columnName  The column name.
-     * @param columnValue The value.
+     * @param columnData The column data array list to add.
      */
-    public void addColumnData(String columnName, String columnValue);
+    void addColumnData(List<IColumnData> columnData);
 
     /**
      * Get an IColumnData with the given column name and column value.
@@ -23,21 +29,78 @@ public interface IParsedData {
      * @param columnValue The column value.
      * @return Returns the found CSVColumnData otherwise null.
      */
-    public IColumnData getColumnData(String columnName, String columnValue);
+    IColumnData getColumnData(int lineIndex, String columnName, String columnValue);
+
+    /**
+     * Get a IColumnData from given line index and column index.
+     *
+     * @param lineIndex   The line index of the ColumnData.
+     * @param columnIndex The column index.
+     * @return Returns the column found.
+     */
+    IColumnData getColumnData(int lineIndex, int columnIndex);
+
+    /**
+     * Get a IColumnData from given line index and column name.
+     *
+     * @param lineIndex  The line index of the ColumnData.
+     * @param columnName The column name.
+     * @return Returns the column found.
+     */
+    IColumnData getColumnData(int lineIndex, String columnName);
 
     /**
      * Get all parsed IColumnData.
+     *
      * @return Returns a list of IColumnData.
      */
-    public Collection<IColumnData> getAllColumnData();
+    HashMap<Integer, List<IColumnData>> getAllColumnData();
 
     /**
-     * Get a IColumnData from given line index.
+     * Does the specified IColumnData with the given column name and column value exist?
      *
-     * @param lineIndex The line index of the ColumnData.
-     * @return
+     * @param columnName  The column name to find.
+     * @param columnValue The associated column value.
+     * @return Returns true if yes otherwise false.
      */
-    public IColumnData getColumnData(int lineIndex);
+    boolean hasColumnValue(String columnName, String columnValue);
+
+    /**
+     * Does the specified IColumnData with the given line index, column name and column value exist?
+     *
+     * @param columnName  The column name to find.
+     * @param columnValue The associated column value.
+     * @return Returns true if yes otherwise false.
+     */
+    boolean hasColumnValue(int lineIndex, String columnName, String columnValue);
+
+    /* ==============================
+    /* COLUMN HEADERS
+    /* ===============================
+    */
+
+    /**
+     * Add a new column name.
+     *
+     * @param columnName The column name.
+     */
+    void addColumn(String columnName);
+
+    /**
+     * Get the column with the given name.
+     *
+     * @param columnName The column name to get.
+     * @return Returns the desired column.
+     */
+    String getColumn(String columnName);
+
+    /**
+     * Get the column with the given index.
+     *
+     * @param columnIndex The index of the column to get.
+     * @return Returns the desired column.
+     */
+    String getColumn(int columnIndex);
 
     /**
      * Does the specified column name exist?
@@ -45,14 +108,45 @@ public interface IParsedData {
      * @param columnName The column name to find.
      * @return Returns true if yes and false if not.
      */
-    public boolean hasColumn(String columnName);
+    boolean hasColumn(String columnName);
 
     /**
-     * Does the specified CSVColumnData with the given column name and column value exist?
+     * Remove the column with the given name.
      *
-     * @param columnName  The column name to find.
-     * @param columnValue The associated column value.
-     * @return Returns true if yes otherwise false.
+     * @param columnName The column name to remove.
      */
-    public boolean hasColumnValue(String columnName, String columnValue);
+    void removeColumn(String columnName);
+
+    /**
+     * Remove the column from the given index.
+     *
+     * @param columnIndex The column index to remove column at.
+     */
+    void removeColumn(int columnIndex);
+
+    /**
+     * Get all the column names from the header.
+     *
+     * @return
+     */
+    Collection<String> getColumns();
+
+    /**
+     * Set the column names.
+     *
+     * @param columns
+     */
+    void setColumns(Collection<String> columns);
+
+    /* ==============================
+    /* DATA VALIDATION
+    /* ===============================
+    */
+
+    /**
+     * Is the parsed data valid?
+     *
+     * @return
+     */
+    boolean isValid();
 }
