@@ -108,7 +108,6 @@ public class AdminDashboardController implements Initializable {
             confirmationStage.setOpacity(1.0f);
         });
 
-
         confirmationStage.initStyle(StageStyle.UNDECORATED);
         confirmationStage.setScene(confirmationScene);
         confirmationStage.show();

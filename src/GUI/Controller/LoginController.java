@@ -11,17 +11,23 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class LoginController {
     @FXML
@@ -41,6 +47,7 @@ public class LoginController {
     private double xOffset = 0;
     private double yOffset = 0;
 
+
     public void login() throws SQLException, IOException {
         loginManager.attemptLogin(txtUsername.getText(),txtPassword.getText());
         User u = LoginManager.getCurrentUser();
@@ -53,29 +60,22 @@ public class LoginController {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminDashboard.fxml"));
 
                 Scene scene = new Scene(fxmlLoader.load());
-
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(scene);
                 stage.show();
 
-                scene.setOnMousePressed(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        xOffset = event.getSceneX();
-                        yOffset = event.getSceneY();
-                    }
+                scene.setOnMousePressed(mouseEvent -> {
+                    xOffset = mouseEvent.getSceneX();
+                    yOffset = mouseEvent.getSceneY();
                 });
 
-                scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        stage.setX(event.getScreenX() - xOffset);
-                        stage.setY(event.getScreenY() - yOffset);
-                        stage.setOpacity(0.8f);
-                    }
+                scene.setOnMouseDragged(mouseEvent -> {
+                    stage.setX(mouseEvent.getScreenX() - xOffset);
+                    stage.setY(mouseEvent.getScreenY() - yOffset);
+                    stage.setOpacity(0.8f);
                 });
 
-                scene.setOnMouseDragExited((event) -> {
+                scene.setOnMouseExited((event) -> {
                     stage.setOpacity(1.0f);
                 });
 
@@ -122,4 +122,6 @@ public class LoginController {
     public void exit(){
         System.exit(0);
     }
+
+
 }
