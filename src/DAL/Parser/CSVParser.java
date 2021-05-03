@@ -1,44 +1,55 @@
 package DAL.Parser;
 
-import BE.CSVColumnData;
-import BE.CSVData;
-import BE.IColumnData;
-import BE.IParsedData;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
-import com.opencsv.exceptions.CsvValidationException;
 import org.apache.commons.io.input.BOMInputStream;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Carlo De Leon
  * Version: 1.0.0
  */
 public class CSVParser implements IFileParser {
-    protected CSVReader csvReader;
-    protected CSVData csvData;
+    private String[] header;
+    private List<String[]> rows;
+    private CSVReader csvReader;
     public static char delimeter = ';';
 
     public CSVParser() {
-
+        initialize();
     }
 
     public CSVParser(String file) {
+        initialize();
         loadFile(file);
     }
 
     public CSVParser(String file, char delimeter) {
+        initialize();
         this.delimeter = delimeter;
         loadFile(file);
     }
 
-    @Override
+    /**
+     * Initialize the class.
+     */
+    private void initialize() {
+        header = new String[]{};
+        rows = new ArrayList<>();
+    }
+
+    /**
+     * Load a CSV file.
+     *
+     * @param file The CSV file to load.
+     */
     public void loadFile(String file) {
         var _file = new File(file);
 
@@ -54,104 +65,38 @@ public class CSVParser implements IFileParser {
                     .withCSVParser(csvParser)   // custom CSV parser
                     //.withSkipLines(1)           // skip the first line, header info
                     .build();
-
-            csvReader = reader;
+            this.csvReader = reader;
             parse();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void saveFile(String outputFile) {
-        File file = new File(outputFile);
-        try {
-            // create FileWriter object with file as parameter
-            FileWriter fileWriter = new FileWriter(file);
-
-            // create CSVWriter object filewriter object as parameter
-            CSVWriter writer = new CSVWriter(fileWriter);
-
-            // adding header to csv
-            var header = new String[csvData.getColumns().size()];
-            csvData.getColumns().toArray(header);
-
-            writer.writeNext(header);
-
-            // add exportableData to csv
-//            var exportableData = new ArrayList(csvData.getAllColumnData());
-//            for (int i = 0; i < exportableData.size(); i++) {
-//                var data = (CSVColumnData) exportableData.get(i);
-//                var columnValues = new String[header.length];
-//
-//                for (int c = 0; c < header.length; c++) {
-//                    var column = header[c];
-//                    if (c == 0)
-//                        columnValues[c] = data.getColumnValue();
-//                    System.out.println(String.format("Wrote: %s", columnValues[c]));
-//                }
-//
-//                writer.writeNext(columnValues);
-//            }
-
-            // closing writer connection
-            writer.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    @Override
+    /**
+     * Parse the CSV file.
+     *
+     * @param file The CSV file to parse.
+     * @param <T>  The return type.
+     * @return Returns the parsed CSV file.
+     */
     public <T> T parse(String file) {
         loadFile(file);
         return parse();
     }
 
-    @Override
+    /**
+     * Parse the loaded CSV file.
+     *
+     * @param <T> The return type.
+     * @return Returns the parsed CSV file.
+     */
     public <T> T parse() {
         if (csvReader != null) {
             try {
-                var csvData = new CSVData();
-
-                var header = new ArrayList<String>();
-                var lines = csvReader.readAll();
-
-                // Parse the file if there are actual lines to read.
-                if (lines.size() > 0) {
-                    for (int i = 0; i < lines.size(); i++) {
-                        var line = lines.get(i);
-                        // Got the header information, now read all the column values.
-                        var columnData = new ArrayList<IColumnData>();
-
-                        /* Get the header information.
-                        /* Index 0 is always the header information. We NEED the header in order to
-                        /* know what the values refer to what.
-                        */
-                        if (i == 0) {
-                            for (int h = 0; h < line.length; h++) {
-                                var columnName = line[h].strip().trim();
-
-                                // Add the column name.
-                                header.add(columnName);
-                                //System.out.println(columnName);
-                            }
-                        } else {
-
-                            for (int c = 0; c < line.length; c++) {
-                                var columnValue = line[c].strip().trim();
-                                columnData.add(new CSVColumnData(i, header.get(c), columnValue));
-                            }
-                            csvData.addColumnData(columnData);
-                        }
-                    }
-                    csvData.setColumns(header);
-                    this.csvData = csvData;
-                    return (T) this.csvData;
-                }
-
-            } catch (CsvValidationException e) {
-                e.printStackTrace();
+                rows.addAll(csvReader.readAll());
+                setHeader(rows.get(0));
+                ;
+                return (T) rows;
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (CsvException e) {
@@ -161,9 +106,32 @@ public class CSVParser implements IFileParser {
         return null;
     }
 
-    @Override
-    public IParsedData getParsedData() {
-        return csvData;
+    /**
+     * Get the CSV content from the given line index.
+     *
+     * @param lineIndex The line index.
+     * @return Returns the CSV content associated with the line.
+     */
+    public String[] getRow(int lineIndex) {
+        return rows.get(lineIndex);
+    }
+
+    /**
+     * Get the parsed CSV content.
+     *
+     * @return Returns the parsed CSV content.
+     */
+    public List<String[]> getParsedData() {
+        return rows;
+    }
+
+    /**
+     * Set the header (columns).
+     *
+     * @param columns The columns.
+     */
+    public void setHeader(String[] columns) {
+        header = columns;
     }
 
 
