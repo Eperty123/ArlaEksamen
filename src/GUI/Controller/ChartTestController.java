@@ -35,16 +35,14 @@ public class ChartTestController implements Initializable {
 
     public void loadChart(ActionEvent actionEvent) {
         CategoryAxis xAxis    = new CategoryAxis();
-        xAxis.setLabel("Devices");
+        xAxis.setLabel("Time");
 
         NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Visits");
 
-        BarChart barChart = new BarChart(xAxis, yAxis);
 
-        barChart.getData().add(dataGenerator.getBarChart());
 
-        chart.getData().add(barChart);
+        chart.getData().add(dataGenerator.getBarChart());
 
 
     }

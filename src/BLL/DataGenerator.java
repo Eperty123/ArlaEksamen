@@ -1,9 +1,8 @@
 package BLL;
 
-import BE.CSVColumnData;
-import BE.CSVData;
+
 import BE.CSVRowData;
-import BE.IColumnData;
+
 import DAL.Parser.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
@@ -25,38 +24,20 @@ public class DataGenerator {
 
 
 
-    // x = time
-    // y = enheder pr. time
-
-
-
-
-    public XYChart.Series<Integer, Integer> getBarChart(){
+    public XYChart.Series<String, Integer> getBarChart(){
+        // TODO figure out filename
         String filename = "Filename";
-        XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
+        XYChart.Series<String, Integer> series = new XYChart.Series<>();
         series.setName(filename);
 
         CSVParser csvParser = new CSVParser();
         csvParser.loadFile("src/Resources/BarChart_mockData.csv");
         var csvData = csvParser.getParsedData();
 
-
-
-        int xAxisValue = 0;
-        int yAxisValue = 0;
-        /*for(IColumnData column : csvData.getAllColumnData().values()) {
-            if(column.getColumnName().equals("Time")){
-                xAxisValue = Integer.parseInt(column.getColumnValue());
-            } else{
-                yAxisValue = Integer.parseInt(column.getColumnValue());
-                series.getData().add(new XYChart.Data<>(xAxisValue,yAxisValue));
-            }
+        for(int i = 1; i < csvData.size(); i++){
+            series.getData().add(new XYChart.Data(csvData.get(i)[0], Integer.parseInt(csvData.get(i)[1])));
         }
-
-         */
         return series;
-
-
     }
 
 
@@ -66,21 +47,6 @@ public class DataGenerator {
 
 
 
-    public static void main(String[] args) throws IOException, CsvException {
-
-        FileReader fileReader = new FileReader("src/Resources/BarChart_mockData.csv");
-        com.opencsv.CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
-        CSVReader csvReader = new CSVReaderBuilder(fileReader).withCSVParser(parser).build();
-        List<String[]> allData = csvReader.readAll();
-
-        for(int i = 0; i < allData.size(); i++){
-            for(int j = 0; j < allData.get(i).length; j++){
-                System.out.print(allData.get(i)[j] +" ");
-            }
-            System.out.println();
-        }
-
-    }
 
 }
 
