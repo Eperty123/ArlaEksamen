@@ -8,6 +8,7 @@ public class User {
     private String email;
     private Enum userRole;
     private int password;
+    // TODO add screenRights
 
     public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password) {
         this.id = id;

@@ -5,10 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -20,7 +17,7 @@ public class ChartTestController implements Initializable {
     private DataGenerator dataGenerator = new DataGenerator();
 
     @FXML
-    private BarChart chart;
+    private PieChart chart;
 
 
     @Override
@@ -38,11 +35,11 @@ public class ChartTestController implements Initializable {
         xAxis.setLabel("Time");
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Visits");
+        yAxis.setLabel("Units produced");
 
 
 
-        chart.getData().add(dataGenerator.getBarChart());
+        chart.setData(dataGenerator.getPieChartData());
 
 
     }

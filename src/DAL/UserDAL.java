@@ -15,6 +15,9 @@ public class UserDAL {
     private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
 
     public List<User> getUsers() {
+
+        // TODO add ScreenRights field
+
         List<User> allUsers = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
@@ -53,22 +56,22 @@ public class UserDAL {
         }
     }
 
-        public void addUser(User user){
+    public void addUser(User user){
 
-            try (Connection con = dbCon.getConnection()) {
+        try (Connection con = dbCon.getConnection()) {
 
-                PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?)");
-                pSql.setString(1, user.getFirstName());
-                pSql.setString(2, user.getLastName());
-                pSql.setString(3, user.getUserName());
-                pSql.setString(4, user.getEmail());
-                pSql.setInt(5, user.getPassword());
-                pSql.setInt(6, user.getUserRole() == UserType.Admin ? 0 : 1);
-                pSql.execute();
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?)");
+            pSql.setString(1, user.getFirstName());
+            pSql.setString(2, user.getLastName());
+            pSql.setString(3, user.getUserName());
+            pSql.setString(4, user.getEmail());
+            pSql.setInt(5, user.getPassword());
+            pSql.setInt(6, user.getUserRole() == UserType.Admin ? 0 : 1);
+            pSql.execute();
 
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
@@ -90,4 +93,7 @@ public class UserDAL {
             throwables.printStackTrace();
         }
     }
+
+    // TODO updateScreenRights
+
 }
