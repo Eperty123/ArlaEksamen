@@ -1,4 +1,4 @@
-package GUI.Controller;
+package GUI.Controller.AdminControllers;
 
 import BE.Employee;
 import BE.User;

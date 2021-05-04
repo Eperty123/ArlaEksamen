@@ -11,25 +11,17 @@ public class ConfirmationController {
     @FXML
     private AnchorPane root;
 
-    private boolean confirmed = false;
-
     public void setText(String text) {
+        System.out.println(text);
         textArea.setText(text);
     }
 
-    public void handleJa(){
-        confirmed = true;
-        Stage root1 = (Stage) root.getScene().getWindow();
-        root1.close();
+    public boolean handleJa(){
+        return true;
     }
 
-    public void handleNej(){
-        confirmed = true;
-        Stage root1 = (Stage) root.getScene().getWindow();
-        root1.close();
+    public boolean handleNej(){
+        return false;
     }
 
-    public boolean isConfirmed(){
-        return confirmed;
-    }
 }

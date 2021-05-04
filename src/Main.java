@@ -17,13 +17,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("GUI/View/ChartTestView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("GUI/View/Login.fxml"));
         primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
 
-        //Pane bar = (Pane) root.getChildrenUnmodifiable().get(root.getChildrenUnmodifiable().size()-2);
+        Pane bar = (Pane) root.getChildrenUnmodifiable().get(root.getChildrenUnmodifiable().size()-2);
 
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override

@@ -1,15 +1,23 @@
-package GUI.Controller;
+package GUI.Controller.AdminControllers;
 
 import BE.Screen;
+import GUI.Controller.PopupControllers.ConfirmationController;
+import GUI.Model.ScreenModel;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -20,17 +28,28 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 
-public class AdminScreenManagementController {
+public class AdminScreenManagementController implements Initializable {
     @FXML
     private FlowPane root;
 
     private double xOffset = 0;
     private double yOffset = 0;
 
-    public void handleNewScreen() {
-        Screen s = new Screen("Screen");
+    private ScreenModel screenModel = new ScreenModel();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        for(Screen s : screenModel.getAllScreens()){
+            handleNewScreen(s.getName());
+        }
+    }
+
+    private void handleNewScreen(String screenName) {
         Pane newPane = new Pane();
         newPane.setPrefSize(150, 150);
 
@@ -51,19 +70,21 @@ public class AdminScreenManagementController {
         MaterialDesignIconView screen = new MaterialDesignIconView();
         screen.setIcon(MaterialDesignIcon.MONITOR);
         screen.setFill(Paint.valueOf("#0d262e"));
-        screen.setStyle(".SMButtons");
+        screen.getStyleClass().add("SMButtons");
         screen.setLayoutX(39);
         screen.setLayoutY(102);
         screen.setSize(String.valueOf(72));
 
         Label label = new Label();
-        label.setText("Screen");
+        label.setText(screenName);
         label.setTextFill(Paint.valueOf("#FFFFFF"));
         label.setFont(new Font("System", 16));
         label.setStyle("-fx-font-weight: bold; -fx-font-style: italic");
-        label.setLayoutX(44);
+        label.setPrefSize(133,25);
+        label.setLayoutX(9);
         label.setLayoutY(111);
         label.setAlignment(Pos.TOP_CENTER);
+        label.setContentDisplay(ContentDisplay.CENTER);
         label.setTextAlignment(TextAlignment.CENTER);
 
         newPane.getChildren().addAll(newRectangle, settings, screen, label);
@@ -74,7 +95,7 @@ public class AdminScreenManagementController {
 
         screen.setOnMouseClicked(mouseEvent -> {
             try {
-                handleScreenCreator(s);
+                handleScreenCreator(screenName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -82,7 +103,7 @@ public class AdminScreenManagementController {
 
         newRectangle.setOnMouseClicked(mouseEvent -> {
             try {
-                handleScreenCreator(s);
+                handleScreenCreator(screenName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -93,13 +114,14 @@ public class AdminScreenManagementController {
         });
     }
 
-    private void handleScreenCreator(Screen s) throws IOException {
+    private void handleScreenCreator(String s) throws IOException {
         Stage pickerDashboard = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/VIEW/PickerDashboard.fxml"));
+        loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/PickerDashboard.fxml"));
 
         Parent root = (Parent) loader.load();
         PickerDashboardController pickerDashboardController = loader.getController();
+        pickerDashboardController.setTitle(s);
 
         Scene pickerScene = new Scene(root);
 
@@ -127,8 +149,24 @@ public class AdminScreenManagementController {
         pickerDashboard.show();
     }
 
+
+    public void handleCreateScreen() throws IOException {
+        NewScreenDialog screenDialog = new NewScreenDialog("Test");
+
+        Optional<String> result = screenDialog.showAndWait();
+
+        if (result.isPresent()) {
+            //TODO VIRKER, men skal lige finde ud af hvad det kræver at indsætte i DB'en
+            //screenModel.addScreen(new Screen(result.get()));
+
+            handleNewScreen(result.get());
+        }
+    }
+
     public void handleEditScreen() {
         //TODO lav fxml til edit screen.
         System.out.println("test");
     }
+
+
 }

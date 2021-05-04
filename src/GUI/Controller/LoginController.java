@@ -57,7 +57,7 @@ public class LoginController {
 
                 Stage stage = new Stage();
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminDashboard.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AdminDashboard.fxml"));
 
                 Scene scene = new Scene(fxmlLoader.load());
                 stage.initStyle(StageStyle.UNDECORATED);
