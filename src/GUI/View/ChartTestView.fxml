@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.ChartTestController">
    <children>
-      <Button layoutX="700.0" layoutY="550.0" mnemonicParsing="false" onAction="#loadChart" text="Load Chart" />
+      <Button layoutX="700.0" layoutY="500.0" mnemonicParsing="false" onAction="#loadChart" text="Load Chart" />
       <PieChart fx:id="chart" layoutX="105.0" layoutY="100.0" />
    </children>
 </AnchorPane>
