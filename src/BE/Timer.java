@@ -2,8 +2,7 @@ package BE;
 
 import javafx.application.Platform;
 import javafx.scene.Node;
-import javafx.scene.text.Text;
-
+import javafx.scene.control.Label;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,17 +12,17 @@ import java.util.concurrent.TimeUnit;
 
 public class Timer {
     private List<Node> nodesToDisable = new ArrayList<>();
-    private String textBeforeTimer = "Invalid password or username entered. \nTime until you can try to log in:";
+    private String textBeforeTimer = "Time until you can try to log in:";
     private Duration timeoutDuration = Duration.ofSeconds(30);
     private TimeUnit timerSpeed = TimeUnit.SECONDS;
     private ScheduledExecutorService executor;
-    private Text txt = new Text(String.format("%s %s...", textBeforeTimer, timeoutDuration.toSeconds()));
+    private Label timerLabel = new Label(String.format("%s %s...", textBeforeTimer, timeoutDuration.toSeconds()));
     //A thread that counts down fot the duration timer
     Thread t = new Thread(() -> {
         Platform.runLater(new Thread(() -> {
             if (!timeoutDuration.isZero()) {
                 timeoutDuration = timeoutDuration.minus(Duration.ofSeconds(1));
-                txt.setText(String.format("%s %s...", textBeforeTimer, timeoutDuration.toSeconds()));
+                timerLabel.setText(String.format("%s %s...", textBeforeTimer, timeoutDuration.toSeconds()));
                 if (!nodesToDisable.isEmpty())
                     nodesToDisable.forEach(node -> {
                         if (!node.isDisabled())
@@ -33,7 +32,7 @@ public class Timer {
                 executor.shutdownNow();
                 if (!nodesToDisable.isEmpty())
                     nodesToDisable.forEach(node -> {
-                        if (node.isDisabled())
+                        if (!node.isDisabled())
                             node.setDisable(false);
                     });
             }
@@ -52,8 +51,8 @@ public class Timer {
      *
      * @return
      */
-    public Text getTxt() {
-        return txt;
+    public Label getTimerLabel() {
+        return timerLabel;
     }
 
     /**

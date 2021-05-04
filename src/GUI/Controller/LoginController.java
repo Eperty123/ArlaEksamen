@@ -21,6 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -37,7 +39,7 @@ public class LoginController {
     @FXML
     private AnchorPane root;
     @FXML
-    private Label lblError;
+    private BorderPane lblPane;
     @FXML
     private JFXButton btnLogin;
 
@@ -86,16 +88,29 @@ public class LoginController {
                 root1.close();
             }
         }else{
-            timer.startTimer();
-            lblError.setText(timer.getTxt().getText());
-
-            timer.addNodeToDisable(btnLogin);
-
-            txtPassword.clear();
-            txtUsername.clear();
+            startTimer();
         }
     }
 
+    /**
+     * Adds the label of the Timer Class, uses addNodeToDisable
+     * and Timer's .startTimer method
+     * also clears the password and username field
+     */
+    private void startTimer() {
+        timer.startTimer();
+        lblPane.getChildren().clear();
+        Label label = timer.getTimerLabel();
+
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setTextFill(Paint.valueOf("RED"));
+        lblPane.setCenter(label);
+
+        timer.addNodeToDisable(btnLogin);
+
+        txtPassword.clear();
+        txtUsername.clear();
+    }
 
     public void loginWithEnter(KeyEvent keyEvent) throws SQLException, IOException {
 
@@ -104,8 +119,7 @@ public class LoginController {
                 login();
             }
         }else{
-            lblError.setText(timer.getTxt().getText());
-
+            startTimer();
         }
     }
 
