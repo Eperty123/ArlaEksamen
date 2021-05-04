@@ -8,7 +8,7 @@ public class XLSXParserTest {
     @org.junit.jupiter.api.Test
     public void parseTest() {
         var xlsxParser = new XLSXParser();
-        xlsxParser.loadFile("src/Resources/Excel_mockData.xlsx");
+        xlsxParser.loadFile("src/Resources/PieChart_mockData.xlsx");
         var data = xlsxParser.getParsedData().toString();
         System.out.println(data);
 
@@ -19,7 +19,7 @@ public class XLSXParserTest {
     @org.junit.jupiter.api.Test
     public void getSpecificColumnValueTest() {
         var xlsxParser = new XLSXParser();
-        xlsxParser.loadFile("src/Resources/Excel_mockData.xlsx");
+        xlsxParser.loadFile("src/Resources/PieChart_mockData.xlsx");
         var data = xlsxParser.getRow(1);
         System.out.println(data);
 
