@@ -18,7 +18,10 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
+
     }
+
+
 
     public int getId() {
         return id;
