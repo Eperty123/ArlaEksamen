@@ -95,7 +95,7 @@ public class XLSXParser implements IFileParser {
                                 value = Boolean.toString(cell.getBooleanCellValue());
                                 break;
                         }
-                        columnValues[cellIndex] = value;
+                        columnValues[cellIndex] = value.replace(",", "");
                         cellIndex++;
                     }
                     rowColumns.add(columnValues);
