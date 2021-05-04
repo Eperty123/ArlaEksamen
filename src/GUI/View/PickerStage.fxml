@@ -13,7 +13,7 @@
    <children>
       <BorderPane fx:id="root" minHeight="0" minWidth="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+            <GridPane fx:id="picker" alignment="CENTER" BorderPane.alignment="CENTER">
                <columnConstraints>
                   <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
                   <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
