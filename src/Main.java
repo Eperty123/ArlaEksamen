@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -22,7 +23,9 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
 
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
+        Pane bar = (Pane) root.getChildrenUnmodifiable().get(root.getChildrenUnmodifiable().size()-2);
+
+        bar.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 xOffset = event.getSceneX();
@@ -30,7 +33,7 @@ public class Main extends Application {
             }
         });
 
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+        bar.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 primaryStage.setX(event.getScreenX() - xOffset);
@@ -39,11 +42,11 @@ public class Main extends Application {
             }
         });
 
-        root.setOnMouseDragExited((event) -> {
+        bar.setOnMouseDragExited((event) -> {
             primaryStage.setOpacity(1.0f);
         });
 
-        root.setOnMouseReleased((event) -> {
+        bar.setOnMouseReleased((event) -> {
             primaryStage.setOpacity(1.0f);
         });
     }

@@ -32,7 +32,7 @@ public class PickerStageController {
         try {
             splitPane.setOrientation(orientation);
             for (int i = 0; i < 2; i++) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("PickerStage.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/View/PickerStage.fxml"));
                 splitPane.getItems().add(loader.load());
                 PickerStageController p = loader.getController();
                 controllers.add(p);

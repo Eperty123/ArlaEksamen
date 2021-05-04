@@ -25,11 +25,11 @@
                   </Pane>
                   <Pane fx:id="midPanel" prefHeight="418.0" prefWidth="235.0" styleClass="midPanel">
                      <children>
-                        <JFXButton layoutX="41.0" layoutY="68.0" onAction="#handleUserManagement" styleClass="adminDashboardButtons" text="User Management">
+                        <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleUserManagement" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="User Management">
                            <font>
                               <Font size="16.0" />
                            </font></JFXButton>
-                        <JFXButton layoutX="33.0" layoutY="138.0" styleClass="adminDashboardButtons" text="Screen Management">
+                        <JFXButton layoutX="33.0" layoutY="138.0" onAction="#handleScreenManagement" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Screen Management">
                            <font>
                               <Font size="16.0" />
                            </font></JFXButton>
@@ -47,7 +47,7 @@
             </VBox>
          </left>
          <top>
-            <Pane prefHeight="25.0" prefWidth="1280.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
+            <Pane fx:id="bar" prefHeight="25.0" prefWidth="1280.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
                <children>
                   <HBox layoutY="1.0" prefHeight="25.0" prefWidth="1280.0">
                      <children>
