@@ -22,6 +22,7 @@ public class XLSXParser implements IFileParser {
     protected XSSFWorkbook excelSheet;
     protected HashMap<Integer, List<Object>> rows;
 
+
     public XLSXParser() {
         initialize();
     }

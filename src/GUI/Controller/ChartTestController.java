@@ -37,9 +37,10 @@ public class ChartTestController implements Initializable {
         NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Units produced");
 
+        String filenameXLSX = "src/Resources/Excel_mockData.xlsx";
+        String filenameCSV = "src/Resources/BarChart_mockData.csv";
 
-
-        chart.setData(dataGenerator.getPieChartData());
+        chart.setData(dataGenerator.getPieChartData(filenameCSV));
 
 
     }
