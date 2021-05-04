@@ -117,9 +117,9 @@ public class LoginController {
         if (!btnLogin.isDisabled()) {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 login();
+            }else{
+                startTimer();
             }
-        }else{
-            startTimer();
         }
     }
 
