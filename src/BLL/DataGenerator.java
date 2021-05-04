@@ -50,6 +50,7 @@ public class DataGenerator {
     }
 
     private List<String[]> getXLXSData(String filename){
+
         return XLSXParser.parseFile(filename).getParsedData();
     }
 
@@ -57,6 +58,19 @@ public class DataGenerator {
         String[] tokens = filename.split("\\.");
         return tokens[tokens.length-1].equalsIgnoreCase("csv");
     }
+
+    /*
+    public static void main(String[] args) {
+        DataGenerator dataGenerator = new DataGenerator();
+
+        String filename = "src/Resources/BarChart_mockData.csv";
+        List<String[]> data = dataGenerator.getParsedData(filename);
+
+        for (String[] datum : data) {
+            System.out.println(datum[0] + " " + datum[1]);
+        }
+    }
+     */
 
 }
 
