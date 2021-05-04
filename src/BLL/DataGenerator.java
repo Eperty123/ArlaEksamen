@@ -1,6 +1,7 @@
 package BLL;
 
 import DAL.Parser.CSVParser;
+import DAL.Parser.XLSXParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
@@ -12,51 +13,64 @@ import java.util.List;
 public class DataGenerator {
 
 
-    public XYChart.Series<String, Integer> getBarChartSeries(){
-
-        // TODO figure out filename
-        String filename = "Filename";
+    public XYChart.Series<String, Integer> getBarChartSeries(String filename){
+        
         XYChart.Series<String, Integer> series = new XYChart.Series<>();
-        series.setName(filename);
+        series.setName("BarChart");
 
-        List<String[]> csvData = getCSVDate(filename);
+        List<String[]> data = getParsedData(filename);
 
-        for(int i = 1; i < csvData.size(); i++){
-            series.getData().add(new XYChart.Data(csvData.get(i)[0], Integer.parseInt(csvData.get(i)[1])));
+        for(int i = 1; i < data.size(); i++){
+            series.getData().add(new XYChart.Data(data.get(i)[0], Integer.parseInt(data.get(i)[1])));
         }
         return series;
     }
 
+    public ObservableList<PieChart.Data> getPieChartData(String filename){
 
-
-
-    public ObservableList<PieChart.Data> getPieChartData(){
-
-        String filename = "Filename";
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
-        List<String[]> csvData = getCSVDate(filename);
 
-        for(int i = 1; i < csvData.size(); i++){
-            pieData.add(new PieChart.Data(csvData.get(i)[0], Integer.parseInt(csvData.get(i)[1])));
+        List<String[]> data = getParsedData(filename);
+
+        for(int i = 1; i < data.size(); i++){
+            pieData.add(new PieChart.Data(data.get(i)[0], Integer.parseInt(data.get(i)[1])));
         }
         return pieData;
     }
 
 
+    private List<String[]> getParsedData(String filename) {
 
-
-
-    private List<String[]> getCSVDate(String filename) {
-        // TODO implement filename
-        CSVParser csvParser = new CSVParser();
-        csvParser.loadFile("src/Resources/BarChart_mockData.csv");
-        return csvParser.getParsedData();
+        return isCSV(filename) ? getCSVData(filename) : getXLXSData(filename);
     }
 
+    private List<String[]> getCSVData(String filename) {
 
+        return CSVParser.parseFile(filename).getParsedData();
+    }
 
+    private List<String[]> getXLXSData(String filename){
 
+        return XLSXParser.parseFile(filename).getParsedData();
+    }
 
+    private boolean isCSV(String filename){
+        String[] tokens = filename.split("\\.");
+        return tokens[tokens.length-1].equalsIgnoreCase("csv");
+    }
+
+    /*
+    public static void main(String[] args) {
+        DataGenerator dataGenerator = new DataGenerator();
+
+        String filename = "src/Resources/BarChart_mockData.csv";
+        List<String[]> data = dataGenerator.getParsedData(filename);
+
+        for (String[] datum : data) {
+            System.out.println(datum[0] + " " + datum[1]);
+        }
+    }
+     */
 
 }
 
