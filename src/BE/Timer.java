@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Timer {
     private List<Node> nodesToDisable = new ArrayList<>();
-    private String textBeforeTimer = "Time until you can try to log in:";
+    private String textBeforeTimer = "Invalid password or username entered. \nTime until you can try to log in:";
     private Duration timeoutDuration = Duration.ofSeconds(30);
     private TimeUnit timerSpeed = TimeUnit.SECONDS;
     private ScheduledExecutorService executor;

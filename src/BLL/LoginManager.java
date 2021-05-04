@@ -2,6 +2,7 @@ package BLL;
 
 import BE.User;
 import DAL.UserDAL;
+import GUI.Model.UserModel;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,10 +12,17 @@ public class LoginManager {
 
     private static User currentUser;
 
-    public boolean attemptLogin(String username, String password) throws SQLException {
+    public boolean attemptLogin(String username, String password)  {
+
         PasswordManager passwordManager = new PasswordManager();
-        UserDAL userDAL = new UserDAL();
-        for (User u : userDAL.getUsers()) {
+        List<User> allUsers = null;
+        try {
+            allUsers = UserModel.getInstance().getAllUsers();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        for (User u : allUsers) {
             if (username.equals(u.getUserName()) && passwordManager.encrypt(password) == (u.getPassword())) {
                 currentUser=u;
                 return true;
