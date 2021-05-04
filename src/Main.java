@@ -23,9 +23,9 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
 
-        Pane bar = (Pane) root.getChildrenUnmodifiable().get(root.getChildrenUnmodifiable().size()-2);
+        //Pane bar = (Pane) root.getChildrenUnmodifiable().get(root.getChildrenUnmodifiable().size()-2);
 
-        bar.setOnMousePressed(new EventHandler<MouseEvent>() {
+        root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 xOffset = event.getSceneX();
@@ -33,7 +33,7 @@ public class Main extends Application {
             }
         });
 
-        bar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 primaryStage.setX(event.getScreenX() - xOffset);
@@ -42,11 +42,11 @@ public class Main extends Application {
             }
         });
 
-        bar.setOnMouseDragExited((event) -> {
+        root.setOnMouseDragExited((event) -> {
             primaryStage.setOpacity(1.0f);
         });
 
-        bar.setOnMouseReleased((event) -> {
+        root.setOnMouseReleased((event) -> {
             primaryStage.setOpacity(1.0f);
         });
     }
