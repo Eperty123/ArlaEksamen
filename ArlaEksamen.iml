@@ -8,16 +8,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="com.microsoft.sqlserver:mssql-jdbc:9.1.1.jre15-preview" level="project" />
-    <orderEntry type="library" name="com.jfoenix:jfoenix:9.0.10" level="project" />
-    <orderEntry type="library" name="de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2" level="project" />
-    <orderEntry type="library" name="de.jensd:fontawesomefx-materialdesignfont:2.0.26-9.1.2" level="project" />
-    <orderEntry type="library" name="mysql:mysql-connector-java:8.0.23" level="project" />
-    <orderEntry type="library" name="org.openjfx:javafx-fxml:16-ea+7" level="project" />
-    <orderEntry type="library" name="org.junit.jupiter:junit-jupiter:5.5.2" level="project" />
     <orderEntry type="library" name="com.opencsv:opencsv:5.4" level="project" />
     <orderEntry type="library" name="org.apache.poi:poi:4.1.1" level="project" />
     <orderEntry type="library" name="commons-io:commons-io:2.8.0" level="project" />
     <orderEntry type="library" name="org.apache.poi:poi-ooxml:4.1.1" level="project" />
+    <orderEntry type="library" name="de.jensd:fontawesomefx-fontawesome:4.7.0-9.1.2" level="project" />
+    <orderEntry type="library" name="com.microsoft.sqlserver:mssql-jdbc:9.1.1.jre15-preview" level="project" />
+    <orderEntry type="library" name="com.jfoenix:jfoenix:9.0.10" level="project" />
+    <orderEntry type="library" name="de.jensd:fontawesomefx-materialdesignfont:2.0.26-9.1.2" level="project" />
+    <orderEntry type="library" name="org.junit.jupiter:junit-jupiter:5.5.2" level="project" />
+    <orderEntry type="library" name="org.openjfx:javafx-fxml:16-ea+7" level="project" />
+    <orderEntry type="library" name="mysql:mysql-connector-java:8.0.23" level="project" />
   </component>
 </module>
