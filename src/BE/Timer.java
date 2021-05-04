@@ -32,7 +32,7 @@ public class Timer {
                 executor.shutdownNow();
                 if (!nodesToDisable.isEmpty())
                     nodesToDisable.forEach(node -> {
-                        if (!node.isDisabled())
+                        if (node.isDisabled())
                             node.setDisable(false);
                     });
             }
@@ -61,6 +61,7 @@ public class Timer {
     public void startTimer() {
         if (executor != null && !executor.isShutdown())
             executor.shutdown();
+        timeoutDuration = Duration.ofSeconds(30);
         executor = Executors.newSingleThreadScheduledExecutor();
         executor.scheduleWithFixedDelay(t, 0, 1, timerSpeed);
     }
