@@ -14,7 +14,7 @@ public class DPMAINTEST extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         StageBuilder stageBuilder = new StageBuilder();
-        Node node = stageBuilder.makeStage("H0.50{|}");
+        Node node = stageBuilder.makeStage("H0.50{}");
 
         BorderPane bp = new BorderPane(node);
         AnchorPane.setTopAnchor(bp,0.0);
@@ -23,7 +23,7 @@ public class DPMAINTEST extends Application {
         AnchorPane.setBottomAnchor(bp,0.0);
         Button b = new Button("print");
         bp.setTop(b);
-        b.setOnAction((v)-> System.out.println(stageBuilder.getRootController()));
+        b.setOnAction((v)-> System.out.println(stageBuilder.getRootController().getParentBuilderString()));
 
         AnchorPane ap = new AnchorPane(bp);
         stage.setScene(new Scene(ap));
