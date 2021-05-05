@@ -14,7 +14,8 @@ public class DPMAINTEST extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         StageBuilder stageBuilder = new StageBuilder();
-        Node node = stageBuilder.makeStage("H0.50{}");
+        Node node = stageBuilder.makeStage("H0.53{\n" +
+                "V0.50{Image=\"C:\\Users\\DnisP\\Pictures\\Saved Pictures\\anotherbeaute.jpg\"|}|}");
 
         BorderPane bp = new BorderPane(node);
         AnchorPane.setTopAnchor(bp,0.0);
