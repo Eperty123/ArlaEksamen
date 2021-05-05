@@ -49,8 +49,8 @@ public class LoginController {
     private double xOffset = 0;
     private double yOffset = 0;
 
-
-    public void login() throws SQLException, IOException {
+@FXML
+    private void login() throws SQLException, IOException {
         loginManager.attemptLogin(txtUsername.getText(),txtPassword.getText());
         User u = LoginManager.getCurrentUser();
         if (u != null){
@@ -113,12 +113,9 @@ public class LoginController {
     }
 
     public void loginWithEnter(KeyEvent keyEvent) throws SQLException, IOException {
-
         if (!btnLogin.isDisabled()) {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 login();
-            }else{
-                startTimer();
             }
         }
     }
