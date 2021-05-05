@@ -13,7 +13,7 @@ import java.util.List;
 public class DataGenerator {
 
 
-    public XYChart.Series<String, Integer> getBarChartSeries(String filename){
+    public static XYChart.Series<String, Integer> getBarChartSeries(String filename){
         
         XYChart.Series<String, Integer> series = new XYChart.Series<>();
         series.setName("BarChart");
@@ -26,7 +26,7 @@ public class DataGenerator {
         return series;
     }
 
-    public ObservableList<PieChart.Data> getPieChartData(String filename){
+    public static ObservableList<PieChart.Data> getPieChartData(String filename){
 
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
 
@@ -39,22 +39,22 @@ public class DataGenerator {
     }
 
 
-    private List<String[]> getParsedData(String filename) {
+    private static List<String[]> getParsedData(String filename) {
 
         return isCSV(filename) ? getCSVData(filename) : getXLXSData(filename);
     }
 
-    private List<String[]> getCSVData(String filename) {
+    private static List<String[]> getCSVData(String filename) {
 
         return CSVParser.parseFile(filename).getParsedData();
     }
 
-    private List<String[]> getXLXSData(String filename){
+    private static List<String[]> getXLXSData(String filename){
 
         return XLSXParser.parseFile(filename).getParsedData();
     }
 
-    private boolean isCSV(String filename){
+    private static boolean isCSV(String filename){
         String[] tokens = filename.split("\\.");
         return tokens[tokens.length-1].equalsIgnoreCase("csv");
     }
