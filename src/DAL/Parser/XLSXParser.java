@@ -39,6 +39,11 @@ public class XLSXParser implements IFileParser {
         rows = new HashMap<>();
     }
 
+    /**
+     * Load the specified Excel file.
+     *
+     * @param file The Excel file to load.
+     */
     public void loadFile(String file) {
         var _file = new File(file);
 
@@ -56,11 +61,24 @@ public class XLSXParser implements IFileParser {
         }
     }
 
+    /**
+     * Load and parse the given Excel file.
+     *
+     * @param file The file to parse.
+     * @param <T>  The return type.
+     * @return Returns a Hashmap of parsed content.
+     */
     public <T> T parse(String file) {
         loadFile(file);
         return parse();
     }
 
+    /**
+     * Parse the loaded Excel file.
+     *
+     * @param <T> The return type.
+     * @return Returns a Hashmap of parsed content.
+     */
     public <T> T parse() {
         if (excelSheet != null) {
             try {
@@ -115,7 +133,7 @@ public class XLSXParser implements IFileParser {
     }
 
     /**
-     * Get the XLSX content from the given line index.
+     * Get the Excel content from the given line index.
      *
      * @param rowIndex The row index.
      * @return Returns the CSV content associated with the line.
@@ -125,10 +143,10 @@ public class XLSXParser implements IFileParser {
     }
 
     /**
-     * Get the parsed XLSX content.
+     * Get the parsed Excel content.
      *
      * @param <T> The return type.
-     * @return Returns the parsed XLSX content.
+     * @return Returns a Hashmap of parsed content.
      */
     public <T> T getParsedData() {
         return (T) rows;
@@ -139,7 +157,7 @@ public class XLSXParser implements IFileParser {
      */
 
     /**
-     * Parse a XLSX file.
+     * Parse an Excel file.
      *
      * @param file The file to parse.
      * @return Returns an instance of XLSXParser with parsed data.

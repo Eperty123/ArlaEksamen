@@ -17,7 +17,8 @@
     <orderEntry type="library" name="com.jfoenix:jfoenix:9.0.10" level="project" />
     <orderEntry type="library" name="de.jensd:fontawesomefx-materialdesignfont:2.0.26-9.1.2" level="project" />
     <orderEntry type="library" name="org.junit.jupiter:junit-jupiter:5.5.2" level="project" />
-    <orderEntry type="library" name="org.openjfx:javafx-fxml:16-ea+7" level="project" />
     <orderEntry type="library" name="mysql:mysql-connector-java:8.0.23" level="project" />
+    <orderEntry type="library" name="org.openjfx:javafx-web:16" level="project" />
+    <orderEntry type="library" name="org.openjfx:javafx-fxml:16" level="project" />
   </component>
 </module>

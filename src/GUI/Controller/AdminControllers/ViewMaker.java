@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebView;
 
 import java.io.File;
 import java.net.URL;
@@ -90,8 +91,31 @@ public class ViewMaker {
     }
 
     //TODO implement this
-    public static Node getHTTP(BorderPane borderPane, File file) {
-        return null;
+
+    /**
+     * Add a WebView that loads a file or url.
+     * @param pane The BorderPane responsible for this WebView.
+     * @param file The url or file to load into the WebView.
+     * @return Returns the WebView.
+     */
+    public static Node getHTTP(BorderPane pane, File file) {
+        WebView webView = new WebView();
+        webView.getEngine().load(file.toURI().toString());
+
+        //Makes it follow the panes width
+        pane.widthProperty().addListener((observableValue, bounds, t1) -> {
+            webView.setPrefWidth(t1.doubleValue());
+        });
+        //Makes it follow the panes height
+        pane.heightProperty().addListener((observableValue, bounds, t1) -> {
+            webView.setPrefHeight(t1.doubleValue());
+        });
+
+        //sets initial height and width
+        webView.setPrefWidth(pane.getWidth());
+        webView.setPrefHeight(pane.getHeight());
+
+        return webView;
     }
 
     public static Node getImage(BorderPane pane, File file) {
