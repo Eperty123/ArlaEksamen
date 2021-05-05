@@ -41,6 +41,10 @@ public class PickerStageController implements Initializable {
         init();
     }
 
+    /**
+     * Initializes contextMenus
+     * adds onAction on menuItems
+     */
     private void init() {
         contextMenu.getItems().add(unsplitItem);
         contextMenu.getItems().add(flipItem);
@@ -64,18 +68,33 @@ public class PickerStageController implements Initializable {
         this.parentPickerStageController = pickerStageController;
     }
 
+    /**
+     * Splits the stage if the mouse button is left click
+     *
+     * @param mouseEvent
+     */
     @FXML
     private void splitSceneHorizontally(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY)
             this.split(Orientation.HORIZONTAL);
     }
 
+    /**
+     * Splits the stage if the mouse button is left click
+     *
+     * @param mouseEvent
+     */
     @FXML
     private void splitSceneVertically(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY)
             this.split(Orientation.VERTICAL);
     }
 
+    /**
+     * Splits the stage in the given orientation
+     *
+     * @param orientation the orientation
+     */
     public void split(Orientation orientation) {
         try {
             splitPane.setOrientation(orientation);
@@ -91,6 +110,11 @@ public class PickerStageController implements Initializable {
         }
     }
 
+    /**
+     * Initializes a DataManagement instance and changes the content of the window if confirmed
+     *
+     * @param mouseEvent
+     */
     @FXML
     private void changeContent(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
@@ -113,38 +137,75 @@ public class PickerStageController implements Initializable {
         }
     }
 
-    public Node getContent(){
+    /**
+     * Gets the content of the PickerStageController
+     *
+     * @return
+     */
+    public Node getContent() {
         return getRoot().getCenter();
     }
 
+    /**
+     * Sets the content of the PickerStageController
+     *
+     * @param node           the node you want to set it to
+     * @param accessibleText the builderString for the given node (ViewType="URL")
+     */
     public void setContent(Node node, String accessibleText) {
         getRoot().setCenter(node);
         getContent().setAccessibleText(accessibleText);
     }
 
+    /**
+     * Sets the content without having to set the Accessible Text
+     *
+     * @param node The node you want it to show
+     */
     public void setContent(Node node) {
         getRoot().setCenter(node);
     }
 
+    /**
+     * Gets the controllers int the PickerStageController
+     *
+     * @return The PickerStageControllers
+     */
     public List<PickerStageController> getControllers() {
         return controllers;
     }
 
+    /**
+     * Gets the PickerStageController's splitPane
+     *
+     * @return A splitPane
+     */
     public SplitPane getSplitPane() {
         return splitPane;
     }
 
+    /**
+     * Gets the root element of the PickerStageController
+     *
+     * @return A BorderPane
+     */
     public BorderPane getRoot() {
         return root;
     }
 
+    /**
+     * Clears the borderPane and Controllers and resets the controller to the PickerStage
+     */
     @FXML
     private void unSplit() {
         splitPane.getItems().clear();
         controllers.clear();
-        setContent(picker,null);
+        setContent(picker, null);
     }
 
+    /**
+     * Flips the items in the splitPane
+     */
     @FXML
     public void flipSplitPane() {
         if (splitPane.getItems().size() >= 2) {
@@ -156,7 +217,7 @@ public class PickerStageController implements Initializable {
 
 
     /**
-     * This is especially made such that it prints the builderString for this and the splitPanes that it carries,
+     * This is especially made such that it returns the builderString for this and the splitPanes that it carries,
      * and the panes that the splitPanes carry, if any
      *
      * @return returns the builderString for this instance of the PickerStage
@@ -164,7 +225,7 @@ public class PickerStageController implements Initializable {
     private String getBuilderString(PickerStageController pickerStageController) {
         List<PickerStageController> controllersOfInterest = pickerStageController.getControllers();
         if (controllersOfInterest.isEmpty())
-            return getContent().getAccessibleText()==null?"":getContent().getAccessibleText();
+            return getContent().getAccessibleText() == null ? "" : getContent().getAccessibleText();
         else {
             StringBuilder stringBuilder = new StringBuilder("");
             if (!splitPane.getDividers().isEmpty()) {
@@ -197,8 +258,8 @@ public class PickerStageController implements Initializable {
     }
 
     /**
-     * This is especially made such that it prints the builderString for this and the splitPanes that it carries,
-     * and the panes that the splitPanes carry, if any
+     * This is especially made such that it prints the builderString for the parent of this PickerStageController
+     * and the splitPanes that it carries and the splitPanes that the splitPanes carry, if any.
      *
      * @return returns the builderString for this instance of the PickerStage
      */

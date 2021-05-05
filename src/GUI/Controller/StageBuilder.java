@@ -35,7 +35,7 @@ public class StageBuilder {
      * @throws IOException if the FXML file is somehow invalid or the stage is already loaded.
      */
     public Node makeStage(String builderString) throws Exception {
-        builderString=builderString.replaceAll("\n","");
+        builderString = builderString.replaceAll("\n", "");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/PickerStage.fxml"));
         node = loader.load();
         rootController = loader.getController();
@@ -68,7 +68,7 @@ public class StageBuilder {
             if (!builderString.isEmpty()) {
                 //otherwise we send the leftover builderString to the newly made PickerStageControllers from the PickerStageController.split method
                 String[] builderStrings = {builderString.substring(0, findEndBracket(builderString, '{', '}') + 1), builderString.substring(findEndBracket(builderString, '{', '}') + 1)};
-                if (!builderString.contains("{") && builderString.split("\\|").length==2) {
+                if (!builderString.contains("{") && builderString.split("\\|").length == 2) {
                     builderStrings = builderString.split("\\|");
                 }
                 for (PickerStageController pickerStageController1 : pickerStageController.getControllers()) {
@@ -86,7 +86,7 @@ public class StageBuilder {
                     if (builderStrings[index].length() > 5 && Pattern.matches(pickerPattern, builderStrings[index].substring(0, 5))) {
                         makeStage(pickerStageController1, builderStrings[index]);
                     } else if (!builderStrings[index].isEmpty()) {
-                        makeView(pickerStageController1, builderStrings, index);
+                        makeView(pickerStageController1, builderStrings[index]);
                     }
                 }
 
@@ -95,25 +95,14 @@ public class StageBuilder {
         return node;
     }
 
-    private void makeView(PickerStageController pickerStageController1, String[] builderStrings, int index) {
-        File file = new File(builderStrings[index].split("=\"")[1].substring(0, builderStrings[index].split("=\"")[1].indexOf("\"")));
-        switch (builderStrings[index].split("=\"")[0]) {
-            case "HTTP" -> {
-                pickerStageController1.setContent(ViewMaker.getHTTP(file));
-            }
-            case "BarChart" -> {
-                pickerStageController1.setContent(ViewMaker.getBarChart(file));
-            }
-            case "PieChart" -> {
-                pickerStageController1.setContent(ViewMaker.getPieChart(file));
-            }
-            case "Image" -> {
-                pickerStageController1.setContent(ViewMaker.getImage(file));
-            }
-            default -> {
-                System.out.println("hmm");
-            }
-        }
+    /**
+     * Separates the currentString to a path, and a viewType, and calls the ViewMaker which will change the content of the PickerStageController
+     */
+    private void makeView(PickerStageController pickerStageController, String currentString) {
+        String path = currentString.split("=\"")[1].substring(0, currentString.split("=\"")[1].indexOf("\""));
+        File file = new File(path);
+        String viewType =  currentString.split("=\"")[0];
+        ViewMaker.callProperMethod(pickerStageController,viewType, file);
     }
 
     /**

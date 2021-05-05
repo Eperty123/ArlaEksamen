@@ -36,10 +36,18 @@ public class DataManagementController implements Initializable {
     private Node previousNode;
     private DataGenerator dataGenerator = new DataGenerator();
 
+    /**
+     * Sets the current pickerStageController
+     * @param pickerStageController
+     */
     public void setPickerStageController(PickerStageController pickerStageController) {
         this.pickerStageController = pickerStageController;
     }
 
+    /**
+     * Sets the window in the PickerStageController to the given Stage
+     * @param stage the owner of this Window
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
         previousNode = pickerStageController.getContent();
@@ -60,41 +68,38 @@ public class DataManagementController implements Initializable {
 
     }
 
+    /**
+     * Tries to use the selected Item to make the given file
+     */
     private void tryToMakeContent() {
-        try {
-            if (comboBox.getSelectionModel().getSelectedItem() != null && file.get() != null) {
-                switch (comboBox.getSelectionModel().getSelectedItem()) {
-                    case BarChart -> {
-                        pickerStageController.setContent(ViewMaker.getBarChart(file.get()));
-                    }
-                    case PieChart -> {
-                        pickerStageController.setContent(ViewMaker.getPieChart(file.get()));
-                    }
-                    case HTTP -> {
-                        pickerStageController.setContent(ViewMaker.getHTTP(file.get()));
-                    }
-                    case Image -> {
-                        pickerStageController.setContent(ViewMaker.getImage(file.get()));
-                    }
-                    default -> System.out.println("Option has not been implemented");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (comboBox.getSelectionModel().getSelectedItem() != null && file.get() != null) {
+            ViewMaker.callProperMethod(pickerStageController, comboBox.getSelectionModel().getSelectedItem().toString(), file.get());
         }
     }
 
-
+    /**
+     * Adds all the ViewTypes to the comboBox
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for (ViewType viewType : ViewType.values())
             comboBox.getItems().add(viewType);
     }
 
+    /**
+     * Closes the stage
+     * @param event
+     */
     public void confirm(ActionEvent event) {
         stage.close();
     }
 
+    /**
+     * Changes the pickerStageController Back to its original state and closes the stage.
+     * @param event
+     */
     public void cancel(ActionEvent event) {
         pickerStageController.setContent(previousNode, null);
         stage.close();
