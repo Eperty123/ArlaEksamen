@@ -85,7 +85,7 @@ public class PickerStageController implements Initializable {
                 PickerStageController p = loader.getController();
                 controllers.add(p);
             }
-            this.setContent(splitPane,null);
+            this.setContent(splitPane);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,7 +146,7 @@ public class PickerStageController implements Initializable {
     }
 
     @FXML
-    private void flipSplitPane() {
+    public void flipSplitPane() {
         if (splitPane.getItems().size() >= 2) {
             Node node = splitPane.getItems().get(0);
             splitPane.getItems().remove(node);
@@ -168,7 +168,7 @@ public class PickerStageController implements Initializable {
         else {
             StringBuilder stringBuilder = new StringBuilder("");
             if (!splitPane.getDividers().isEmpty()) {
-                stringBuilder.append(String.format("%s%.02f", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
+                stringBuilder.append(String.format("%n%s%.02f", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
                 stringBuilder.append("{");
                 if (!controllersOfInterest.isEmpty()) {
                     if (!this.getSplitPane().getOrientation().equals(Orientation.HORIZONTAL)) {
