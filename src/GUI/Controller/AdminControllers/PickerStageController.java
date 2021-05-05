@@ -104,8 +104,16 @@ public class PickerStageController implements Initializable {
             Button fileChooserButton = new Button("Pick A File locally");
             setNodeWidth(fileChooserButton);
             setNodeWidth(textField);
-            borderPane.setCenter(textField);
-            borderPane.setTop(fileChooserButton);
+            ComboBox<String> comboBox = new ComboBox<>();
+            borderPane.setTop(comboBox);
+            comboBox.getItems().addAll("BarChart", "PieChart", "HTTPS");
+
+            borderPane.setCenter(fileChooserButton);
+            BorderPane borderPane1 = new BorderPane();
+            borderPane.setBottom(borderPane1);
+            borderPane1.setTop(textField);
+
+
             AtomicReference<File> file = new AtomicReference<>();
             fileChooserButton.setOnAction((v) -> {
                 FileChooser fileChooser = new FileChooser();
