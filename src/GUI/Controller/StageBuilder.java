@@ -1,12 +1,16 @@
 package GUI.Controller;
 
+import GUI.Controller.AdminControllers.ViewMaker;
+import GUI.Controller.AdminControllers.ViewType;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
+
 import GUI.Controller.AdminControllers.PickerStageController;
 
 public class StageBuilder {
@@ -75,16 +79,35 @@ public class StageBuilder {
                         //Sends the split builderString to the the PickerStageControllers
                         if (builderStrings[index].length() > 5 && Pattern.matches(pickerPattern, builderStrings[index].substring(0, 5))) {
                             makeStage(pickerStageController1, builderStrings[index]);
-                        } else if (builderStrings[index].isEmpty()) {
-                            //TODO make this do stuff lol
                         } else if (!builderStrings[index].isEmpty()) {
-                            pickerStageController1.setContent(new ImageView("com/company/imgs/KO.jpg"));
+                            makeView(pickerStageController1, builderStrings, index);
                         }
                     }
                 }
             }
         }
         return node;
+    }
+
+    private void makeView(PickerStageController pickerStageController1, String[] builderStrings, int index) {
+        File file = new File(builderStrings[index].split("=\"")[1].substring(0, builderStrings[index].split("=\"")[1].indexOf("\"")));
+        switch (builderStrings[index].split("=\"")[0]) {
+            case "HTTP" -> {
+                pickerStageController1.setContent(ViewMaker.getHTTP(file));
+            }
+            case "BarChart" -> {
+                pickerStageController1.setContent(ViewMaker.getBarChart(file));
+            }
+            case "PieChart" -> {
+                pickerStageController1.setContent(ViewMaker.getPieChart(file));
+            }
+            case "Image" -> {
+                pickerStageController1.setContent(ViewMaker.getImage(file));
+            }
+            default -> {
+                System.out.println("hmm");
+            }
+        }
     }
 
     /**
