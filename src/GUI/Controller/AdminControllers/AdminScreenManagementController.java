@@ -45,11 +45,11 @@ public class AdminScreenManagementController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for(Screen s : screenModel.getAllScreens()){
-            handleNewScreen(s.getName());
+            handleNewScreen(s);
         }
     }
 
-    private void handleNewScreen(String screenName) {
+    private void handleNewScreen(Screen screen) {
         Pane newPane = new Pane();
         newPane.setPrefSize(150, 150);
 
@@ -67,16 +67,16 @@ public class AdminScreenManagementController implements Initializable {
         settings.setLayoutY(31);
         settings.setSize(String.valueOf(20));
 
-        MaterialDesignIconView screen = new MaterialDesignIconView();
-        screen.setIcon(MaterialDesignIcon.MONITOR);
-        screen.setFill(Paint.valueOf("#0d262e"));
-        screen.getStyleClass().add("SMButtons");
-        screen.setLayoutX(39);
-        screen.setLayoutY(102);
-        screen.setSize(String.valueOf(72));
+        MaterialDesignIconView desktop = new MaterialDesignIconView();
+        desktop.setIcon(MaterialDesignIcon.MONITOR);
+        desktop.setFill(Paint.valueOf("#0d262e"));
+        desktop.getStyleClass().add("SMButtons");
+        desktop.setLayoutX(39);
+        desktop.setLayoutY(102);
+        desktop.setSize(String.valueOf(72));
 
         Label label = new Label();
-        label.setText(screenName);
+        label.setText(screen.getName());
         label.setTextFill(Paint.valueOf("#FFFFFF"));
         label.setFont(new Font("System", 16));
         label.setStyle("-fx-font-weight: bold; -fx-font-style: italic");
@@ -87,15 +87,15 @@ public class AdminScreenManagementController implements Initializable {
         label.setContentDisplay(ContentDisplay.CENTER);
         label.setTextAlignment(TextAlignment.CENTER);
 
-        newPane.getChildren().addAll(newRectangle, settings, screen, label);
+        newPane.getChildren().addAll(newRectangle, settings, desktop, label);
 
         root.getChildren().add(0, newPane);
 
         FlowPane.setMargin(newPane, new Insets(25, 25, 0, 25));
 
-        screen.setOnMouseClicked(mouseEvent -> {
+        desktop.setOnMouseClicked(mouseEvent -> {
             try {
-                handleScreenCreator(screenName);
+                handleScreenCreator(screen.getName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -103,14 +103,18 @@ public class AdminScreenManagementController implements Initializable {
 
         newRectangle.setOnMouseClicked(mouseEvent -> {
             try {
-                handleScreenCreator(screenName);
+                handleScreenCreator(screen.getName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
 
         settings.setOnMouseClicked(mouseEvent -> {
-            handleEditScreen();
+            try {
+                handleEditScreen(screen);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -159,13 +163,44 @@ public class AdminScreenManagementController implements Initializable {
             //TODO VIRKER, men skal lige finde ud af hvad det kræver at indsætte i DB'en
             //screenModel.addScreen(new Screen(result.get()));
 
-            handleNewScreen(result.get());
+            handleNewScreen(new Screen(result.get()));
         }
     }
 
-    public void handleEditScreen() {
+    public void handleEditScreen(Screen screen) throws IOException {
         //TODO lav fxml til edit screen.
-        System.out.println("test");
+        Stage editScreenStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/EditScreen.fxml"));
+
+        Parent root = (Parent) loader.load();
+        EditScreenController editScreenController = loader.getController();
+        editScreenController.setScreen(screen);
+
+        Scene editScreenScene = new Scene(root);
+
+        editScreenScene.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        editScreenScene.setOnMouseDragged(event -> {
+            editScreenStage.setX(event.getScreenX() - xOffset);
+            editScreenStage.setY(event.getScreenY() - yOffset);
+            editScreenStage.setOpacity(0.8f);
+        });
+
+        editScreenScene.setOnMouseDragExited((event) -> {
+            editScreenStage.setOpacity(1.0f);
+        });
+
+        editScreenScene.setOnMouseReleased((event) -> {
+            editScreenStage.setOpacity(1.0f);
+        });
+
+        editScreenStage.initStyle(StageStyle.UNDECORATED);
+        editScreenStage.setScene(editScreenScene);
+        editScreenStage.show();
     }
 
 
