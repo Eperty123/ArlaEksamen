@@ -27,7 +27,7 @@ public class JonasTest {
         //System.out.println(users.get(1));
 
 
-        System.out.println(loginManager.attemptLogin("jf", "testj"));
+
 
 
 

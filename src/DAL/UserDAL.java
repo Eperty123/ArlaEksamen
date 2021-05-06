@@ -56,6 +56,18 @@ public class UserDAL {
         }
     }
 
+    public void deleteUser(String username) {
+
+        try (Connection con = dbCon.getConnection()) {
+
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM [User] WHERE UserName = ?");
+            pSql.setString(1, username);
+            pSql.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public void addUser(User user){
 
         try (Connection con = dbCon.getConnection()) {
@@ -94,6 +106,6 @@ public class UserDAL {
         }
     }
 
-    // TODO updateScreenRights
+
 
 }

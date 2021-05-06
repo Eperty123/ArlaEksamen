@@ -16,11 +16,7 @@ public class LoginManager {
 
         PasswordManager passwordManager = new PasswordManager();
         List<User> allUsers = null;
-        try {
-            allUsers = UserModel.getInstance().getAllUsers();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        allUsers = UserModel.getInstance().getAllUsers();
 
         for (User u : allUsers) {
             if (username.equals(u.getUserName()) && passwordManager.encrypt(password) == (u.getPassword())) {
