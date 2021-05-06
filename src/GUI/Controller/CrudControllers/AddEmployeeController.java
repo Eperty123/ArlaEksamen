@@ -5,6 +5,7 @@ import BE.UserType;
 import BLL.PasswordManager;
 import BLL.UserManager;
 import DAL.UserDAL;
+import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -38,6 +39,7 @@ public class AddEmployeeController implements Initializable {
     private JFXComboBox chsScreen;
 
     private UserManager userManager = new UserManager();
+    private UserModel userModel = new UserModel();
     private PasswordManager passwordManager = new PasswordManager();
 
     public void handleSave(ActionEvent actionEvent) throws SQLException {
@@ -48,7 +50,8 @@ public class AddEmployeeController implements Initializable {
             User newUser = new User(userManager.getUsers().size(),txtFirstname.getText(), txtLastname.getText(),txtUsername.getText()
             , txtEmail.getText(),chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
 
-            userManager.addUser(newUser);
+
+            userModel.addUser(newUser);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
