@@ -1,17 +1,12 @@
 package GUI.Controller.AdminControllers;
 
-import BE.Employee;
 import BE.User;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
 import GUI.Controller.CrudControllers.RemoveEmployeeController;
-import GUI.Controller.PopupControllers.ConfirmationController;
 import GUI.Model.UserModel;
-import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,14 +15,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AdminManagementController implements Initializable {
@@ -36,30 +29,37 @@ public class AdminManagementController implements Initializable {
     @FXML
     private TableColumn<User, Integer> eID;
     @FXML
-    private TableColumn<User,String> eFN;
+    private TableColumn<User, String> eFN;
     @FXML
-    private TableColumn<User,String> eLN;
+    private TableColumn<User, String> eLN;
     @FXML
-    private TableColumn<User,Number> eSN;
+    private TableColumn<User, Number> eSN;
     @FXML
-    private TableColumn<User,String> eD;
+    private TableColumn<User, String> eD;
 
     private double xOffset = 0;
     private double yOffset = 0;
-
+    private UserModel userModel = UserModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<User> users = FXCollections.observableArrayList();
 
-        users.addAll(UserModel.getInstance().getAllUsers());
-
-        tblEmployees.setItems(users);
+        tblEmployees.setItems(userModel.getAllUsers());
         eID.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getId()));
         eFN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getFirstName()));
         eLN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getLastName()));
         //eSN.setCellValueFactory(new PropertyValueFactory<>("screenNumber"));
         //eD.setCellValueFactory(new PropertyValueFactory<>("description"));
+        handleUserUpdate();
+    }
+
+    /**
+     * Handle any incoming changes to the User ObservableList and update the table.
+     */
+    private void handleUserUpdate() {
+        userModel.getAllUsers().addListener((ListChangeListener<User>) c -> {
+            tblEmployees.setItems(UserModel.getInstance().getAllUsers());
+        });
     }
 
     public void handleAddEmployee(MouseEvent mouseEvent) throws IOException {

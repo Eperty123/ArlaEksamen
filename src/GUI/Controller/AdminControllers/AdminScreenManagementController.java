@@ -1,11 +1,10 @@
 package GUI.Controller.AdminControllers;
 
 import BE.Screen;
-import GUI.Controller.PopupControllers.ConfirmationController;
 import GUI.Model.ScreenModel;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import javafx.event.EventHandler;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,11 +12,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -44,9 +40,23 @@ public class AdminScreenManagementController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for(Screen s : screenModel.getAllScreens()){
+        for (Screen s : screenModel.getAllScreens()) {
             handleNewScreen(s);
         }
+        handleScreenUpdate();
+    }
+
+    private void handleScreenUpdate() {
+        // TODO: Figure out the best way to update the WebView.
+        screenModel.getAllScreens().addListener((ListChangeListener<Screen>) c -> {
+            while (c.next()) {
+                if (c.wasReplaced() || c.wasUpdated() || c.wasAdded() || c.wasRemoved() || c.wasPermutated()) {
+                    System.out.println("Items from " + c.getFrom() + " to " + c.getTo() + " changed");
+                }
+            }
+        });
+
+        //screenModel.getAllScreens().add(new Screen("Fuck", "You"));
     }
 
     private void handleNewScreen(Screen screen) {
@@ -80,7 +90,7 @@ public class AdminScreenManagementController implements Initializable {
         label.setTextFill(Paint.valueOf("#FFFFFF"));
         label.setFont(new Font("System", 16));
         label.setStyle("-fx-font-weight: bold; -fx-font-style: italic");
-        label.setPrefSize(133,25);
+        label.setPrefSize(133, 25);
         label.setLayoutX(9);
         label.setLayoutY(111);
         label.setAlignment(Pos.TOP_CENTER);
@@ -162,7 +172,7 @@ public class AdminScreenManagementController implements Initializable {
 
         if (result.isPresent()) {
             //TODO VIRKER, men skal lige finde ud af hvad det kræver at indsætte i DB'en
-            //screenModel.addScreen(new Screen(result.get()));
+            //screenModel.addScreen(new Screen(result.get(), ""));
 
             handleNewScreen(new Screen(result.get()));
         }
