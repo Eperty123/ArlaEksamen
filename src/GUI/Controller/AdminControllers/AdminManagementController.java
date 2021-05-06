@@ -33,7 +33,7 @@ public class AdminManagementController implements Initializable {
     @FXML
     private TableColumn<User, String> eLN;
     @FXML
-    private TableColumn<User, Number> eSN;
+    private TableColumn<User, String> eSN;
     @FXML
     private TableColumn<User, String> eD;
 
@@ -48,7 +48,7 @@ public class AdminManagementController implements Initializable {
         eID.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getId()));
         eFN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getFirstName()));
         eLN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getLastName()));
-        //eSN.setCellValueFactory(new PropertyValueFactory<>("screenNumber"));
+        eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen() != null ? u.getValue().getAssignedScreen().getName() : "None"));
         //eD.setCellValueFactory(new PropertyValueFactory<>("description"));
         handleUserUpdate();
     }
