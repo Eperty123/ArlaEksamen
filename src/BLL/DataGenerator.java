@@ -4,8 +4,7 @@ import DAL.Parser.CSVParser;
 import DAL.Parser.XLSXParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 
 import java.util.List;
 
@@ -13,20 +12,28 @@ import java.util.List;
 public class DataGenerator {
 
 
-    public static XYChart.Series<String, Integer> getBarChartSeries(String filename){
+    public static BarChart getBarChart(String filename){
+
         
-        XYChart.Series<String, Integer> series = new XYChart.Series<>();
-        series.setName("BarChart");
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Units produced pr. Hour");
 
         List<String[]> data = getParsedData(filename);
 
         for(int i = 1; i < data.size(); i++){
             series.getData().add(new XYChart.Data(data.get(i)[0], Integer.parseInt(data.get(i)[1])));
         }
-        return series;
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
+        barChart.setTitle("Units Produced Pr. Hour");
+        barChart.getData().add(series);
+
+        return barChart;
     }
 
-    public static ObservableList<PieChart.Data> getPieChartData(String filename){
+    public static PieChart getPieChartData(String filename){
 
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
 
@@ -35,7 +42,11 @@ public class DataGenerator {
         for(int i = 1; i < data.size(); i++){
             pieData.add(new PieChart.Data(data.get(i)[0], Integer.parseInt(data.get(i)[1])));
         }
-        return pieData;
+
+        PieChart pieChart = new PieChart(pieData);
+        pieChart.setTitle("Department Proficiency");
+
+        return pieChart;
     }
 
 

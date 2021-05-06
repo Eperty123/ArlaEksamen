@@ -40,7 +40,7 @@ public class ChartTestController implements Initializable {
         String filenameXLSX = "src/Resources/Excel_mockData.xlsx";
         String filenameCSV = "src/Resources/BarChart_mockData.csv";
 
-        chart.setData(dataGenerator.getPieChartData(filenameCSV));
+        chart = DataGenerator.getPieChartData(filenameCSV);
 
 
     }
