@@ -42,7 +42,7 @@ public class ScreenModel {
         allScreens.remove(screen);
     }
 
-    public List<Screen> getAllScreens() {
+    public ObservableList<Screen> getAllScreens() {
         return allScreens;
     }
 
