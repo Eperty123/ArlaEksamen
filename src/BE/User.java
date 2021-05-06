@@ -9,9 +9,9 @@ public class User {
     private String email;
     private Enum userRole;
     private int password;
-    private Screen assignedScreen;
+    private ScreenBit assignedScreenBit;
 
-    public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password, Screen assignedScreen) {
+    public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password, ScreenBit assignedScreenBit) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -19,7 +19,7 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
-        this.assignedScreen = assignedScreen;
+        this.assignedScreenBit = assignedScreenBit;
     }
 
     public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password) {
@@ -30,7 +30,7 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
-        this.assignedScreen = null;
+        this.assignedScreenBit = null;
 
     }
 
@@ -41,7 +41,7 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
-        this.assignedScreen = null;
+        this.assignedScreenBit = null;
     }
 
     public User(String userName) {
@@ -93,12 +93,12 @@ public class User {
 
     }
 
-    public Screen getAssignedScreen() {
-        return assignedScreen;
+    public ScreenBit getAssignedScreen() {
+        return assignedScreenBit;
     }
 
-    public void setAssignedScreen(Screen assignedScreen) {
-        this.assignedScreen = assignedScreen;
+    public void setAssignedScreen(ScreenBit assignedScreenBit) {
+        this.assignedScreenBit = assignedScreenBit;
     }
 
     public String getUserName() {
