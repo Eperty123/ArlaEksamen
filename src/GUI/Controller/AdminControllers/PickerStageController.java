@@ -230,7 +230,7 @@ public class PickerStageController implements Initializable {
         else {
             StringBuilder stringBuilder = new StringBuilder("");
             if (!splitPane.getDividers().isEmpty()) {
-                stringBuilder.append(String.format("%n%s%.02f", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
+                stringBuilder.append(String.format("%s%.02f%n", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
                 stringBuilder.append("{");
                 if (!controllersOfInterest.isEmpty()) {
                     if (!this.getSplitPane().getOrientation().equals(Orientation.HORIZONTAL)) {

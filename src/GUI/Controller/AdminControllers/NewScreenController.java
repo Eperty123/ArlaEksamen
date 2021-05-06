@@ -1,17 +1,11 @@
 package GUI.Controller.AdminControllers;
 
-import BE.Screen;
+import BE.ScreenBit;
 import GUI.Model.ScreenModel;
 import com.jfoenix.controls.JFXTextField;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class NewScreenController {
     @FXML
@@ -24,7 +18,7 @@ public class NewScreenController {
 
     public String handleContinue() {
         if (!txtScreenName.getText().isEmpty()){
-            screenModel.getAllScreens().add(0, new Screen(txtScreenName.getText()));
+            screenModel.getAllScreens().add(0, new ScreenBit(txtScreenName.getText()));
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();

@@ -1,13 +1,12 @@
 package GUI.Model;
 
-import BE.Screen;
+import BE.ScreenBit;
 import BE.User;
 import BLL.UserManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class UserModel {
 
@@ -33,10 +32,10 @@ public class UserModel {
         return allUsers;
     }
 
-    public void assignScreenByUserName(Screen screen, String userName){
+    public void assignScreenByUserName(ScreenBit screenBit, String userName){
         for (User u : allUsers){
             if(u.getUserName().equals(userName)){
-                u.setAssignedScreen(screen);
+                u.setAssignedScreen(screenBit);
             }
         }
     }
