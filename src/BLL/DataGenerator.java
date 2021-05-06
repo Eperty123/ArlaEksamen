@@ -21,7 +21,13 @@ public class DataGenerator {
         List<String[]> data = getParsedData(filename);
 
         for(int i = 1; i < data.size(); i++){
-            series.getData().add(new XYChart.Data(data.get(i)[0], Integer.parseInt(data.get(i)[1])));
+            try {
+                series.getData().add(new XYChart.Data(data.get(i)[0], Integer.parseInt(data.get(i)[1])));
+            }
+            catch (NumberFormatException e)
+            {
+                e.printStackTrace();
+            }
         }
 
         CategoryAxis xAxis = new CategoryAxis();

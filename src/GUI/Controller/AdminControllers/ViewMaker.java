@@ -40,14 +40,14 @@ public class ViewMaker {
         }
     }
 
-    //TODO datagenerator does not give the right data
+    /**
+     * Takes the BarChart from the DataGenerator to make a Barchart
+     * @param pane the BorderPane of the PickerStageController
+     * @param file the file you want to generate data from
+     * @return A Node with the given BarChart
+     */
     public static Node getBarChart(BorderPane pane, File file) {
-        Axis<String> xAxis = new CategoryAxis();
-        xAxis.setLabel("xAxis");
-        Axis<Number> yAxis = new NumberAxis();
-        yAxis.setLabel("yAxis");
-
-        BarChart<String, Number> bc = new BarChart<String, Number>(xAxis, yAxis);
+        BarChart<String, Number> bc = DataGenerator.getBarChart(file.getAbsolutePath());
 
         //Makes it follow the panes width
         pane.widthProperty().addListener((observableValue, bounds, t1) -> {
@@ -60,17 +60,19 @@ public class ViewMaker {
         //sets initial height and width
         bc.setPrefWidth(pane.getWidth());
         bc.setPrefHeight(pane.getHeight());
-
-        XYChart.Series series = DataGenerator.getBarChartSeries(file.getAbsolutePath());
-        bc.getData().add(series);
         bc.setAccessibleText(ViewType.BarChart.name() + String.format("=\"%s\"", file.getAbsolutePath()));
 
         return bc;
     }
 
-    //TODO Piechar does not get the right data
+    /**
+     * Takes the PieChart from the DataGenerator to make a Barchart
+     * @param pane the BorderPane of the PickerStageController
+     * @param file the file you want to generate data from
+     * @return A Node with the given PieChart
+     */
     public static Node getPieChart(BorderPane pane, File file) {
-        PieChart pieChart = new PieChart();
+        PieChart pieChart = DataGenerator.getPieChartData(file.getAbsolutePath());
 
         //Makes it follow the panes width
         pane.widthProperty().addListener((observableValue, bounds, t1) -> {
@@ -85,12 +87,9 @@ public class ViewMaker {
         pieChart.setPrefWidth(pane.getWidth());
         pieChart.setPrefHeight(pane.getHeight());
 
-        DataGenerator.getPieChartData(file.getAbsolutePath()).forEach(d -> pieChart.getData().add(new PieChart.Data(d.getName(), d.getPieValue())));
         pieChart.setAccessibleText(ViewType.PieChart.name() + String.format("=\"%s\"", file.getAbsolutePath()));
         return pieChart;
     }
-
-    //TODO implement this
 
     /**
      * Add a WebView that loads a file or url.
@@ -118,6 +117,12 @@ public class ViewMaker {
         return webView;
     }
 
+    /**
+     * Adds a Image to the view
+     * @param pane The PickerStage's BorderPane
+     * @param file the file of the image
+     * @return A Node with the given Image
+     */
     public static Node getImage(BorderPane pane, File file) {
         ImageView imageView = new ImageView(String.format("file:/%s", file.getAbsolutePath()));
         imageView.setPreserveRatio(true);
