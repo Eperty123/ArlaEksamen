@@ -122,6 +122,7 @@ public class PickerStageController implements Initializable {
                 Stage stage = new Stage();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/DataManagement.fxml"));
                 AnchorPane pane = loader.load();
+                stage.setTitle("Add content");
                 DataManagementController dataManagementController = loader.getController();
                 dataManagementController.setPickerStageController(this);
                 dataManagementController.setStage(stage);

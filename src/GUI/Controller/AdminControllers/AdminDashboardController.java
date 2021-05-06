@@ -34,16 +34,18 @@ public class AdminDashboardController implements Initializable {
     private BorderPane borderPane;
 
     private User currentUser;
-    private double xOffset = 0;
-    private double yOffset = 0;
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
 
-        lblWelcome.setText("Velkommen " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
+        lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+        try {
+            handleUserManagement();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleUserManagement() throws IOException {

@@ -8,6 +8,7 @@ public class User {
     private String email;
     private Enum userRole;
     private int password;
+    private Screen screen;
     // TODO add screenRights
 
     public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password) {
@@ -84,14 +85,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", userRole=" + userRole +
-                ", password=" + password +
-                '}';
+        return userName + " - " + firstName + " " + lastName;
+    }
+
+    public Screen getScreen() {
+        return screen;
+    }
+
+    public void setScreen(Screen screen) {
+        this.screen = screen;
     }
 }
