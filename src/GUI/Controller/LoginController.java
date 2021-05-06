@@ -21,6 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -37,7 +39,7 @@ public class LoginController {
     @FXML
     private AnchorPane root;
     @FXML
-    private Label lblError;
+    private BorderPane lblPane;
     @FXML
     private JFXButton btnLogin;
 
@@ -47,8 +49,8 @@ public class LoginController {
     private double xOffset = 0;
     private double yOffset = 0;
 
-
-    public void login() throws SQLException, IOException {
+@FXML
+    private void login() throws SQLException, IOException {
         loginManager.attemptLogin(txtUsername.getText(),txtPassword.getText());
         User u = LoginManager.getCurrentUser();
         if (u != null){
@@ -57,7 +59,7 @@ public class LoginController {
 
                 Stage stage = new Stage();
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminDashboard.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AdminDashboard.fxml"));
 
                 Scene scene = new Scene(fxmlLoader.load());
                 stage.initStyle(StageStyle.UNDECORATED);
@@ -86,26 +88,35 @@ public class LoginController {
                 root1.close();
             }
         }else{
-            timer.startTimer();
-            lblError.setText(timer.getTxt().getText());
-
-            timer.addNodeToDisable(btnLogin);
-
-            txtPassword.clear();
-            txtUsername.clear();
+            startTimer();
         }
     }
 
+    /**
+     * Adds the label of the Timer Class, uses addNodeToDisable
+     * and Timer's .startTimer method
+     * also clears the password and username field
+     */
+    private void startTimer() {
+        timer.startTimer();
+        lblPane.getChildren().clear();
+        Label label = timer.getTimerLabel();
+
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setTextFill(Paint.valueOf("RED"));
+        lblPane.setCenter(label);
+
+        timer.addNodeToDisable(btnLogin);
+
+        txtPassword.clear();
+        txtUsername.clear();
+    }
 
     public void loginWithEnter(KeyEvent keyEvent) throws SQLException, IOException {
-
         if (!btnLogin.isDisabled()) {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 login();
             }
-        }else{
-            lblError.setText(timer.getTxt().getText());
-
         }
     }
 

@@ -3,6 +3,7 @@ package GUI.Controller.CrudControllers;
 import BE.User;
 import BLL.UserManager;
 import DAL.UserDAL;
+import GUI.Controller.PopupControllers.ConfirmationDialog;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

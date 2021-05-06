@@ -73,11 +73,11 @@ public class CSVParser implements IFileParser {
     }
 
     /**
-     * Parse the CSV file.
+     * Load and parse the given CSV file.
      *
      * @param file The CSV file to parse.
      * @param <T>  The return type.
-     * @return Returns the parsed CSV file.
+     * @return Returns a List of parsed content.
      */
     public <T> T parse(String file) {
         loadFile(file);
@@ -88,7 +88,7 @@ public class CSVParser implements IFileParser {
      * Parse the loaded CSV file.
      *
      * @param <T> The return type.
-     * @return Returns the parsed CSV file.
+     * @return Returns a List of parsed content.
      */
     public <T> T parse() {
         if (csvReader != null) {
@@ -117,7 +117,7 @@ public class CSVParser implements IFileParser {
     }
 
     /**
-     * Get the parsed CSV content.
+     * Get the List of parsed CSV content.
      *
      * @return Returns the parsed CSV content.
      */

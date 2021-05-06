@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -8,9 +7,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="204.0" prefWidth="304.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.PopupControllers.ConfirmationController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="179.0" prefWidth="304.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.PopupControllers.ConfirmationController">
    <children>
-      <Pane layoutX="2.0" layoutY="2.0" prefHeight="200.0" prefWidth="300.0" styleClass="popupForground" stylesheets="@../../Resources/Styles.css">
+      <Pane layoutX="2.0" layoutY="2.0" prefHeight="175.0" prefWidth="300.0" styleClass="popupForground" stylesheets="@../../Resources/Styles.css">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="20.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="200.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
@@ -20,8 +19,6 @@
                </font>
             </Label>
             <JFXTextArea fx:id="textArea" editable="false" focusColor="#add8e5" layoutX="20.0" layoutY="39.0" prefHeight="122.0" prefWidth="264.0" styleClass="textarea" text="Pellentesque nec semper nulla. Vestibulum ac imperdiet nisl. Integer a risus id lorem laoreet efficitur eu eget risus. Integer ac condimentum augue. Donec at iaculis elit. Nullam euismod, lacus id mollis imperdiet, odio leo condimentum risus, sollicitudin maximus magna ex vitae diam. Mauris lacus nisi, lobortis non dapibus non, porttitor nec magna. Morbi at cursus lacus." unFocusColor="#add8e5" />
-            <JFXButton layoutX="42.0" layoutY="168.0" onAction="#handleJa" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Yes" />
-            <JFXButton layoutX="182.0" layoutY="168.0" onAction="#handleNej" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="No" />
          </children></Pane>
    </children>
 </AnchorPane>

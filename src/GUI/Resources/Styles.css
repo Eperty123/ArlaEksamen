@@ -76,6 +76,10 @@ POP UP
   -fx-background-color: #c8f0fc;
 }
 
+.myDialog > *.button-bar > *.container{
+  -fx-background-color: #c8f0fc;
+}
+
 .ja{
   -fx-background-color: rgba(255,255,255,0.25);
 }
@@ -104,4 +108,73 @@ POP UP
 
 .SMButtons:hover {
   -fx-fill: rgba(255, 255, 255, 0.25);
+}
+
+/*
+  USER MANAGEMENT CSS
+ */
+.usrBar{
+  -fx-background-color: #154c5d;
+}
+
+.addUser{
+  -fx-fill: white;
+}
+
+.addUser:hover{
+  -fx-fill: #97CE68;
+}
+
+.editUser{
+  -fx-fill: white;
+}
+
+.editUser:hover{
+  -fx-fill: #F29B34;
+}
+
+.removeUser{
+  -fx-fill: white;
+}
+
+.removeUser:hover{
+  -fx-fill: #CF000F;
+}
+
+.tblUsers{
+  -fx-background-color: #0d262e;
+}
+
+.tblUsers .column-header {
+  -fx-background-color: #154c5d;
+  -fx-text-background-color: white;
+}
+
+.tblUsers .column-header .label{
+  -fx-alignment: CENTER_LEFT;
+  -fx-padding: 2 0 2 10px;
+}
+
+.tblUsers .table-cell{
+  -fx-border-color: rgba(255,255,255,0.10);
+  -fx-padding: 2 0 2 10px;
+
+}
+.table-row-cell:filled:hover {
+  -fx-background-color: #154c5d;
+  -fx-text-background-color: WHITE;
+}
+.table-row-cell:odd{
+  -fx-background-color: #0f2c35;
+  -fx-text-background-color: white;
+}
+
+.table-row-cell:even{
+  -fx-background-color: #0d262e;
+  -fx-text-background-color: white;
+}
+
+.table-row-cell:filled:focused:selected, .table-row-cell:filled:selected {
+  -fx-background-color: #1d6b83;
+  -fx-text-background-color: white;
 }

@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
@@ -12,6 +13,7 @@
             <FontAwesomeIconView glyphName="CIRCLE" layoutX="569.0" layoutY="17.0" onMouseClicked="#handleExit" styleClass="close" />
             <FontAwesomeIconView glyphName="CIRCLE" layoutX="549.0" layoutY="17.0" onMouseClicked="#handleMaximize" styleClass="maximize" />
             <FontAwesomeIconView glyphName="CIRCLE" layoutX="529.0" layoutY="17.0" onMouseClicked="#handleMinimize" styleClass="minimize" />
+            <Label fx:id="lblTitle" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="286.0" layoutY="4.0" text="Label" textAlignment="CENTER" />
          </children>
       </Pane>
    </top>
