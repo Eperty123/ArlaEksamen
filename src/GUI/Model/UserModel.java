@@ -7,15 +7,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class UserModel {
 
     private static UserModel instance;
     private ObservableList<User> allUsers;
-    private static UserManager userManager;
+    private UserManager userManager;
 
-    public UserModel()  {
+    public UserModel() {
         userManager = new UserManager();
         allUsers = FXCollections.observableArrayList();
         try {
@@ -26,7 +25,9 @@ public class UserModel {
 
     }
 
-    public static UserModel getInstance() { return instance == null ? instance = new UserModel() : instance;}
+    public static UserModel getInstance() {
+        return instance == null ? instance = new UserModel() : instance;
+    }
 
     public void addUser(User newUser) {
         userManager.addUser(newUser);
@@ -37,21 +38,21 @@ public class UserModel {
         return allUsers;
     }
 
-    public void assignScreenByUserName(Screen screen, String userName){
-        for (User u : allUsers){
-            if(u.getUserName().equals(userName)){
+    public void assignScreenByUserName(Screen screen, String userName) {
+        for (User u : allUsers) {
+            if (u.getUserName().equals(userName)) {
                 u.setAssignedScreen(screen);
             }
         }
     }
 
-    public void updateUser(User oldUser, User newUser){
+    public void updateUser(User oldUser, User newUser) {
         userManager.updateUser(oldUser, newUser);
         allUsers.remove(oldUser);
         allUsers.add(newUser);
     }
 
-    public void updateUsers()  {
+    public void updateUsers() {
         allUsers.clear();
         try {
             allUsers.addAll(userManager.getUsers());

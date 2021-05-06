@@ -3,8 +3,6 @@ package GUI.Controller.CrudControllers;
 import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
-import BLL.UserManager;
-import DAL.UserDAL;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXComboBox;
@@ -38,7 +36,6 @@ public class EditEmployeeController implements Initializable {
     private JFXComboBox chsScreen;
 
     private User ogUser;
-    //private UserModel userModel = new UserModel();
     private PasswordManager passwordManager = new PasswordManager();
 
     public void handleSave(ActionEvent actionEvent) throws SQLException {
