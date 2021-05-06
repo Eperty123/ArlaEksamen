@@ -78,10 +78,7 @@ public class DataManagementController implements Initializable {
                 case "Image" -> {
                     fileChooser.getExtensionFilters().addAll(jpgExtension, pngExtension);
                 }
-                case "BarChart" -> {
-                    fileChooser.getExtensionFilters().addAll(csvExtension, excelExtension);
-                }
-                case "PieChart" -> {
+                case "BarChart", "PieChart" -> {
                     fileChooser.getExtensionFilters().addAll(csvExtension, excelExtension);
                 }
             }
@@ -98,7 +95,7 @@ public class DataManagementController implements Initializable {
                     textField.setText(file.get().getAbsolutePath());
                     tryToMakeContent();
                 }
-            } else System.out.println("Please sleect a file first.");
+            } else System.out.println("Please select a file first.");
         });
 
         textField.textProperty().addListener((observable -> tryToMakeContent()));
