@@ -5,6 +5,8 @@ import BE.UserType;
 import BLL.PasswordManager;
 import BLL.UserManager;
 import DAL.UserDAL;
+import GUI.Model.ScreenModel;
+import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -36,7 +38,7 @@ public class EditEmployeeController implements Initializable {
     private JFXComboBox chsScreen;
 
     private User ogUser;
-    private UserManager userManager = new UserManager();
+    //private UserModel userModel = new UserModel();
     private PasswordManager passwordManager = new PasswordManager();
 
     public void handleSave(ActionEvent actionEvent) throws SQLException {
@@ -44,10 +46,10 @@ public class EditEmployeeController implements Initializable {
             && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
             && !chsScreen.getSelectionModel().isEmpty()){
 
-            User newUser = new User(userManager.getUsers().size(),txtFirstname.getText(), txtLastname.getText(),txtUsername.getText()
+            User newUser = new User(UserModel.getInstance().getAllUsers().size(),txtFirstname.getText(), txtLastname.getText(),txtUsername.getText()
             , txtEmail.getText(),chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
 
-            userManager.updateUser(ogUser, newUser);
+            UserModel.getInstance().updateUser(ogUser, newUser);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
@@ -61,8 +63,9 @@ public class EditEmployeeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //TODO: få en liste af alle Screens der er tilgængelige, indtil da. MOCK DATA
-        chsScreen.getItems().addAll("Screen 1", "Screen 2", "Screen 3", "Screen 4");
+        for (int i = 0; i < ScreenModel.getInstance().getAllScreens().size(); i++) {
+            chsScreen.getItems().add(ScreenModel.getInstance().getAllScreens().get(i).getName());
+        }
         chsScreen.getSelectionModel().selectFirst();
 
         chsRole.getItems().addAll(UserType.values());
