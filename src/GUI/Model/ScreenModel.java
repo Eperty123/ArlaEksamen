@@ -18,7 +18,7 @@ public class ScreenModel {
 
     private ObservableList<Screen> allScreens;
 
-    public ScreenModel(){
+    public ScreenModel() {
         screenManager = new ScreenManager();
         allScreens = FXCollections.observableArrayList();
         initialize();
@@ -32,12 +32,12 @@ public class ScreenModel {
         return instance == null ? instance = new ScreenModel() : instance;
     }
 
-    public void addScreen(Screen newScreen){
+    public void addScreen(Screen newScreen) {
         screenManager.addScreen(newScreen);
         allScreens.add(newScreen);
     }
 
-    public void deleteScreen(Screen screen){
+    public void deleteScreen(Screen screen) {
         screenManager.deleteScreen(screen);
         allScreens.remove(screen);
     }
@@ -46,38 +46,38 @@ public class ScreenModel {
         return allScreens;
     }
 
-    public void updateScreen(Screen newScreen, Screen oldScreen){
+    public void updateScreen(Screen newScreen, Screen oldScreen) {
         screenManager.updateScreen(newScreen, oldScreen);
         allScreens.remove(oldScreen);
         allScreens.add(newScreen);
     }
 
-    public void assignScreenRights(User user, Screen screen){
+    public void assignScreenRights(User user, Screen screen) {
         screenManager.assignScreenRights(user, screen);
 
     }
 
-    public void removeScreenRights(User user, Screen screen){
+    public void removeScreenRights(User user, Screen screen) {
         screenManager.removeScreenRights(user, screen);
     }
 
-    public void updateAllScreensAssignRights(User user, Screen screen){
-        for(Screen s : allScreens){
-            if(s.getId() == screen.getId()){
+    public void updateAllScreensAssignRights(User user, Screen screen) {
+        for (Screen s : allScreens) {
+            if (s.getId() == screen.getId()) {
                 s.addUser(user);
             }
         }
     }
 
-    public void updateAllScreensDeleteRights(User user, Screen screen){
-        for(Screen s : allScreens){
-            if(s.getId() == screen.getId()){
+    public void updateAllScreensDeleteRights(User user, Screen screen) {
+        for (Screen s : allScreens) {
+            if (s.getId() == screen.getId()) {
                 s.removeUser(user);
             }
         }
     }
 
-    public List<Screen> loadScreensAndAssignedUser(){
+    public List<Screen> loadScreensAndAssignedUser() {
         HashMap<Screen, String> screenUserHashMap = screenManager.getScreens();
         List<Screen> allScreens = new ArrayList<>();
 
@@ -92,17 +92,24 @@ public class ScreenModel {
         return allScreens;
     }
 
-    public User getUserByName(List<User> users, String userName){
-        for (User u : users){
-            if(u.getUserName().equals(userName)) return u;
+    public User getUserByName(List<User> users, String userName) {
+        for (User u : users) {
+            if (u.getUserName().equals(userName)) return u;
         }
         return null;
     }
 
-    public void addScreenToUser(Screen screen, String userName){
+    public void addScreenToUser(Screen screen, String userName) {
         UserModel.getInstance().assignScreenByUserName(screen, userName);
     }
 
-
-
+    /**
+     * Reset the singleton instance.
+     */
+    public void resetSingleton() {
+        if (instance != null) {
+            instance = null;
+            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
+        }
+    }
 }
