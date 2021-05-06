@@ -1,11 +1,13 @@
 package GUI.Controller.AdminControllers;
 
 import BE.Screen;
+import GUI.Controller.StageBuilder;
 import GUI.Model.ScreenModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +27,7 @@ public class PickerDashboardController implements Initializable {
 
     private PickerStageController pickerStageController;
     private Screen screen;
+    StageBuilder stageBuilder = new StageBuilder();
 
 
     @Override
@@ -32,12 +35,9 @@ public class PickerDashboardController implements Initializable {
 
     }
 
-    public void init(Screen screen) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/PickerStage.fxml"));
-        Parent root = (Parent) fxmlLoader.load();
-
-        pickerStageController = fxmlLoader.getController();
+    public void init(Screen screen) throws Exception {
+        Node root = stageBuilder.makeStage("");
+        pickerStageController = stageBuilder.getRootController();
 
         this.screen = screen;
         borderPane.setCenter(root);
@@ -65,13 +65,11 @@ public class PickerDashboardController implements Initializable {
     }
 
     public void handleSave(ActionEvent actionEvent) {
-        /*
         System.out.println(pickerStageController.getParentBuilderString());
         Screen oldScreen = screen;
         screen.setScreenInfo(pickerStageController.getParentBuilderString());
         ScreenModel screenModel = ScreenModel.getInstance();
-        screenModel.updateScreen(screen,oldScreen);
-         */
+        screenModel.updateScreen(screen, oldScreen);
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }

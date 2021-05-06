@@ -96,7 +96,7 @@ public class AdminScreenManagementController implements Initializable {
         desktop.setOnMouseClicked(mouseEvent -> {
             try {
                 handleScreenCreator(screen);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -104,7 +104,7 @@ public class AdminScreenManagementController implements Initializable {
         newRectangle.setOnMouseClicked(mouseEvent -> {
             try {
                 handleScreenCreator(screen);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -112,13 +112,13 @@ public class AdminScreenManagementController implements Initializable {
         settings.setOnMouseClicked(mouseEvent -> {
             try {
                 handleEditScreen(screen);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
     }
 
-    private void handleScreenCreator(Screen screen) throws IOException {
+    private void handleScreenCreator(Screen screen) throws Exception {
         Stage pickerDashboard = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/PickerDashboard.fxml"));
