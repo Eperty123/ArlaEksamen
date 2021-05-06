@@ -1,6 +1,7 @@
 package GUI.Controller.AdminControllers;
 
 import BE.ScreenBit;
+import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.StageBuilder;
 import GUI.Model.ScreenModel;
 import javafx.event.ActionEvent;
@@ -11,6 +12,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.util.Optional;
 
 public class PickerDashboardController {
     public AnchorPane pickerStageHere;
@@ -54,13 +59,20 @@ public class PickerDashboardController {
         stage.close();
     }
 
-    public void handleSave(ActionEvent actionEvent) {
-
-        ScreenBit oldScreenBit = screenBit;
-        screenBit.setScreenInfo(pickerStageController.getParentBuilderString());
-        ScreenModel screenModel = ScreenModel.getInstance();
-        screenModel.updateScreen(screenBit, oldScreenBit);
-        Stage stage = (Stage) borderPane.getScene().getWindow();
-        stage.close();
+    public void handleSave(ActionEvent actionEvent) throws IOException {
+        String text = "Are you sure you want to save the current screen? \n\n This action is not final" +
+                " and the screen will continue to be editable.";
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog(text);
+        Optional<Boolean> result = confirmationDialog.showAndWait();
+        if (result.isPresent()) {
+            if (result.get()) {
+                ScreenBit oldScreenBit = screenBit;
+                screenBit.setScreenInfo(pickerStageController.getParentBuilderString());
+                ScreenModel screenModel = ScreenModel.getInstance();
+                screenModel.updateScreen(screenBit, oldScreenBit);
+                Stage stage = (Stage) borderPane.getScene().getWindow();
+                stage.close();
+            }
+        }
     }
 }
