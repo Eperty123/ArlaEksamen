@@ -15,8 +15,8 @@ public class Searcher {
         OLreturn.clear();
         List<User> results = new ArrayList<>(currentList);
         results.removeIf(user -> !(user.getUserName().toLowerCase().contains(query.toLowerCase())
-                || user.getFirstName().toLowerCase().contains(query.toLowerCase())
-                || user.getLastName().toLowerCase().contains(query.toLowerCase())));
+                                || user.getFirstName().toLowerCase().contains(query.toLowerCase())
+                                || user.getLastName().toLowerCase().contains(query.toLowerCase())));
 
         OLreturn.addAll(results);
         return OLreturn;
