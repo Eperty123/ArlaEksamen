@@ -3,6 +3,7 @@ package GUI.Controller.AdminControllers;
 import BE.ScreenBit;
 import BE.Searcher;
 import BE.User;
+import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -22,8 +23,6 @@ import java.util.ResourceBundle;
 public class EditScreenController implements Initializable {
     @FXML
     private BorderPane borderPane;
-    @FXML
-    private Label lblTitle;
     @FXML
     private ListView<User> lstUsers;
     @FXML

@@ -5,6 +5,8 @@ import BE.UserType;
 import BLL.PasswordManager;
 import BLL.UserManager;
 import DAL.UserDAL;
+import GUI.Model.ScreenModel;
+import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -37,18 +39,20 @@ public class AddEmployeeController implements Initializable {
     @FXML
     private JFXComboBox chsScreen;
 
-    private UserManager userManager = new UserManager();
+    private UserModel userModel = UserModel.getInstance();
+    private ScreenModel screenModel = ScreenModel.getInstance();
     private PasswordManager passwordManager = new PasswordManager();
 
     public void handleSave(ActionEvent actionEvent) throws SQLException {
         if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtUsername.getText().isEmpty()
-            && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
-            && !chsScreen.getSelectionModel().isEmpty()){
+                && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
+                && !chsScreen.getSelectionModel().isEmpty()) {
 
-            User newUser = new User(userManager.getUsers().size(),txtFirstname.getText(), txtLastname.getText(),txtUsername.getText()
-            , txtEmail.getText(),chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
+            User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
+                    , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
 
-            userManager.addUser(newUser);
+            // Add the new user.
+            userModel.addUser(newUser);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
@@ -62,8 +66,10 @@ public class AddEmployeeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //TODO: få en liste af alle Screens der er tilgængelige, indtil da. MOCK DATA
-        chsScreen.getItems().addAll("Screen 1", "Screen 2", "Screen 3", "Screen 4");
+        // Get all the available screens.
+        for (int i = 0; i < ScreenModel.getInstance().getAllScreens().size(); i++) {
+            chsScreen.getItems().add(ScreenModel.getInstance().getAllScreens().get(i).getName());
+        }
         chsScreen.getSelectionModel().selectFirst();
 
         chsRole.getItems().addAll(UserType.values());

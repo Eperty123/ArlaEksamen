@@ -12,10 +12,9 @@ public class UserModel {
 
     private static UserModel instance;
     private ObservableList<User> allUsers;
+    private UserManager userManager;
 
-    private static UserManager userManager;
-
-    public UserModel()  {
+    public UserModel() {
         userManager = new UserManager();
         allUsers = FXCollections.observableArrayList();
         try {
@@ -26,7 +25,14 @@ public class UserModel {
 
     }
 
-    public static UserModel getInstance() { return instance == null ? instance = new UserModel() : instance;}
+    public static UserModel getInstance() {
+        return instance == null ? instance = new UserModel() : instance;
+    }
+
+    public void addUser(User newUser) {
+        userManager.addUser(newUser);
+        updateUsers();
+    }
 
     public ObservableList<User> getAllUsers() {
         return allUsers;
@@ -40,4 +46,28 @@ public class UserModel {
         }
     }
 
+    public void updateUser(User oldUser, User newUser) {
+        userManager.updateUser(oldUser, newUser);
+        allUsers.remove(oldUser);
+        allUsers.add(newUser);
+    }
+
+    public void updateUsers() {
+        allUsers.clear();
+        try {
+            allUsers.addAll(userManager.getUsers());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    /**
+     * Reset the singleton instance.
+     */
+    public void resetSingleton() {
+        if (instance != null) {
+            instance = null;
+            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
+        }
+    }
 }

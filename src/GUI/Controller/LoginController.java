@@ -54,39 +54,41 @@ public class LoginController {
         loginManager.attemptLogin(txtUsername.getText(),txtPassword.getText());
         User u = LoginManager.getCurrentUser();
         if (u != null){
+            Stage root1 = (Stage) root.getScene().getWindow();
+
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader();
             if (u.getUserRole() == UserType.Admin){
-                Stage root1 = (Stage) root.getScene().getWindow();
-
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AdminDashboard.fxml"));
-
-                Scene scene = new Scene(fxmlLoader.load());
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(scene);
-                stage.show();
-
-                scene.setOnMousePressed(mouseEvent -> {
-                    xOffset = mouseEvent.getSceneX();
-                    yOffset = mouseEvent.getSceneY();
-                });
-
-                scene.setOnMouseDragged(mouseEvent -> {
-                    stage.setX(mouseEvent.getScreenX() - xOffset);
-                    stage.setY(mouseEvent.getScreenY() - yOffset);
-                    stage.setOpacity(0.8f);
-                });
-
-                scene.setOnMouseExited((event) -> {
-                    stage.setOpacity(1.0f);
-                });
-
-                scene.setOnMouseReleased((event) -> {
-                    stage.setOpacity(1.0f);
-                });
-
-                root1.close();
+            } else{
+                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/EmployeeScreen.fxml"));
             }
+
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(scene);
+            stage.show();
+
+            scene.setOnMousePressed(mouseEvent -> {
+                xOffset = mouseEvent.getSceneX();
+                yOffset = mouseEvent.getSceneY();
+            });
+
+            scene.setOnMouseDragged(mouseEvent -> {
+                stage.setX(mouseEvent.getScreenX() - xOffset);
+                stage.setY(mouseEvent.getScreenY() - yOffset);
+                stage.setOpacity(0.8f);
+            });
+
+            scene.setOnMouseExited((event) -> {
+                stage.setOpacity(1.0f);
+            });
+
+            scene.setOnMouseReleased((event) -> {
+                stage.setOpacity(1.0f);
+            });
+
+            root1.close();
         }else{
             startTimer();
         }

@@ -17,7 +17,7 @@ public class ScreenModel {
 
     private ObservableList<ScreenBit> allScreenBits;
 
-    public ScreenModel(){
+    public ScreenModel() {
         screenManager = new ScreenManager();
         allScreenBits = FXCollections.observableArrayList();
         initialize();
@@ -91,9 +91,9 @@ public class ScreenModel {
         return allScreenBits;
     }
 
-    public User getUserByName(List<User> users, String userName){
-        for (User u : users){
-            if(u.getUserName().equals(userName)) return u;
+    public User getUserByName(List<User> users, String userName) {
+        for (User u : users) {
+            if (u.getUserName().equals(userName)) return u;
         }
         return null;
     }
@@ -102,6 +102,13 @@ public class ScreenModel {
         UserModel.getInstance().assignScreenByUserName(screenBit, userName);
     }
 
-
-
+    /**
+     * Reset the singleton instance.
+     */
+    public void resetSingleton() {
+        if (instance != null) {
+            instance = null;
+            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
+        }
+    }
 }

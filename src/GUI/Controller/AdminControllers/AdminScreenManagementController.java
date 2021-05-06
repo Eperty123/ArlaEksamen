@@ -37,11 +37,18 @@ public class AdminScreenManagementController implements Initializable {
     private double xOffset = 0;
     private double yOffset = 0;
 
-    private ScreenModel screenModel = new ScreenModel();
+    private ScreenModel screenModel = ScreenModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for(ScreenBit s : screenModel.getAllScreens()){
+        loadAllScreens();
+    }
+
+    /**
+     * Load all the available screens.
+     */
+    private void loadAllScreens() {
+        for (Screen s : screenModel.getAllScreens()) {
             handleNewScreen(s);
         }
     }
@@ -77,7 +84,7 @@ public class AdminScreenManagementController implements Initializable {
         label.setTextFill(Paint.valueOf("#FFFFFF"));
         label.setFont(new Font("System", 16));
         label.setStyle("-fx-font-weight: bold; -fx-font-style: italic");
-        label.setPrefSize(133,25);
+        label.setPrefSize(133, 25);
         label.setLayoutX(9);
         label.setLayoutY(111);
         label.setAlignment(Pos.TOP_CENTER);
@@ -141,8 +148,9 @@ public class AdminScreenManagementController implements Initializable {
         Optional<String> result = screenDialog.showAndWait();
 
         if (result.isPresent()) {
-            //TODO VIRKER, men skal lige finde ud af hvad det kræver at indsætte i DB'en
-            //screenModel.addScreen(new Screen(result.get()));
+
+            // Add the new screen to database.
+            screenModel.addScreen(new Screen(result.get(), ""));
 
             handleNewScreen(new ScreenBit(result.get()));
         }
