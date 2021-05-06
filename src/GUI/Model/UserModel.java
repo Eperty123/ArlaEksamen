@@ -13,7 +13,6 @@ public class UserModel {
 
     private static UserModel instance;
     private ObservableList<User> allUsers;
-
     private static UserManager userManager;
 
     public UserModel()  {
@@ -29,6 +28,11 @@ public class UserModel {
 
     public static UserModel getInstance() { return instance == null ? instance = new UserModel() : instance;}
 
+    public void addUser(User newUser) {
+        userManager.addUser(newUser);
+        updateUsers();
+    }
+
     public ObservableList<User> getAllUsers() {
         return allUsers;
     }
@@ -38,6 +42,21 @@ public class UserModel {
             if(u.getUserName().equals(userName)){
                 u.setAssignedScreen(screen);
             }
+        }
+    }
+
+    public void updateUser(User oldUser, User newUser){
+        userManager.updateUser(oldUser, newUser);
+        allUsers.remove(oldUser);
+        allUsers.add(newUser);
+    }
+
+    public void updateUsers()  {
+        allUsers.clear();
+        try {
+            allUsers.addAll(userManager.getUsers());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
