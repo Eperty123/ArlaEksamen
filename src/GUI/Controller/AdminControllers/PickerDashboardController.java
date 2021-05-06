@@ -36,11 +36,13 @@ public class PickerDashboardController implements Initializable {
     }
 
     public void init(Screen screen) throws Exception {
-        Node root = stageBuilder.makeStage("");
+        System.out.println(screen.getScreenInfo());
+        Node root = stageBuilder.makeStage(screen.getScreenInfo());
         pickerStageController = stageBuilder.getRootController();
 
         this.screen = screen;
         borderPane.setCenter(root);
+
     }
 
     public void setTitle(String title) {
@@ -65,11 +67,12 @@ public class PickerDashboardController implements Initializable {
     }
 
     public void handleSave(ActionEvent actionEvent) {
-        System.out.println(pickerStageController.getParentBuilderString());
         Screen oldScreen = screen;
         screen.setScreenInfo(pickerStageController.getParentBuilderString());
         ScreenModel screenModel = ScreenModel.getInstance();
         screenModel.updateScreen(screen, oldScreen);
+
+        System.out.println(screen.getScreenInfo());
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }
