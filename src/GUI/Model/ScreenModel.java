@@ -4,20 +4,25 @@ import BE.Screen;
 import BE.User;
 import BLL.ScreenManager;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ScreenModel {
 
-    private ScreenManager screenManager = new ScreenManager();
+    private ScreenManager screenManager;
 
     private List<Screen> allScreens;
 
     public ScreenModel(){
+        screenManager = new ScreenManager();
+        allScreens = new ArrayList<>();
         initialize();
     }
 
     private void initialize() {
-        this.allScreens = screenManager.getScreens();
+        allScreens = loadScreensAndAssignedUser();
     }
 
     public void addScreen(Screen newScreen){
@@ -56,6 +61,7 @@ public class ScreenModel {
             }
         }
     }
+
     public void updateAllScreensDeleteRights(User user, Screen screen){
         for(Screen s : allScreens){
             if(s.getId() == screen.getId()){
@@ -63,6 +69,33 @@ public class ScreenModel {
             }
         }
     }
+
+    public List<Screen> loadScreensAndAssignedUser(){
+        HashMap<Screen, String> screenUserHashMap = screenManager.getScreens();
+        List<Screen> allScreens = new ArrayList<>();
+
+        List<User> users = UserModel.getInstance().getAllUsers();
+
+        screenUserHashMap.forEach((k, v) -> {
+            k.addUser(getUserByName(users, v));
+            addScreenToUser(k, v);
+            allScreens.add(k);
+        });
+
+        return allScreens;
+    }
+
+    public User getUserByName(List<User> users, String userName){
+        for (User u : users){
+            if(u.getUserName().equals(userName)) return u;
+        }
+        return null;
+    }
+
+    public void addScreenToUser(Screen screen, String userName){
+        UserModel.getInstance().assignScreenByUserName(screen, userName);
+    }
+
 
 
 }

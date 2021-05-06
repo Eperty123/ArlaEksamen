@@ -1,5 +1,6 @@
 package BE;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Screen {
@@ -11,17 +12,20 @@ public class Screen {
 
     public Screen(String name) {
         this.name = name;
+        this.assignedUsers = new ArrayList<>();
     }
 
     public Screen(String name, String screenInfo){
         this.name = name;
         this.screenInfo = screenInfo;
+        this.assignedUsers = new ArrayList<>();
     }
 
     public Screen(int id, String screenName, String screenInfo) {
         this.id = id;
         this.name = screenName;
         this.screenInfo = screenInfo;
+        this.assignedUsers = new ArrayList<>();
     }
 
     public int getId() {

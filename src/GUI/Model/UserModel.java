@@ -1,5 +1,6 @@
 package GUI.Model;
 
+import BE.Screen;
 import BE.User;
 import BLL.UserManager;
 import javafx.collections.FXCollections;
@@ -26,10 +27,18 @@ public class UserModel {
 
     }
 
-    public static UserModel getInstance() throws SQLException { return instance == null ? instance = new UserModel() : instance;}
+    public static UserModel getInstance() { return instance == null ? instance = new UserModel() : instance;}
 
     public ObservableList<User> getAllUsers() {
         return allUsers;
+    }
+
+    public void assignScreenByUserName(Screen screen, String userName){
+        for (User u : allUsers){
+            if(u.getUserName().equals(userName)){
+                u.setAssignedScreen(screen);
+            }
+        }
     }
 
 }

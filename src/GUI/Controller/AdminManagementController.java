@@ -52,11 +52,7 @@ public class AdminManagementController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<User> users = FXCollections.observableArrayList();
 
-        try {
-            users.addAll(UserModel.getInstance().getAllUsers());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        users.addAll(UserModel.getInstance().getAllUsers());
 
         tblEmployees.setItems(users);
         eID.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getId()));
