@@ -24,7 +24,7 @@ public class DPMAINTEST extends Application {
         Button b = new Button("print");
         bp.setTop(b);
         b.setOnAction((v)-> System.out.println(stageBuilder.getRootController().getParentBuilderString()));
-
+        stageBuilder.getRootController().lockPanes();
         AnchorPane ap = new AnchorPane(bp);
         stage.setScene(new Scene(ap));
         stage.show();

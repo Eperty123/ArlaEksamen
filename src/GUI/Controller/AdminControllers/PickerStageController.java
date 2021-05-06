@@ -61,14 +61,17 @@ public class PickerStageController implements Initializable {
     }
 
     private void lockPanes(PickerStageController pickerStageController){
-        if(pickerStageController.getControllers().isEmpty()){
+        if(!pickerStageController.getControllers().isEmpty()){
         pickerStageController.getSplitPane().setDisable(true);
         }else{
-
+        pickerStageController.getControllers().forEach(p->{lockPanes(p);
+        p.getSplitPane().setDisable(true);
+        });
         }
     }
-    public void lockPanes(){
 
+    public void lockPanes(){
+    lockPanes(parentPickerStageController);
     }
 
     public PickerStageController getParentPickerStageController() {
