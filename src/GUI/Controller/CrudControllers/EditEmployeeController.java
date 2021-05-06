@@ -36,21 +36,23 @@ public class EditEmployeeController implements Initializable {
     private JFXComboBox chsScreen;
 
     private User ogUser;
+    private UserModel userModel = UserModel.getInstance();
     private PasswordManager passwordManager = new PasswordManager();
 
     public void handleSave(ActionEvent actionEvent) throws SQLException {
         if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtUsername.getText().isEmpty()
-            && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
-            && !chsScreen.getSelectionModel().isEmpty()){
+                && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
+                && !chsScreen.getSelectionModel().isEmpty()) {
 
-            User newUser = new User(UserModel.getInstance().getAllUsers().size(),txtFirstname.getText(), txtLastname.getText(),txtUsername.getText()
-            , txtEmail.getText(),chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
+            User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
+                    , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
 
-            UserModel.getInstance().updateUser(ogUser, newUser);
+            userModel.updateUser(ogUser, newUser);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
-        }
+            System.out.println("Edit saved!");
+        } else System.out.println("Edit got wrecked! Not saved. Check all fields please.");
     }
 
     public void handleCancel(ActionEvent actionEvent) {
@@ -69,7 +71,7 @@ public class EditEmployeeController implements Initializable {
         chsRole.getSelectionModel().selectFirst();
     }
 
-    public void setData(User user){
+    public void setData(User user) {
         ogUser = user;
         txtFirstname.setText(user.getFirstName());
         txtLastname.setText(user.getLastName());

@@ -58,7 +58,7 @@ public class AdminManagementController implements Initializable {
      */
     private void handleUserUpdate() {
         userModel.getAllUsers().addListener((ListChangeListener<User>) c -> {
-            tblEmployees.setItems(UserModel.getInstance().getAllUsers());
+            tblEmployees.setItems(userModel.getAllUsers());
         });
     }
 

@@ -36,27 +36,20 @@ public class AdminScreenManagementController implements Initializable {
     private double xOffset = 0;
     private double yOffset = 0;
 
-    private ScreenModel screenModel = new ScreenModel();
+    private ScreenModel screenModel = ScreenModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loadAllScreens();
+    }
+
+    /**
+     * Load all the available screens.
+     */
+    private void loadAllScreens() {
         for (Screen s : screenModel.getAllScreens()) {
             handleNewScreen(s);
         }
-        handleScreenUpdate();
-    }
-
-    private void handleScreenUpdate() {
-        // TODO: Figure out the best way to update the WebView.
-        screenModel.getAllScreens().addListener((ListChangeListener<Screen>) c -> {
-            while (c.next()) {
-                if (c.wasReplaced() || c.wasUpdated() || c.wasAdded() || c.wasRemoved() || c.wasPermutated()) {
-                    System.out.println("Items from " + c.getFrom() + " to " + c.getTo() + " changed");
-                }
-            }
-        });
-
-        //screenModel.getAllScreens().add(new Screen("Fuck", "You"));
     }
 
     private void handleNewScreen(Screen screen) {
@@ -171,8 +164,9 @@ public class AdminScreenManagementController implements Initializable {
         Optional<String> result = screenDialog.showAndWait();
 
         if (result.isPresent()) {
-            //TODO VIRKER, men skal lige finde ud af hvad det kræver at indsætte i DB'en
-            //screenModel.addScreen(new Screen(result.get(), ""));
+
+            // Add the new screen to database.
+            screenModel.addScreen(new Screen(result.get(), ""));
 
             handleNewScreen(new Screen(result.get()));
         }
