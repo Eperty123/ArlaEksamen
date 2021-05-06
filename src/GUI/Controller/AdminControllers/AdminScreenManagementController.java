@@ -95,7 +95,7 @@ public class AdminScreenManagementController implements Initializable {
 
         desktop.setOnMouseClicked(mouseEvent -> {
             try {
-                handleScreenCreator(screen.getName());
+                handleScreenCreator(screen);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -103,7 +103,7 @@ public class AdminScreenManagementController implements Initializable {
 
         newRectangle.setOnMouseClicked(mouseEvent -> {
             try {
-                handleScreenCreator(screen.getName());
+                handleScreenCreator(screen);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -118,14 +118,15 @@ public class AdminScreenManagementController implements Initializable {
         });
     }
 
-    private void handleScreenCreator(String s) throws IOException {
+    private void handleScreenCreator(Screen screen) throws IOException {
         Stage pickerDashboard = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/PickerDashboard.fxml"));
 
         Parent root = (Parent) loader.load();
         PickerDashboardController pickerDashboardController = loader.getController();
-        pickerDashboardController.setTitle(s);
+        pickerDashboardController.setTitle(screen.getName());
+        pickerDashboardController.init(screen);
 
         Scene pickerScene = new Scene(root);
 

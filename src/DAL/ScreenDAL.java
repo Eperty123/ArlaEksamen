@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ScreenDAL {
@@ -27,7 +28,6 @@ public class ScreenDAL {
             throwables.printStackTrace();
         }
     }
-
 
     public void updateScreen(Screen newScreen, Screen oldScreen){
 
@@ -56,11 +56,16 @@ public class ScreenDAL {
         }
     }
 
-    public List<Screen> getScreens(){
-        List<Screen> allScreens = new ArrayList<>();
+    public HashMap<Screen, String> getScreens(){
+        HashMap<Screen, String> allScreens = new HashMap<>();
 
         try(Connection con = dbCon.getConnection()){
-            PreparedStatement pSql = con.prepareStatement("SELECT * FROM Screen");
+            PreparedStatement pSql = con.prepareStatement("" +
+                    "SELECT  Screen.Id, Screen.ScreenName, " +
+                    "Screen.ScreenInfo, ScreenRights.UserName " +
+                    "FROM Screen " +
+                    "LEFT JOIN ScreenRights " +
+                    "ON Screen.Id = ScreenRights.ScreenId;");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
@@ -69,14 +74,17 @@ public class ScreenDAL {
                 int id = rs.getInt("Id");
                 String screenName = rs.getString("ScreenName");
                 String screenInfo = rs.getString("ScreenInfo");
+                String assignedUser = rs.getString("UserName");
 
-                allScreens.add(new Screen(id,screenName, screenInfo));
+                Screen screen = new Screen(id,screenName, screenInfo);
+                allScreens.put(screen, assignedUser);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return allScreens;
     }
+
 
     public void assignScreenRights(User user, Screen screen){
 

@@ -40,16 +40,12 @@ public class EditScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            users = UserModel.getInstance().getAllUsers();
+        users = UserModel.getInstance().getAllUsers();
 
-            users.removeIf(user -> user.getScreen() != null);
+        users.removeIf(user -> user.getAssignedScreen() != null);
 
-            lstUsers.getItems().addAll(users);
+        lstUsers.getItems().addAll(users);
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     public void setScreen(Screen screen){
@@ -67,7 +63,7 @@ public class EditScreenController implements Initializable {
 
     public void handleSave(ActionEvent actionEvent) {
         for (User u : lstScreenUsers.getItems()){
-            u.setScreen(screen);
+            u.setAssignedScreen(screen);
         }
 
         screen.setAssignedUsers(lstScreenUsers.getItems());

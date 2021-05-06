@@ -4,6 +4,7 @@ import BE.Screen;
 import BE.User;
 import DAL.ScreenDAL;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ScreenManager {
@@ -22,7 +23,7 @@ public class ScreenManager {
         screenDAL.updateScreen(newScreen, oldScreen);
     }
 
-    public List<Screen> getScreens(){
+    public HashMap<Screen, String> getScreens(){
         return screenDAL.getScreens();
     }
 

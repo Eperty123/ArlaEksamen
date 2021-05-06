@@ -1,5 +1,6 @@
 package BE;
 
+
 public class User {
     private int id;
     private String firstName;
@@ -8,8 +9,18 @@ public class User {
     private String email;
     private Enum userRole;
     private int password;
-    private Screen screen;
-    // TODO add screenRights
+    private Screen assignedScreen;
+
+    public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password, Screen assignedScreen) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        setUserRole(userRole);
+        this.password = password;
+        this.assignedScreen = assignedScreen;
+    }
 
     public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password) {
         this.id = id;
@@ -19,15 +30,31 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
+        this.assignedScreen = null;
 
     }
 
+    public User(String firstName, String lastName, String userName, String email, int userRole, int password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        setUserRole(userRole);
+        this.password = password;
+        this.assignedScreen = null;
+    }
 
+    public User(String userName) {
+        this.userName = userName;
+    }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -44,7 +71,6 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 
     public String getEmail() {
         return email;
@@ -67,6 +93,14 @@ public class User {
 
     }
 
+    public Screen getAssignedScreen() {
+        return assignedScreen;
+    }
+
+    public void setAssignedScreen(Screen assignedScreen) {
+        this.assignedScreen = assignedScreen;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -85,14 +119,6 @@ public class User {
 
     @Override
     public String toString() {
-        return userName + " - " + firstName + " " + lastName;
-    }
-
-    public Screen getScreen() {
-        return screen;
-    }
-
-    public void setScreen(Screen screen) {
-        this.screen = screen;
+        return userName + " - " + firstName + " " +lastName;
     }
 }

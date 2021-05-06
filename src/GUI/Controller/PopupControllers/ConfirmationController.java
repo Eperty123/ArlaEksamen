@@ -12,7 +12,6 @@ public class ConfirmationController {
     private AnchorPane root;
 
     public void setText(String text) {
-        System.out.println(text);
         textArea.setText(text);
     }
 
