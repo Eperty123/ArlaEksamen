@@ -93,9 +93,14 @@ public class CSVParser implements IFileParser {
     public <T> T parse() {
         if (csvReader != null) {
             try {
-                rows.addAll(csvReader.readAll());
-                setHeader(rows.get(0));
-                ;
+                var rows = csvReader.readAll();
+                for (int i = 0; i < rows.size(); i++) {
+                    var row = rows.get(i);
+
+                    // Only add if there's more than 1 columns.
+                    if (row.length > 1) this.rows.add(row);
+                }
+                setHeader(this.rows.get(0));
                 return (T) rows;
             } catch (IOException e) {
                 e.printStackTrace();
