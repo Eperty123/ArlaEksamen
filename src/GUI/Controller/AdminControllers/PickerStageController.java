@@ -60,6 +60,17 @@ public class PickerStageController implements Initializable {
         flipItem.onActionProperty().set((b) -> flipSplitPane());
     }
 
+    private void lockPanes(PickerStageController pickerStageController){
+        if(pickerStageController.getControllers().isEmpty()){
+        pickerStageController.getSplitPane().setDisable(true);
+        }else{
+
+        }
+    }
+    public void lockPanes(){
+
+    }
+
     public PickerStageController getParentPickerStageController() {
         return parentPickerStageController;
     }
