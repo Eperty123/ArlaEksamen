@@ -3,6 +3,8 @@ package GUI.Model;
 import BE.Screen;
 import BE.User;
 import BLL.ScreenManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,17 +14,22 @@ import java.util.List;
 public class ScreenModel {
 
     private ScreenManager screenManager;
+    private static ScreenModel instance;
 
-    private List<Screen> allScreens;
+    private ObservableList<Screen> allScreens;
 
     public ScreenModel(){
         screenManager = new ScreenManager();
-        allScreens = new ArrayList<>();
+        allScreens = FXCollections.observableArrayList();
         initialize();
     }
 
     private void initialize() {
-        allScreens = loadScreensAndAssignedUser();
+        allScreens.addAll(loadScreensAndAssignedUser());
+    }
+
+    public static ScreenModel getInstance() {
+        return instance == null ? instance = new ScreenModel() : instance;
     }
 
     public void addScreen(Screen newScreen){
