@@ -1,38 +1,37 @@
 package BLL;
 
-import BE.Screen;
+import BE.ScreenBit;
 import BE.User;
 import DAL.ScreenDAL;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ScreenManager {
 
     ScreenDAL screenDAL = new ScreenDAL();
 
-    public void addScreen(Screen newScreen){
-        screenDAL.addScreen(newScreen);
+    public void addScreen(ScreenBit newScreenBit){
+        screenDAL.addScreen(newScreenBit);
     }
 
-    public void deleteScreen(Screen screen){
-        screenDAL.deleteScreen(screen);
+    public void deleteScreen(ScreenBit screenBit){
+        screenDAL.deleteScreen(screenBit);
     }
 
-    public void updateScreen(Screen newScreen, Screen oldScreen){
-        screenDAL.updateScreen(newScreen, oldScreen);
+    public void updateScreen(ScreenBit newScreenBit, ScreenBit oldScreenBit){
+        screenDAL.updateScreen(newScreenBit, oldScreenBit);
     }
 
-    public HashMap<Screen, String> getScreens(){
+    public HashMap<ScreenBit, String> getScreens(){
         return screenDAL.getScreens();
     }
 
-    public void assignScreenRights(User user, Screen screen){
-        screenDAL.assignScreenRights(user, screen);
+    public void assignScreenRights(User user, ScreenBit screenBit){
+        screenDAL.assignScreenRights(user, screenBit);
     }
 
-    public void removeScreenRights(User user, Screen screen){
-        screenDAL.removeScreenRights(user, screen);
+    public void removeScreenRights(User user, ScreenBit screenBit){
+        screenDAL.removeScreenRights(user, screenBit);
     }
 
 }

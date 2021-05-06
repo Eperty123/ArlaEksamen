@@ -1,6 +1,6 @@
 package GUI.Model;
 
-import BE.Screen;
+import BE.ScreenBit;
 import BE.User;
 import BLL.UserManager;
 import javafx.collections.FXCollections;
@@ -38,10 +38,10 @@ public class UserModel {
         return allUsers;
     }
 
-    public void assignScreenByUserName(Screen screen, String userName) {
-        for (User u : allUsers) {
-            if (u.getUserName().equals(userName)) {
-                u.setAssignedScreen(screen);
+    public void assignScreenByUserName(ScreenBit screenBit, String userName){
+        for (User u : allUsers){
+            if(u.getUserName().equals(userName)){
+                u.setAssignedScreen(screenBit);
             }
         }
     }

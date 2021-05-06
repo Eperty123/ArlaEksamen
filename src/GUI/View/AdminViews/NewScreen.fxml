@@ -19,7 +19,7 @@
                </font>
             </Label>
             <Label layoutX="42.0" layoutY="45.0" text="Screen name" />
-            <JFXTextField fx:id="txtScreenName" layoutX="41.0" layoutY="66.0" prefHeight="25.0" prefWidth="219.0" promptText="Screen Name" />
+            <JFXTextField fx:id="txtScreenName" focusColor="#94bdd3" layoutX="41.0" layoutY="66.0" prefHeight="25.0" prefWidth="219.0" promptText="Screen Name" unFocusColor="#9f9f9f" />
          </children></Pane>
    </children>
 </AnchorPane>
