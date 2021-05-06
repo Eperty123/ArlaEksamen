@@ -1,5 +1,6 @@
 package GUI.Controller.AdminControllers;
 
+import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -36,6 +38,10 @@ public class AdminDashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
+        for (ScreenBit s : ScreenModel.getInstance().getAllScreens()){
+            System.out.println(s.getName() + " " + s.getAssignedUsers());
+        }
+        System.out.println();
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());

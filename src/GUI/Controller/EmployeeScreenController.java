@@ -33,9 +33,9 @@ public class EmployeeScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
-
+        System.out.println(currentUser.getAssignedScreen());
         if (currentUser.getAssignedScreen() != null) {
-            lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+            lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             try {
                 setScreen();
             } catch (Exception e) {
