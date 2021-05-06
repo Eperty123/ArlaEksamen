@@ -3,6 +3,7 @@ package GUI.Controller.AdminControllers;
 import BE.Screen;
 import BE.Searcher;
 import BE.User;
+import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ObservableList;
@@ -67,7 +68,6 @@ public class EditScreenController implements Initializable {
         }
 
         screen.setAssignedUsers(lstScreenUsers.getItems());
-
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }
