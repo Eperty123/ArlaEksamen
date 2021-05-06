@@ -26,8 +26,6 @@ public class EditScreenController implements Initializable {
     @FXML
     private BorderPane borderPane;
     @FXML
-    private Label lblTitle;
-    @FXML
     private ListView<User> lstUsers;
     @FXML
     private JFXTextField txtUserField;
