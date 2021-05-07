@@ -92,6 +92,9 @@ public class StageBuilder {
 
             }
         }
+        else{
+            makeView(pickerStageController,builderString);
+        }
         return node;
     }
 
