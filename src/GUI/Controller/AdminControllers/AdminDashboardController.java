@@ -94,7 +94,7 @@ public class AdminDashboardController implements Initializable {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/Login.fxml"));
 
                 Scene scene = new Scene(fxmlLoader.load());
-
+                stage.setTitle("Login");
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(scene);
                 stage.show();

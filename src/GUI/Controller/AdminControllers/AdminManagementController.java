@@ -66,7 +66,7 @@ public class AdminManagementController implements Initializable {
         Stage addEmployee = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/AddEmployee.fxml"));
-
+        addEmployee.setTitle("Add Employee");
         Parent root = (Parent) loader.load();
         AddEmployeeController addEmployeeController = loader.getController();
 
@@ -107,7 +107,7 @@ public class AdminManagementController implements Initializable {
         Stage editEmployee = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/EditEmployee.fxml"));
-
+        editEmployee.setTitle("Edit Employee");
         Parent root = (Parent) loader.load();
         EditEmployeeController editEmployeeController = loader.getController();
 
@@ -152,7 +152,7 @@ public class AdminManagementController implements Initializable {
 
         Parent root = (Parent) loader.load();
         RemoveEmployeeController removeEmployeeController = loader.getController();
-
+        removeEmployeeStage.setTitle("Remove Employee");
         Scene removeEmployeeScene = new Scene(root);
 
         removeEmployeeScene.setOnMousePressed(event -> {
