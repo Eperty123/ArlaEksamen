@@ -24,8 +24,7 @@ public class RemoveEmployeeController {
     private AnchorPane root;
 
     private User user;
-    private UserManager userManager = new UserManager();
-    private UserModel userModel = new UserModel();
+    private UserModel userModel = UserModel.getInstance();
 
     public void setData(User user){
         this.user = user;
