@@ -3,25 +3,25 @@ package BE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Screen {
+public class ScreenBit {
     //TODO TEST CLASS.
     private int id;
     private String name;
     private String screenInfo;
     private List<User> assignedUsers;
 
-    public Screen(String name) {
+    public ScreenBit(String name) {
         this.name = name;
         this.assignedUsers = new ArrayList<>();
     }
 
-    public Screen(String name, String screenInfo){
+    public ScreenBit(String name, String screenInfo){
         this.name = name;
         this.screenInfo = screenInfo;
         this.assignedUsers = new ArrayList<>();
     }
 
-    public Screen(int id, String screenName, String screenInfo) {
+    public ScreenBit(int id, String screenName, String screenInfo) {
         this.id = id;
         this.name = screenName;
         this.screenInfo = screenInfo;

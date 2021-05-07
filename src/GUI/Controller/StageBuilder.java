@@ -35,7 +35,7 @@ public class StageBuilder {
      * @throws IOException if the FXML file is somehow invalid or the stage is already loaded.
      */
     public Node makeStage(String builderString) throws Exception {
-        builderString = builderString.replaceAll("\n", "");
+        builderString=builderString.replaceAll("\n","").replaceAll("\r","");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/PickerStage.fxml"));
         node = loader.load();
         rootController = loader.getController();

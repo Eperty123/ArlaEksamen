@@ -1,43 +1,40 @@
 package GUI.Controller.AdminControllers;
 
-import BE.Screen;
+import BE.ScreenBit;
+import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.StageBuilder;
 import GUI.Model.ScreenModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.util.Optional;
 
-public class PickerDashboardController implements Initializable {
+public class PickerDashboardController {
+    public AnchorPane pickerStageHere;
     @FXML
     private BorderPane borderPane;
     @FXML
     private Label lblTitle;
 
     private PickerStageController pickerStageController;
-    private Screen screen;
+    private ScreenBit screenBit;
     StageBuilder stageBuilder = new StageBuilder();
 
+    public void init(ScreenBit screenBit) throws Exception {
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
-    public void init(Screen screen) throws Exception {
-        System.out.println(screen.getScreenInfo());
-        Node root = stageBuilder.makeStage(screen.getScreenInfo());
+        Node node = stageBuilder.makeStage(screenBit.getScreenInfo().trim());
         pickerStageController = stageBuilder.getRootController();
 
-        this.screen = screen;
-        borderPane.setCenter(root);
+        this.screenBit = screenBit;
+        borderPane.setCenter(node);
 
     }
 
@@ -62,14 +59,20 @@ public class PickerDashboardController implements Initializable {
         stage.close();
     }
 
-    public void handleSave(ActionEvent actionEvent) {
-        Screen oldScreen = screen;
-        screen.setScreenInfo(pickerStageController.getParentBuilderString());
-        ScreenModel screenModel = ScreenModel.getInstance();
-        screenModel.updateScreen(screen, oldScreen);
-
-        System.out.println(screen.getScreenInfo());
-        Stage stage = (Stage) borderPane.getScene().getWindow();
-        stage.close();
+    public void handleSave(ActionEvent actionEvent) throws IOException {
+        String text = "Are you sure you want to save the current screen? \n\n This action is not final" +
+                " and the screen will continue to be editable.";
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog(text);
+        Optional<Boolean> result = confirmationDialog.showAndWait();
+        if (result.isPresent()) {
+            if (result.get()) {
+                ScreenBit oldScreenBit = screenBit;
+                screenBit.setScreenInfo(pickerStageController.getParentBuilderString());
+                ScreenModel screenModel = ScreenModel.getInstance();
+                screenModel.updateScreen(screenBit, oldScreenBit);
+                Stage stage = (Stage) borderPane.getScene().getWindow();
+                stage.close();
+            }
+        }
     }
 }

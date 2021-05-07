@@ -1,12 +1,11 @@
 package GUI.Controller.AdminControllers;
 
-import BE.Screen;
+import BE.ScreenBit;
 import BE.Searcher;
 import BE.User;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +16,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,8 +23,6 @@ import java.util.ResourceBundle;
 public class EditScreenController implements Initializable {
     @FXML
     private BorderPane borderPane;
-    @FXML
-    private Label lblTitle;
     @FXML
     private ListView<User> lstUsers;
     @FXML
@@ -36,7 +32,7 @@ public class EditScreenController implements Initializable {
     @FXML
     private Label lblScreenName;
 
-    private Screen screen;
+    private ScreenBit screenBit;
     private List<User> users = new ArrayList<>();
 
     @Override
@@ -49,11 +45,11 @@ public class EditScreenController implements Initializable {
 
     }
 
-    public void setScreen(Screen screen){
-        this.screen = screen;
-        lblScreenName.setText(screen.getName());
-        if (screen.getAssignedUsers() !=null) {
-            lstScreenUsers.getItems().addAll(screen.getAssignedUsers());
+    public void setScreen(ScreenBit screenBit){
+        this.screenBit = screenBit;
+        lblScreenName.setText(screenBit.getName());
+        if (screenBit.getAssignedUsers() !=null) {
+            lstScreenUsers.getItems().addAll(screenBit.getAssignedUsers());
         }
     }
 
@@ -64,10 +60,11 @@ public class EditScreenController implements Initializable {
 
     public void handleSave(ActionEvent actionEvent) {
         for (User u : lstScreenUsers.getItems()){
-            u.setAssignedScreen(screen);
+            u.setAssignedScreen(screenBit);
         }
 
-        screen.setAssignedUsers(lstScreenUsers.getItems());
+        screenBit.setAssignedUsers(lstScreenUsers.getItems());
+
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }

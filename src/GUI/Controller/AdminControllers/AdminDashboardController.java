@@ -1,20 +1,20 @@
 package GUI.Controller.AdminControllers;
 
+import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
-import GUI.Controller.PopupControllers.ConfirmationController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Model.ScreenModel;
+import GUI.Model.UserModel;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -38,6 +38,10 @@ public class AdminDashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
+        for (ScreenBit s : ScreenModel.getInstance().getAllScreens()){
+            System.out.println(s.getName() + " " + s.getAssignedUsers());
+        }
+        System.out.println();
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
@@ -76,8 +80,13 @@ public class AdminDashboardController implements Initializable {
 
         Optional<Boolean> result = confirmation.showAndWait();
 
-        if (result.isPresent()){
-            if (result.get()){
+        if (result.isPresent()) {
+            if (result.get()) {
+
+                // Reset the singleton instance so we don't leave any cache behind.
+                UserModel.getInstance().resetSingleton();
+                ScreenModel.getInstance().resetSingleton();
+                
                 Stage root1 = (Stage) root.getScene().getWindow();
 
                 Stage stage = new Stage();

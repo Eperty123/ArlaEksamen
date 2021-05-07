@@ -1,54 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.AreaChart?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.BubbleChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.EmployeeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.EmployeeScreenController">
    <children>
-      <GridPane fx:id="grid" prefHeight="720.0" prefWidth="1280.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="654.0" minWidth="10.0" prefWidth="639.3333333333334" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="717.3333129882812" minWidth="10.0" prefWidth="641.3333333333334" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <BarChart fx:id="barChart">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </BarChart>
-            <PieChart fx:id="pieChart" GridPane.rowIndex="1" />
-            <AreaChart fx:id="areaChart" GridPane.columnIndex="1">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </AreaChart>
-            <BubbleChart fx:id="bubbleChart" GridPane.columnIndex="1" GridPane.rowIndex="1">
-              <xAxis>
-                <NumberAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </BubbleChart>
-         </children>
-      </GridPane>
+      <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="midPanel">
+         <top>
+            <Pane fx:id="bar" prefHeight="30.0" prefWidth="1280.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox layoutY="1.0" prefHeight="25.0" prefWidth="1280.0">
+                     <children>
+                        <Pane prefHeight="25.0" prefWidth="377.0" />
+                        <Pane prefHeight="25.0" prefWidth="1057.0">
+                           <children>
+                              <Label fx:id="lblBar" layoutX="350.0" layoutY="4.0" text="Admin Dashboard - Henrik Hansen" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="25.0" prefWidth="365.0">
+                           <children>
+                              <JFXButton layoutX="96.0" layoutY="2.0" onAction="#handleLogout" prefHeight="25.0" prefWidth="88.0" styleClass="employeeLogout" text="Logout" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
+         </top>
+      </BorderPane>
    </children>
 </AnchorPane>

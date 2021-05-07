@@ -1,10 +1,10 @@
 package GUI.Controller.AdminControllers;
 
-import BE.Screen;
+import BE.ScreenBit;
+import GUI.Controller.PopupControllers.ConfirmationController;
 import GUI.Model.ScreenModel;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -36,30 +37,23 @@ public class AdminScreenManagementController implements Initializable {
     private double xOffset = 0;
     private double yOffset = 0;
 
-    private ScreenModel screenModel = new ScreenModel();
+    private ScreenModel screenModel = ScreenModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for (Screen s : screenModel.getAllScreens()) {
+        loadAllScreens();
+    }
+
+    /**
+     * Load all the available screens.
+     */
+    private void loadAllScreens() {
+        for (ScreenBit s : screenModel.getAllScreens()) {
             handleNewScreen(s);
         }
-        handleScreenUpdate();
     }
 
-    private void handleScreenUpdate() {
-        // TODO: Figure out the best way to update the WebView.
-        screenModel.getAllScreens().addListener((ListChangeListener<Screen>) c -> {
-            while (c.next()) {
-                if (c.wasReplaced() || c.wasUpdated() || c.wasAdded() || c.wasRemoved() || c.wasPermutated()) {
-                    System.out.println("Items from " + c.getFrom() + " to " + c.getTo() + " changed");
-                }
-            }
-        });
-
-        //screenModel.getAllScreens().add(new Screen("Fuck", "You"));
-    }
-
-    private void handleNewScreen(Screen screen) {
+    private void handleNewScreen(ScreenBit screenBit) {
         Pane newPane = new Pane();
         newPane.setPrefSize(150, 150);
 
@@ -86,7 +80,7 @@ public class AdminScreenManagementController implements Initializable {
         desktop.setSize(String.valueOf(72));
 
         Label label = new Label();
-        label.setText(screen.getName());
+        label.setText(screenBit.getName());
         label.setTextFill(Paint.valueOf("#FFFFFF"));
         label.setFont(new Font("System", 16));
         label.setStyle("-fx-font-weight: bold; -fx-font-style: italic");
@@ -105,7 +99,7 @@ public class AdminScreenManagementController implements Initializable {
 
         desktop.setOnMouseClicked(mouseEvent -> {
             try {
-                handleScreenCreator(screen);
+                handleScreenCreator(screenBit);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -113,7 +107,7 @@ public class AdminScreenManagementController implements Initializable {
 
         newRectangle.setOnMouseClicked(mouseEvent -> {
             try {
-                handleScreenCreator(screen);
+                handleScreenCreator(screenBit);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -121,25 +115,69 @@ public class AdminScreenManagementController implements Initializable {
 
         settings.setOnMouseClicked(mouseEvent -> {
             try {
-                handleEditScreen(screen);
+                handleEditScreen(screenBit);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
     }
 
-    private void handleScreenCreator(Screen screen) throws Exception {
+    private void handleScreenCreator(ScreenBit screenBit) throws Exception {
         Stage pickerDashboard = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/PickerDashboard.fxml"));
 
-        Parent root = (Parent) loader.load();
+        AnchorPane root = loader.load();
         PickerDashboardController pickerDashboardController = loader.getController();
-        pickerDashboardController.setTitle(screen.getName());
-        pickerDashboardController.init(screen);
 
+        pickerDashboardController.setTitle(screenBit.getName());
+        pickerDashboardController.init(screenBit);
         Scene pickerScene = new Scene(root);
 
+        applyScreenDrag(pickerDashboard, pickerScene);
+
+        pickerDashboard.initStyle(StageStyle.UNDECORATED);
+        pickerDashboard.setScene(pickerScene);
+        pickerDashboard.show();
+    }
+
+
+    public void handleCreateScreen() throws IOException {
+        NewScreenDialog screenDialog = new NewScreenDialog("Test");
+
+        Optional<String> result = screenDialog.showAndWait();
+
+        if (result.isPresent()) {
+
+            // Add the new screen to database.
+            screenModel.addScreen(new ScreenBit(result.get(), ""));
+
+            handleNewScreen(new ScreenBit(result.get()));
+        }
+    }
+
+    public void handleEditScreen(ScreenBit screenBit) throws IOException {
+        //TODO lav fxml til edit screen.
+        Stage editScreenStage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/EditScreen.fxml"));
+
+        Parent root = (Parent) loader.load();
+        EditScreenController editScreenController = loader.getController();
+        editScreenController.setScreen(screenBit);
+
+        Scene editScreenScene = new Scene(root);
+
+        applyScreenDrag(editScreenStage, editScreenScene);
+
+        editScreenStage.initStyle(StageStyle.UNDECORATED);
+        editScreenStage.setScene(editScreenScene);
+        editScreenStage.show();
+    }
+
+
+
+    private void applyScreenDrag(Stage pickerDashboard, Scene pickerScene) {
         pickerScene.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
@@ -158,60 +196,6 @@ public class AdminScreenManagementController implements Initializable {
         pickerScene.setOnMouseReleased((event) -> {
             pickerDashboard.setOpacity(1.0f);
         });
-
-        pickerDashboard.initStyle(StageStyle.UNDECORATED);
-        pickerDashboard.setScene(pickerScene);
-        pickerDashboard.show();
-    }
-
-
-    public void handleCreateScreen() throws IOException {
-        NewScreenDialog screenDialog = new NewScreenDialog("Test");
-
-        Optional<String> result = screenDialog.showAndWait();
-
-        if (result.isPresent()) {
-            //TODO VIRKER, men skal lige finde ud af hvad det kræver at indsætte i DB'en
-            //screenModel.addScreen(new Screen(result.get(), ""));
-
-            handleNewScreen(new Screen(result.get()));
-        }
-    }
-
-    public void handleEditScreen(Screen screen) throws IOException {
-        //TODO lav fxml til edit screen.
-        Stage editScreenStage = new Stage();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/EditScreen.fxml"));
-
-        Parent root = (Parent) loader.load();
-        EditScreenController editScreenController = loader.getController();
-        editScreenController.setScreen(screen);
-
-        Scene editScreenScene = new Scene(root);
-
-        editScreenScene.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-
-        editScreenScene.setOnMouseDragged(event -> {
-            editScreenStage.setX(event.getScreenX() - xOffset);
-            editScreenStage.setY(event.getScreenY() - yOffset);
-            editScreenStage.setOpacity(0.8f);
-        });
-
-        editScreenScene.setOnMouseDragExited((event) -> {
-            editScreenStage.setOpacity(1.0f);
-        });
-
-        editScreenScene.setOnMouseReleased((event) -> {
-            editScreenStage.setOpacity(1.0f);
-        });
-
-        editScreenStage.initStyle(StageStyle.UNDECORATED);
-        editScreenStage.setScene(editScreenScene);
-        editScreenStage.show();
     }
 
 
