@@ -7,12 +7,13 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.AdminControllers.EditScreenController">
    <top>
       <Pane prefHeight="25.0" prefWidth="600.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="lblTitle" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="286.0" layoutY="4.0" text="Label" textAlignment="CENTER" />
+            <Label fx:id="lblTitle" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="271.0" layoutY="4.0" text="Edit Screen" textAlignment="CENTER" />
          </children>
       </Pane>
    </top>
@@ -25,27 +26,30 @@
       </Pane>
    </bottom>
    <left>
-      <Pane prefHeight="340.0" prefWidth="259.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="340.0" prefWidth="259.0" styleClass="midPanel" BorderPane.alignment="CENTER">
          <children>
             <ListView fx:id="lstUsers" layoutY="38.0" prefHeight="302.0" prefWidth="259.0" />
-            <JFXTextField fx:id="txtUserField" layoutX="38.0" layoutY="6.0" onKeyPressed="#handleSearch" prefHeight="25.0" prefWidth="215.0" promptText="Search for a user" />
-            <FontAwesomeIconView glyphName="SEARCH" layoutX="21.0" layoutY="25.0" />
+            <JFXTextField fx:id="txtUserField" focusColor="#94bdd3" layoutX="38.0" layoutY="6.0" onKeyTyped="#handleSearch" prefHeight="25.0" prefWidth="215.0" promptText="Search for a user" unFocusColor="#9f9f9f" />
+            <FontAwesomeIconView fill="#ddf3f9" glyphName="SEARCH" layoutX="21.0" layoutY="25.0" />
          </children>
       </Pane>
    </left>
    <center>
-      <Pane prefHeight="340.0" prefWidth="17.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="340.0" prefWidth="17.0" styleClass="midPanel" BorderPane.alignment="CENTER">
          <children>
-            <FontAwesomeIconView glyphName="ARROW_RIGHT" layoutX="27.0" layoutY="131.0" onMouseClicked="#handleAddUser" size="32" />
-            <FontAwesomeIconView glyphName="ARROW_LEFT" layoutX="27.0" layoutY="241.0" onMouseClicked="#handleRemoveUser" size="32" />
+            <FontAwesomeIconView fill="#ddf3f9" glyphName="ARROW_RIGHT" layoutX="27.0" layoutY="131.0" onMouseClicked="#handleAddUser" size="32" />
+            <FontAwesomeIconView fill="#ddf3f9" glyphName="ARROW_LEFT" layoutX="27.0" layoutY="241.0" onMouseClicked="#handleRemoveUser" size="32" />
          </children>
       </Pane>
    </center>
    <right>
-      <Pane prefHeight="340.0" prefWidth="259.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="340.0" prefWidth="259.0" styleClass="midPanel" BorderPane.alignment="CENTER">
          <children>
             <ListView fx:id="lstScreenUsers" layoutY="38.0" prefHeight="302.0" prefWidth="259.0" />
-            <Label fx:id="lblScreenName" alignment="CENTER" contentDisplay="CENTER" layoutX="107.0" layoutY="14.0" text="Screen 2" textAlignment="CENTER" />
+            <Label fx:id="lblScreenName" alignment="CENTER" contentDisplay="CENTER" layoutX="98.0" layoutY="8.0" text="Screen 2" textAlignment="CENTER" textFill="#ddf3f9">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font></Label>
          </children>
       </Pane>
    </right>

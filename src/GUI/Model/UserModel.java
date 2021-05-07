@@ -1,6 +1,6 @@
 package GUI.Model;
 
-import BE.Screen;
+import BE.ScreenBit;
 import BE.User;
 import BLL.UserManager;
 import javafx.collections.FXCollections;
@@ -38,10 +38,10 @@ public class UserModel {
         return allUsers;
     }
 
-    public void assignScreenByUserName(Screen screen, String userName) {
-        for (User u : allUsers) {
-            if (u.getUserName().equals(userName)) {
-                u.setAssignedScreen(screen);
+    public void assignScreenByUserName(ScreenBit screenBit, String userName){
+        for (User u : allUsers){
+            if(u.getUserName().equals(userName)){
+                u.setAssignedScreen(screenBit);
             }
         }
     }
@@ -61,4 +61,13 @@ public class UserModel {
         }
     }
 
+    /**
+     * Reset the singleton instance.
+     */
+    public void resetSingleton() {
+        if (instance != null) {
+            instance = null;
+            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
+        }
+    }
 }

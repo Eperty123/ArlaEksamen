@@ -1,10 +1,13 @@
 package GUI.Controller;
 
+import BE.ScreenBit;
 import BE.Timer;
 import BE.User;
 import BE.UserType;
 import BLL.LoginManager;
 import BLL.PasswordManager;
+import GUI.Model.ScreenModel;
+import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -29,9 +32,10 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
     @FXML
     private JFXTextField txtUsername;
     @FXML
@@ -49,45 +53,47 @@ public class LoginController {
     private double xOffset = 0;
     private double yOffset = 0;
 
-@FXML
+    @FXML
     private void login() throws SQLException, IOException {
-        loginManager.attemptLogin(txtUsername.getText(),txtPassword.getText());
+        loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText());
         User u = LoginManager.getCurrentUser();
-        if (u != null){
-            if (u.getUserRole() == UserType.Admin){
-                Stage root1 = (Stage) root.getScene().getWindow();
+        if (u != null) {
+            Stage root1 = (Stage) root.getScene().getWindow();
 
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader();
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            if (u.getUserRole() == UserType.Admin) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AdminDashboard.fxml"));
-
-                Scene scene = new Scene(fxmlLoader.load());
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(scene);
-                stage.show();
-
-                scene.setOnMousePressed(mouseEvent -> {
-                    xOffset = mouseEvent.getSceneX();
-                    yOffset = mouseEvent.getSceneY();
-                });
-
-                scene.setOnMouseDragged(mouseEvent -> {
-                    stage.setX(mouseEvent.getScreenX() - xOffset);
-                    stage.setY(mouseEvent.getScreenY() - yOffset);
-                    stage.setOpacity(0.8f);
-                });
-
-                scene.setOnMouseExited((event) -> {
-                    stage.setOpacity(1.0f);
-                });
-
-                scene.setOnMouseReleased((event) -> {
-                    stage.setOpacity(1.0f);
-                });
-
-                root1.close();
+            } else {
+                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/EmployeeScreen.fxml"));
             }
-        }else{
+
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(scene);
+            stage.show();
+
+            scene.setOnMousePressed(mouseEvent -> {
+                xOffset = mouseEvent.getSceneX();
+                yOffset = mouseEvent.getSceneY();
+            });
+
+            scene.setOnMouseDragged(mouseEvent -> {
+                stage.setX(mouseEvent.getScreenX() - xOffset);
+                stage.setY(mouseEvent.getScreenY() - yOffset);
+                stage.setOpacity(0.8f);
+            });
+
+            scene.setOnMouseExited((event) -> {
+                stage.setOpacity(1.0f);
+            });
+
+            scene.setOnMouseReleased((event) -> {
+                stage.setOpacity(1.0f);
+            });
+
+            root1.close();
+        } else {
             startTimer();
         }
     }
@@ -120,19 +126,32 @@ public class LoginController {
         }
     }
 
-    public void minimize(){
+    public void minimize() {
         Stage stage = (Stage) root.getScene().getWindow();
         stage.setIconified(true);
     }
 
 
-    public void maximize(){
+    public void maximize() {
 
     }
 
-    public void exit(){
+    public void exit() {
         System.exit(0);
     }
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        List<ScreenBit> screens = ScreenModel.getInstance().getAllScreens();
+        List<User> users = UserModel.getInstance().getAllUsers();
+
+        for (ScreenBit s : screens) {
+            for (User u : users) {
+                if(s.getAssignedUsers().contains(u)){
+                    u.setAssignedScreen(s);
+                }
+            }
+        }
+    }
 }
