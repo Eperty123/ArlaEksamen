@@ -42,6 +42,15 @@ public class ScreenModel {
         allScreens.remove(screen);
     }
 
+    public Screen getScreenByName(String screenName){
+        for(Screen s : allScreens){
+            if(s.getName().equals(screenName)){
+                return s;
+            }
+        }
+        return null;
+    }
+
     public ObservableList<Screen> getAllScreens() {
         return allScreens;
     }
