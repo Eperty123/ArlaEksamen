@@ -61,6 +61,7 @@ public class EditScreenController implements Initializable {
     public void handleSave(ActionEvent actionEvent) {
         for (User u : lstScreenUsers.getItems()){
             u.setAssignedScreen(screenBit);
+            ScreenModel.getInstance().assignScreenRights(u, screenBit);
         }
 
         screenBit.setAssignedUsers(lstScreenUsers.getItems());

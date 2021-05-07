@@ -1,5 +1,6 @@
 package GUI.Controller.CrudControllers;
 
+import BE.ScreenBit;
 import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
@@ -51,8 +52,14 @@ public class AddEmployeeController implements Initializable {
             User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
                     , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
 
+            String screenName = chsScreen.getSelectionModel().getSelectedItem().toString();
+            ScreenBit screenBit = ScreenModel.getInstance().getScreenBitByName(screenName);
+            newUser.setAssignedScreen(screenBit);
+
             // Add the new user.
             userModel.addUser(newUser);
+            ScreenModel.getInstance().assignScreenRights(newUser, screenBit);
+            ScreenModel.getInstance().updateAllScreensAssignRights(newUser,screenBit);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
