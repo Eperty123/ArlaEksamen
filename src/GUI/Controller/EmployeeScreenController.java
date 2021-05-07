@@ -35,6 +35,7 @@ public class EmployeeScreenController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
 
         if (currentUser.getAssignedScreen() != null) {
+            System.out.println(currentUser.getAssignedScreen().getScreenInfo());
             lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             try {
                 setScreen();

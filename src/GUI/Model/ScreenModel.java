@@ -102,6 +102,13 @@ public class ScreenModel {
         UserModel.getInstance().assignScreenByUserName(screenBit, userName);
     }
 
+    public ScreenBit getScreenBitByName(String ScreenBitName){
+        for(ScreenBit s : allScreenBits){
+            if (s.getName().equals(ScreenBitName)) return s;
+        }
+        return null;
+    }
+
     /**
      * Reset the singleton instance.
      */

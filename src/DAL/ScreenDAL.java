@@ -30,10 +30,10 @@ public class ScreenDAL {
     public void updateScreen(ScreenBit newScreenBit, ScreenBit oldScreenBit){
 
         try (Connection con = dbCon.getConnection()) {
-            PreparedStatement pSql = con.prepareStatement("UPDATE Screen SET ScreenName=?, ScreenInfo=? WHERE Id=?");
+            PreparedStatement pSql = con.prepareStatement("UPDATE Screen SET ScreenName=?, ScreenInfo=? WHERE ScreenName=?");
             pSql.setString(1, newScreenBit.getName());
             pSql.setString(2, newScreenBit.getScreenInfo());
-            pSql.setInt(3, oldScreenBit.getId());
+            pSql.setString(3, oldScreenBit.getName());
             pSql.execute();
 
         } catch (SQLException throwables) {

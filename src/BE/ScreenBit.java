@@ -12,6 +12,7 @@ public class ScreenBit {
 
     public ScreenBit(String name) {
         this.name = name;
+        this.screenInfo = "void";
         this.assignedUsers = new ArrayList<>();
     }
 

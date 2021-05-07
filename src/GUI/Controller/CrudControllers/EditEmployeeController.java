@@ -1,5 +1,6 @@
 package GUI.Controller.CrudControllers;
 
+import BE.ScreenBit;
 import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
@@ -44,8 +45,11 @@ public class EditEmployeeController implements Initializable {
                 && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
                 && !chsScreen.getSelectionModel().isEmpty()) {
 
+            ScreenBit screen = ScreenModel.getInstance().getScreenBitByName(chsScreen.getSelectionModel().getSelectedItem().toString());
+
             User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
                     , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
+            newUser.setAssignedScreen(screen);
 
             userModel.updateUser(ogUser, newUser);
 

@@ -70,6 +70,7 @@ public class PickerDashboardController {
                 screenBit.setScreenInfo(pickerStageController.getParentBuilderString());
                 ScreenModel screenModel = ScreenModel.getInstance();
                 screenModel.updateScreen(screenBit, oldScreenBit);
+                //System.out.println(oldScreenBit.getName() + " " + oldScreenBit.getScreenInfo());
                 Stage stage = (Stage) borderPane.getScene().getWindow();
                 stage.close();
             }
