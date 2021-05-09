@@ -6,11 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 
-import java.util.List;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import GUI.Controller.AdminControllers.PickerStageController;
@@ -66,29 +63,7 @@ public class StageBuilder {
             builderString = builderString.substring(1, builderString.length() - 1);
             //if the builderString is now empty we are done
             if (!builderString.isEmpty()) {
-                //otherwise we send the leftover builderString to the newly made PickerStageControllers from the PickerStageController.split method
-                String[] builderStrings = {builderString.substring(0, findEndBracket(builderString, '{', '}') + 1), builderString.substring(findEndBracket(builderString, '{', '}') + 1)};
-                if (!builderString.contains("{") && builderString.split("\\|").length == 2) {
-                    builderStrings = builderString.split("\\|");
-                }
-                for (PickerStageController pickerStageController1 : pickerStageController.getControllers()) {
-                    //Checks that the string is split by "|"
-                    //This splits the sting up properly given the left and right bracket. it uses findEndBracket
-                    // method to find the point that the current builderString ends and then splits it
-                    //up between the two PickerStageController
-                    int index = pickerStageController.getControllers().indexOf(pickerStageController1);
-                    //Making sure that if teh string starts with a splitter if just cuts it off, again
-                    if (builderStrings.length >= 2 && builderStrings[index].startsWith("|")) {
-                        pickerStageController1.flipSplitPane();
-                        builderStrings[index] = builderStrings[index].substring(1);
-                    }
-                    //Sends the split builderString to the the PickerStageControllers
-                    if (builderStrings[index].length() > 5 && Pattern.matches(pickerPattern, builderStrings[index].substring(0, 5))) {
-                        makeStage(pickerStageController1, builderStrings[index]);
-                    } else if (!builderStrings[index].isEmpty()) {
-                        makeView(pickerStageController1, builderStrings[index]);
-                    }
-                }
+                splitToSeparateControllers(pickerStageController, builderString, pickerPattern);
 
             }
         }
@@ -96,6 +71,32 @@ public class StageBuilder {
             makeView(pickerStageController,builderString);
         }
         return node;
+    }
+
+    private void splitToSeparateControllers(PickerStageController pickerStageController, String builderString, String pickerPattern) {
+        //otherwise we send the leftover builderString to the newly made PickerStageControllers from the PickerStageController.split method
+        String[] builderStrings = {builderString.substring(0, findEndBracket(builderString, '{', '}') + 1), builderString.substring(findEndBracket(builderString, '{', '}') + 1)};
+        if (!builderString.contains("{") && builderString.split("\\|").length == 2) {
+            builderStrings = builderString.split("\\|");
+        }
+        for (PickerStageController pickerStageController1 : pickerStageController.getControllers()) {
+            //Checks that the string is split by "|"
+            //This splits the sting up properly given the left and right bracket. it uses findEndBracket
+            // method to find the point that the current builderString ends and then splits it
+            //up between the two PickerStageController
+            int index = pickerStageController.getControllers().indexOf(pickerStageController1);
+            //Making sure that if teh string starts with a splitter if just cuts it off, again
+            if (builderStrings.length >= 2 && builderStrings[index].startsWith("|")) {
+                pickerStageController1.flipSplitPane();
+                builderStrings[index] = builderStrings[index].substring(1);
+            }
+            //Sends the split builderString to the the PickerStageControllers
+            if (builderStrings[index].length() > 5 && Pattern.matches(pickerPattern, builderStrings[index].substring(0, 5))) {
+                makeStage(pickerStageController1, builderStrings[index]);
+            } else if (!builderStrings[index].isEmpty()) {
+                makeView(pickerStageController1, builderStrings[index]);
+            }
+        }
     }
 
     /**
