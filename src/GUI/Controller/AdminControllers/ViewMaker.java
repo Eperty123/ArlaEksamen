@@ -46,7 +46,7 @@ public class ViewMaker {
      * @param file the file you want to generate data from
      * @return A Node with the given BarChart
      */
-    public static Node getBarChart(BorderPane pane, File file) {
+    private static Node getBarChart(BorderPane pane, File file) {
         BarChart<String, Number> bc = DataGenerator.getBarChart(file.getAbsolutePath());
 
         //Makes it follow the panes width
@@ -71,7 +71,7 @@ public class ViewMaker {
      * @param file the file you want to generate data from
      * @return A Node with the given PieChart
      */
-    public static Node getPieChart(BorderPane pane, File file) {
+    private static Node getPieChart(BorderPane pane, File file) {
         PieChart pieChart = DataGenerator.getPieChartData(file.getAbsolutePath());
 
         //Makes it follow the panes width
@@ -97,7 +97,7 @@ public class ViewMaker {
      * @param file The url or file to load into the WebView.
      * @return Returns the WebView.
      */
-    public static Node getHTTP(BorderPane pane, File file) {
+    private static Node getHTTP(BorderPane pane, File file) {
         WebView webView = new WebView();
         webView.getEngine().load(file.toURI().toString());
 
@@ -116,14 +116,13 @@ public class ViewMaker {
 
         return webView;
     }
-
     /**
      * Adds a Image to the view
      * @param pane The PickerStage's BorderPane
      * @param file the file of the image
      * @return A Node with the given Image
      */
-    public static Node getImage(BorderPane pane, File file) {
+    private static Node getImage(BorderPane pane, File file) {
         ImageView imageView = new ImageView(String.format("file:/%s", file.getAbsolutePath()));
         imageView.setPreserveRatio(true);
 
