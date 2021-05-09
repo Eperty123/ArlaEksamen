@@ -60,18 +60,19 @@ public class PickerStageController implements Initializable {
         flipItem.onActionProperty().set((b) -> flipSplitPane());
     }
 
-    private void lockPanes(PickerStageController pickerStageController){
-        if(!pickerStageController.getControllers().isEmpty()){
-        pickerStageController.getSplitPane().setDisable(true);
-        }else{
-        pickerStageController.getControllers().forEach(p->{lockPanes(p);
-        p.getSplitPane().setDisable(true);
-        });
+    private void lockPanes(PickerStageController pickerStageController) {
+        if (!pickerStageController.getControllers().isEmpty()) {
+            pickerStageController.getSplitPane().setDisable(true);
+        } else {
+            pickerStageController.getControllers().forEach(p -> {
+                lockPanes(p);
+                p.getSplitPane().setDisable(true);
+            });
         }
     }
 
-    public void lockPanes(){
-    lockPanes(parentPickerStageController);
+    public void lockPanes() {
+        lockPanes(parentPickerStageController);
     }
 
     public PickerStageController getParentPickerStageController() {
@@ -246,15 +247,13 @@ public class PickerStageController implements Initializable {
             if (!splitPane.getDividers().isEmpty()) {
                 stringBuilder.append(String.format("%s%.02f%n", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
                 stringBuilder.append("{");
-                if (!controllersOfInterest.isEmpty()) {
-                    if (!this.getSplitPane().getOrientation().equals(Orientation.HORIZONTAL)) {
-                        controllersOfInterest.sort(Comparator.comparingDouble(con -> con.getRoot().getLayoutX()));
-                    } else
-                        controllersOfInterest.sort(Comparator.comparingDouble(con -> con.getRoot().getLayoutY()));
-                    controllersOfInterest.forEach(c -> {
-                        stringBuilder.append(c.getBuilderString()).append(controllersOfInterest.indexOf(c) < controllersOfInterest.size() - 1 ? "|" : "");
-                    });
-                }
+                if (!this.getSplitPane().getOrientation().equals(Orientation.HORIZONTAL)) {
+                    controllersOfInterest.sort(Comparator.comparingDouble(con -> con.getRoot().getLayoutX()));
+                } else
+                    controllersOfInterest.sort(Comparator.comparingDouble(con -> con.getRoot().getLayoutY()));
+                controllersOfInterest.forEach(c -> {
+                    stringBuilder.append(c.getBuilderString()).append(controllersOfInterest.indexOf(c) < controllersOfInterest.size() - 1 ? "|" : "");
+                });
                 stringBuilder.append("}");
             }
             return stringBuilder.toString().replaceAll(",", ".");
