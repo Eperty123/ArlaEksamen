@@ -41,7 +41,6 @@ public class AdminDashboardController implements Initializable {
         for (ScreenBit s : ScreenModel.getInstance().getAllScreens()){
             System.out.println(s.getName() + " " + s.getAssignedUsers());
         }
-        System.out.println();
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
@@ -99,6 +98,7 @@ public class AdminDashboardController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
 
+                LoginManager.setCurrentUser(null);
                 root1.close();
             }
         }

@@ -157,7 +157,6 @@ public class AdminScreenManagementController implements Initializable {
     }
 
     public void handleEditScreen(ScreenBit screenBit) throws IOException {
-        //TODO lav fxml til edit screen.
         Stage editScreenStage = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/EditScreen.fxml"));
