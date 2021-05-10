@@ -65,8 +65,8 @@ public class UserModel {
     public void deleteUser(User user){
         ScreenModel.getInstance().removeScreenRights(user, user.getAssignedScreen());
 
-        allUsers.remove(user);
         userManager.deleteUser(user.getId());
+        allUsers.remove(user);
         updateUsers();
     }
 

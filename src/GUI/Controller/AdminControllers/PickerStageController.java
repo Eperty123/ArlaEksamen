@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,8 +29,10 @@ public class PickerStageController implements Initializable {
     private SplitPane splitPane = new SplitPane();
     private List<PickerStageController> controllers = new ArrayList<>();
     private ContextMenu contextMenu = new ContextMenu();
-    private MenuItem unsplitItem = new MenuItem("unsplit this");
-    private MenuItem flipItem = new MenuItem("flip this");
+    private MenuItem unsplitItem = new MenuItem("Unsplit");
+    private MenuItem flipItem = new MenuItem("Flip");
+    private MenuItem resetItem = new MenuItem("Reset");
+    private MenuItem changeContent = new MenuItem("Change content");
     private PickerStageController parentPickerStageController;
 
     public PickerStageController() {
@@ -46,32 +48,38 @@ public class PickerStageController implements Initializable {
      * adds onAction on menuItems
      */
     private void init() {
-        contextMenu.getItems().add(unsplitItem);
-        contextMenu.getItems().add(flipItem);
-        splitPane.setOnMouseClicked((MouseEvent mouseEvent) -> {
-            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                if (contextMenu.isShowing())
-                    contextMenu.hide();
-                contextMenu.show(splitPane, mouseEvent.getScreenX(), mouseEvent.getScreenY());
-            } else
-                contextMenu.hide();
-        });
+        initContextMenu(root, contextMenu);
+        contextMenu.getItems().addAll(Arrays.asList(changeContent, unsplitItem, flipItem, new SeparatorMenuItem(), resetItem));
         unsplitItem.onActionProperty().set((v) -> unSplit());
         flipItem.onActionProperty().set((b) -> flipSplitPane());
+        resetItem.onActionProperty().set((x) -> unSplit());
+        changeContent.setOnAction((v) -> changeContent());
     }
 
-    private void lockPanes(PickerStageController pickerStageController){
-        if(!pickerStageController.getControllers().isEmpty()){
-        pickerStageController.getSplitPane().setDisable(true);
-        }else{
-        pickerStageController.getControllers().forEach(p->{lockPanes(p);
-        p.getSplitPane().setDisable(true);
+    private void initContextMenu(Node node, ContextMenu contextMenu2) {
+        node.setOnMouseClicked((MouseEvent mouseEvent) -> {
+            if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                if (contextMenu2.isShowing())
+                    contextMenu2.hide();
+                contextMenu2.show(node, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+            } else
+                contextMenu2.hide();
         });
+    }
+
+    private void lockPanes(PickerStageController pickerStageController) {
+        if (!pickerStageController.getControllers().isEmpty()) {
+            pickerStageController.getSplitPane().setDisable(true);
+        } else {
+            pickerStageController.getControllers().forEach(p -> {
+                lockPanes(p);
+                p.getSplitPane().setDisable(true);
+            });
         }
     }
 
-    public void lockPanes(){
-    lockPanes(parentPickerStageController);
+    public void lockPanes() {
+        lockPanes(parentPickerStageController);
     }
 
     public PickerStageController getParentPickerStageController() {
@@ -152,6 +160,23 @@ public class PickerStageController implements Initializable {
         }
     }
 
+    private void changeContent() {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/DataManagement.fxml"));
+            AnchorPane pane = loader.load();
+            stage.setTitle("Add content");
+            DataManagementController dataManagementController = loader.getController();
+            dataManagementController.setPickerStageController(this);
+            dataManagementController.setStage(stage);
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Gets the content of the PickerStageController
      *
@@ -168,7 +193,7 @@ public class PickerStageController implements Initializable {
      * @param accessibleText the builderString for the given node (ViewType="URL")
      */
     public void setContent(Node node, String accessibleText) {
-        getRoot().setCenter(node);
+        setContent(node);
         getContent().setAccessibleText(accessibleText);
     }
 
@@ -227,6 +252,9 @@ public class PickerStageController implements Initializable {
             Node node = splitPane.getItems().get(0);
             splitPane.getItems().remove(node);
             splitPane.getItems().add(node);
+            PickerStageController p = controllers.get(0);
+            controllers.remove(p);
+            controllers.add(p);
         }
     }
 
@@ -244,17 +272,11 @@ public class PickerStageController implements Initializable {
         else {
             StringBuilder stringBuilder = new StringBuilder("");
             if (!splitPane.getDividers().isEmpty()) {
-                stringBuilder.append(String.format("%s%.02f%n", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
+                stringBuilder.append(String.format("%n%s%.02f", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
                 stringBuilder.append("{");
-                if (!controllersOfInterest.isEmpty()) {
-                    if (!this.getSplitPane().getOrientation().equals(Orientation.HORIZONTAL)) {
-                        controllersOfInterest.sort(Comparator.comparingDouble(con -> con.getRoot().getLayoutX()));
-                    } else
-                        controllersOfInterest.sort(Comparator.comparingDouble(con -> con.getRoot().getLayoutY()));
-                    controllersOfInterest.forEach(c -> {
-                        stringBuilder.append(c.getBuilderString()).append(controllersOfInterest.indexOf(c) < controllersOfInterest.size() - 1 ? "|" : "");
-                    });
-                }
+                controllersOfInterest.forEach(c -> {
+                    stringBuilder.append(c.getBuilderString()).append(controllersOfInterest.indexOf(c) < controllersOfInterest.size() - 1 ? "|" : "");
+                });
                 stringBuilder.append("}");
             }
             return stringBuilder.toString().replaceAll(",", ".");

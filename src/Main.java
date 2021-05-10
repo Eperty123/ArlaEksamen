@@ -1,3 +1,4 @@
+import GUI.Controller.LoginController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +15,17 @@ public class Main extends Application {
 
     private double xOffset = 0;
     private double yOffset = 0;
+    private boolean maximize = false;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("GUI/View/Login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/View/Login.fxml"));
+        Parent root = loader.load();
+        LoginController controller = loader.getController();
+        controller.getMaximize().setOnMouseClicked((v)->{
+            maximize=!maximize;
+            primaryStage.setMaximized(maximize);
+        });
         primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.initStyle(StageStyle.UNDECORATED);

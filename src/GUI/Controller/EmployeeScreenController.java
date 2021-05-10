@@ -95,7 +95,7 @@ public class EmployeeScreenController implements Initializable {
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(scene);
                 stage.show();
-
+                LoginManager.setCurrentUser(null);
                 root1.close();
             }
         }

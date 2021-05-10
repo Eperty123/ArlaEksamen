@@ -16,22 +16,23 @@ public class ViewMaker {
 
     /**
      * Switches between the different ViewTypes to call the right method
+     *
      * @param pickerStageController the controller
-     * @param viewType The ViewType you want
-     * @param file the file with our markdown
+     * @param viewType              The ViewType you want
+     * @param file                  the file with our markdown
      */
-    public static void callProperMethod(PickerStageController pickerStageController, String viewType, File file) {
+    public static void callProperMethod(PickerStageController pickerStageController, ViewType viewType, File file) {
         switch (viewType) {
-            case "HTTP" -> {
+            case HTTP, PDF -> {
                 pickerStageController.setContent(ViewMaker.getHTTP(pickerStageController.getRoot(), file));
             }
-            case "BarChart" -> {
+            case BarChart -> {
                 pickerStageController.setContent(ViewMaker.getBarChart(pickerStageController.getRoot(), file));
             }
-            case "PieChart" -> {
+            case PieChart -> {
                 pickerStageController.setContent(ViewMaker.getPieChart(pickerStageController.getRoot(), file));
             }
-            case "Image" -> {
+            case Image -> {
                 pickerStageController.setContent(ViewMaker.getImage(pickerStageController.getRoot(), file));
             }
             default -> {
@@ -42,11 +43,12 @@ public class ViewMaker {
 
     /**
      * Takes the BarChart from the DataGenerator to make a Barchart
+     *
      * @param pane the BorderPane of the PickerStageController
      * @param file the file you want to generate data from
      * @return A Node with the given BarChart
      */
-    public static Node getBarChart(BorderPane pane, File file) {
+    private static Node getBarChart(BorderPane pane, File file) {
         BarChart<String, Number> bc = DataGenerator.getBarChart(file.getAbsolutePath());
 
         //Makes it follow the panes width
@@ -67,11 +69,12 @@ public class ViewMaker {
 
     /**
      * Takes the PieChart from the DataGenerator to make a Barchart
+     *
      * @param pane the BorderPane of the PickerStageController
      * @param file the file you want to generate data from
      * @return A Node with the given PieChart
      */
-    public static Node getPieChart(BorderPane pane, File file) {
+    private static Node getPieChart(BorderPane pane, File file) {
         PieChart pieChart = DataGenerator.getPieChartData(file.getAbsolutePath());
 
         //Makes it follow the panes width
@@ -93,11 +96,12 @@ public class ViewMaker {
 
     /**
      * Add a WebView that loads a file or url.
+     *
      * @param pane The BorderPane responsible for this WebView.
      * @param file The url or file to load into the WebView.
      * @return Returns the WebView.
      */
-    public static Node getHTTP(BorderPane pane, File file) {
+    private static Node getHTTP(BorderPane pane, File file) {
         WebView webView = new WebView();
         webView.getEngine().load(file.toURI().toString());
 
@@ -114,16 +118,18 @@ public class ViewMaker {
         webView.setPrefWidth(pane.getWidth());
         webView.setPrefHeight(pane.getHeight());
 
+        webView.setAccessibleText(ViewType.HTTP.name() + String.format("=\"%s\"", file.getAbsolutePath()));
         return webView;
     }
 
     /**
      * Adds a Image to the view
+     *
      * @param pane The PickerStage's BorderPane
      * @param file the file of the image
      * @return A Node with the given Image
      */
-    public static Node getImage(BorderPane pane, File file) {
+    private static Node getImage(BorderPane pane, File file) {
         ImageView imageView = new ImageView(String.format("file:/%s", file.getAbsolutePath()));
         imageView.setPreserveRatio(true);
 

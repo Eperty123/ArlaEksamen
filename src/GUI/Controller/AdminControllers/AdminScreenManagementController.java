@@ -3,6 +3,7 @@ package GUI.Controller.AdminControllers;
 import BE.ScreenBit;
 import GUI.Controller.PopupControllers.ConfirmationController;
 import GUI.Model.ScreenModel;
+import GUI.Model.UserModel;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.fxml.FXML;
@@ -157,7 +158,6 @@ public class AdminScreenManagementController implements Initializable {
     }
 
     public void handleEditScreen(ScreenBit screenBit) throws IOException {
-        //TODO lav fxml til edit screen.
         Stage editScreenStage = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/EditScreen.fxml"));
@@ -165,6 +165,7 @@ public class AdminScreenManagementController implements Initializable {
         Parent root = (Parent) loader.load();
         EditScreenController editScreenController = loader.getController();
         editScreenController.setScreen(screenBit);
+        editScreenController.setData(UserModel.getInstance().getAllUsers());
 
         Scene editScreenScene = new Scene(root);
 
