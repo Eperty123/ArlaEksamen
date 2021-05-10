@@ -3,6 +3,7 @@ package GUI.Controller.AdminControllers;
 import BE.ScreenBit;
 import BE.Searcher;
 import BE.User;
+import BE.UserType;
 import GUI.Model.ScreenModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -40,7 +41,8 @@ public class EditScreenController implements Initializable {
 
     public void setData(List<User> users){
         this.users = users;
-        users.removeIf(user -> user.getAssignedScreen() != null);
+
+        users.removeIf(user -> user.getUserRole() != UserType.User);
 
         lstUsers.getItems().addAll(users);
     }

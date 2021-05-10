@@ -83,7 +83,6 @@ public class AddEmployeeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         chsRole.getItems().addAll(UserType.values());
         chsRole.getSelectionModel().selectFirst();
     }

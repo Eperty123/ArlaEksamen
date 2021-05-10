@@ -19,7 +19,7 @@ public class LoginManager {
         allUsers = UserModel.getInstance().getAllUsers();
 
         for (User u : allUsers) {
-            if (username.equals(u.getUserName()) && passwordManager.encrypt(password) == (u.getPassword())) {
+            if (username.equalsIgnoreCase(u.getUserName()) && passwordManager.encrypt(password) == (u.getPassword())) {
                 currentUser = u;
                 return true;
             }
