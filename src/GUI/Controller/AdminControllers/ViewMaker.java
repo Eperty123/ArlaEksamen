@@ -1,7 +1,6 @@
 package GUI.Controller.AdminControllers;
 
 import BLL.DataGenerator;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.image.ImageView;
@@ -9,8 +8,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebView;
 
 import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ViewMaker {
 
@@ -75,7 +72,7 @@ public class ViewMaker {
      * @return A Node with the given PieChart
      */
     private static Node getPieChart(BorderPane pane, File file) {
-        PieChart pieChart = DataGenerator.getPieChartData(file.getAbsolutePath());
+        PieChart pieChart = DataGenerator.getPieChart(file.getAbsolutePath());
 
         //Makes it follow the panes width
         pane.widthProperty().addListener((observableValue, bounds, t1) -> {

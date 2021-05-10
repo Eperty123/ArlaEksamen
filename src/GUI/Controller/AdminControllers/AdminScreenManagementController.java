@@ -1,7 +1,6 @@
 package GUI.Controller.AdminControllers;
 
 import BE.ScreenBit;
-import GUI.Controller.PopupControllers.ConfirmationController;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
@@ -49,7 +48,7 @@ public class AdminScreenManagementController implements Initializable {
      * Load all the available screens.
      */
     private void loadAllScreens() {
-        for (ScreenBit s : screenModel.getAllScreens()) {
+        for (ScreenBit s : screenModel.getAllScreenBits()) {
             handleNewScreen(s);
         }
     }
@@ -151,7 +150,7 @@ public class AdminScreenManagementController implements Initializable {
         if (result.isPresent()) {
 
             // Add the new screen to database.
-            screenModel.addScreen(new ScreenBit(result.get(), ""));
+            screenModel.addScreenBit(new ScreenBit(result.get(), ""));
 
             handleNewScreen(new ScreenBit(result.get()));
         }

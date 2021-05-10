@@ -77,9 +77,6 @@ public class User {
         this.assignedScreenBits = null;
     }
 
-    public User(String userName) {
-        this.userName = userName;
-    }
 
     public int getId() {
         return id;

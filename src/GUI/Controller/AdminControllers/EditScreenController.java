@@ -58,10 +58,11 @@ public class EditScreenController implements Initializable {
         stage.close();
     }
 
+    // TODO update to handle List
     public void handleSave(ActionEvent actionEvent) {
         for (User u : lstScreenUsers.getItems()){
             u.addScreenAssignment(screenBit);
-            ScreenModel.getInstance().assignScreenRights(u, screenBit);
+            ScreenModel.getInstance().assignScreenBitRights(u, screenBit);
         }
 
         screenBit.setAssignedUsers(lstScreenUsers.getItems());
