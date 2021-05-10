@@ -114,9 +114,9 @@ public class PickerStageController implements Initializable {
             splitPane.setOrientation(orientation);
             for (int i = 0; i < 2; i++) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/PickerStage.fxml"));
-                splitPane.getItems().add(0,loader.load());
+                splitPane.getItems().add(loader.load());
                 PickerStageController p = loader.getController();
-                controllers.add(0,p);
+                controllers.add(p);
             }
             this.setContent(splitPane);
         } catch (IOException e) {
@@ -227,9 +227,9 @@ public class PickerStageController implements Initializable {
             Node node = splitPane.getItems().get(0);
             splitPane.getItems().remove(node);
             splitPane.getItems().add(node);
-            PickerStageController p = controllers.get(1);
+            PickerStageController p = controllers.get(0);
             controllers.remove(p);
-            controllers.add(0,p);
+            controllers.add(p);
         }
     }
 
@@ -247,10 +247,10 @@ public class PickerStageController implements Initializable {
         else {
             StringBuilder stringBuilder = new StringBuilder("");
             if (!splitPane.getDividers().isEmpty()) {
-                stringBuilder.append(String.format("%s%.02f%n", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
+                stringBuilder.append(String.format("%n%s%.02f", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
                 stringBuilder.append("{");
                 controllersOfInterest.forEach(c -> {
-                    stringBuilder.append(c.getBuilderString()).append(controllersOfInterest.indexOf(c) < controllersOfInterest.size() - 1 ? "|" : "");
+                    stringBuilder.append(c.getBuilderString()).append(controllersOfInterest.indexOf(c) < controllersOfInterest.size() -1? "|" : "");
                 });
                 stringBuilder.append("}");
             }

@@ -51,11 +51,12 @@ public class StageBuilder {
      */
     private Node makeStage(PickerStageController pickerStageController, String builderString) {
         //Ensures the builderString follows the pattern below which is the first letter of the orientation, and a double less than one with two decimal points
-        if (builderString.startsWith("|")) {
-            pickerStageController.flipSplitPane();
-            builderString=builderString.substring(1);
-        }
         pickerStageController.setParentPickerStageController(rootController);
+        if (builderString.startsWith("|")) {
+            builderString = builderString.substring(1);
+
+            pickerStageController.flipSplitPane();
+        }
         String pickerPattern = "^[HV][01]\\.\\d\\d";
         if (builderString.length() >= 5 && Pattern.matches(pickerPattern, builderString.substring(0, 5))) {
             //At this stage we pull the orientation and Devider position from the builderString, split the stage and cut these parts off the builderString
@@ -81,6 +82,7 @@ public class StageBuilder {
         if (!builderString.contains("{") && builderString.split("\\|").length == 2) {
             builderStrings = builderString.split("\\|");
         }
+
         for (PickerStageController pickerStageController1 : pickerStageController.getControllers()) {
             //Checks that the string is split by "|"
             //This splits the sting up properly given the left and right bracket. it uses findEndBracket
@@ -90,13 +92,16 @@ public class StageBuilder {
             //Making sure that if teh string starts with a splitter if just cuts it off, again
             makeStage(pickerStageController1, builderStrings[index]);
         }
+        if(builderStrings[1].equals("")){
+            pickerStageController.flipSplitPane();
+        }
     }
 
     /**
      * Separates the currentString to a path, and a viewType, and calls the ViewMaker which will change the content of the PickerStageController
      */
     private void makeView(PickerStageController pickerStageController, String currentString) {
-        if(!currentString.isEmpty() && currentString.contains("=\"")) {
+        if (!currentString.isEmpty() && currentString.contains("=\"")) {
             String path = currentString.split("=\"")[1].substring(0, currentString.split("=\"")[1].indexOf("\""));
             File file = new File(path);
             String viewType = currentString.split("=\"")[0];
