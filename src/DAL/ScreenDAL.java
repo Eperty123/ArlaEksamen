@@ -100,8 +100,8 @@ public class ScreenDAL {
             PreparedStatement pSql = con.prepareStatement("" +
                     "SELECT " +
                     "Screen.Id AS ScreenId," +
-                    "Screen.ScreenName," +
                     "Screen.ScreenInfo," +
+                    "Screen.ScreenName," +
                     "[User].Id AS UserId," +
                     "[User].FirstName," +
                     "[User].LastName," +
@@ -110,10 +110,10 @@ public class ScreenDAL {
                     "[User].Password," +
                     "[User].UserRole " +
                     "FROM Screen " +
-                    "JOIN ScreenRights " +
-                    "ON UserName = ScreenRights.UserName " +
-                    "LEFT JOIN [User]" +
-                    "ON Screen.Id = ScreenRights.ScreenId;");
+                    "LEFT OUTER JOIN ScreenRights" +
+                    "    ON Screen.Id = ScreenRights.ScreenId " +
+                    "LEFT OUTER JOIN [User]" +
+                    "    ON  ScreenId = ScreenRights.ScreenId AND [User].[UserName] = ScreenRights.UserName;");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
