@@ -111,9 +111,9 @@ public class ScreenDAL {
                     "[User].UserRole " +
                     "FROM Screen " +
                     "JOIN ScreenRights " +
-                    "ON Screen.Id = ScreenRights.ScreenId " +
-                    "JOIN [User]" +
-                    "ON [User].UserName = ScreenRights.UserName;");
+                    "ON UserName = ScreenRights.UserName " +
+                    "LEFT JOIN [User]" +
+                    "ON Screen.Id = ScreenRights.ScreenId;");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
@@ -181,12 +181,12 @@ public class ScreenDAL {
     private void addScreenBitAndUser(List<ScreenBit> allScreens, ScreenBit newScreenBit, User assignedUser) {
         // If ScreenBit does not exist, it is added to the return list.
         if(allScreens.stream().noneMatch(o -> o.getId() == newScreenBit.getId())){
-            newScreenBit.addUser(assignedUser);
+            if(assignedUser.getUserName() == null) newScreenBit.addUser(assignedUser);
             allScreens.add(newScreenBit);
         } else {
             // If ScreenBit does exist assignedUser is added to the ScreenBit
             for(ScreenBit s : allScreens){
-                if(s.getId() == newScreenBit.getId()){
+                if(s.getId() == newScreenBit.getId() && assignedUser.getUserName() != null){
                     s.addUser(assignedUser);
                 }
             }
