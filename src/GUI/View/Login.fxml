@@ -8,36 +8,76 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.BorderPane?>
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.LoginController">
-   <children>
-      <JFXTextField fx:id="txtUsername" focusColor="#94bdd3" layoutX="290.0" layoutY="249.0" onKeyPressed="#loginWithEnter" prefHeight="25.0" prefWidth="220.0" promptText="Username" unFocusColor="#9f9f9f" />
-      <JFXPasswordField fx:id="txtPassword" focusColor="#94bdd3" layoutX="290.0" layoutY="292.0" onKeyPressed="#loginWithEnter" prefHeight="25.0" prefWidth="220.0" promptText="Password" unFocusColor="#9f9f9f" />
-      <JFXButton fx:id="btnLogin" layoutX="350.0" layoutY="384.0" onAction="#login" prefHeight="25.0" prefWidth="100.0" ripplerFill="TRANSPARENT" styleClass="loginButtons" text="Login" textAlignment="CENTER" textFill="#d69145">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></JFXButton>
-      <JFXButton layoutX="350.0" layoutY="424.0" onAction="#exit" prefHeight="25.0" prefWidth="100.0" styleClass="loginButtons" text="Cancel" textAlignment="CENTER" textFill="#d69145" />
-      <ImageView fitHeight="127.0" fitWidth="181.0" layoutX="309.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Resources/ArlaLogo.png" />
-         </image>
-      </ImageView>
-      <Label layoutX="369.0" layoutY="5.0" text="Arla - Login" textAlignment="CENTER" textFill="#60646d">
-         <font>
-            <Font name="System Italic" size="12.0" />
-         </font>
-      </Label>
-      <Pane fx:id="bar" prefHeight="25.0" prefWidth="800.0" styleClass="bar">
+
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.LoginController"  styleClass="background" stylesheets="@../Resources/Styles.css">
+   <center>
+      <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
          <children>
-            <FontAwesomeIconView glyphName="CIRCLE" layoutX="767.0" layoutY="17.0" onMouseClicked="#exit" styleClass="close" />
-            <FontAwesomeIconView glyphName="CIRCLE" layoutX="747.0" layoutY="17.0" onMouseClicked="#maximize" styleClass="maximize" fx:id="maximize" />
-            <FontAwesomeIconView glyphName="CIRCLE" layoutX="727.0" layoutY="17.0" onMouseClicked="#minimize" styleClass="minimize" />
+            <JFXTextField fx:id="txtUsername" focusColor="#94bdd3" layoutX="290.0" layoutY="249.0" onKeyPressed="#loginWithEnter" prefHeight="25.0" prefWidth="220.0" promptText="Username" unFocusColor="#9f9f9f" />
+            <JFXPasswordField fx:id="txtPassword" focusColor="#94bdd3" layoutX="290.0" layoutY="292.0" onKeyPressed="#loginWithEnter" prefHeight="25.0" prefWidth="220.0" promptText="Password" unFocusColor="#9f9f9f" />
+            <JFXButton fx:id="btnLogin" layoutX="350.0" layoutY="384.0" onAction="#login" prefHeight="25.0" prefWidth="100.0" ripplerFill="TRANSPARENT" styleClass="loginButtons" text="Login" textAlignment="CENTER" textFill="#d69145">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXButton layoutX="350.0" layoutY="424.0" onAction="#exit" prefHeight="25.0" prefWidth="100.0" styleClass="loginButtons" text="Cancel" textAlignment="CENTER" textFill="#d69145" />
+            <ImageView fitHeight="127.0" fitWidth="181.0" layoutX="309.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Resources/ArlaLogo.png" />
+               </image>
+            </ImageView>
+            <BorderPane fx:id="lblPane" layoutY="466.0" prefWidth="800.0" />
          </children>
-      </Pane>
-      <BorderPane fx:id="lblPane" layoutY="466.0" prefWidth="800.0"/>
-   </children>
-</AnchorPane>
+      </AnchorPane>
+   </center>
+   <top>
+      <BorderPane BorderPane.alignment="CENTER" fx:id="topBar">
+         <top>
+            <BorderPane fx:id="bar" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" BorderPane.alignment="CENTER">
+               <right>
+                  <GridPane BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="10.0" prefWidth="25.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <BorderPane>
+                           <center>
+                              <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#minimize" styleClass="minimize" />
+                           </center>
+                        </BorderPane>
+                        <BorderPane GridPane.columnIndex="1">
+                           <center>
+                              <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#maximize" styleClass="maximize" />
+                           </center>
+                        </BorderPane>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <center>
+                              <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#exit" styleClass="close" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </GridPane>
+               </right>
+               <center>
+                  <Label text="Arla - Login" textAlignment="CENTER" textFill="#60646d" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+               </center>
+            </BorderPane>
+         </top>
+      </BorderPane>
+   </top>
+</BorderPane>

@@ -48,7 +48,7 @@ public class AdminManagementController implements Initializable {
         eID.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getId()));
         eFN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getFirstName()));
         eLN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getLastName()));
-        eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen() != null ? u.getValue().getAssignedScreen().getName() : "None"));
+        eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen().isEmpty() ? u.getValue().getAssignedScreen().get(0).getName() : "None"));
         //eD.setCellValueFactory(new PropertyValueFactory<>("description"));
         handleUserUpdate();
     }
@@ -72,7 +72,6 @@ public class AdminManagementController implements Initializable {
         AddEmployeeController addEmployeeController = loader.getController();
 
         Scene addEmployeeScene = new Scene(root);
-
         addEmployeeScene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

@@ -1,7 +1,9 @@
+import BE.SceneMover;
 import GUI.Controller.LoginController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -31,32 +33,9 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
 
-        Pane bar = (Pane) root.getChildrenUnmodifiable().get(root.getChildrenUnmodifiable().size()-2);
-
-        root.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            }
-        });
-
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                primaryStage.setX(event.getScreenX() - xOffset);
-                primaryStage.setY(event.getScreenY() - yOffset);
-                primaryStage.setOpacity(0.8f);
-            }
-        });
-
-        root.setOnMouseDragExited((event) -> {
-            primaryStage.setOpacity(1.0f);
-        });
-
-        root.setOnMouseReleased((event) -> {
-            primaryStage.setOpacity(1.0f);
-        });
+        Node bar = root.getChildrenUnmodifiable().get(root.getChildrenUnmodifiable().size()-2);
+        SceneMover sceneMover = new SceneMover();
+        sceneMover.move(primaryStage,bar);
     }
 
 
