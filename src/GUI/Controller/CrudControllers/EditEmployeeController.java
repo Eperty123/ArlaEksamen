@@ -32,7 +32,7 @@ public class EditEmployeeController implements Initializable {
     private JFXComboBox<Enum> chsRole;
 
 
-    private User ogUser;
+    private User oldUser;
     private UserModel userModel = UserModel.getInstance();
     private PasswordManager passwordManager = new PasswordManager();
 
@@ -43,8 +43,8 @@ public class EditEmployeeController implements Initializable {
 
             User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
                     , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
-
-            userModel.updateUser(ogUser, newUser);
+            System.out.println(chsRole.getSelectionModel().getSelectedItem().ordinal());
+            userModel.updateUser(oldUser, newUser);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
@@ -65,7 +65,7 @@ public class EditEmployeeController implements Initializable {
     }
 
     public void setData(User user) {
-        ogUser = user;
+        oldUser = user;
         txtFirstname.setText(user.getFirstName());
         txtLastname.setText(user.getLastName());
         txtUsername.setText(user.getUserName());

@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="339.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CrudControllers.AddEmployeeController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="339.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CrudControllers.AddEmployeeController">
    <children>
       <Pane layoutX="2.0" layoutY="2.0" prefHeight="500.0" prefWidth="335.0" styleClass="popupForground">
          <children>
@@ -24,14 +24,12 @@
             <Label layoutX="65.0" layoutY="206.0" text="Password" />
             <Label layoutX="67.0" layoutY="262.0" text="Email" />
             <Label layoutX="65.0" layoutY="314.0" text="User Role" />
-            <Label layoutX="65.0" layoutY="368.0" text="Screen" />
             <JFXTextField fx:id="txtFirstname" focusColor="#94bdd3" layoutX="67.0" layoutY="62.0" prefHeight="25.0" prefWidth="203.0" promptText="First-name" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtLastname" focusColor="#94bdd3" layoutX="67.0" layoutY="112.0" prefHeight="25.0" prefWidth="203.0" promptText="Last-name" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtUsername" focusColor="#94bdd3" layoutX="67.0" layoutY="172.0" prefHeight="25.0" prefWidth="203.0" promptText="Username" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtPassword" focusColor="#94bdd3" layoutX="67.0" layoutY="223.0" prefHeight="25.0" prefWidth="203.0" promptText="Password" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtEmail" focusColor="#94bdd3" layoutX="69.0" layoutY="279.0" prefHeight="25.0" prefWidth="203.0" promptText="Email" unFocusColor="#9f9f9f" />
             <JFXComboBox fx:id="chsRole" focusColor="#94bdd3" layoutX="67.0" layoutY="331.0" prefHeight="25.0" prefWidth="203.0" promptText="User Role" unFocusColor="#9f9f9f" />
-            <JFXComboBox fx:id="chsScreen" focusColor="#94bdd3" layoutX="67.0" layoutY="385.0" prefHeight="25.0" prefWidth="203.0" promptText="Screen" unFocusColor="#9f9f9f" />
             <JFXButton layoutX="57.0" layoutY="445.0" onAction="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" />
             <JFXButton layoutX="197.0" layoutY="445.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" />
          </children>

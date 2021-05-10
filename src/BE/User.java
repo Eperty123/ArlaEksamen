@@ -116,11 +116,18 @@ public class User {
     }
 
     public void setUserRole(int userRole) {
-        if(userRole == 0){
-            this.userRole = UserType.Admin;
-        } else{
-            this.userRole = UserType.User;
+        switch(userRole){
+            case 0:
+                this.userRole = UserType.Admin;
+                break;
+            case 1:
+                this.userRole = UserType.User;
+                break;
+            case 2:
+                this.userRole = UserType.Manager;
+                break;
         }
+
 
     }
 

@@ -67,7 +67,7 @@ public class EditScreenController implements Initializable {
             u.addScreenAssignment(screenBit);
             ScreenModel.getInstance().assignScreenBitRights(u, screenBit);
         }
-
+        // TODO this does not remove screen rights from users who have been removed, when saved
         screenBit.setAssignedUsers(lstScreenUsers.getItems());
 
         Stage stage = (Stage) borderPane.getScene().getWindow();
@@ -87,6 +87,7 @@ public class EditScreenController implements Initializable {
     }
 
     public void handleRemoveUser(MouseEvent mouseEvent) {
+        // TODO this does not remove screen rights, when saved
         User selectedUser = lstScreenUsers.getSelectionModel().getSelectedItem();
         lstScreenUsers.getItems().remove(selectedUser);
         lstUsers.getItems().add(selectedUser);

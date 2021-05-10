@@ -82,39 +82,44 @@ public class AdminManagementController implements Initializable {
     }
 
     public void handleEditEmployee(MouseEvent mouseEvent) throws IOException {
-        Stage editEmployee = new Stage();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/EditEmployee.fxml"));
-        editEmployee.setTitle("Edit Employee");
-        Parent root = (Parent) loader.load();
-        EditEmployeeController editEmployeeController = loader.getController();
+        if(tblEmployees.getSelectionModel().getSelectedItem() != null){
+            Stage editEmployee = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/EditEmployee.fxml"));
+            editEmployee.setTitle("Edit Employee");
+            Parent root = (Parent) loader.load();
+            EditEmployeeController editEmployeeController = loader.getController();
 
-        Scene editEmployeeScene = new Scene(root);
-        sceneMover.move(editEmployee, editEmployeeScene.getRoot());
+            Scene editEmployeeScene = new Scene(root);
+            sceneMover.move(editEmployee, editEmployeeScene.getRoot());
 
-        editEmployeeController.setData(tblEmployees.getSelectionModel().getSelectedItem());
-        editEmployee.initStyle(StageStyle.UNDECORATED);
-        editEmployee.setScene(editEmployeeScene);
-        editEmployee.show();
+            editEmployeeController.setData(tblEmployees.getSelectionModel().getSelectedItem());
+            editEmployee.initStyle(StageStyle.UNDECORATED);
+            editEmployee.setScene(editEmployeeScene);
+            editEmployee.show();
+        }
     }
 
 
     public void handleRemoveEmployee() throws IOException {
-        Stage removeEmployeeStage = new Stage();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/VIEW/CrudViews/RemoveEmployee.fxml"));
+        if(tblEmployees.getSelectionModel().getSelectedItem() != null){
 
-        Parent root = (Parent) loader.load();
-        RemoveEmployeeController removeEmployeeController = loader.getController();
-        removeEmployeeStage.setTitle("Remove Employee");
+            Stage removeEmployeeStage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUI/VIEW/CrudViews/RemoveEmployee.fxml"));
 
-        Scene removeEmployeeScene = new Scene(root);
-        sceneMover.move(removeEmployeeStage,removeEmployeeScene.getRoot());
+            Parent root = (Parent) loader.load();
+            RemoveEmployeeController removeEmployeeController = loader.getController();
+            removeEmployeeStage.setTitle("Remove Employee");
 
-        removeEmployeeController.setData(tblEmployees.getSelectionModel().getSelectedItem());
+            Scene removeEmployeeScene = new Scene(root);
+            sceneMover.move(removeEmployeeStage,removeEmployeeScene.getRoot());
 
-        removeEmployeeStage.initStyle(StageStyle.UNDECORATED);
-        removeEmployeeStage.setScene(removeEmployeeScene);
-        removeEmployeeStage.show();
+            removeEmployeeController.setData(tblEmployees.getSelectionModel().getSelectedItem());
+
+            removeEmployeeStage.initStyle(StageStyle.UNDECORATED);
+            removeEmployeeStage.setScene(removeEmployeeScene);
+            removeEmployeeStage.show();
+        }
     }
 }
