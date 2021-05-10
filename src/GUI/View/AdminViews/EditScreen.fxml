@@ -11,7 +11,7 @@
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.AdminControllers.EditScreenController">
    <top>
-      <Pane prefHeight="25.0" prefWidth="600.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
+      <Pane fx:id="bar" prefHeight="25.0" prefWidth="600.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="lblTitle" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="271.0" layoutY="4.0" text="Edit Screen" textAlignment="CENTER" />
          </children>

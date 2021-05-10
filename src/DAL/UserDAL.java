@@ -115,7 +115,7 @@ public class UserDAL {
         deleteUserScreenAssociation(user);
 
         try(Connection con = dbCon.getConnection()){
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM User WHERE Id=?");
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM [User] WHERE Id=?");
             pSql.setInt(1, user.getId());
             pSql.execute();
 

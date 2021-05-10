@@ -1,6 +1,7 @@
 package BE;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -63,7 +64,7 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
-        this.assignedScreenBits = null;
+        this.assignedScreenBits = new ArrayList<ScreenBit>();
 
     }
 
@@ -74,12 +75,9 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
-        this.assignedScreenBits = null;
+        this.assignedScreenBits = new ArrayList<ScreenBit>();
     }
 
-    public User(String userName) {
-        this.userName = userName;
-    }
 
     public int getId() {
         return id;
@@ -131,7 +129,7 @@ public class User {
     }
 
     public void addScreenAssignment(ScreenBit assignedScreenBit) {
-        this.assignedScreenBits.add(assignedScreenBit);
+        assignedScreenBits.add(assignedScreenBit);
     }
 
     public String getUserName() {

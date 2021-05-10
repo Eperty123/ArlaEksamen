@@ -1,5 +1,6 @@
 package GUI.Controller.AdminControllers;
 
+import BE.SceneMover;
 import BE.User;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
@@ -38,6 +39,7 @@ public class AdminManagementController implements Initializable {
     private TableColumn<User, String> eD;
 
     private UserModel userModel = new UserModel();
+    private SceneMover sceneMover = new SceneMover();
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -48,7 +50,7 @@ public class AdminManagementController implements Initializable {
         eID.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getId()));
         eFN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getFirstName()));
         eLN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getLastName()));
-        eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen() != null ? u.getValue().getAssignedScreen().getName() : "None"));
+        eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen().isEmpty() ? u.getValue().getAssignedScreen().get(0).getName() : "None"));
         //eD.setCellValueFactory(new PropertyValueFactory<>("description"));
         handleUserUpdate();
     }
@@ -72,32 +74,7 @@ public class AdminManagementController implements Initializable {
         AddEmployeeController addEmployeeController = loader.getController();
 
         Scene addEmployeeScene = new Scene(root);
-
-        addEmployeeScene.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            }
-        });
-
-        addEmployeeScene.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                addEmployee.setX(event.getScreenX() - xOffset);
-                addEmployee.setY(event.getScreenY() - yOffset);
-                addEmployee.setOpacity(0.8f);
-            }
-        });
-
-        addEmployeeScene.setOnMouseDragExited((event) -> {
-            addEmployee.setOpacity(1.0f);
-        });
-
-        addEmployeeScene.setOnMouseReleased((event) -> {
-            addEmployee.setOpacity(1.0f);
-        });
-
+        sceneMover.move(addEmployee,addEmployeeScene.getRoot());
 
         addEmployee.initStyle(StageStyle.UNDECORATED);
         addEmployee.setScene(addEmployeeScene);
@@ -113,31 +90,7 @@ public class AdminManagementController implements Initializable {
         EditEmployeeController editEmployeeController = loader.getController();
 
         Scene editEmployeeScene = new Scene(root);
-
-        editEmployeeScene.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            }
-        });
-
-        editEmployeeScene.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                editEmployee.setX(event.getScreenX() - xOffset);
-                editEmployee.setY(event.getScreenY() - yOffset);
-                editEmployee.setOpacity(0.8f);
-            }
-        });
-
-        editEmployeeScene.setOnMouseDragExited((event) -> {
-            editEmployee.setOpacity(1.0f);
-        });
-
-        editEmployeeScene.setOnMouseReleased((event) -> {
-            editEmployee.setOpacity(1.0f);
-        });
+        sceneMover.move(editEmployee, editEmployeeScene.getRoot());
 
         editEmployeeController.setData(tblEmployees.getSelectionModel().getSelectedItem());
         editEmployee.initStyle(StageStyle.UNDECORATED);
@@ -154,26 +107,9 @@ public class AdminManagementController implements Initializable {
         Parent root = (Parent) loader.load();
         RemoveEmployeeController removeEmployeeController = loader.getController();
         removeEmployeeStage.setTitle("Remove Employee");
+
         Scene removeEmployeeScene = new Scene(root);
-
-        removeEmployeeScene.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-
-        removeEmployeeScene.setOnMouseDragged(event -> {
-            removeEmployeeStage.setX(event.getScreenX() - xOffset);
-            removeEmployeeStage.setY(event.getScreenY() - yOffset);
-            removeEmployeeStage.setOpacity(0.8f);
-        });
-
-        removeEmployeeScene.setOnMouseDragExited((event) -> {
-            removeEmployeeStage.setOpacity(1.0f);
-        });
-
-        removeEmployeeScene.setOnMouseReleased((event) -> {
-            removeEmployeeStage.setOpacity(1.0f);
-        });
+        sceneMover.move(removeEmployeeStage,removeEmployeeScene.getRoot());
 
         removeEmployeeController.setData(tblEmployees.getSelectionModel().getSelectedItem());
 

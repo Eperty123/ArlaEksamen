@@ -34,9 +34,9 @@ public class EmployeeScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
 
-        if (currentUser.getAssignedScreen() != null) {
+        if (!currentUser.getAssignedScreen().isEmpty()) {
 
-            lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+            lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             try {
                 setScreen();
             } catch (Exception e) {
@@ -72,7 +72,7 @@ public class EmployeeScreenController implements Initializable {
 
     private void setScreen() throws Exception {
         StageBuilder stageBuilder = new StageBuilder();
-        Node screen = stageBuilder.makeStage(currentUser.getAssignedScreen().getScreenInfo());
+        Node screen = stageBuilder.makeStage(currentUser.getAssignedScreen().get(0).getScreenInfo());
         stageBuilder.getRootController().lockPanes();
         borderPane.setCenter(screen);
     }

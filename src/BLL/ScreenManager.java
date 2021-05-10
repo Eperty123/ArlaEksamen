@@ -4,35 +4,34 @@ import BE.ScreenBit;
 import BE.User;
 import DAL.ScreenDAL;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class ScreenManager {
 
     ScreenDAL screenDAL = new ScreenDAL();
 
-    public void addScreen(ScreenBit newScreenBit){
-        screenDAL.addScreen(newScreenBit);
+    public void addScreenBit(ScreenBit newScreenBit){
+        screenDAL.addScreenBit(newScreenBit);
     }
 
-    public void deleteScreen(ScreenBit screenBit){
-        screenDAL.deleteScreen(screenBit);
+    public void deleteScreenBit(ScreenBit screenBit){
+        screenDAL.deleteScreenBit(screenBit);
     }
 
-    public void updateScreen(ScreenBit newScreenBit, ScreenBit oldScreenBit){
-        screenDAL.updateScreen(newScreenBit, oldScreenBit);
+    public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit){
+        screenDAL.updateScreenBit(newScreenBit, oldScreenBit);
     }
 
-    public List<ScreenBit> getScreens(){
-        return screenDAL.getScreens();
+    public List<ScreenBit> getScreenBits(){
+        return screenDAL.getScreenBits();
     }
 
-    public void assignScreenRights(User user, ScreenBit screenBit){
-        screenDAL.assignScreenRights(user, screenBit);
+    public void assignScreenBitRights(User user, ScreenBit screenBit){
+        screenDAL.assignScreenBitRights(user, screenBit);
     }
 
-    public void removeScreenRights(User user, ScreenBit screenBit){
-        screenDAL.removeScreenRights(user, screenBit);
+    public void removeScreenBitRights(User user, ScreenBit screenBit){
+        screenDAL.removeScreenBitRights(user, screenBit);
     }
 
 }
