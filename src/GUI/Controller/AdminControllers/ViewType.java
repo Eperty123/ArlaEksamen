@@ -4,5 +4,6 @@ public enum ViewType {
     BarChart,
     PieChart,
     HTTP,
+    PDF,
     Image
 }

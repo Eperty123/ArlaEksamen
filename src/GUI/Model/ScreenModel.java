@@ -31,12 +31,12 @@ public class ScreenModel {
         return instance == null ? instance = new ScreenModel() : instance;
     }
 
-    public void addScreen(ScreenBit newScreenBit){
+    public void addScreen(ScreenBit newScreenBit) {
         screenManager.addScreen(newScreenBit);
         allScreenBits.add(newScreenBit);
     }
 
-    public void deleteScreen(ScreenBit screenBit){
+    public void deleteScreen(ScreenBit screenBit) {
         screenManager.deleteScreen(screenBit);
         allScreenBits.remove(screenBit);
     }
@@ -45,38 +45,44 @@ public class ScreenModel {
         return allScreenBits;
     }
 
-    public void updateScreen(ScreenBit newScreenBit, ScreenBit oldScreenBit){
+    public void updateScreen(ScreenBit newScreenBit, ScreenBit oldScreenBit) {
+
+        // Update the screen in the database.
         screenManager.updateScreen(newScreenBit, oldScreenBit);
-        allScreenBits.remove(oldScreenBit);
-        allScreenBits.add(newScreenBit);
+
+        // If for some reason the screen object is unable to get deleted from the list, let's not do anything,
+        // but instead let the current updated one stay until the entire list gets refreshed by a database call.
+        if (allScreenBits.remove(oldScreenBit)) {
+            allScreenBits.add(newScreenBit);
+            System.out.println(String.format("Successfully remove screen bit: %s.", oldScreenBit.getName()));
+        } else System.out.println(String.format("Failed to remove screen bit: %s. Fucked reference, maybe?", oldScreenBit.getName()));
     }
 
-    public void assignScreenRights(User user, ScreenBit screenBit){
+    public void assignScreenRights(User user, ScreenBit screenBit) {
         screenManager.assignScreenRights(user, screenBit);
-
     }
 
-    public void removeScreenRights(User user, ScreenBit screenBit){
+    public void removeScreenRights(User user, ScreenBit screenBit) {
         screenManager.removeScreenRights(user, screenBit);
     }
 
-    public void updateAllScreensAssignRights(User user, ScreenBit screenBit){
-        for(ScreenBit s : allScreenBits){
-            if(s.getId() == screenBit.getId()){
+    public void updateAllScreensAssignRights(User user, ScreenBit screenBit) {
+        for (ScreenBit s : allScreenBits) {
+            if (s.getId() == screenBit.getId()) {
                 s.addUser(user);
             }
         }
     }
 
-    public void updateAllScreensDeleteRights(User user, ScreenBit screenBit){
-        for(ScreenBit s : allScreenBits){
-            if(s.getId() == screenBit.getId()){
+    public void updateAllScreensDeleteRights(User user, ScreenBit screenBit) {
+        for (ScreenBit s : allScreenBits) {
+            if (s.getId() == screenBit.getId()) {
                 s.removeUser(user);
             }
         }
     }
 
-    public List<ScreenBit> loadScreensAndAssignedUser(){
+    public List<ScreenBit> loadScreensAndAssignedUser() {
         HashMap<ScreenBit, String> screenUserHashMap = screenManager.getScreens();
         List<ScreenBit> allScreenBits = new ArrayList<>();
 
@@ -98,12 +104,12 @@ public class ScreenModel {
         return null;
     }
 
-    public void addScreenToUser(ScreenBit screenBit, String userName){
+    public void addScreenToUser(ScreenBit screenBit, String userName) {
         UserModel.getInstance().assignScreenByUserName(screenBit, userName);
     }
 
-    public ScreenBit getScreenBitByName(String ScreenBitName){
-        for(ScreenBit s : allScreenBits){
+    public ScreenBit getScreenBitByName(String ScreenBitName) {
+        for (ScreenBit s : allScreenBits) {
             if (s.getName().equals(ScreenBitName)) return s;
         }
         return null;
