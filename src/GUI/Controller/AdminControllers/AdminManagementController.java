@@ -50,7 +50,7 @@ public class AdminManagementController implements Initializable {
         eID.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getId()));
         eFN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getFirstName()));
         eLN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getLastName()));
-        eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen().isEmpty() ? u.getValue().getAssignedScreen().get(0).getName() : "None"));
+        //eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen().isEmpty() ? u.getValue().getAssignedScreen().get(0).getName() : "None"));
         //eD.setCellValueFactory(new PropertyValueFactory<>("description"));
         handleUserUpdate();
     }
