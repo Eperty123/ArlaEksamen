@@ -1,0 +1,210 @@
+/* Filen er i øjeblikket knyttet til en HTML-fil af samme navn og henter indhold fra den. Du kan ikke flytte, slette, omdøbe eller foretage ændringerne i filen, før tilknytningen fjernes. */
+
+function DisplayTemplate_56328fc99d1c4aef955b6feb7d30ba6f(ctx) {
+  var ms_outHtml=[];
+  var cachePreviousTemplateData = ctx['DisplayTemplateData'];
+  ctx['DisplayTemplateData'] = new Object();
+  DisplayTemplate_56328fc99d1c4aef955b6feb7d30ba6f.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['TemplateUrl']='~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_DateRange.js';
+  ctx['DisplayTemplateData']['TemplateType']='Filter';
+  ctx['DisplayTemplateData']['TargetControlType']=['Refinement'];
+  this.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['CompatibleSearchDataTypes']=['DateTime', 'Integer', 'Decimal'];
+  ctx['DisplayTemplateData']['CompatibleManagedProperties']=[];
+
+ms_outHtml.push('',''
+,'		<div class="date_range_title">',$resource("filter_DateRange_Title"),'</div>'
+,'		<div id="refiner_container" class="date_range_filter" style="background: transparent">'
+,''
+);          
+			var listData = ctx.ListData;
+			var hasControl = true;
+        
+    		var currentRefinementCategory = ctx.ClientControl.getCurrentRefinementCategory(ctx.RefinementControl.propertyName);
+    	
+			var tokenYear = "";    	
+    		var tokenMonth = "";
+    		var showButton;
+    	
+    		if(!$isNull(currentRefinementCategory)) {
+				var rawValue = currentRefinementCategory.t[0];
+				if(rawValue != "range(min,max)"){
+					showButton = true;
+					tokenYear = rawValue.substring(6,10);
+					var tokenMonthFirst = rawValue.substring(11,13);
+					var tokenMonthSecond = rawValue.substring(22, 24);    
+				
+					if(tokenMonthFirst == tokenMonthSecond){
+						tokenMonth = tokenMonthFirst;
+					} 
+				}	    	
+    		}
+			// Check if the current Refinement Control exists
+			if ($isNull(ctx.RefinementControl) || $isNull(ctx.ClientControl)) hasControl = false;
+        
+			if (hasControl) {
+				// Check if listdata contains data
+            
+    			function clearDate() {
+					var clearRefinement = '{"'+ ctx.RefinementControl.propertyName +'":null}';
+					ctx.ClientControl.updateRefinersJSON(clearRefinement);
+				}
+		ms_outHtml.push(''
+,'			'
+,'				<select id="monthsDropdown" class="refiner_select" style="padding: 10px; background: #E5EFEA; background-size: 10px; background-repeat: no-repeat; background-position-x: 100px; background-position-y: 18px;">'
+,'					<option value="">', $resource("filter_DateRange_MonthSelect_Option_AllMonths") ,'</option>'
+);
+					//Generate Months
+					var monthsLabel = [
+						$resource("filter_DateRange_MonthSelect_Option_Jan"),
+						$resource("filter_DateRange_MonthSelect_Option_Feb"),
+						$resource("filter_DateRange_MonthSelect_Option_Mar"),
+						$resource("filter_DateRange_MonthSelect_Option_Apr"),
+						$resource("filter_DateRange_MonthSelect_Option_May"),
+						$resource("filter_DateRange_MonthSelect_Option_Jun"),
+						$resource("filter_DateRange_MonthSelect_Option_Jul"),
+						$resource("filter_DateRange_MonthSelect_Option_Aug"),
+						$resource("filter_DateRange_MonthSelect_Option_Sep"),
+						$resource("filter_DateRange_MonthSelect_Option_Oct"),
+						$resource("filter_DateRange_MonthSelect_Option_Nov"),
+						$resource("filter_DateRange_MonthSelect_Option_Dec"),
+					];
+					var monthsValue = ["01","02","03","04","05","06","07","08","09","10","11","12"];	
+					
+					for (var i = 0; i < monthsValue.length; i++) {
+						if(monthsValue[i] == tokenMonth) {
+		ms_outHtml.push('				'
+,'							<option value="', monthsValue[i] ,'" selected="selected">', monthsLabel[i] ,'</option>	'
+);			
+						} else {
+		ms_outHtml.push('				'
+,'							<option value="', monthsValue[i] ,'">', monthsLabel[i] ,'</option>	'
+);					
+						}
+					}	
+		ms_outHtml.push('		'
+,'				</select>'
+,''
+,'				<select id="yearsDropdown" class="refiner_select" style="padding: 10px; background: #E5EFEA; background-size: 10px; background-repeat: no-repeat; background-position-x: 100px; background-position-y: 18px;">'
+,'					<option value="">Alle &#229;r</option>'
+);
+					//Generate Years
+					var min = new Date().getFullYear() - 3;
+					var max = new Date().getFullYear();			
+					for (var i = max; i >= min; i-=1) {
+						if(i == tokenYear) {
+		ms_outHtml.push('				'
+,'							<option value="', i ,'" selected="selected">', i ,'</option>	'
+);			
+						} else {
+		ms_outHtml.push('				'
+,'							<option value="', i ,'">', i ,'</option>	'
+);					
+						}
+					}	
+		ms_outHtml.push('				'
+,'				'
+,'				</select>		'
+,''
+);
+				ctx.OnPostRender = [];	
+					
+				if(showButton) {	
+		ms_outHtml.push(''
+,'					<button id="clearSearchBtn" type="button" class="refiner_btn" style=" background: #E5EFEA;">',$resource("filter_DateRange_Btn_ClearSearch"),'</button>'
+);
+					var attachClearSearchEventHandler = function() {
+						var clearSearchBtnElm = document.getElementById("clearSearchBtn");
+
+						clearSearchBtnElm.onclick = function () {
+        					   var clearRefinement = '{"'+ ctx.RefinementControl.propertyName +'":null}';
+	 						   ctx.ClientControl.updateRefinersJSON(clearRefinement);
+			    		};
+					};
+				
+					ctx.OnPostRender.push(attachClearSearchEventHandler);
+				}							
+				
+				var attachDropdownOnChangeEventHandlers = function () {												
+					function daysInMonth(month,year) {
+						return new Date(year, month, 0).getDate();
+					}
+			    
+					var yearsDropdownElm = document.getElementById("yearsDropdown");
+					var monthsDropdownElm = document.getElementById("monthsDropdown");
+			 
+			 		var updateDateRefinement = function () {
+			        				        
+						var selectedYear = yearsDropdownElm.options[yearsDropdownElm.selectedIndex].value;
+						var selectedMonth = monthsDropdownElm.options[monthsDropdownElm.selectedIndex].value;				 			       				        
+			        
+						var fromValue = "";
+						var toValue = "";
+						var refinement = "";			            
+		            
+						if (selectedYear === "" && selectedMonth === "") {
+		            		// When neither a year or month have been selected, set the date-range span to include everything.
+		            		refinement = '{"'+ ctx.RefinementControl.propertyName +'":null}';
+						}
+						else {
+							if (selectedYear === "") {
+			            		// When no year has been selected, set the date-range span to 
+			            		// include the month of the selected year.
+								var currentYear = new Date().getFullYear();			            
+							
+			            		fromValue = currentYear + "-" + selectedMonth + "-" + "01";
+			            		toValue = currentYear + "-" + selectedMonth + "-" + daysInMonth(selectedMonth, currentYear);
+							}
+							else if (selectedMonth === "") {
+			            		// When no month has been selected, set the date-range span to 
+			            		// include the entire selected year.
+			            		fromValue = selectedYear + "-" + "01" + "-" + "01";
+			            		toValue = selectedYear + "-" + "12" + "-" + daysInMonth(12, selectedYear);
+							}
+							else {
+			            		// When both the month and year has been selected, set the date-range 
+			            		// span to include the selected month within the selected year.
+			            		fromValue = selectedYear + "-" + selectedMonth + "-" + "01";
+			            		toValue = selectedYear + "-" + selectedMonth + "-" + daysInMonth(selectedMonth, selectedYear);
+							}
+			            
+							refinement = '{"'+ ctx.RefinementControl.propertyName +'":["range('+fromValue+','+toValue+')"]}';			            			            
+						}
+		 			            
+						ctx.ClientControl.updateRefinersJSON(refinement);
+					};
+			    
+					yearsDropdownElm.onchange = updateDateRefinement;
+					monthsDropdownElm.onchange = updateDateRefinement;				    				    
+				}										
+			
+				ctx.OnPostRender.push(attachDropdownOnChangeEventHandlers);
+			}
+        
+		ms_outHtml.push(''
+,'		</div>'
+,'	'
+);
+
+  ctx['DisplayTemplateData'] = cachePreviousTemplateData;
+  return ms_outHtml.join('');
+}
+function RegisterTemplate_56328fc99d1c4aef955b6feb7d30ba6f() {
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("DateRangeFilter", DisplayTemplate_56328fc99d1c4aef955b6feb7d30ba6f);
+}
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_DateRange.js", DisplayTemplate_56328fc99d1c4aef955b6feb7d30ba6f);
+}
+//
+    	$includeLanguageScript("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_DateRange.js", "~sitecollection/_catalogs/masterpage/FindSmiley/Display Templates/Language Files/{Locale}/CustomStrings.js");
+    //
+}
+RegisterTemplate_56328fc99d1c4aef955b6feb7d30ba6f();
+if (typeof(RegisterModuleInit) == "function" && typeof(Srch.U.replaceUrlTokens) == "function") {
+  RegisterModuleInit(Srch.U.replaceUrlTokens("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_DateRange.js"), RegisterTemplate_56328fc99d1c4aef955b6feb7d30ba6f);
+}

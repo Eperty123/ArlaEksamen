@@ -1,0 +1,134 @@
+/* Filen er i øjeblikket knyttet til en HTML-fil af samme navn og henter indhold fra den. Du kan ikke flytte, slette, omdøbe eller foretage ændringerne i filen, før tilknytningen fjernes. */
+
+function DisplayTemplate_b5cedaa81b1d46e09e171a461003443d(ctx) {
+  var ms_outHtml=[];
+  var cachePreviousTemplateData = ctx['DisplayTemplateData'];
+  ctx['DisplayTemplateData'] = new Object();
+  DisplayTemplate_b5cedaa81b1d46e09e171a461003443d.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['TemplateUrl']='~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_SingleValue_Body.js';
+  ctx['DisplayTemplateData']['TemplateType']='Filter';
+  ctx['DisplayTemplateData']['TargetControlType']=['Refinement'];
+  this.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['CompatibleSearchDataTypes']=[];
+  ctx['DisplayTemplateData']['CompatibleManagedProperties']=[];
+
+ms_outHtml.push('',''
+);
+var propertyName = ctx.RefinementControl["csr_propertyName"];
+var displayTitle = ctx.RefinementControl["csr_displayTitle"];
+var filters = ctx.RefinementControl["csr_filters"];
+var isExpanded = Boolean(ctx.RefinementControl["csr_isExpanded"]);
+var renderEmptyContainer = Boolean(ctx.RefinementControl["csr_renderEmptyContainer"]);
+var useContains = Boolean(ctx.RefinementControl["csr_useContains"]);
+var useKQL = Boolean(ctx.RefinementControl["csr_useKQL"]);
+var showCounts = Boolean(ctx.RefinementControl["csr_showCounts"]);
+
+if($isEmptyString(propertyName) || (!$isNull(renderEmptyContainer) && renderEmptyContainer))
+{ 
+ms_outHtml.push(''
+,'        <div id="EmptyContainer"></div>'
+);
+} 
+else if(!$isNull(filters) && Srch.U.isArray(filters) && !$isEmptyArray(filters))
+{ 
+    var inputName = propertyName + '_ChkGroup';
+    var inputId = inputName + "_" + 'Reset';
+    var nameClass = "ms-ref-name " + (showCounts ? "ms-displayInline" : "ms-displayInlineBlock ms-ref-ellipsis");
+    var expandedStatus = !$isNull(isExpanded) ? isExpanded : true;
+    var iconClass = "ms-core-listMenu-item ";
+    iconClass += expandedStatus ? "ms-ref-uparrow" : "ms-ref-downarrow";
+ms_outHtml.push(''
+,'        <div class="top_refiner_container" id="Container">'
+,'                    <input type="radio" name="', $htmlEncode(inputName) ,'" id="', inputId ,'" value="" checked="checked" onclick="$getClientControl(this).updateRefinementFilters(\'', $scriptEncode(propertyName) ,'\', null);" />'
+,'                    <label for="', $htmlEncode(inputId) ,'" class="', nameClass ,' first_element">'
+,'                        Alle <!-- TODO: Add localization -->'
+,'                    </label>'
+); 		
+
+	    ctx.OnPostRender = [];            
+	    ctx.OnPostRender.push(ctx, function () {
+		
+		    //FOR MAKE CLICKED BUTTON ACTIVE
+		    if($(".top_refiner_container input:checked")){
+		        $(".top_refiner_container input:checked").next('label').addClass('active_refiner');
+		    }
+		});		
+		
+    for (var i = 0; i < filters.length; i++){
+        var filter = filters[i];
+        if(!$isNull(filter)){
+            var isSelected = Boolean(filter.IsSelected);            
+            var inputId = inputName + "_" + filter.RefinementName;
+            var refinerData;
+            if(filter.RefinementToken.indexOf("string") == -1) {
+            	refinerData  = propertyName + ':%22' + filter.RefinementName  + '%22'; 		
+            } else {
+                var token = filter.RefinementToken.replace('string("','');
+            	token = token.replace('")','');
+                refinerData  = propertyName + ":" + encodeURIComponent(token);
+            }
+            
+            if(isSelected) {
+ms_outHtml.push(''
+,'                        <input onclick="Srch.Refinement.submitMultiRefinement(\'', $scriptEncode(propertyName) ,'\', $getClientControl(this), ', $htmlEncode(useContains) ,', ', $htmlEncode(useKQL) ,');" type="radio" class="ms-padding0 ms-margin0 ms-verticalAlignMiddle refiner_selected" id="', $htmlEncode(inputId) ,'" name="', $htmlEncode(inputName) ,'" data-displayValue="', $htmlEncode(filter.RefinementName) ,'" value="', $htmlEncode(filter.RefinementToken) ,'" checked="" data-refinerValue="', refinerData ,'" />'
+);
+            } else {
+ms_outHtml.push(''
+,'                        <input onclick="Srch.Refinement.submitMultiRefinement(\'', $scriptEncode(propertyName) ,'\', $getClientControl(this), ', $htmlEncode(useContains) ,', ', $htmlEncode(useKQL) ,');" type="radio" class="ms-padding0 ms-margin0 ms-verticalAlignMiddle" id="', $htmlEncode(inputId) ,'" name="', $htmlEncode(inputName) ,'" data-displayValue="', $htmlEncode(filter.RefinementName) ,'" value="', $htmlEncode(filter.RefinementToken) ,'" />'
+);
+            }
+            
+            if (filter.RefinementName == 'html') {
+ms_outHtml.push(''
+,'                            <label for="', $htmlEncode(inputId) ,'" class="', nameClass ,'">'
+,'                                ', $htmlEncode('Indholdssider') ,''
+);            
+            } else {
+ms_outHtml.push(''
+,'                            <label for="', $htmlEncode(inputId) ,'" class="', nameClass ,'">'
+,'                                ', $htmlEncode(filter.RefinementName) ,''
+);
+			}
+			
+            if (showCounts) {
+ms_outHtml.push(''
+,'                                <span id="RefinementCount" class="ms-ref-count ms-textSmall"> (', $htmlEncode(Srch.U.toFormattedNumber(filter.RefinementCount)) ,') </span>'
+);
+            }
+            
+            if (filter.RefinementName == 'html') {
+ms_outHtml.push(''
+,'                            </label>'
+);
+			} else {
+ms_outHtml.push(''
+,'                            </label>'
+);			
+			}
+        }
+    }
+}
+ms_outHtml.push(''
+,'   		 </div>'
+);
+
+  ctx['DisplayTemplateData'] = cachePreviousTemplateData;
+  return ms_outHtml.join('');
+}
+function RegisterTemplate_b5cedaa81b1d46e09e171a461003443d() {
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("Filter_SingleValue_Body", DisplayTemplate_b5cedaa81b1d46e09e171a461003443d);
+}
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_SingleValue_Body.js", DisplayTemplate_b5cedaa81b1d46e09e171a461003443d);
+}
+
+}
+RegisterTemplate_b5cedaa81b1d46e09e171a461003443d();
+if (typeof(RegisterModuleInit) == "function" && typeof(Srch.U.replaceUrlTokens) == "function") {
+  RegisterModuleInit(Srch.U.replaceUrlTokens("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_SingleValue_Body.js"), RegisterTemplate_b5cedaa81b1d46e09e171a461003443d);
+}

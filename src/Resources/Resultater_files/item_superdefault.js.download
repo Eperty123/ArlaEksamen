@@ -1,0 +1,471 @@
+/* Filen er i øjeblikket knyttet til en HTML-fil af samme navn og henter indhold fra den. Du kan ikke flytte, slette, omdøbe eller foretage ændringerne i filen, før tilknytningen fjernes. */
+
+function DisplayTemplate_2a6ab1fa2a034c50bb24c364af75f068(ctx) {
+  var ms_outHtml=[];
+  var cachePreviousTemplateData = ctx['DisplayTemplateData'];
+  ctx['DisplayTemplateData'] = new Object();
+  DisplayTemplate_2a6ab1fa2a034c50bb24c364af75f068.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['TemplateUrl']='~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fItems\u002fItem_SuperDefault.js';
+  ctx['DisplayTemplateData']['TemplateType']='Item';
+  ctx['DisplayTemplateData']['TargetControlType']=['SearchResults', ',', 'Content Web Parts'];
+  this.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['ManagedPropertyMapping']={'Title':['Title'], 'SmileyName':['FindSmileyNavn'], 'Path':['Path'], 'SiteLogo':['SiteLogo'], 'SiteDescription':['SiteDescription'], 'CollapsingStatus':['CollapsingStatus'], 'DocId':['DocId'], 'HitHighlightedSummary':['HitHighlightedSummary'], 'HitHighlightedProperties':['HitHighlightedProperties'], 'FileExtension':['FileExtension'], 'ViewsLifeTime':['ViewsLifeTime'], 'deeplinks':['deeplinks'], 'importance':['importance'], 'FileType':['FileType'], 'Indgang':['owstaxIdIndgang'], 'PostDst':['FindSmileyPostDst'], 'Postnr':['FindSmileyPostnr'], 'Adresse':['FindSmileyAddresse'], 'Smiley1':['FindSmileySmiley1'], 'Smiley2':['FindSmileySmiley2'], 'Smiley3':['FindSmileySmiley3'], 'Smiley4':['FindSmileySmiley4'], 'elitesmiley':['FindSmileyElitesmiley'], 'Dato1':['FindSmileyDato1'], 'Dato2':['FindSmileyDato2'], 'Dato3':['FindSmileyDato3'], 'Dato4':['FindSmileyDato4'], 'Type':['FindSmileyType'], 'Aktlbnr1':['FindSmileyAktlbnr1'], 'Aktlbnr2':['FindSmileyAktlbnr2'], 'Aktlbnr3':['FindSmileyAktlbnr3'], 'Aktlbnr4':['FindSmileyAktlbnr4'], 'Navnelbnr':['FindSmileyNavnelbnr'], 'ReklameBeskyttelse':['FindSmileyReklameBeskyttelse']};
+  var cachePreviousItemValuesFunction = ctx['ItemValues'];
+  ctx['ItemValues'] = function(slotOrPropName) {
+    return Srch.ValueInfo.getCachedCtxItemValue(ctx, slotOrPropName)
+};
+
+ms_outHtml.push('',''
+); 
+
+		function isEmpty(value){
+		  return (value == null || value.length == 0);
+		}		
+		
+		
+
+		var inDesignMode = document.forms[MSOWebPartPageFormName].MSOLayout_InDesignMode.value;
+		var explainHtml	= "";	
+		if (inDesignMode == "1")
+		{
+			explainHtml = String.format('<a href="/_layouts/15/ExplainRank.aspx?q={0}&#38;d={1}" title="Explain">Explain Rank</a>',
+			ctx.DataProvider.$2_3.k,
+			ctx.CurrentItem.Path);
+		}
+
+
+        if(!$isNull(ctx.CurrentItem) && !$isNull(ctx.ClientControl)){
+        	var displayValueOptions = { includeFileType: true , includeDate: true, includeDocType: true, includePublicationDetails: true , includeEntrance: true, includeOccupation: true, includeNewsletterType: true};
+        	ItemTemplate.init(ctx, displayValueOptions);
+        	var item = ItemTemplate.item;            
+        	var infoPos = "pos0"; // Use class pos0, pos1, pos2, pos3 or pos4 to position triangle under image. Elite smiley and Info icon is pos0. Pos1 is latest smiley.
+        	var infoText = ""; 
+        	var HundeContext = false; 
+			if (item.type == "Hundekennel" || item.type == "Hundepension" || item.type == "Hundeinternat" || item.type == "Hundehandler") {
+				HundeContext = true;
+			}
+            
+ms_outHtml.push('  '
+,'            <div id="', $htmlEncode(item.itemId) ,'" name="Item" data-displaytemplate="SiteItem" class="ms-srch-item template_wrapper">'
+,'	'
+);
+                		if (inDesignMode == "1") 
+                		{
+					ms_outHtml.push('	'
+,'                <a href="/_layouts/15/ExplainRank.aspx?q=', ctx.DataProvider.$2_3.k ,'&amp;d=', ctx.CurrentItem.Path ,'" title="Explain">Explain Rank</a>'
+);
+                		} 
+					ms_outHtml.push(''
+);
+                		if (item.smileyName == "") 
+                		{
+					ms_outHtml.push('	'
+,'					<div class="template_header">'
+,'						<h3>'
+,'							<a href="', item.linkURL ,'" title="', $htmlEncode(item.title) ,'"> ', item.title ,' </a>                 '
+,'						</h3>	'
+,'                	</div>'
+);
+                		} 
+					ms_outHtml.push(''
+,''
+,'                <div class="template_body row smiley_row"> '
+);
+        		if (item.type != "") 
+        		{
+				ms_outHtml.push('	'
+,'	                <table style="width:100%">'
+,'					  <tr class="search_row_item">'
+,'					    <td class="search_col_1 col-lg-4 col-12 smiley_table">'
+,'					        <div class="template_header">'
+,'	                    		<h3 style="word-break: normal">'
+,'						        	<a href="/', item.navnelbnr ,'" title="', $htmlEncode(item.smileyName) ,'"> ', item.smileyName ,' </a>		'
+,'	                    		</h3>'
+,'                    		</div>'
+,'							<div>'
+,'					        	<p> ', item.adresse ,' </p>	'
+,'                				<p> ', item.postnr ,' ', item.postDst ,' </p>                				            	'
+,'                				<p> '
+);
+                					if(item.reklameBeskyttelse != 0)
+                					{
+                					 	adText = $resource("item_SuperDefault_ReklameBeskyttelse_Text"); 
+                				ms_outHtml.push(''
+,'										', adText ,'                				 '
+);		
+									} 
+                				ms_outHtml.push(''
+,'                				</p>                									'
+,'                			</div>'
+,'					    </td>'
+,'					    <td class="search_col_2 col-lg-2 col-3 smiley_table">		'
+);					
+						    	if(item.elitesmiley == 1)    	
+						    	{				    	
+						    		infoText = $resource("item_SuperDefault_EliteSmiley_Text"); 		
+									col2Click = "toggleSearchResultSpeechBubble(this,event,$resource('item_SuperDefault_EliteSmiley_Text'),'pos0')";
+ 							
+							    ms_outHtml.push(''
+,'						    		<a href="javascript: {}" onclick="', col2Click ,'">'
+,'						    		<img style="margin-top: -6px; width: 65px; height: 50px; margin-left: 7.5px;" src="/PublishingImages/EliteSmiley.png" alt="Elite smiley" />'
+,'						    		</a>'
+);	
+							    } else if(item.elitesmiley == 2) {				    	
+						    		infoText = $resource("item_SuperDefault_Info_Text"); 		
+									col2Click = "toggleSearchResultSpeechBubble(this,event,$resource('item_SuperDefault_Info_Text'),'pos0')";
+ 
+							    ms_outHtml.push(''
+,'						    		<a href="javascript: {}" onclick="', col2Click ,'">'
+,'						    		<img style="margin-top: -6px; width: 65px; height: 50px; margin-left: 7.5px;" src="/PublishingImages/infoOBS.png" alt="Information" />'
+,'						    		</a>'
+);	
+							    } else {				    	
+							    ms_outHtml.push(''
+,'							    	<span style="padding:30px"></span>'
+);	
+							    } 				    	
+							    ms_outHtml.push(''
+,'					    </td>'
+,'					    <td class="search_col_3 sp_col_3 col-lg-6 col-12 smiley_table">'
+,'						'
+,''
+);					
+						    	if(item.smiley1 != 0 || (item.smiley2 == 0 && item.smiley3 == 0 && item.smiley4 == 0))    	
+						    	{
+							    	var img1Url	= "/PublishingImages/"+item.smiley1+"Smiley.png";
+									var date1 = new Date(item.dato1).format('dd.M.yyyy');
+									if(!HundeContext && item.smiley1 > 0 && item.smiley1 < 5)
+									{
+										var alt1Text = $resource("control_SearchResults_FindSmiley_Smiley"+item.smiley1) + $resource("control_SearchResults_FindSmiley_From") + date1;
+									}
+							    	if(HundeContext){
+							    		img1Url	= "/PublishingImages/HundeSmiley"+item.smiley1+".png";
+										if(item.smiley1 > 0 && item.smiley1 < 4)
+										{
+											alt1Text = $resource("control_SearchResults_FindHundeSmiley_Smiley"+item.smiley1) + $resource("control_SearchResults_FindSmiley_From")  + date1;
+										}
+							    	}
+									var img1Click = "";			    		
+									var title1 = $resource("item_SuperDefault_SmileyTitle").format(date1,item.smiley1); // Insert date and smiley number
+							    	if(item.type.toString().indexOf('Engro') !=-1)
+							    	{
+							    		img1Url = "/PublishingImages/engroIcon.png";
+										alt1Text = "";
+										title1 = "";
+							    	}								    	
+							    ms_outHtml.push(''
+,'							    <span class="search_col_item">'
+);					
+									// TODO: We currently dont have information about control, china or brasil in the database, so we cant test for control on the way		    	
+							    	if(item.smiley1 == 0 && item.smiley2 == 0 && item.smiley3 == 0 && item.smiley4 == 0)
+							    	{
+							    		img1Url = "/PublishingImages/kontrolpåVej.png";
+							    		if(HundeContext){
+							    			img1Url	= "/PublishingImages/HundePaVej.png";
+							    		}
+										alt1Text = "";
+										infoPos = "pos1";
+										date1 = "";	
+										infoText = $resource("item_SuperDefault_Control_Text"); 		
+										img1Click = "toggleSearchResultSpeechBubble(this,event,$resource('item_SuperDefault_Control_Text'),'pos1')";
+										title1 = "";
+																		    	
+									ms_outHtml.push(''
+,'										<a href="javascript: {}" onclick=" ', img1Click ,'">'
+,'											<img style="width:57px" src=" ', img1Url ,'" alt=" ', alt1Text ,'" />'
+,'							    			<p>', date1 ,'</p>'
+,'										</a>'
+);										
+							    	} else 
+							    	{							    	
+										ms_outHtml.push(''
+);		
+										if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+										 ms_outHtml.push(''
+,'										<a href="/Sider/KontrolRapport.aspx?Virk',item.aktlbnr1,'" target="_blank">'
+,'										    <img style="width:57px" src=" ', img1Url ,'" alt=" ', alt1Text ,'" />'
+,'							    			<p style="display:inline-block">', date1 ,'</p>'
+,'							    			<img style="width:20px" src="/PublishingImages/PDF_icon.png" />'
+,'										</a>'
+,''
+);
+										}
+										else 
+										{
+										ms_outHtml.push(''
+,'										<a href="/Sider/KontrolRapport.aspx?Virk',item.aktlbnr1,'" target="_blank">'
+,'										    <img style="width:57px" src=" ', img1Url ,'" alt=" ', alt1Text ,'" />'
+,'							    			<p style="display:inline-block">', date1 ,'</p>'
+,'							    			<img style="width:20px" src="/PublishingImages/PDF_icon.png" />'
+,'										</a>'
+);	
+									 	}						    	
+							    	}				    	
+									ms_outHtml.push(''
+,'							    			'
+,'									</span>'
+);	
+							    } else {				    	
+							    ms_outHtml.push(''
+,'							    	<span class="search_col_item" style="padding:30px"></span>'
+);	
+							    } 				    	
+							    ms_outHtml.push('						    '
+,''
+);					
+						    	if(item.smiley2 != 0)    	
+						    	{
+							    	var img2Url	= "/PublishingImages/"+item.smiley2+"Smiley.png";
+									var date2 = new Date(item.dato2).format('dd.M.yyyy');
+									if(!HundeContext && item.smiley2 > 0 && item.smiley2 < 5)
+									{
+										var alt2Text = $resource("control_SearchResults_FindSmiley_Smiley"+item.smiley2) + $resource("control_SearchResults_FindSmiley_From") +date2;	
+									}
+							    	if(HundeContext){
+							    		img2Url	= "/PublishingImages/HundeSmiley"+item.smiley2+".png";
+										if(item.smiley2 > 0 && item.smiley2 < 4)
+										{
+											alt2Text = $resource("control_SearchResults_FindHundeSmiley_Smiley"+item.smiley2) + $resource("control_SearchResults_FindSmiley_From") +date2;
+										}
+							    	}
+									var img2Click = "";
+							    					    	
+									
+									var title2 = $resource("item_SuperDefault_SmileyTitle").format(date2,item.smiley2); // Insert date and smiley number
+
+							    	if(item.type.toString().indexOf('Engro') !=-1)
+							    	{
+							    		img2Url = "/PublishingImages/engroIcon.png";
+										alt2Text = "";
+										title2 = "";
+							    	}							    	
+							    ms_outHtml.push('																    '
+,'									<span class="search_col_item">'
+);		
+									if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+									 ms_outHtml.push(''
+,'										<a href="/Sider/KontrolRapport.aspx?Virk',item.aktlbnr2,'" target="_blank">'
+,'										    <img style="width:57px" src=" ', img2Url ,'" alt=" ', alt2Text ,'" />'
+,'							    			<p style="display:inline-block">', date2 ,'</p>'
+,'							    			<img style="width:20px" src="/PublishingImages/PDF_icon.png" />'
+,'										</a>'
+,''
+);
+									}
+									else 
+									{
+									ms_outHtml.push('									'
+,'										<a href="/Sider/KontrolRapport.aspx?Virk',item.aktlbnr2,'" target="_blank">'
+,'							    			<img style="width:57px" src=" ', img2Url ,'" alt=" ', alt2Text ,'" />'
+,'							    			<p style="display:inline-block">', date2 ,'</p>'
+,'							    			<img style="width:20px" src="/PublishingImages/PDF_icon.png" />'
+,'										</a>'
+);
+									}
+									ms_outHtml.push(''
+,'									</span>'
+);	
+							    	
+							    } else {				    	
+							    ms_outHtml.push(''
+,'							    	<span class="search_col_item" style="padding:30px"></span>'
+);	
+							    } 				    	
+							    ms_outHtml.push(''
+,''
+);					
+						    	if(item.smiley3 != 0)    	
+						    	{
+							    	var img3Url	= "/PublishingImages/"+item.smiley3+"Smiley.png";
+									var date3 = new Date(item.dato3).format('dd.M.yyyy');	
+									if(!HundeContext && item.smiley3 > 0 && item.smiley3 < 5)
+									{
+										var alt3Text = $resource("control_SearchResults_FindSmiley_Smiley"+item.smiley3) + $resource("control_SearchResults_FindSmiley_From") +date3;	
+									}
+							    	if(HundeContext){
+							    		img3Url	= "/PublishingImages/HundeSmiley"+item.smiley3+".png";
+										if(item.smiley3 > 0 && item.smiley3 < 4)
+										{
+											alt3Text = $resource("control_SearchResults_FindHundeSmiley_Smiley"+item.smiley3) + $resource("control_SearchResults_FindSmiley_From") +date3;
+										}
+							    	}
+									var img3Click = "";
+							    				    	
+									
+									var title3 = $resource("item_SuperDefault_SmileyTitle").format(date3,item.smiley3); // Insert date and smiley number
+
+							    	if(item.type.toString().indexOf('Engro') !=-1)
+							    	{
+							    		img3Url = "/PublishingImages/engroIcon.png";
+										alt3Text = "";
+										title3 = "";
+							    	}							    	
+							    ms_outHtml.push(''
+,'									<span class="search_col_item">'
+);		
+										if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+										 ms_outHtml.push(''
+,'											<a href="/Sider/KontrolRapport.aspx?Virk',item.aktlbnr3,'" target="_blank">'
+,'											    <img style="width:57px" src=" ', img3Url ,'" alt=" ', alt3Text ,'" />'
+,'								    			<p style="display:inline-block">', date3 ,'</p>'
+,'								    			<img style="width:20px" src="/PublishingImages/PDF_icon.png" />'
+,'											</a>'
+,'	'
+);
+										}
+										else 
+										{
+										ms_outHtml.push('	'
+,'										<a href="/Sider/KontrolRapport.aspx?Virk',item.aktlbnr3,'" target="_blank">'
+,'							    			<img style="width:57px" src=" ', img3Url ,'" alt=" ', alt3Text ,'" />'
+,'							    			<p style="display:inline-block">', date3 ,'</p>'
+,'							    			<img style="width:20px" src="/PublishingImages/PDF_icon.png" />'
+,''
+,'										</a>'
+);
+										}
+										ms_outHtml.push(''
+,'									</span>'
+);	
+							    } else {				    	
+							    ms_outHtml.push(''
+,'							    	<span class="search_col_item" style="padding:30px"></span>'
+);	
+							    } 				    	
+							    ms_outHtml.push(''
+,''
+);					
+						    	if(item.smiley4 != 0)    	
+						    	{
+							    	var img4Url	= "/PublishingImages/"+item.smiley4+"Smiley.png";
+									var date4 = new Date(item.dato4).format('dd.M.yyyy');
+									if(!HundeContext && item.smiley4 > 0 && item.smiley4 < 5)
+									{
+										var alt4Text = $resource("control_SearchResults_FindSmiley_Smiley"+item.smiley4) + $resource("control_SearchResults_FindSmiley_From") +date4;
+									}
+							    	if(HundeContext){
+							    		img4Url	= "/PublishingImages/HundeSmiley"+item.smiley4+".png";
+										if(item.smiley4 > 0 && item.smiley4 < 4)
+										{
+											alt4Text = $resource("control_SearchResults_FindHundeSmiley_Smiley"+item.smiley4) + $resource("control_SearchResults_FindSmiley_From") +date4;
+										}	
+							    	}
+									var img4Click = "";		    	
+									
+									var title4 = $resource("item_SuperDefault_SmileyTitle").format(date4,item.smiley4); // Insert date and smiley number
+
+							    	if(item.type.toString().indexOf('Engro') !=-1)
+							    	{
+							    		img4Url = "/PublishingImages/engroIcon.png";
+										alt4Text = "";
+										title4 = "";
+							    	}							    	
+							    ms_outHtml.push(''
+,'									<span class="search_col_item">'
+);		
+										if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+										 ms_outHtml.push(''
+,'											<a href="/Sider/KontrolRapport.aspx?Virk',item.aktlbnr4,'" target="_blank">'
+,'											    <img style="width:57px" src=" ', img4Url ,'" alt=" ', alt4Text ,'" />'
+,'								    			<p style="display:inline-block">', date4 ,'</p>'
+,'								    			<img style="width:20px" src="/PublishingImages/PDF_icon.png" />'
+,'											</a>'
+,'	'
+);
+										}
+										else 
+										{
+										ms_outHtml.push('	'
+,''
+,'										<a href="/Sider/KontrolRapport.aspx?Virk',item.aktlbnr4,'" target="_blank">'
+,'							    			<img style="width:57px" src=" ', img4Url ,'" alt=" ', alt4Text ,'" />'
+,'							    			<p style="display:inline-block">', date4 ,'</p>'
+,'							    			<img style="width:20px" src="/PublishingImages/PDF_icon.png" />'
+,'										</a>');
+										}
+										ms_outHtml.push(''
+,'									</span>'
+);	
+							    } else {				    	
+							    ms_outHtml.push(''
+,'							    	<span class="search_col_item" style="padding:30px"></span>'
+);	
+							    } 				    	
+							    ms_outHtml.push(''
+,''
+,'					    </td>'
+,'					  </tr>'
+,'					  <tr class="search_row_info">'
+,'					    <td colspan="3" class="search_row_temp">'
+,'					    	<p class="triagle-top-spacer"></p>'
+,'							<p class="search_row_text triangle-border top">'
+,'								', infoText ,''
+,'							</p>'
+,'					    </td>'
+,'					  </tr>'
+,'					</table>'
+);
+                } else {
+					var FindSmileyManchet= $getItemValue(ctx, "Manchet")
+		            if (!$isEmptyString(item.hitHighlightedSummary)) {
+					ms_outHtml.push('	            '
+,'		                <p style="font-size: 16px; margin-bottom: 10px;"> ', item.hitHighlightedSummary ,' </p>'
+); 
+			        } else if (!$isEmptyString(item.manchet)) {		        
+					ms_outHtml.push(''
+,'		                <p style="font-size: 16px; margin-bottom: 10px;"> ', item.manchet ,' </p>'
+); 
+			        } else {
+					ms_outHtml.push(''
+,'		                <p style="font-size: 16px; margin-bottom: 10px;"> ', FindSmileyManchet ,' </p>'
+); 
+			        }
+                } 
+				ms_outHtml.push(''
+,'				</div>'
+,''
+,'                <div class="template_footer">'
+,'                '
+,'                </div>'
+);
+                if(false && !Srch.U.e(ctx.CurrentItem.deeplinks) && !Srch.U.n(ctx.CurrentItem.importance)){ 
+ms_outHtml.push(''
+,'                    <div class="', deepLinksClassNoEncode ,'" id="', $htmlEncode(id + Srch.U.Ids.deepLinks) ,'">'
+,'                        ', Srch.U.getDeepLinks(ctx.CurrentItem.deeplinks, ctx.CurrentItem.importance) ,''
+,'                    </div>'
+); 
+                } 
+ms_outHtml.push('			'
+,'                <div id="', $htmlEncode(item.hoverId) ,'" class="ms-srch-hover-outerContainer"></div>'
+,'            </div>'
+);	
+            
+        } 
+ms_outHtml.push(''
+,'    '
+);
+
+  ctx['ItemValues'] = cachePreviousItemValuesFunction;
+  ctx['DisplayTemplateData'] = cachePreviousTemplateData;
+  return ms_outHtml.join('');
+}
+function RegisterTemplate_2a6ab1fa2a034c50bb24c364af75f068() {
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("Item_Site", DisplayTemplate_2a6ab1fa2a034c50bb24c364af75f068);
+}
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fItems\u002fItem_SuperDefault.js", DisplayTemplate_2a6ab1fa2a034c50bb24c364af75f068);
+}
+//        
+        $includeLanguageScript("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fItems\u002fItem_SuperDefault.js", "~sitecollection/_catalogs/masterpage/FindSmiley/Display Templates/Language Files/{Locale}/CustomStrings.js");
+        $includeScript("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fItems\u002fItem_SuperDefault.js", "~sitecollection/_catalogs/masterpage/FindSmiley/Display Templates/Scripts/DisplayTemplateUtilities.js");
+    //
+}
+RegisterTemplate_2a6ab1fa2a034c50bb24c364af75f068();
+if (typeof(RegisterModuleInit) == "function" && typeof(Srch.U.replaceUrlTokens) == "function") {
+  RegisterModuleInit(Srch.U.replaceUrlTokens("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fItems\u002fItem_SuperDefault.js"), RegisterTemplate_2a6ab1fa2a034c50bb24c364af75f068);
+}

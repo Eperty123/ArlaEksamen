@@ -1,0 +1,255 @@
+/* Filen er i øjeblikket knyttet til en HTML-fil af samme navn og henter indhold fra den. Du kan ikke flytte, slette, omdøbe eller foretage ændringerne i filen, før tilknytningen fjernes. */
+
+function DisplayTemplate_9cde430b0869450f83bced2997656369(ctx) {
+  var ms_outHtml=[];
+  var cachePreviousTemplateData = ctx['DisplayTemplateData'];
+  ctx['DisplayTemplateData'] = new Object();
+  DisplayTemplate_9cde430b0869450f83bced2997656369.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['TemplateUrl']='~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fControls\u002fControl_SearchBox.js';
+  ctx['DisplayTemplateData']['TemplateType']='Control';
+  ctx['DisplayTemplateData']['TargetControlType']=['SearchBox'];
+  this.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+ms_outHtml.push('',''
+); 
+        var showQuerySuggestions = ctx.ClientControl.get_showQuerySuggestions();
+        var showNavigation = ctx.ClientControl.get_showNavigation();
+
+        var prompt = ctx.ClientControl.get_initialPrompt();
+        if ($isNull(prompt))
+        {
+            prompt = Srch.Res.sb_Prompt;
+        }
+
+		var inputClass = "ms-textLarge ms-srch-sbLarge-fullWidth";
+        if(showNavigation){
+            inputClass = "ms-textLarge ms-srch-sbLarge-navWidth";
+        }
+
+        var searchBoxDivId = ctx.ClientControl.get_id() + "_sboxdiv";
+        var searchBoxId = ctx.ClientControl.get_id() + "_sbox";
+        var navButtonId = ctx.ClientControl.get_id() + "_NavButton";
+        var suggestionsListId = ctx.ClientControl.get_id() + "_AutoCompList"; 
+        var navListId = ctx.ClientControl.get_id() + "_NavDropdownList";
+        var searchBoxLinkId = ctx.ClientControl.get_id() + "_SearchLink";
+        var searchBoxProgressClass = "ms-srch-sbprogress";
+        var searchBoxPromptClass = "ms-srch-sb-prompt ms-helperText";
+
+        ctx.OnPostRender = [];
+		ctx.OnPostRender.push(function () {
+			ctx.ClientControl.activate(
+                prompt, 
+                searchBoxId, 
+                searchBoxDivId, 
+                navButtonId, 
+                //suggestionsListId, (Built-in autocomplete disabled to not mess with custom autocomplete)
+                navListId, 
+                searchBoxLinkId, 
+                searchBoxProgressClass,
+                searchBoxPromptClass);
+		}); 
+		
+		ctx.OnPostRender.push(function () {
+			$(".ms-textSmall").autocomplete({
+				delay: 100,
+				minLength: 2,
+				source: function (request, response) {
+					$.ajax({
+						url: "/_layouts/15/Netcompany.FVS0001/AnonSearchSuggest.ashx",
+						dataType: "json",
+	                    type: "POST",
+		                data: { LCID: SP.Res.lcid, UserTerm: request.term },
+			            success: function (data) {
+				            response($.map(data, function (item) {
+
+					            return {
+						            label: item,
+							        value: item.replace("", "").replace("", "")
+								}
+	                        }));
+		                }
+			        });
+				},
+				focus: function (event, ui) {
+					$(".ms-textSmall").val(ui.item.value.replace("", "").replace("", "").replace(/(<([^>]+)>)/ig,"").replace("|@da-DK@|", "").replace("|@en-US@|", ""));
+					event.preventDefault();
+				},
+				select: function (event, ui) {
+					$(".ms-textSmall").val(ui.item.value.replace("", "").replace("", "").replace(/(<([^>]+)>)/ig,"").replace("|@da-DK@|", "").replace("|@en-US@|", ""));
+					var e = jQuery.Event("keypress");
+					e.keyCode = 13;
+					$('.search-enter').trigger(e);
+					$('#SearchBox').attr("suggestion_clicked", true);
+					event.preventDefault();
+				},
+				open: function () {
+					$(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+
+					var frontHalf = '';
+					var backHalf = '';
+
+					$(".ui-autocomplete > .ui-menu-item").each(function (index, item) {
+						$(item).html(unescape($(item).text().replace("", frontHalf).replace("", backHalf)));
+					});
+				},
+				close: function () {
+					$(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+				}
+			});
+		});
+			           
+        ctx.OnPostRender.push(ctx, function () {   
+        	$('.errorCheck').ready(function () {
+			    var name = 'requestUrl';
+			    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+			    var regexS = "[\\?&]"+name+"=([^&#]*)";
+			    var regex = new RegExp( regexS );
+			    var results = regex.exec( window.location.href );
+				if( results != null ) {
+			        var result = results[0].split('/');
+			        var last_element = result[result.length - 1];
+			        var searchitem = last_element.split('.');
+					searchitem[0] = searchitem[0].replace(/[_-]/g, " ");
+			    	var srcBox = document.getElementsByClassName("errorCheck");  
+			    	var index;
+			    	for (index = 0; index < srcBox.length; ++index) {
+			    		srcBox[index].value = unescape(searchitem[0]); 
+					}					        		        		
+				}
+			});
+			$('.search-click').click(function () {
+		    	var sbox = $(this).attr('id').replace("SearchLink", "sbox");						
+		    	var control = $getClientControl(this);	    
+		    	var searchID = $scriptEncode(searchBoxId);
+		    	var searchField = $get(searchID);
+		    	if(sbox == searchID){
+			    	var searchValue = searchField.value;
+			        control.search(searchValue);
+			        var t1 = window.location.href;
+			        var t2 = document.URL.split('?')[0];
+			        var t3 = t2.indexOf("Search.aspx");		    	
+			    	if(searchValue == ""){
+			    		if((document.URL.split('?')[0].indexOf("Search.aspx")) > -1){
+			    			window.location.replace(document.URL.split('?')[0]);
+			    		} else {
+			    			window.location.replace(document.URL.split('#')[0]);
+			    		}			    		
+		    		}	  
+				}
+		    });
+		    $('.search-enter').keypress(function () {	
+		     	if (Srch.U.isEnterKey(String.fromCharCode(event.keyCode))) {
+			    	var sbox = $(this).attr('id').replace("SearchLink", "sbox");						
+			    	var control = $getClientControl(this);	    
+			    	var searchID = $scriptEncode(searchBoxId);
+			    	var searchField = $get(searchID);
+			    	if(sbox == searchID){
+				    	var searchValue = searchField.value;
+				        control.search(searchValue);			    	
+				    	if(searchValue == ""){
+				    		if(document.URL.split('?')[0].indexOf("Search.aspx") > -1){
+				    			window.location.replace(document.URL.split('?')[0]);
+				    		} else {
+				    			window.location.replace(document.URL.split('#')[0]);
+				    		}
+			    		}	  
+					}
+				}
+		    });	 		  	    
+		});
+        
+ms_outHtml.push(''
+,'        <div id="SearchBox" name="Control" suggestion_clicked="false">'
+,'            <div class="ms-srch-sb ms-srch-sb-border" id="', $htmlEncode(searchBoxDivId) ,'">'
+,'                <input type="text" value="', $htmlEncode(ctx.ClientControl.get_currentTerm()) ,'" maxlength="2048" class="ms-textSmall search-enter errorCheck" accessKey="', $htmlEncode(Srch.Res.sb_AccessKey) ,'" title="', $htmlEncode(prompt) ,'" id="', $htmlEncode(searchBoxId) ,'" autocomplete="off" autocorrect="off" onkeypress="if (Srch.U.isEnterKey(String.fromCharCode(event.keyCode))) { $getClientControl(this).search(this.value);return Srch.U.cancelEvent(event); }" onkeydown="var ctl = $getClientControl(this);ctl.activateDefaultQuerySuggestionBehavior();" onfocus="var ctl = $getClientControl(this);ctl.hidePrompt();ctl.setBorder(true);" onblur="var ctl = $getClientControl(this);ctl.showPrompt();ctl.setBorder(false);" />'
+); 
+                
+                if (showNavigation) { 
+ms_outHtml.push(''
+,'                    <a class="ms-srch-sb-navLink" title="', $htmlEncode(Srch.Res.sb_GoNav) ,'" id="', $htmlEncode(navButtonId) ,'" onclick="$getClientControl(this).activateDefaultNavigationBehavior();return Srch.U.cancelEvent(event);" href="javascript: {}">'
+,'						<i class="fa fa-search ms-srch-sb-searchImg"></i>'
+,'                        '
+,'                    </a>'
+); 
+                }
+ms_outHtml.push(''
+,'				<a title="', $htmlEncode(Srch.Res.sb_GoSearch) ,'" class="ms-srch-sb-searchLink search-click" id="', $htmlEncode(searchBoxLinkId) ,'" href="javascript: {}">'
+,'					<i class="fa fa-search ms-srch-sb-searchImg"></i>'
+,'                </a>'
+,'                '
+); 
+            if (showQuerySuggestions) { 
+ms_outHtml.push(''
+,'                <div class="ms-qSuggest-container ms-shadow" id="AutoCompContainer">'
+,'                    <div id="', $htmlEncode(suggestionsListId) ,'"></div>'
+,'                </div>'
+); 
+            } 
+
+            if (showNavigation) { 
+ms_outHtml.push(''
+,'                <div class="ms-qSuggest-container ms-shadow" id="NavDropdownListContainer">'
+,'                    <div id="', $htmlEncode(navListId) ,'"></div>'
+,'                </div>'
+); 
+            } 
+ms_outHtml.push(''
+,'            </div>'
+);
+		
+			if(window.location.href.indexOf("Pages/") > -1)
+			{
+ms_outHtml.push('       '
+,'            <p class="explainTexts" style="color:white">Search on adrese, post code, city, company name</p>'
+); 
+		    }
+		    else 
+		    {
+ms_outHtml.push('     '
+,'            <p class="explainTexts" style="color:white">S&#248;g p&#229; adresse, postnummer, by, firmanavn</p> '
+);	            		
+		    }
+		    
+		    
+            if (ctx.ClientControl.get_showAdvancedLink()) {
+                var advancedUrl = ctx.ClientControl.get_advancedSearchPageAddress();
+                if(!$isEmptyString(advancedUrl)){ 
+ms_outHtml.push(''
+,'                    <div class="ms-srch-sb-link"><a id="AdvancedLink" href="', $urlHtmlEncode(advancedUrl) ,'">', $htmlEncode(Srch.Res.sb_AdvancedLink) ,'</a></div>'
+); 
+                }
+            }
+            if (ctx.ClientControl.get_showPreferencesLink()) {
+                var preferencesUrl = ctx.ScriptApplicationManager.get_preferencesUrl();
+                if(!$isEmptyString(preferencesUrl)){ 
+ms_outHtml.push(''
+,'                    <div class="ms-srch-sb-link"><a id="PreferencesLink" href="', $urlHtmlEncode(preferencesUrl) ,'">', $htmlEncode(Srch.Res.sb_PreferencesLink) ,'</a></div>'
+); 
+                }
+            } 
+ms_outHtml.push(''
+,'        </div>'
+,'    '
+);
+
+  ctx['DisplayTemplateData'] = cachePreviousTemplateData;
+  return ms_outHtml.join('');
+}
+function RegisterTemplate_9cde430b0869450f83bced2997656369() {
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("Control_SearchBox_Compact", DisplayTemplate_9cde430b0869450f83bced2997656369);
+}
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fControls\u002fControl_SearchBox.js", DisplayTemplate_9cde430b0869450f83bced2997656369);
+}
+//        
+        //$includeLanguageScript("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fControls\u002fControl_SearchBox.js", "~sitecollection/_catalogs/masterpage/FindSmiley/Display Templates/Language Files/{Locale}/CustomStrings.js");
+    //
+}
+RegisterTemplate_9cde430b0869450f83bced2997656369();
+if (typeof(RegisterModuleInit) == "function" && typeof(Srch.U.replaceUrlTokens) == "function") {
+  RegisterModuleInit(Srch.U.replaceUrlTokens("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fControls\u002fControl_SearchBox.js"), RegisterTemplate_9cde430b0869450f83bced2997656369);
+}

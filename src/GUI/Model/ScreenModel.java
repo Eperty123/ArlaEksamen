@@ -23,7 +23,7 @@ public class ScreenModel {
         initialize();
     }
 
-    private void initialize() {
+    public void initialize() {
         allScreenBits.addAll(loadScreensAndAssignedUser());
     }
 

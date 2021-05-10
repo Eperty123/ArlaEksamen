@@ -1,0 +1,503 @@
+﻿// ======================================================================================================
+//
+//
+//
+// ======================================================================================================
+$includeLanguageScript(this.url, "~sitecollection/_catalogs/masterpage/FindSmiley/Display Templates/Language Files/{Locale}/CustomStrings.js");
+//
+var ItemTemplate = ItemTemplate || {};
+
+// 
+ItemTemplate.item = ItemTemplate.item || {};
+
+// 
+ItemTemplate.init = function (ctx, displayValueOptions) {
+
+    //	
+    var setDisplayValues = function (ctx, item, options) {
+
+        //
+        var managedPropertyMappingNames = {
+            Title: "Title",
+            SmileyName: "FindSmileyNavn",
+            Adresse: "FindSmileyAddresse",
+            Postnr: "FindSmileyPostnr",
+            PostDst: "FindSmileyPostDst",
+            Smiley1: "FindSmileySmiley1",
+            Smiley2: "FindSmileySmiley2",
+            Smiley3: "FindSmileySmiley3",
+            Smiley4: "FindSmileySmiley4",
+            Elitesmiley: "FindSmileyElitesmiley",
+            Dato1: "FindSmileyDato1",
+            Dato2: "FindSmileyDato2",
+            Dato3: "FindSmileyDato3",
+            Dato4: "FindSmileyDato4",
+            Aktlbnr1: "FindSmileyAktlbnr1",
+            Aktlbnr2: "FindSmileyAktlbnr2",
+            Aktlbnr3: "FindSmileyAktlbnr3",
+            Aktlbnr4: "FindSmileyAktlbnr4",
+            Type: "FindSmileyType",
+            ReklameBeskyttelse: "FindSmileyReklameBeskyttelse",
+            Navnelbnr: "FindSmileyNavnelbnr",
+            Path: "Path",
+            DocType: "Indholdstype",
+            Entrance: "Indgang",
+            Occupation: "Occupation",
+            Date: "Date",
+            NewsletterType: "FindSmiley-Newslettertype",
+            FileType: "FileType",
+            Category: "Kategori",
+            ExternalLink: "ExternalLink"
+        };
+
+        //	
+        var setDefaultDisplayValues = function (ctx, item) {
+            //
+            var hiddenContextFieldName = "ctl00_HiddenContextPlaceholder_HiddenContextField";
+
+            // Set link URL
+            var linkURL = $getItemValue(ctx, managedPropertyMappingNames.Path);
+            linkURL.overrideValueRenderer($urlHtmlEncode);
+            var para = document.getElementById(hiddenContextFieldName);
+            if (!$isNull(para)) {
+                linkURL += para.value;
+            }
+            item.linkURL = linkURL;
+
+            // Set title
+            var title = Srch.U.getHighlightedProperty(id, ctx.CurrentItem, managedPropertyMappingNames.Title);
+            if ($isEmptyString(title)) {
+                title = $htmlEncode(ctx.CurrentItem.Title);
+            }
+            item.title = title;
+
+            // Set SmileyName
+            var smileyName = $getItemValue(ctx, managedPropertyMappingNames.SmileyName);
+            if ($isEmptyString(smileyName)) {
+                smileyName = $htmlEncode(smileyName.value);
+            }
+            item.smileyName = smileyName;
+
+            // Set adresse
+            var adresse = $getItemValue(ctx, managedPropertyMappingNames.Adresse);
+            if ($isEmptyString(adresse)) {
+                adresse = $htmlEncode(adresse.value);
+            }
+            item.adresse = adresse;
+
+            // Set Postnr
+            var postnr = $getItemValue(ctx, managedPropertyMappingNames.Postnr);
+            if ($isEmptyString(postnr)) {
+                postnr = $htmlEncode(postnr.value);
+            }
+            item.postnr = postnr;
+
+            // Set PostDst
+            var postDst = $getItemValue(ctx, managedPropertyMappingNames.PostDst);
+            if ($isEmptyString(postDst)) {
+                postDst = $htmlEncode(postDst.value);
+            }
+            item.postDst = postDst;
+
+            // Set Smiley1
+            var smiley1 = $getItemValue(ctx, managedPropertyMappingNames.Smiley1);
+            if ($isEmptyString(smiley1)) {
+                smiley1 = $htmlEncode(smiley1.value);
+            }
+            item.smiley1 = smiley1;
+
+            // Set Smiley2
+            var smiley2 = $getItemValue(ctx, managedPropertyMappingNames.Smiley2);
+            if ($isEmptyString(smiley2)) {
+                smiley2 = $htmlEncode(smiley2.value);
+            }
+            item.smiley2 = smiley2;
+
+            // Set Smiley3
+            var smiley3 = $getItemValue(ctx, managedPropertyMappingNames.Smiley3);
+            if ($isEmptyString(smiley3)) {
+                smiley3 = $htmlEncode(smiley3.value);
+            }
+            item.smiley3 = smiley3;
+
+            // Set Smiley4
+            var smiley4 = $getItemValue(ctx, managedPropertyMappingNames.Smiley4);
+            if ($isEmptyString(smiley4)) {
+                smiley4 = $htmlEncode(smiley4.value);
+            }
+            item.smiley4 = smiley4;
+
+            // Set EliteSmiley
+            var elitesmiley = $getItemValue(ctx, managedPropertyMappingNames.Elitesmiley);
+            if ($isEmptyString(elitesmiley)) {
+                elitesmiley = $htmlEncode(elitesmiley.value);
+            }
+            item.elitesmiley = elitesmiley;
+
+            // Set Dato1
+            var dato1 = $getItemValue(ctx, managedPropertyMappingNames.Dato1);
+            if ($isEmptyString(dato1)) {
+                dato1 = $htmlEncode(dato1.value);
+            }
+            item.dato1 = dato1;
+
+            // Set Dato2
+            var dato2 = $getItemValue(ctx, managedPropertyMappingNames.Dato2);
+            if ($isEmptyString(dato2)) {
+                dato2 = $htmlEncode(dato2.value);
+            }
+            item.dato2 = dato2;
+
+            // Set Dato3
+            var dato3 = $getItemValue(ctx, managedPropertyMappingNames.Dato3);
+            if ($isEmptyString(dato3)) {
+                dato3 = $htmlEncode(dato3.value);
+            }
+            item.dato3 = dato3;
+
+            // Set Dato4
+            var dato4 = $getItemValue(ctx, managedPropertyMappingNames.Dato4);
+            if ($isEmptyString(dato4)) {
+                dato4 = $htmlEncode(dato4.value);
+            }
+            item.dato4 = dato4;
+
+            // Set Aktlbnr1
+            var aktlbnr1 = $getItemValue(ctx, managedPropertyMappingNames.Aktlbnr1);
+            if ($isEmptyString(aktlbnr1)) {
+                aktlbnr1 = $htmlEncode(aktlbnr1.value);
+            }
+            item.aktlbnr1 = aktlbnr1;
+
+            // Set Aktlbnr2
+            var aktlbnr2 = $getItemValue(ctx, managedPropertyMappingNames.Aktlbnr2);
+            if ($isEmptyString(aktlbnr2)) {
+                aktlbnr2 = $htmlEncode(aktlbnr2.value);
+            }
+            item.aktlbnr2 = aktlbnr2;
+
+            // Set Aktlbnr3
+            var aktlbnr3 = $getItemValue(ctx, managedPropertyMappingNames.Aktlbnr3);
+            if ($isEmptyString(aktlbnr3)) {
+                aktlbnr3 = $htmlEncode(aktlbnr3.value);
+            }
+            item.aktlbnr3 = aktlbnr3;
+
+            // Set Aktlbnr4
+            var aktlbnr4 = $getItemValue(ctx, managedPropertyMappingNames.Aktlbnr4);
+            if ($isEmptyString(aktlbnr4)) {
+                aktlbnr4 = $htmlEncode(aktlbnr4.value);
+            }
+            item.aktlbnr4 = aktlbnr4;
+
+            // Set Type
+            var type = $getItemValue(ctx, managedPropertyMappingNames.Type);
+            if ($isEmptyString(type)) {
+                type = $htmlEncode(type.value);
+            }
+            item.type = type;
+
+            // Set Navnelbnr
+            var navnelbnr = $getItemValue(ctx, managedPropertyMappingNames.Navnelbnr);
+            if ($isEmptyString(navnelbnr)) {
+                navnelbnr = $htmlEncode(navnelbnr.value);
+            }
+            item.navnelbnr = navnelbnr;
+
+            // Set ReklameBeskyttelse
+            var reklameBeskyttelse = $getItemValue(ctx, managedPropertyMappingNames.ReklameBeskyttelse);
+            if ($isEmptyString(reklameBeskyttelse)) {
+                reklameBeskyttelse = $htmlEncode(reklameBeskyttelse.value);
+            }
+            item.reklameBeskyttelse = reklameBeskyttelse;
+
+            // Set hit-highligthed summary
+            item.hitHighlightedSummary = Srch.U.processHHXML(ctx.CurrentItem.HitHighlightedSummary);
+        };
+
+        //
+        var setOptionalDisplayValues = function (ctx, item, options) {
+
+            // Set doc-type		
+            if (options.includeDocType == true) {
+                item.docType = $getItemValue(ctx, managedPropertyMappingNames.DocType);
+            }
+            // Set filetype
+            if (options.includeFileType == true) {
+                item.fileType = $getItemValue(ctx, managedPropertyMappingNames.FileType);
+            }
+
+            // Set entrance		
+            if (options.includeEntrance == true) {
+                var entranceArray = String($getItemValue(ctx, managedPropertyMappingNames.Entrance)).split(',');
+                var entrance = ""
+                if (!$isNull(entranceArray)) {
+                    var re = new RegExp(',', 'g');
+                    entrance = String(entranceArray).replace(re, ', ');
+                }
+                item.entrance = entrance;
+            }
+
+            // Set occupation
+            if (options.includeOccupation == true) {
+                var occupationArray = String($getItemValue(ctx, managedPropertyMappingNames.Occupation)).split(',');
+                var occupation = ""
+                if (!$isNull(occupationArray)) {
+                    var re = new RegExp(',', 'g');
+                    occupation = String(occupationArray).replace(re, ', ');
+                }
+                item.occupation = occupation;
+
+            }
+
+            // Set date
+            if (options.includeDate == true) {
+                item.date = new Date($getItemValue(ctx, managedPropertyMappingNames.Date).inputValue).format('dd MMM yyyy');
+            }
+
+            // Set newsletter type
+            if (options.includeNewsletterType == true) {
+                item.newsletterType = $getItemValue(ctx, managedPropertyMappingNames.NewsletterType);
+            }
+
+            // Set publication details
+            if (options.includePublicationDetails == true) {
+
+                // Set publication number
+                item.pubNo = $getItemValue(ctx, "PubNr");
+
+                // Set whether the publication can be ordered as a physical copy
+                item.canOrder = $getItemValue(ctx, "CanOrder");
+
+                // set external link
+                item.externalLink = $getItemValue(ctx, "ExternalLink");
+
+                // Set publication category
+                var categoryArray = String($getItemValue(ctx, managedPropertyMappingNames.Category)).split(',');
+                var category = "";
+                if (!$isNull(categoryArray)) {
+                    var re = new RegExp(';', 'g');
+                    category = String(categoryArray).replace(re, ', ');
+                }
+                item.category = category;
+
+
+                // Set publication details URL (This is NOT the right way to do it... We need to fix the path!)
+                item.templateLinkURL = L_Menu_BaseUrl + "/Publikationer/Sider/publikationDetalje.aspx?pub=" + item.pubNo;
+            }
+        };
+
+        // Set the default display values for the item
+        setDefaultDisplayValues(ctx, item);
+
+        // Set optional display values for the item (if any)				
+        if (options) {
+            setOptionalDisplayValues(ctx, item, options);
+        }
+    };
+
+    //
+    var setCurrentItemCsrPath = function (ctx) {
+        var useWACUrl = !$isEmptyString(ctx.CurrentItem.ServerRedirectedURL);
+        if (ctx.ScriptApplicationManager && ctx.ScriptApplicationManager.states) {
+            useWACUrl = (useWACUrl && !ctx.ScriptApplicationManager.states.openDocumentsInClient);
+        }
+
+        var url = ctx.CurrentItem.csr_Path;
+        if ($isEmptyString(url)) {
+            if (useWACUrl) {
+                url = ctx.CurrentItem.ServerRedirectedURL;
+            } else {
+                url = ctx.CurrentItem.Path;
+            }
+        }
+        ctx.CurrentItem.csr_Path = url;
+    };
+
+    //
+    var id = ctx.ClientControl.get_nextUniqueId();
+    var itemId = id + Srch.U.Ids.item;
+    var hoverId = id + Srch.U.Ids.hover;
+    var hoverUrl = "~sitecollection/_catalogs/masterpage/FindSmiley/Display Templates/Items/Item_Default_HoverPanel.js";
+    var clientControl = ctx.ClientControl.constructor.name;
+
+    //
+    $setResultItem(itemId, ctx.CurrentItem);
+
+    // Wire-up up hover panel callback functions   
+    ctx.currentItem_ShowHoverPanelCallback = Srch.U.getShowHoverPanelCallback(itemId, hoverId, hoverUrl);
+    ctx.currentItem_HideHoverPanelCallback = Srch.U.getHideHoverPanelCallback();
+
+    // Set display values and client-side rendering path
+    setDisplayValues(ctx, ItemTemplate.item, displayValueOptions);
+    setCurrentItemCsrPath(ctx);
+
+    // 
+    ItemTemplate.item.isContentBySearch = (clientControl === 'Srch_ContentBySearch');
+    ItemTemplate.item.itemId = itemId;
+    ItemTemplate.item.hoverId = hoverId;
+};
+
+var rssFeed = rssFeed || {};
+
+rssFeed.generate = function (r) {
+    //Get URL parameters
+    $.urlParam = function (name) {
+        var results = new RegExp('[\?&#]' + encodeURI(name) + '=([^&#]*)').exec(window.location.href);
+        if (results == null) {
+            return null;
+        }
+        else {
+            return results[1] || 0;
+        }
+    }
+    //Generates the query from the KQL in the dataprovider
+    var queryFromDataprovider = function (ignoreSearch) {
+        var genQuery = $("#RSSFeed").attr("data-generalquery");
+        //Replaces urlquery variables with values
+        if (genQuery.indexOf("{QueryString") != -1) {
+            var res = genQuery.match(/{QueryString(.*?)}/g);
+            var i;
+            for (i = 0; i < res.length; i++) {
+                var urlvar = res[i].replace("{QueryString.", "");
+                urlvar = urlvar.replace("}", "");
+                urlvar = '"' + $.urlParam(urlvar) + '"';
+                genQuery = genQuery.replace(res[i], urlvar);
+            }
+        }
+        //Replaces searchquery variable with values
+        //if (genQuery.indexOf("{searchboxquery}") != -1) {
+        var searchkey = $.urlParam("k");
+        if ((!(ignoreSearch) && Boolean(searchkey))) {
+            genQuery = genQuery.replace("{searchboxquery}", searchkey);
+            genQuery += " " + searchkey + "*";
+        } else {
+            genQuery = genQuery.replace("{searchboxquery}", "");
+        }
+        //}
+        return genQuery += $resource("utility_rssScope");
+    };
+
+
+    var rssquery;
+    if (r == true) {
+        // Creates a custom rss feed
+        var reff = $(".refiner_selected");
+
+        rssquery = queryFromDataprovider(Boolean(0));
+        var i;
+        for (i = 0; i < reff.length; i++) {
+            var attr = reff[i].getAttribute("data-refinervalue");
+
+            if (rssquery == "") {
+                rssquery += attr;
+            } else {
+                rssquery += ' AND ' + attr;
+            }
+        }
+
+    } else {
+        //Creates a general ress feed.  
+        rssquery = queryFromDataprovider(Boolean(1));
+        if (rssquery == "") {
+            rssquery = '*';
+        }
+    }
+    //window.location = "/_layouts/15/srchrss.aspx?k=" + rssquery + "";
+    window.location = "/_layouts/15/Netcompany.FVS0001/RssResults.aspx?k=" + rssquery + "";
+};
+
+
+/* Show search source and result header  */
+function showSearchSource() {
+    var qs = queryString();
+    var source = "bdc";
+    // see styling in _lexiconTopic.template.scss
+    if (qs && qs.Source) source = qs.Source.toLowerCase();
+    if (source === "local") { // article search
+        $(".search_source_bdc").removeClass("active");
+        $(".search_source_local").addClass("active");
+        $(".ResultTablesHeader").css("visibility", "hidden");
+    } else { // Default is control report search
+        $(".search_source_bdc").addClass("active");
+        $(".search_source_local").removeClass("active");
+        $(".ResultTablesHeader").css("visibility", "visible");
+    }
+}
+
+/* 
+	Add Query String Object function, if no url is passed then use current page url 
+	Ignore anything after # bookmark indicator 
+*/
+function queryString(url) {
+    var s = window.location.search.substr(1);
+    var p = s.indexOf('#');
+    if (p >= 0) s = s.substring(0, p);
+    var a = s.split('&');
+    if (url) a = url.substring(url.indexOf('?') + 1).split('&');
+    if (a === "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i) {
+        p = a[i].split('=');
+        if (p.length != 2)
+            b[p[0]] = "";
+        else
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+}
+
+/* Replace multiple parameters {0}, {1}, etc. in a string, with the supplied values */
+if (!String.prototype.format) {
+    String.prototype.format = function () {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined' ? args[number] : match;
+        });
+    };
+}
+
+
+/* Add speech bubble after search result is loaded
+	parentSelector: 	Use jQuery selector to find parent of speech buble ".search_row_item th:last-child"
+	id: 				Any id like "mybubble"
+	html: 				Give som HTML text for the P tag like "Hello world!"
+	className: 			Apply class pos0, pos1, pos2, pos3, pos4 to position of speech bubble top triangle  
+*/
+function showSpeechBubble(parentSelector, id, html, className) {
+    var pos = "pos0";
+    if (className) pos = className;
+    $(parentSelector).append('<p class="triagle-top-spacer"></p>');
+    $(parentSelector).append('<p id="' + id + '"class="triangle-border top ' + pos + '">' + html + '</p>');
+}
+
+/* Show/hide speech bubbles in search result table rows */
+function showSearchResultSpeechBubble(element) {
+    var tr = $(element).parents(".search_row_item").next(".search_row_info");
+    if (tr) {
+        tr.css("display", "table-row");
+    }
+}
+
+function hideSearchResultSpeechBubble(element) {
+    $(element).parent(".search_row_info").hide();
+}
+
+function toggleSearchResultSpeechBubble(element, event, text, pos) {
+    event.preventDefault();
+
+    var tr = $(element).parents(".search_row_item").next(".search_row_info");
+    var trText = $(element).parents(".search_row_item").next(".search_row_info").find(".search_row_text").text(text)
+    var trText = $(element).parents(".search_row_item").next(".search_row_info").find(".search_row_text").removeClass("pos0 pos1 pos2 pos3 pos4").addClass(pos);
+
+
+    if (tr) {
+        if (tr.css("display") === "none") {
+            tr.css("display", "table-row");
+        }
+        else {
+            tr.hide();
+        }
+    }
+    return false;
+}
