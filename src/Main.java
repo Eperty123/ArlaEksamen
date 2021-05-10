@@ -22,10 +22,6 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/View/Login.fxml"));
         Parent root = loader.load();
         LoginController controller = loader.getController();
-        controller.getMaximize().setOnMouseClicked((v)->{
-            maximize=!maximize;
-            primaryStage.setMaximized(maximize);
-        });
         primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.initStyle(StageStyle.UNDECORATED);
