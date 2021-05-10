@@ -180,7 +180,7 @@ public class ScreenDAL {
      */
     private void addScreenBitAndUser(List<ScreenBit> allScreens, ScreenBit newScreenBit, User assignedUser) {
         // If ScreenBit does not exist, it is added to the return list.
-        if(!allScreens.contains(newScreenBit)){
+        if(allScreens.stream().noneMatch(o -> o.getId() == newScreenBit.getId())){
             newScreenBit.addUser(assignedUser);
             allScreens.add(newScreenBit);
         } else {
