@@ -8,13 +8,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ScreenDAL {
 
-    private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
+    private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
+    private final ResultSetParser resultSetParser = new ResultSetParser();
 
-
+    /**
+     * Deletes a ScreenBit from the database.
+     * @param screenBit used to get the ScreenBit's id, which is used to identify the row to be deleted.
+     */
     public void deleteScreen(ScreenBit screenBit) {
 
         try (Connection con = dbCon.getConnection()) {
@@ -27,13 +33,18 @@ public class ScreenDAL {
         }
     }
 
+    /**
+     * Updates ScreenName and ScreenInfo in the database.
+     * @param newScreenBit contains the new ScreenBit information.
+     * @param oldScreenBit used to get Id for row referencing.
+     */
     public void updateScreen(ScreenBit newScreenBit, ScreenBit oldScreenBit){
 
         try (Connection con = dbCon.getConnection()) {
-            PreparedStatement pSql = con.prepareStatement("UPDATE Screen SET ScreenName=?, ScreenInfo=? WHERE ScreenName=?");
+            PreparedStatement pSql = con.prepareStatement("UPDATE Screen SET ScreenName=?, ScreenInfo=? WHERE Id=?");
             pSql.setString(1, newScreenBit.getName());
             pSql.setString(2, newScreenBit.getScreenInfo());
-            pSql.setString(3, oldScreenBit.getName());
+            pSql.setInt(3, oldScreenBit.getId());
             pSql.execute();
 
         } catch (SQLException throwables) {
@@ -41,6 +52,10 @@ public class ScreenDAL {
         }
     }
 
+    /**
+     * Creates a new ScreenBit in the database's Screen table. Id is assigned by the database automatically.
+     * @param newScreenBit
+     */
     public void addScreen(ScreenBit newScreenBit) {
 
         try (Connection con = dbCon.getConnection()) {
@@ -54,28 +69,43 @@ public class ScreenDAL {
         }
     }
 
-    public HashMap<ScreenBit, String> getScreens(){
-        HashMap<ScreenBit, String> allScreens = new HashMap<>();
+
+    /**
+     * This method joins row data from the Screen table, and the User table using the junction table ScreenRights.
+     * ScreenBits are created, and assigned User objects are created and added to the screen which they are assigned to.
+     * @return a list of all ScreenBit's with assigned Users.
+     */
+    public List<ScreenBit> getScreens(){
+        List<ScreenBit> allScreens = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
+
             PreparedStatement pSql = con.prepareStatement("" +
-                    "SELECT  Screen.Id, Screen.ScreenName, " +
-                    "Screen.ScreenInfo, ScreenRights.UserName " +
+                    "SELECT " +
+                    "Screen.Id AS ScreenId," +
+                    "Screen.ScreenName," +
+                    "Screen.ScreenInfo," +
+                    "[User].Id AS UserId," +
+                    "[User].FirstName," +
+                    "[User].LastName," +
+                    "[User].UserName," +
+                    "[User].Email," +
+                    "[User].Password," +
+                    "[User].UserRole " +
                     "FROM Screen " +
-                    "LEFT JOIN ScreenRights " +
-                    "ON Screen.Id = ScreenRights.ScreenId;");
+                    "JOIN ScreenRights " +
+                    "ON Screen.Id = ScreenRights.ScreenId " +
+                    "JOIN [User]" +
+                    "ON [User].UserName = ScreenRights.UserName;");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
 
             while(rs.next()){
-                int id = rs.getInt("Id");
-                String screenName = rs.getString("ScreenName");
-                String screenInfo = rs.getString("ScreenInfo");
-                String assignedUser = rs.getString("UserName");
 
-                ScreenBit screenBit = new ScreenBit(id,screenName, screenInfo);
-                allScreens.put(screenBit, assignedUser);
+                ScreenBit newScreenBit = resultSetParser.getScreenBit(rs);
+                User assignedUser = resultSetParser.getUser(rs);
+                addScreenBitAndUser(allScreens, newScreenBit, assignedUser);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -83,7 +113,12 @@ public class ScreenDAL {
         return allScreens;
     }
 
-
+    /**
+     * Creates a row in the junction table ScreenRights in the database. An association in the ScreenRights table
+     * consists of a ScreenId (int) and a UserName (String / NVARCHAR(10)).
+     * @param user
+     * @param screenBit
+     */
     public void assignScreenRights(User user, ScreenBit screenBit){
 
         try (Connection con = dbCon.getConnection()) {
@@ -97,15 +132,37 @@ public class ScreenDAL {
         }
     }
 
+    /**
+     * Deletes an association in the ScreenRights junction table in the database.
+     * The row is identified using both userName and screenId.
+     * @param user
+     * @param screenBit
+     */
     public void removeScreenRights(User user, ScreenBit screenBit){
 
         try (Connection con = dbCon.getConnection()) {
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=?");
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=? AND ScreenId=?");
             pSql.setString(1, user.getUserName());
+            pSql.setInt(2, screenBit.getId());
             pSql.execute();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+    }
+
+    private void addScreenBitAndUser(List<ScreenBit> allScreens, ScreenBit newScreenBit, User assignedUser) {
+        // If ScreenBit does not exist, it is added to the return list.
+        if(!allScreens.contains(newScreenBit)){
+            newScreenBit.addUser(assignedUser);
+            allScreens.add(newScreenBit);
+        } else {
+            // If ScreenBit does exist assignedUser is added to the ScreenBit
+            for(ScreenBit s : allScreens){
+                if(s.getId() == newScreenBit.getId()){
+                    s.addUser(assignedUser);
+                }
+            }
         }
     }
 

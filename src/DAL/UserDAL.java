@@ -1,5 +1,6 @@
 package DAL;
 
+import BE.ScreenBit;
 import BE.User;
 import BE.UserType;
 import DAL.DbConnector.DbConnectionHandler;
@@ -13,61 +14,53 @@ import java.util.List;
 
 public class UserDAL {
     private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
+    private ResultSetParser resultSetParser = new ResultSetParser();
 
-    public List<User> getUsers() {
-
-        // TODO add ScreenRights field
-
+    /**
+     * Creates a list of all users in the database. The query join the User and Screen tables through
+     * the ScreenRights junction table. Users who
+     * @return
+     */
+    public List<User> getUsers(){
         List<User> allUsers = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
-
-            PreparedStatement pSql = con.prepareStatement("SELECT * FROM [User]");
+            PreparedStatement pSql = con.prepareStatement("SELECT\n" +
+                    "  [User].Id AS UserId,\n" +
+                    "  [User].FirstName,\n" +
+                    "  [User].LastName,\n" +
+                    "  [User].UserName,\n" +
+                    "  [User].Email,\n" +
+                    "  [User].Password,\n" +
+                    "  [User].UserRole,\n" +
+                    "  Screen.Id AS ScreenId,\n" +
+                    "  Screen.ScreenName,\n" +
+                    "  Screen.ScreenInfo\n" +
+                    "FROM [User]\n" +
+                    "JOIN ScreenRights\n" +
+                    "  ON ScreenId = ScreenRights.ScreenId\n" +
+                    "LEFT JOIN Screen \n" +
+                    "  ON [User].UserName = ScreenRights.UserName;   ");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
 
-            while(rs.next()){
-                int id = rs.getInt("Id");
-                String firstName = rs.getString("FirstName");
-                String lastName = rs.getString("LastName");
-                String userName = rs.getString("UserName");
-                String email = rs.getString("Email");
-                int password = rs.getInt("Password");
-                int userRole = rs.getInt("UserRole");
-
-                allUsers.add(new User(id, firstName, lastName, userName, email, userRole, password));
+            while(rs.next()) {
+                User newUser = resultSetParser.getUser(rs);
+                ScreenBit screenBit = resultSetParser.getScreenBit(rs);
+                addUsersAndScreenBits(allUsers, newUser, screenBit);
             }
-        } catch (SQLException throwables){
+
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return allUsers;
     }
 
-    public void deleteUser(int userId) {
-
-        try (Connection con = dbCon.getConnection()) {
-
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM [User] WHERE Id = ?");
-            pSql.setInt(1, userId);
-            pSql.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public void deleteUser(String username) {
-
-        try (Connection con = dbCon.getConnection()) {
-
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM [User] WHERE UserName = ?");
-            pSql.setString(1, username);
-            pSql.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
+    /**
+     * Method performs an INSERT query to create a new user/row in the User table.
+     * @param user object containing information on the new user.
+     */
     public void addUser(User user){
 
         try (Connection con = dbCon.getConnection()) {
@@ -87,6 +80,11 @@ public class UserDAL {
 
     }
 
+    /**
+     * Updates an existing user in the database's User table.
+     * @param user object used to identify the row to be updated.
+     * @param updatedUser object containing the new user information.
+     */
     public void updateUser(User user, User updatedUser){
 
         try (Connection con = dbCon.getConnection()) {
@@ -107,5 +105,67 @@ public class UserDAL {
     }
 
 
+    /**
+     * Deletes a user from the User table in the database (referencing Id).
+     * @param user object used to identify which row to delete in database.
+     */
+    public void deleteUser(User user) {
+
+        // Deletes all User-Screen associations in the ScreenRights junction table.
+        deleteUserScreenAssociation(user);
+
+        try(Connection con = dbCon.getConnection()){
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM User WHERE Id=?");
+            pSql.setInt(1, user.getId());
+            pSql.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    /**
+     * This helper method updates the allUsers list with data retrieved from the ResultSet in the getUsers() method.
+     *
+     * - If a user does not exist in allUsers, first the ScreenBit is assigned to the user,
+     * and then the user is added to allUsers.
+     * - If a user does exist in allUsers, the ScreenBit is added to the users list of assigned ScreenBits.
+     * @param allUsers
+     * @param newUser object created from a ResultSet row
+     * @param screenBit object created from ResultSet row
+     */
+    private void addUsersAndScreenBits(List<User> allUsers, User newUser, ScreenBit screenBit) {
+        if(allUsers.stream().noneMatch(o -> o.getId() == newUser.getId())){
+
+            if(screenBit.getName() == null) newUser.addScreenAssignment(screenBit);
+            allUsers.add(newUser);
+        } else{
+
+            for(User u : allUsers){
+                if(u.getId() == newUser.getId() && screenBit.getName() != null){
+                    u.addScreenAssignment(screenBit);
+                }
+            }
+        }
+    }
+
+    /**
+     * Deletes all rows in ScreenRights table associated with the user. This has to be done before
+     * the user can be deleted due to foreign key constraints in the ScreenRights table.
+     * @param user used to identify which rows to delete.
+     */
+    private void deleteUserScreenAssociation(User user){
+
+        try(Connection con = dbCon.getConnection()){
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=?");
+            pSql.setString(1, user.getUserName());
+            pSql.execute();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
 
 }

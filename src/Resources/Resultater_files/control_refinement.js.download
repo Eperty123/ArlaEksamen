@@ -1,0 +1,90 @@
+/* Filen er i øjeblikket knyttet til en HTML-fil af samme navn og henter indhold fra den. Du kan ikke flytte, slette, omdøbe eller foretage ændringerne i filen, før tilknytningen fjernes. */
+
+function DisplayTemplate_9f4e403387a0499d91fcb26c45a52dd2(ctx) {
+  var ms_outHtml=[];
+  var cachePreviousTemplateData = ctx['DisplayTemplateData'];
+  ctx['DisplayTemplateData'] = new Object();
+  DisplayTemplate_9f4e403387a0499d91fcb26c45a52dd2.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['TemplateUrl']='~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fControls\u002fControl_Refinement.js';
+  ctx['DisplayTemplateData']['TemplateType']='Control';
+  ctx['DisplayTemplateData']['TargetControlType']=['Refinement'];
+  this.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+ms_outHtml.push('','		'
+); 
+        ctx.ClientControl.alternateRenderer = function(container, cntxt) {};
+ms_outHtml.push(''
+,'        <div class="ms-ref-ctrl" id="Refinement" name="Control">			'
+); 
+            if(!$isNull(ctx.ClientControl)){            	            
+                var rcs = ctx.ClientControl.get_selectedRefinementControls();
+                if(!$isEmptyArray(rcs)){
+ms_outHtml.push(''
+,'					<div id="refiner_container" class="refiner_primary-color">'
+,'						<div class="refiner_title">', $resource("control_Refinement_YourSearch_Title") ,'</div>'
+,'						<div class="refiner_list">'
+,'							<p id="refiner_container_desc" class="pull-left">'
+,'								', $resource("control_Refinement_YourSearch_Desc") ,' <br />'
+); 								
+								var availableRefiners = "";
+								for(var i = 0; i < rcs.length; i++){
+			                        var rc = rcs[i];
+			                        if(!$isNull(rc)){
+			                            var refinername = "";
+			                            if(rc.overrideDisplayName != "") {
+			                            	refinername = rc.overrideDisplayName;
+			                            } else {
+			                            	refinername = rc.propertyName;
+			                            }
+			                            
+			                            if (availableRefiners != "") {
+			                            	refinername = ', ' + refinername;
+			                            }
+			                            
+			                            availableRefiners += refinername;
+			                        }
+			                    }
+ms_outHtml.push(''
+,'								', availableRefiners ,''
+,'							</p>'
+,'							<img class="pull-right" src="/_layouts/15/Netcompany.FVS0001/images/refiner_vertical_arrow.png" />'
+,'						</div>'
+,'					</div>'
+);
+                    for(var i = 0; i < rcs.length; i++){
+                        var rc = rcs[i];
+                        if(!$isNull(rc)){
+                            rc.containerId = ctx.ClientControl.get_nextUniqueId(); 
+ms_outHtml.push(''
+,'                            <div id="', $htmlEncode(rc.containerId) ,'" name="Group" refinerName="', $htmlEncode(rc.propertyName) ,'"></div>'
+); 
+                        }
+                    }
+                }
+            }
+ms_outHtml.push(''
+,'        </div>'
+,'    '
+);
+
+  ctx['DisplayTemplateData'] = cachePreviousTemplateData;
+  return ms_outHtml.join('');
+}
+function RegisterTemplate_9f4e403387a0499d91fcb26c45a52dd2() {
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("Control_Refinement", DisplayTemplate_9f4e403387a0499d91fcb26c45a52dd2);
+}
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fControls\u002fControl_Refinement.js", DisplayTemplate_9f4e403387a0499d91fcb26c45a52dd2);
+}
+//
+        $includeLanguageScript("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fControls\u002fControl_Refinement.js", "~sitecollection/_catalogs/masterpage/FindSmiley/Display Templates/Language Files/{Locale}/CustomStrings.js");
+    //
+}
+RegisterTemplate_9f4e403387a0499d91fcb26c45a52dd2();
+if (typeof(RegisterModuleInit) == "function" && typeof(Srch.U.replaceUrlTokens) == "function") {
+  RegisterModuleInit(Srch.U.replaceUrlTokens("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fControls\u002fControl_Refinement.js"), RegisterTemplate_9f4e403387a0499d91fcb26c45a52dd2);
+}

@@ -4,6 +4,7 @@ import BE.User;
 import BLL.UserManager;
 import DAL.UserDAL;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.event.ActionEvent;
@@ -36,6 +37,7 @@ public class RemoveEmployeeController {
     public void handleJa(ActionEvent actionEvent) {
 
         userModel.deleteUser(user);
+        ScreenModel.getInstance().updateScreenBits();
 
         Stage stage = (Stage) root.getScene().getWindow();
         stage.close();
