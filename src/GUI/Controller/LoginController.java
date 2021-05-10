@@ -5,27 +5,21 @@ import BE.Timer;
 import BE.User;
 import BE.UserType;
 import BLL.LoginManager;
-import BLL.PasswordManager;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -159,7 +153,7 @@ public class LoginController implements Initializable {
         for (ScreenBit s : screens) {
             for (User u : users) {
                 if(s.getAssignedUsers().contains(u)){
-                    u.setAssignedScreen(s);
+                    u.addScreenAssignment(s);
                 }
             }
         }

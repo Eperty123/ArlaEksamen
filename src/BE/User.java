@@ -1,6 +1,8 @@
 package BE;
 
 
+import java.util.List;
+
 public class User {
     private int id;
     private String firstName;
@@ -9,10 +11,9 @@ public class User {
     private String email;
     private Enum userRole;
     private int password;
-    // TODO update to list
-    private ScreenBit assignedScreenBit;
+    private List<ScreenBit> assignedScreenBits;
 
-    public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password, ScreenBit assignedScreenBit) {
+    public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password, ScreenBit assignedScreenBits) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,7 +21,38 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
-        this.assignedScreenBit = assignedScreenBit;
+        this.assignedScreenBits.add(assignedScreenBits);
+    }
+
+    public User(String firstName, String lastName, String userName, String email, int userRole, int password, ScreenBit assignedScreenBits) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        setUserRole(userRole);
+        this.password = password;
+        this.assignedScreenBits.add(assignedScreenBits);
+    }
+
+    public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password, List<ScreenBit> assignedScreenBits) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        setUserRole(userRole);
+        this.password = password;
+        this.assignedScreenBits = assignedScreenBits;
+    }
+
+    public User(String firstName, String lastName, String userName, String email, int userRole, int password, List<ScreenBit> assignedScreenBits) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        setUserRole(userRole);
+        this.password = password;
+        this.assignedScreenBits = assignedScreenBits;
     }
 
     public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password) {
@@ -31,7 +63,7 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
-        this.assignedScreenBit = null;
+        this.assignedScreenBits = null;
 
     }
 
@@ -42,7 +74,7 @@ public class User {
         this.email = email;
         setUserRole(userRole);
         this.password = password;
-        this.assignedScreenBit = null;
+        this.assignedScreenBits = null;
     }
 
     public User(String userName) {
@@ -94,12 +126,12 @@ public class User {
 
     }
 
-    public ScreenBit getAssignedScreen() {
-        return assignedScreenBit;
+    public List<ScreenBit> getAssignedScreen() {
+        return assignedScreenBits;
     }
 
-    public void setAssignedScreen(ScreenBit assignedScreenBit) {
-        this.assignedScreenBit = assignedScreenBit;
+    public void addScreenAssignment(ScreenBit assignedScreenBit) {
+        this.assignedScreenBits.add(assignedScreenBit);
     }
 
     public String getUserName() {

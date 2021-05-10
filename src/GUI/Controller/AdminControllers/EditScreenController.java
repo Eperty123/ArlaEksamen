@@ -4,7 +4,6 @@ import BE.ScreenBit;
 import BE.Searcher;
 import BE.User;
 import GUI.Model.ScreenModel;
-import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -62,7 +60,7 @@ public class EditScreenController implements Initializable {
 
     public void handleSave(ActionEvent actionEvent) {
         for (User u : lstScreenUsers.getItems()){
-            u.setAssignedScreen(screenBit);
+            u.addScreenAssignment(screenBit);
             ScreenModel.getInstance().assignScreenRights(u, screenBit);
         }
 

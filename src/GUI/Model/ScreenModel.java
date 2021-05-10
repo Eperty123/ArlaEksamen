@@ -36,7 +36,7 @@ public class ScreenModel {
         updateScreenBits();
     }
 
-    private void updateScreenBits() {
+    public void updateScreenBits() {
         allScreenBits.clear();
         allScreenBits.addAll(screenManager.getScreens());
     }
@@ -65,21 +65,6 @@ public class ScreenModel {
         screenManager.removeScreenRights(user, screenBit);
     }
 
-    public void updateAllScreensAssignRights(User user, ScreenBit screenBit){
-        for(ScreenBit s : allScreenBits){
-            if(s.getId() == screenBit.getId()){
-                s.addUser(user);
-            }
-        }
-    }
-
-    public void updateAllScreensDeleteRights(User user, ScreenBit screenBit){
-        for(ScreenBit s : allScreenBits){
-            if(s.getId() == screenBit.getId()){
-                s.removeUser(user);
-            }
-        }
-    }
 
     public User getUserByName(List<User> users, String userName) {
         for (User u : users) {
@@ -88,9 +73,6 @@ public class ScreenModel {
         return null;
     }
 
-    public void addScreenToUser(ScreenBit screenBit, String userName){
-        UserModel.getInstance().assignScreenByUserName(screenBit, userName);
-    }
 
     public ScreenBit getScreenBitByName(String ScreenBitName){
         for(ScreenBit s : allScreenBits){
