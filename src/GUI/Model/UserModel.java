@@ -41,7 +41,7 @@ public class UserModel {
     public void assignScreenByUserName(ScreenBit screenBit, String userName){
         for (User u : allUsers){
             if(u.getUserName().equals(userName)){
-                u.setAssignedScreen(screenBit);
+                u.addScreenAssignment(screenBit);
             }
         }
     }
@@ -63,10 +63,7 @@ public class UserModel {
     }
 
     public void deleteUser(User user){
-        ScreenModel.getInstance().removeScreenRights(user, user.getAssignedScreen());
-
-        userManager.deleteUser(user.getId());
-        allUsers.remove(user);
+        userManager.deleteUser(user);
         updateUsers();
     }
 

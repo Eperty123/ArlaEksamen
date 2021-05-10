@@ -49,7 +49,7 @@ public class EditEmployeeController implements Initializable {
 
             User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
                     , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
-            newUser.setAssignedScreen(screen);
+            newUser.addScreenAssignment(screen);
 
             userModel.updateUser(ogUser, newUser);
 

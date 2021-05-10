@@ -4,8 +4,6 @@ import BE.ScreenBit;
 import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
-import BLL.UserManager;
-import DAL.UserDAL;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXComboBox;
@@ -13,11 +11,9 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.PasswordField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -49,12 +45,12 @@ public class AddEmployeeController implements Initializable {
                 && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
                 && !chsScreen.getSelectionModel().isEmpty()) {
 
-            User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
+            User newUser = new User(txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
                     , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
 
             String screenName = chsScreen.getSelectionModel().getSelectedItem().toString();
             ScreenBit screenBit = ScreenModel.getInstance().getScreenBitByName(screenName);
-            newUser.setAssignedScreen(screenBit);
+            newUser.addScreenAssignment(screenBit);
 
             // Add the new user.
             userModel.addUser(newUser);
