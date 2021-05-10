@@ -37,13 +37,13 @@ public class AdminManagementController implements Initializable {
     @FXML
     private TableColumn<User, String> eD;
 
+    private UserModel userModel = new UserModel();
+
     private double xOffset = 0;
     private double yOffset = 0;
-    private UserModel userModel = UserModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         tblEmployees.setItems(userModel.getAllUsers());
         eID.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getId()));
         eFN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getFirstName()));
@@ -57,8 +57,8 @@ public class AdminManagementController implements Initializable {
      * Handle any incoming changes to the User ObservableList and update the table.
      */
     private void handleUserUpdate() {
-        userModel.getAllUsers().addListener((ListChangeListener<User>) c -> {
-            tblEmployees.setItems(userModel.getAllUsers());
+        UserModel.getInstance().getAllUsers().addListener((ListChangeListener<User>) c -> {
+            tblEmployees.setItems(UserModel.getInstance().getAllUsers());
             //System.out.println("Called");
         });
     }

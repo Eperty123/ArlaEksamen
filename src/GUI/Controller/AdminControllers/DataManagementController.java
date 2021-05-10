@@ -38,7 +38,7 @@ public class DataManagementController implements Initializable {
     private PickerStageController pickerStageController;
     private Node previousNode;
     private DataGenerator dataGenerator = new DataGenerator();
-    private Object selectedItem;
+    private ViewType selectedItem;
 
     /**
      * Sets the current pickerStageController
@@ -58,10 +58,10 @@ public class DataManagementController implements Initializable {
         this.stage = stage;
         previousNode = pickerStageController.getContent();
         FileChooser fileChooser = new FileChooser();
-
+        
         // We need a selection from the combo box first.
         comboBox.setOnAction((v) -> {
-
+            fileChooser.getExtensionFilters().clear();
             var pdfExtension = new FileChooser.ExtensionFilter("Pdf file", "*.pdf");
             var htmlExtension = new FileChooser.ExtensionFilter("Html page", "*.html");
             var jpgExtension = new FileChooser.ExtensionFilter("Jpg file", "*.jpg");
@@ -71,21 +71,20 @@ public class DataManagementController implements Initializable {
             var excelExtension = new FileChooser.ExtensionFilter("Excel file", "*.xlsx");
 
             // Now let's add some extension based on the selected item.
-            switch (comboBox.getSelectionModel().getSelectedItem().toString()) {
-                case "HTTP" -> {
-                    fileChooser.getExtensionFilters().addAll(pdfExtension, htmlExtension);
+            var viewTypeSelected = ViewType.valueOf(comboBox.getSelectionModel().getSelectedItem().toString());
+            switch (viewTypeSelected) {
+                case HTTP, PDF -> {
+                    fileChooser.getExtensionFilters().addAll(htmlExtension, pdfExtension);
                 }
-                case "Image" -> {
+                case Image -> {
                     fileChooser.getExtensionFilters().addAll(jpgExtension, pngExtension);
                 }
-                case "BarChart", "PieChart" -> {
+                case BarChart, PieChart -> {
                     fileChooser.getExtensionFilters().addAll(csvExtension, excelExtension);
                 }
             }
-
-            System.out.println(v.toString());
             //tryToMakeContent();
-            selectedItem = v;
+            selectedItem = viewTypeSelected;
         });
 
         pickFile.setOnAction((v) -> {
@@ -107,7 +106,7 @@ public class DataManagementController implements Initializable {
      */
     private void tryToMakeContent() {
         if (comboBox.getSelectionModel().getSelectedItem() != null && file.get() != null) {
-            ViewMaker.callProperMethod(pickerStageController, comboBox.getSelectionModel().getSelectedItem().toString(), file.get());
+            ViewMaker.callProperMethod(pickerStageController, selectedItem, file.get());
         }
     }
 

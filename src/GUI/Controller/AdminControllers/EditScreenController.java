@@ -33,16 +33,18 @@ public class EditScreenController implements Initializable {
     private Label lblScreenName;
 
     private ScreenBit screenBit;
-    private List<User> users = new ArrayList<>();
+    private List<User> users;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        users = UserModel.getInstance().getAllUsers();
 
+    }
+
+    public void setData(List<User> users){
+        this.users = users;
         users.removeIf(user -> user.getAssignedScreen() != null);
 
         lstUsers.getItems().addAll(users);
-
     }
 
     public void setScreen(ScreenBit screenBit){

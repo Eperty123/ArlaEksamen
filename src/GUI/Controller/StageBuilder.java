@@ -113,7 +113,7 @@ public class StageBuilder {
         if (!currentString.isEmpty() && currentString.contains("=\"")) {
             String path = currentString.split("=\"")[1].substring(0, currentString.split("=\"")[1].indexOf("\""));
             File file = new File(path);
-            String viewType = currentString.split("=\"")[0];
+            ViewType viewType = ViewType.valueOf(currentString.split("=\"")[0]);
             ViewMaker.callProperMethod(pickerStageController, viewType, file);
         }
     }

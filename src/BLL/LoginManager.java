@@ -12,7 +12,7 @@ public class LoginManager {
 
     private static User currentUser;
 
-    public boolean attemptLogin(String username, String password)  {
+    public boolean attemptLogin(String username, String password) {
 
         PasswordManager passwordManager = new PasswordManager();
         List<User> allUsers = null;
@@ -20,7 +20,7 @@ public class LoginManager {
 
         for (User u : allUsers) {
             if (username.equals(u.getUserName()) && passwordManager.encrypt(password) == (u.getPassword())) {
-                currentUser=u;
+                currentUser = u;
                 return true;
             }
         }
@@ -29,6 +29,10 @@ public class LoginManager {
 
     public static User getCurrentUser() {
         return currentUser;
+    }
+
+    public static void setCurrentUser(User u) {
+        currentUser = u;
     }
 
 
