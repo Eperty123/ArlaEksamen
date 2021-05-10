@@ -141,40 +141,41 @@ public class PickerStageController implements Initializable {
     private void changeContent(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
             try {
-                Stage stage = new Stage();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/DataManagement.fxml"));
-                AnchorPane pane = loader.load();
-                stage.setTitle("Add content");
-                DataManagementController dataManagementController = loader.getController();
-                dataManagementController.setPickerStageController(this);
-                dataManagementController.setStage(stage);
-                Scene scene = new Scene(pane);
+                Stage stage = changeContent();
 
                 stage.setX(mouseEvent.getScreenX());
                 stage.setY(mouseEvent.getScreenY());
                 stage.setScene(scene);
-                stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void changeContent() {
+    private Stage changeContent() {
         try {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/DataManagement.fxml"));
             AnchorPane pane = loader.load();
             stage.setTitle("Add content");
             DataManagementController dataManagementController = loader.getController();
+            dataManagementController.getLeftBtn().onMouseClickedProperty().set((v)->stage.setIconified(true));
+            dataManagementController.getRightBtn().onMouseClickedProperty().set((v)->stage.close());
+            dataManagementController.getBar().onMouseDraggedProperty().set((MouseEvent mouseEvent)->{
+                stage.setX(mouseEvent.getScreenX()-mouseEvent.getSceneX());
+                stage.setY(mouseEvent.getScreenY()-mouseEvent.getSceneY());
+            });
+
             dataManagementController.setPickerStageController(this);
             dataManagementController.setStage(stage);
             Scene scene = new Scene(pane);
             stage.setScene(scene);
             stage.show();
+            return stage;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
