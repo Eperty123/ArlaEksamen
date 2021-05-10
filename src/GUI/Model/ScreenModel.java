@@ -24,7 +24,7 @@ public class ScreenModel {
     }
 
     private void initialize() {
-        allScreenBits.addAll(loadScreensAndAssignedUser());
+        allScreenBits.addAll(screenManager.getScreens());
     }
 
     public static ScreenModel getInstance() {
@@ -33,12 +33,17 @@ public class ScreenModel {
 
     public void addScreen(ScreenBit newScreenBit){
         screenManager.addScreen(newScreenBit);
-        allScreenBits.add(newScreenBit);
+        updateScreenBits();
+    }
+
+    private void updateScreenBits() {
+        allScreenBits.clear();
+        allScreenBits.addAll(screenManager.getScreens());
     }
 
     public void deleteScreen(ScreenBit screenBit){
         screenManager.deleteScreen(screenBit);
-        allScreenBits.remove(screenBit);
+        updateScreenBits();
     }
 
     public ObservableList<ScreenBit> getAllScreens() {
@@ -53,7 +58,7 @@ public class ScreenModel {
 
     public void assignScreenRights(User user, ScreenBit screenBit){
         screenManager.assignScreenRights(user, screenBit);
-
+        updateScreenBits();
     }
 
     public void removeScreenRights(User user, ScreenBit screenBit){
@@ -74,21 +79,6 @@ public class ScreenModel {
                 s.removeUser(user);
             }
         }
-    }
-
-    public List<ScreenBit> loadScreensAndAssignedUser(){
-        HashMap<ScreenBit, String> screenUserHashMap = screenManager.getScreens();
-        List<ScreenBit> allScreenBits = new ArrayList<>();
-
-        List<User> users = UserModel.getInstance().getAllUsers();
-
-        screenUserHashMap.forEach((k, v) -> {
-            k.addUser(getUserByName(users, v));
-            addScreenToUser(k, v);
-            allScreenBits.add(k);
-        });
-
-        return allScreenBits;
     }
 
     public User getUserByName(List<User> users, String userName) {

@@ -1,5 +1,6 @@
 package DAL;
 
+import BE.ScreenBit;
 import BE.User;
 import BE.UserType;
 import DAL.DbConnector.DbConnectionHandler;
@@ -13,32 +14,43 @@ import java.util.List;
 
 public class UserDAL {
     private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
+    private ResultSetParser resultSetParser = new ResultSetParser();
 
-    public List<User> getUsers() {
-
-        // TODO add ScreenRights field
-
+    /**
+     * Creates a list of all users in the database. The
+     * @return
+     */
+    public List<User> getUsers(){
         List<User> allUsers = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
-
-            PreparedStatement pSql = con.prepareStatement("SELECT * FROM [User]");
+            PreparedStatement pSql = con.prepareStatement("SELECT\n" +
+                    "  [User].Id AS UserId,\n" +
+                    "  [User].FirstName,\n" +
+                    "  [User].LastName,\n" +
+                    "  [User].UserName,\n" +
+                    "  [User].Email,\n" +
+                    "  [User].Password,\n" +
+                    "  [User].UserRole,\n" +
+                    "  Screen.Id AS ScreenId,\n" +
+                    "  Screen.ScreenName,\n" +
+                    "  Screen.ScreenInfo\n" +
+                    "FROM [User]\n" +
+                    "JOIN ScreenRights\n" +
+                    "  ON ScreenId = ScreenRights.ScreenId\n" +
+                    "LEFT JOIN Screen \n" +
+                    "  ON [User].UserName = ScreenRights.UserName;   ");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
 
-            while(rs.next()){
-                int id = rs.getInt("Id");
-                String firstName = rs.getString("FirstName");
-                String lastName = rs.getString("LastName");
-                String userName = rs.getString("UserName");
-                String email = rs.getString("Email");
-                int password = rs.getInt("Password");
-                int userRole = rs.getInt("UserRole");
-
-                allUsers.add(new User(id, firstName, lastName, userName, email, userRole, password));
+            while(rs.next()) {
+                User newUser = resultSetParser.getUser(rs);
+                ScreenBit screenBit = resultSetParser.getScreenBit(rs);
+                addUsersAndScreenBits(allUsers, newUser, screenBit);
             }
-        } catch (SQLException throwables){
+
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return allUsers;
@@ -106,6 +118,41 @@ public class UserDAL {
         }
     }
 
+    private ScreenBit getScreenBit(ResultSet rs) throws SQLException {
 
+        int screenId = rs.getInt("ScreenId");
+        String name = rs.getString("ScreenName");
+        String screenInfo = rs.getString("ScreenInfo");
+        ScreenBit newScreenBit = new ScreenBit(screenId, name, screenInfo);
+
+        return newScreenBit;
+    }
+
+    private User getUser(ResultSet rs) throws SQLException {
+
+        int userId = rs.getInt("UserId");
+        String firstName = rs.getString("FirstName");
+        String lastName = rs.getString("LastName");
+        String userName = rs.getString("UserName");
+        String email = rs.getString("Email");
+        int password = rs.getInt("Password");
+        int userRole = rs.getInt("UserRole");
+        User assignedUser = new User(userId, firstName, lastName,  userName, email, userRole, password);
+
+        return assignedUser;
+    }
+
+    private void addUsersAndScreenBits(List<User> allUsers, User newUser, ScreenBit screenBit) {
+        if(allUsers.stream().noneMatch(o -> o.getId() == newUser.getId())){
+            newUser.setAssignedScreen(screenBit);
+            allUsers.add(newUser);
+        } else{
+            for(User u : allUsers){
+                if(u.getId() == newUser.getId()){
+                    u.setAssignedScreen(screenBit);
+                }
+            }
+        }
+    }
 
 }
