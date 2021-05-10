@@ -34,6 +34,7 @@ public class AdminDashboardController implements Initializable {
     private BorderPane borderPane;
 
     private User currentUser;
+    private boolean isMaximized = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -68,6 +69,18 @@ public class AdminDashboardController implements Initializable {
     public void minimize() {
         Stage stage = (Stage) root.getScene().getWindow();
         stage.setIconified(true);
+    }
+
+    public void maximize(){
+        if (!isMaximized) {
+            isMaximized = true;
+            Stage stage = (Stage) root.getScene().getWindow();
+            stage.setMaximized(true);
+        } else{
+            isMaximized = false;
+            Stage stage = (Stage) root.getScene().getWindow();
+            stage.setMaximized(false);
+        }
     }
 
     public void exit() {
