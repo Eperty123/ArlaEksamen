@@ -1,5 +1,6 @@
 .background{
-  -fx-background-image: url("LoginBaggrund.png");
+  -fx-background-image: url("LoginBaggrund.png") no-repeat center fixed;
+  -fx-background-size: cover;
 }
 
 .bar{
