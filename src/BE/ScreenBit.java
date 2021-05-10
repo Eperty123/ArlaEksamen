@@ -68,4 +68,5 @@ public class ScreenBit {
     public void removeUser(User user){
         assignedUsers.remove(user);
     }
+
 }
