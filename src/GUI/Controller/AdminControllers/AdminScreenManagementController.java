@@ -1,5 +1,6 @@
 package GUI.Controller.AdminControllers;
 
+import BE.SceneMover;
 import BE.ScreenBit;
 import GUI.Controller.PopupControllers.ConfirmationController;
 import GUI.Model.ScreenModel;
@@ -11,11 +12,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -38,6 +41,7 @@ public class AdminScreenManagementController implements Initializable {
     private double xOffset = 0;
     private double yOffset = 0;
 
+    private SceneMover sceneMover = new SceneMover();
     private ScreenModel screenModel = ScreenModel.getInstance();
 
     @Override
@@ -135,7 +139,9 @@ public class AdminScreenManagementController implements Initializable {
         pickerDashboardController.init(screenBit);
         Scene pickerScene = new Scene(root);
 
-        applyScreenDrag(pickerDashboard, pickerScene);
+        BorderPane borderPane = (BorderPane) root.getChildren().get(0);
+        Node bar = borderPane.getTop();
+        sceneMover.move(pickerDashboard, bar);
 
         pickerDashboard.initStyle(StageStyle.UNDECORATED);
         pickerDashboard.setScene(pickerScene);
@@ -167,9 +173,10 @@ public class AdminScreenManagementController implements Initializable {
         editScreenController.setScreen(screenBit);
         editScreenController.setData(UserModel.getInstance().getAllUsers());
 
+        Node bar = root.getChildrenUnmodifiable().get(0);
         Scene editScreenScene = new Scene(root);
-
-        applyScreenDrag(editScreenStage, editScreenScene);
+        sceneMover.move(editScreenStage,bar);
+        //applyScreenDrag(editScreenStage, editScreenScene);
 
         editScreenStage.initStyle(StageStyle.UNDECORATED);
         editScreenStage.setScene(editScreenScene);

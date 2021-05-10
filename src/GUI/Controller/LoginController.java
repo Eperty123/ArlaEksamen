@@ -1,9 +1,6 @@
 package GUI.Controller;
 
-import BE.ScreenBit;
-import BE.Timer;
-import BE.User;
-import BE.UserType;
+import BE.*;
 import BLL.LoginManager;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
@@ -14,6 +11,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
@@ -51,6 +49,7 @@ public class LoginController implements Initializable {
 
     private final LoginManager loginManager = new LoginManager();
     private final Timer timer = new Timer();
+    private final SceneMover sceneMover = new SceneMover();
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -64,6 +63,7 @@ public class LoginController implements Initializable {
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();
+
             if (u.getUserRole() == UserType.Admin) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AdminDashboard.fxml"));
                 stage.setTitle("Admin dashboard");
@@ -77,24 +77,8 @@ public class LoginController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
-            scene.setOnMousePressed(mouseEvent -> {
-                xOffset = mouseEvent.getSceneX();
-                yOffset = mouseEvent.getSceneY();
-            });
-
-            scene.setOnMouseDragged(mouseEvent -> {
-                stage.setX(mouseEvent.getScreenX() - xOffset);
-                stage.setY(mouseEvent.getScreenY() - yOffset);
-                stage.setOpacity(0.8f);
-            });
-
-            scene.setOnMouseExited((event) -> {
-                stage.setOpacity(1.0f);
-            });
-
-            scene.setOnMouseReleased((event) -> {
-                stage.setOpacity(1.0f);
-            });
+            BorderPane borderPane = (BorderPane) scene.getRoot().getChildrenUnmodifiable().get(0);
+            sceneMover.move(stage,borderPane.getTop());
 
             root1.close();
         } else {
