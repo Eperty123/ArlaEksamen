@@ -78,9 +78,6 @@ public class User {
         this.assignedScreenBits = new ArrayList<ScreenBit>();
     }
 
-    public User(String userName) {
-        this.userName = userName;
-    }
 
     public int getId() {
         return id;
