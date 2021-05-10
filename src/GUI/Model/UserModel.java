@@ -56,6 +56,7 @@ public class UserModel {
         allUsers.clear();
         try {
             allUsers.addAll(userManager.getUsers());
+            
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

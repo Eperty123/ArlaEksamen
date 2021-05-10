@@ -1,0 +1,139 @@
+/* Filen er i øjeblikket knyttet til en HTML-fil af samme navn og henter indhold fra den. Du kan ikke flytte, slette, omdøbe eller foretage ændringerne i filen, før tilknytningen fjernes. */
+
+function DisplayTemplate_317f62b5f67542a49123f3ee5cc34d23(ctx) {
+  var ms_outHtml=[];
+  var cachePreviousTemplateData = ctx['DisplayTemplateData'];
+  ctx['DisplayTemplateData'] = new Object();
+  DisplayTemplate_317f62b5f67542a49123f3ee5cc34d23.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['TemplateUrl']='~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_SingleValue.js';
+  ctx['DisplayTemplateData']['TemplateType']='Filter';
+  ctx['DisplayTemplateData']['TargetControlType']=['Refinement'];
+  this.DisplayTemplateData = ctx['DisplayTemplateData'];
+
+  ctx['DisplayTemplateData']['CompatibleSearchDataTypes']=[];
+  ctx['DisplayTemplateData']['CompatibleManagedProperties']=[];
+
+ms_outHtml.push('',''
+);
+var Options = {
+    ShowCounts: true
+};
+
+var listData = ctx.ListData;
+var hasControl = !$isNull(ctx.RefinementControl) && !$isNull(ctx.ClientControl);
+
+if(hasControl) {
+    var hasNoListData = ($isEmptyArray(listData));
+
+    var propertyName = ctx.RefinementControl.propertyName;
+    var displayTitle = Srch.Refinement.getRefinementTitle(ctx.RefinementControl);
+    var isExpanded = Srch.Refinement.getExpanded(ctx.RefinementControl.propertyName);
+    var useContains = false;
+    var useKQL = false;
+    var refiners = [];
+    var prevRefiners = []; 
+    
+    var currentRefinementCategory = ctx.ClientControl.getCurrentRefinementCategory(ctx.RefinementControl.propertyName);
+    var hasAnyFilterTokens = (!$isNull(currentRefinementCategory) && currentRefinementCategory.get_tokenCount() > 0);
+    var renderEmptyContainer = hasControl && (hasNoListData && !hasAnyFilterTokens);
+    if(!renderEmptyContainer) {
+        var listDataTokenToDisplayMap = {};
+        var listDataTokenToCountMap = {};
+        if(!hasNoListData) {
+        	var datalength = listData.length;       
+            for (var i = 0; i < datalength; i++) {   
+                var filter = listData[i];
+                if(!$isNull(filter)) {
+                    if(hasAnyFilterTokens) {
+	                	if(currentRefinementCategory.t[0]==filter.RefinementToken){
+		                    listDataTokenToDisplayMap[filter.RefinementToken] = filter.RefinementName;
+		                    listDataTokenToCountMap[filter.RefinementToken] = filter.RefinementCount;
+		                    if(!$isEmptyString(filter.RefinementName) && !$isEmptyString(filter.RefinementToken)) {
+		                        refiners.push(
+		                        {   
+		                            RefinementName: filter.RefinementName,
+		                            RefinementToken: filter.RefinementToken,
+		                            RefinementCount: filter.RefinementCount,
+		                            IsSelected: false
+		                        });
+		                    }
+	                    }
+                    } else {
+                		listDataTokenToDisplayMap[filter.RefinementToken] = filter.RefinementName;
+	                    listDataTokenToCountMap[filter.RefinementToken] = filter.RefinementCount;
+	                    if(!$isEmptyString(filter.RefinementName) && !$isEmptyString(filter.RefinementToken)) {
+	                        refiners.push(
+	                        {   
+	                            RefinementName: filter.RefinementName,
+	                            RefinementToken: filter.RefinementToken,
+	                            RefinementCount: filter.RefinementCount,
+	                            IsSelected: false
+	                        });
+	                    }
+                    }
+                }
+            }
+            if(hasAnyFilterTokens) {
+        		datalength = 1;
+        	} 
+        }
+        if(hasAnyFilterTokens) {
+            for(var j = 0; j < currentRefinementCategory.get_tokenCount(); j++) {
+                var token = currentRefinementCategory.t[j];
+                var displayValue = listDataTokenToDisplayMap[token];
+                if($isEmptyString(displayValue) && !$isNull(currentRefinementCategory.m)) {
+                    displayValue = currentRefinementCategory.m[token];
+                }
+                if(!$isEmptyString(displayValue) && !$isEmptyString(token))
+                {
+                    for (var i = 0; i < refiners.length; i++) { 
+                        if (refiners[i].RefinementName == displayValue) { 
+                            refiners[i].IsSelected = true; 
+                        } 
+                    }
+                }
+            }
+        }
+    }
+    ctx["DisplayTemplateData"]["BodyTemplateId"] = "~sitecollection/_catalogs/masterpage/FindSmiley/Display Templates/Filters/Filter_SingleValue_Body.js";
+    ctx.RefinementControl["csr_propertyName"] = propertyName;
+    ctx.RefinementControl["csr_displayTitle"] = displayTitle;
+    ctx.RefinementControl["csr_filters"] = refiners;
+    ctx.RefinementControl["csr_isExpanded"] = isExpanded;
+    ctx.RefinementControl["csr_renderEmptyContainer"] = renderEmptyContainer;
+    ctx.RefinementControl["csr_useContains"] = useContains;
+    ctx.RefinementControl["csr_useKQL"] = useKQL;
+    ctx.RefinementControl["csr_showCounts"] = Options.ShowCounts;
+    
+    if ($isNull(ctx.RefinementControl["csr_initialFilters"])) { 
+        ctx.RefinementControl["csr_initialFilters"] = refiners; 
+    }
+ms_outHtml.push(''
+,'        ', ctx.RenderBody(ctx) ,''
+);
+}
+ms_outHtml.push(''
+,'    '
+);
+
+  ctx['DisplayTemplateData'] = cachePreviousTemplateData;
+  return ms_outHtml.join('');
+}
+function RegisterTemplate_317f62b5f67542a49123f3ee5cc34d23() {
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("Filter_SingleValue", DisplayTemplate_317f62b5f67542a49123f3ee5cc34d23);
+}
+
+if ("undefined" != typeof (Srch) &&"undefined" != typeof (Srch.U) &&typeof(Srch.U.registerRenderTemplateByName) == "function") {
+  Srch.U.registerRenderTemplateByName("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_SingleValue.js", DisplayTemplate_317f62b5f67542a49123f3ee5cc34d23);
+}
+//
+        $includeScript("", "~sitecollection/_catalogs/masterpage/FindSmiley/Display Templates/Filters/Filter_SingleValue_Body.js");
+    //
+}
+RegisterTemplate_317f62b5f67542a49123f3ee5cc34d23();
+if (typeof(RegisterModuleInit) == "function" && typeof(Srch.U.replaceUrlTokens) == "function") {
+  RegisterModuleInit(Srch.U.replaceUrlTokens("~sitecollection\u002f_catalogs\u002fmasterpage\u002fFindSmiley\u002fDisplay Templates\u002fFilters\u002fFilter_SingleValue.js"), RegisterTemplate_317f62b5f67542a49123f3ee5cc34d23);
+}

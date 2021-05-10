@@ -9,6 +9,7 @@ public class User {
     private String email;
     private Enum userRole;
     private int password;
+    // TODO update to list
     private ScreenBit assignedScreenBit;
 
     public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password, ScreenBit assignedScreenBit) {

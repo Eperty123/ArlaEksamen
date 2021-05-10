@@ -53,6 +53,7 @@ public class EditEmployeeController implements Initializable {
 
             userModel.updateUser(ogUser, newUser);
 
+
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
             System.out.println("Edit saved!");

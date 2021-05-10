@@ -59,7 +59,7 @@ public class AddEmployeeController implements Initializable {
             // Add the new user.
             userModel.addUser(newUser);
             ScreenModel.getInstance().assignScreenRights(newUser, screenBit);
-            ScreenModel.getInstance().updateAllScreensAssignRights(newUser,screenBit);
+
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
