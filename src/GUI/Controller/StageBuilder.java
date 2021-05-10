@@ -53,7 +53,6 @@ public class StageBuilder {
         //Ensures the builderString follows the pattern below which is the first letter of the orientation, and a double less than one with two decimal points
         pickerStageController.setParentPickerStageController(rootController);
         if (builderString.startsWith("|")) {
-            System.out.println("hmm1");
             builderString = builderString.substring(1);
 
             pickerStageController.flipSplitPane();
