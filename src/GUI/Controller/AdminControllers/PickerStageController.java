@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -115,9 +114,9 @@ public class PickerStageController implements Initializable {
             splitPane.setOrientation(orientation);
             for (int i = 0; i < 2; i++) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/PickerStage.fxml"));
-                splitPane.getItems().add(loader.load());
+                splitPane.getItems().add(0,loader.load());
                 PickerStageController p = loader.getController();
-                controllers.add(p);
+                controllers.add(0,p);
             }
             this.setContent(splitPane);
         } catch (IOException e) {
@@ -228,6 +227,9 @@ public class PickerStageController implements Initializable {
             Node node = splitPane.getItems().get(0);
             splitPane.getItems().remove(node);
             splitPane.getItems().add(node);
+            PickerStageController p = controllers.get(1);
+            controllers.remove(p);
+            controllers.add(0,p);
         }
     }
 
@@ -247,10 +249,6 @@ public class PickerStageController implements Initializable {
             if (!splitPane.getDividers().isEmpty()) {
                 stringBuilder.append(String.format("%s%.02f%n", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
                 stringBuilder.append("{");
-                if (!this.getSplitPane().getOrientation().equals(Orientation.HORIZONTAL)) {
-                    controllersOfInterest.sort(Comparator.comparingDouble(con -> con.getRoot().getLayoutX()));
-                } else
-                    controllersOfInterest.sort(Comparator.comparingDouble(con -> con.getRoot().getLayoutY()));
                 controllersOfInterest.forEach(c -> {
                     stringBuilder.append(c.getBuilderString()).append(controllersOfInterest.indexOf(c) < controllersOfInterest.size() - 1 ? "|" : "");
                 });
