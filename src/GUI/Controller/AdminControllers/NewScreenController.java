@@ -18,7 +18,7 @@ public class NewScreenController {
 
     public String handleContinue() {
         if (!txtScreenName.getText().isEmpty()){
-            screenModel.getAllScreens().add(0, new ScreenBit(txtScreenName.getText()));
+            screenModel.getAllScreenBits().add(0, new ScreenBit(txtScreenName.getText()));
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();

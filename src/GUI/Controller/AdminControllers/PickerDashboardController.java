@@ -14,7 +14,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.Optional;
 
 public class PickerDashboardController {
@@ -79,7 +78,7 @@ public class PickerDashboardController {
                 ScreenBit oldScreenBit = screenBit;
                 screenBit.setScreenInfo(pickerStageController.getParentBuilderString());
                 ScreenModel screenModel = ScreenModel.getInstance();
-                screenModel.updateScreen(screenBit, oldScreenBit);
+                screenModel.updateScreenBit(screenBit, oldScreenBit);
                 //System.out.println(oldScreenBit.getName() + " " + oldScreenBit.getScreenInfo());
                 Stage stage = (Stage) borderPane.getScene().getWindow();
                 stage.close();

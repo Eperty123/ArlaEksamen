@@ -133,7 +133,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<ScreenBit> screens = ScreenModel.getInstance().getAllScreens();
+        List<ScreenBit> screens = ScreenModel.getInstance().getAllScreenBits();
         List<User> users = UserModel.getInstance().getAllUsers();
 
         for (ScreenBit s : screens) {
