@@ -25,22 +25,23 @@ public class UserDAL {
         List<User> allUsers = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
-            PreparedStatement pSql = con.prepareStatement("SELECT\n" +
-                    "  [User].Id AS UserId,\n" +
-                    "  [User].FirstName,\n" +
-                    "  [User].LastName,\n" +
-                    "  [User].UserName,\n" +
-                    "  [User].Email,\n" +
-                    "  [User].Password,\n" +
-                    "  [User].UserRole,\n" +
-                    "  Screen.Id AS ScreenId,\n" +
-                    "  Screen.ScreenName,\n" +
-                    "  Screen.ScreenInfo\n" +
-                    "FROM [User]\n" +
-                    "JOIN ScreenRights\n" +
-                    "  ON ScreenId = ScreenRights.ScreenId\n" +
-                    "LEFT JOIN Screen \n" +
-                    "  ON [User].UserName = ScreenRights.UserName;   ");
+            PreparedStatement pSql = con.prepareStatement(
+                    "SELECT" +
+                    "[User].Id AS UserId," +
+                            "[User].FirstName," +
+                            "[User].LastName," +
+                            "[User].Email," +
+                            "[User].Password," +
+                            "[User].UserName," +
+                            "[User].UserRole ," +
+                    "Screen.Id AS ScreenId," +
+                    "Screen.ScreenName," +
+                    "Screen.ScreenInfo " +
+                    "FROM [User]" +
+                    "LEFT OUTER JOIN ScreenRights " +
+                    "ON [User].UserName = ScreenRights.UserName " +
+                    "LEFT OUTER JOIN Screen " +
+                    "ON Screen.Id = ScreenRights.ScreenId AND ScreenRights.UserName = [User].UserName;");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();

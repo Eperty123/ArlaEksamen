@@ -1,8 +1,10 @@
 package GUI.Controller;
 
+import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,13 +37,25 @@ public class EmployeeScreenController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
 
         if (!currentUser.getAssignedScreen().isEmpty()) {
-
-            lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             try {
-                setScreen();
-            } catch (Exception e) {
+                EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreen());
+
+                Optional<ScreenBit> results = selectDialog.showAndWait();
+
+                if (results.isPresent()){
+                    ScreenBit s = results.get();
+                    lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                    try {
+                        setScreen(s);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
         } else {
             lblBar.setText("Employee Screen - NONE Contact admin - "  + currentUser.getFirstName() + " " + currentUser.getLastName());
             try {
@@ -70,9 +84,9 @@ public class EmployeeScreenController implements Initializable {
         stage.show();
     }
 
-    private void setScreen() throws Exception {
+    private void setScreen(ScreenBit s) throws Exception {
         StageBuilder stageBuilder = new StageBuilder();
-        Node screen = stageBuilder.makeStage(currentUser.getAssignedScreen().get(0).getScreenInfo());
+        Node screen = stageBuilder.makeStage(s.getScreenInfo());
         stageBuilder.getRootController().lockPanes();
         borderPane.setCenter(screen);
     }
