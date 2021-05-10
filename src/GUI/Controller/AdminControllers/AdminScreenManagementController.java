@@ -2,7 +2,6 @@ package GUI.Controller.AdminControllers;
 
 import BE.SceneMover;
 import BE.ScreenBit;
-import GUI.Controller.PopupControllers.ConfirmationController;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
