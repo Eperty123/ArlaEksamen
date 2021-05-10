@@ -34,6 +34,7 @@ public class AdminDashboardController implements Initializable {
     private BorderPane borderPane;
 
     private User currentUser;
+    private boolean isMaximized = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -41,7 +42,6 @@ public class AdminDashboardController implements Initializable {
         for (ScreenBit s : ScreenModel.getInstance().getAllScreens()){
             System.out.println(s.getName() + " " + s.getAssignedUsers());
         }
-        System.out.println();
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
@@ -69,6 +69,18 @@ public class AdminDashboardController implements Initializable {
     public void minimize() {
         Stage stage = (Stage) root.getScene().getWindow();
         stage.setIconified(true);
+    }
+
+    public void maximize(){
+        if (!isMaximized) {
+            isMaximized = true;
+            Stage stage = (Stage) root.getScene().getWindow();
+            stage.setMaximized(true);
+        } else{
+            isMaximized = false;
+            Stage stage = (Stage) root.getScene().getWindow();
+            stage.setMaximized(false);
+        }
     }
 
     public void exit() {
@@ -99,6 +111,7 @@ public class AdminDashboardController implements Initializable {
                 stage.setScene(scene);
                 stage.show();
 
+                LoginManager.setCurrentUser(null);
                 root1.close();
             }
         }

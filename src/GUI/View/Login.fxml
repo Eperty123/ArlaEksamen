@@ -34,7 +34,7 @@
       <Pane fx:id="bar" prefHeight="25.0" prefWidth="800.0" styleClass="bar">
          <children>
             <FontAwesomeIconView glyphName="CIRCLE" layoutX="767.0" layoutY="17.0" onMouseClicked="#exit" styleClass="close" />
-            <FontAwesomeIconView glyphName="CIRCLE" layoutX="747.0" layoutY="17.0" onMouseClicked="#maximize" styleClass="maximize" />
+            <FontAwesomeIconView glyphName="CIRCLE" layoutX="747.0" layoutY="17.0" onMouseClicked="#maximize" styleClass="maximize" fx:id="maximize" />
             <FontAwesomeIconView glyphName="CIRCLE" layoutX="727.0" layoutY="17.0" onMouseClicked="#minimize" styleClass="minimize" />
          </children>
       </Pane>

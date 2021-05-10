@@ -11,6 +11,8 @@ import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,6 +48,12 @@ public class LoginController implements Initializable {
     private BorderPane lblPane;
     @FXML
     private JFXButton btnLogin;
+    @FXML
+    private FontAwesomeIconView maximize;
+
+    public FontAwesomeIconView getMaximize() {
+        return maximize;
+    }
 
     private final LoginManager loginManager = new LoginManager();
     private final Timer timer = new Timer();

@@ -26,6 +26,7 @@ public class PickerDashboardController {
 
     private PickerStageController pickerStageController;
     private ScreenBit screenBit;
+    private Boolean isMaximized = false;
     StageBuilder stageBuilder = new StageBuilder();
 
     public void init(ScreenBit screenBit) throws Exception {
@@ -47,6 +48,15 @@ public class PickerDashboardController {
     }
 
     public void handleMaximize(MouseEvent mouseEvent) {
+        if (!isMaximized) {
+            isMaximized = true;
+            Stage stage = (Stage) borderPane.getScene().getWindow();
+            stage.setMaximized(true);
+        } else{
+            isMaximized = false;
+            Stage stage = (Stage) borderPane.getScene().getWindow();
+            stage.setMaximized(false);
+        }
     }
 
     public void handleMinimize(MouseEvent mouseEvent) {
