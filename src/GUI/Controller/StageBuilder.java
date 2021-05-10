@@ -50,13 +50,15 @@ public class StageBuilder {
      * @return the Parent node of all stages
      */
     private Node makeStage(PickerStageController pickerStageController, String builderString) {
-        //Ensures the builderString follows the pattern below which is the first letter of the orientation, and a double less than one with two decimal points
+        //Sets the parentPickerStageController
         pickerStageController.setParentPickerStageController(rootController);
+        //Flips the stage if it starts with "|" and cuts the "|" off
         if (builderString.startsWith("|")) {
             builderString = builderString.substring(1);
 
             pickerStageController.flipSplitPane();
         }
+        //Ensures the builderString follows the pattern below which is the first letter of the orientation, and a double less than one with two decimal points
         String pickerPattern = "^[HV][01]\\.\\d\\d";
         if (builderString.length() >= 5 && Pattern.matches(pickerPattern, builderString.substring(0, 5))) {
             //At this stage we pull the orientation and Devider position from the builderString, split the stage and cut these parts off the builderString
@@ -66,32 +68,39 @@ public class StageBuilder {
             pickerStageController.getSplitPane().setDividerPosition(0, dividerPoint);
             builderString = builderString.substring(4);
             builderString = builderString.substring(1, builderString.length() - 1);
-            //if the builderString is now empty we are done
+            //if the builderString is now empty we are done otherwise we split it up
             if (!builderString.isEmpty()) {
                 splitToSeparateControllers(pickerStageController, builderString, pickerPattern);
             }
         } else {
+            //if it does not follow the picker pattern its either and invalid builder pattern or a view, so we try to make it
             makeView(pickerStageController, builderString);
         }
         return node;
     }
 
+    /**
+     * Splits a builderString to two PickerStageControllers
+     * @param pickerStageController the PickerStageController
+     * @param builderString the builderString you pass on
+     * @param pickerPattern the pattern of the picker
+     */
     private void splitToSeparateControllers(PickerStageController pickerStageController, String builderString, String pickerPattern) {
-        //otherwise we send the leftover builderString to the newly made PickerStageControllers from the PickerStageController.split method
+        //If the builderString contains '{' we are safe to assume it contains the end bracket,
+        //so we use helper method findEndBracket to find the right end bracket and split it up to two strings
         String[] builderStrings = {builderString.substring(0, findEndBracket(builderString, '{', '}') + 1), builderString.substring(findEndBracket(builderString, '{', '}') + 1)};
+        //If it doesnt have the start bracket, we can assume it doesnt have an end bracket and can split it by the "|"
         if (!builderString.contains("{") && builderString.split("\\|").length == 2) {
             builderStrings = builderString.split("\\|");
         }
 
         for (PickerStageController pickerStageController1 : pickerStageController.getControllers()) {
-            //Checks that the string is split by "|"
-            //This splits the sting up properly given the left and right bracket. it uses findEndBracket
-            // method to find the point that the current builderString ends and then splits it
-            //up between the two PickerStageController
+            //splits the two builderStrings up between the two pickerStageControllers in the upper pickerStageController
             int index = pickerStageController.getControllers().indexOf(pickerStageController1);
-            //Making sure that if teh string starts with a splitter if just cuts it off, again
+            //Calls makeStage with lower pickerStageController and substring
             makeStage(pickerStageController1, builderStrings[index]);
         }
+        //If the second string is empty we flip the SplitPane to order it properly
         if(builderStrings[1].equals("")){
             pickerStageController.flipSplitPane();
         }
