@@ -42,7 +42,8 @@ public class EditScreenController implements Initializable {
     public void setData(List<User> users){
         this.users = users;
 
-        users.removeIf(user -> user.getUserRole() != UserType.User);
+        users.removeIf(user -> user.getUserRole() == UserType.Admin ||
+                screenBit.getAssignedUsers().stream().anyMatch(o -> o.getUserName().equals(user.getUserName())));
 
         lstUsers.getItems().addAll(users);
     }
