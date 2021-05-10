@@ -31,6 +31,8 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     @FXML
+    private BorderPane topBar;
+    @FXML
     private JFXTextField txtUsername;
     @FXML
     private JFXPasswordField txtPassword;
