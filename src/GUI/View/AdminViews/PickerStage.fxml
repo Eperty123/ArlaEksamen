@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="ap" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.AdminControllers.PickerStageController">
+<AnchorPane fx:id="ap" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.AdminControllers.PickerStageController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="600.0" fx:id="root" minHeight="0" minWidth="0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="root" minHeight="0" minWidth="0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <GridPane styleClass="midPanel" fx:id="picker" alignment="CENTER" BorderPane.alignment="CENTER">
+            <GridPane fx:id="picker" alignment="CENTER" styleClass="midPanel" BorderPane.alignment="CENTER">
                <columnConstraints>
                   <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
                   <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
@@ -28,7 +28,7 @@
                         <Image url="@/GUI/Resources/plus.png" />
                      </image>
                      <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
+                        <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneHorizontally" pickOnBounds="true" preserveRatio="true" rotate="90" GridPane.columnIndex="1">
@@ -36,7 +36,7 @@
                         <Image url="@/GUI/Resources/minus.png" />
                      </image>
                      <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
+                        <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneVertically" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
@@ -44,10 +44,13 @@
                         <Image url="@/GUI/Resources/minus.png" />
                      </image>
                      <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
+                        <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
                </children>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
             </GridPane>
          </center>
       </BorderPane>

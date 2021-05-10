@@ -1,6 +1,7 @@
 package GUI.Controller.AdminControllers;
 
 import BLL.DataGenerator;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +25,14 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class DataManagementController implements Initializable {
-    public AnchorPane root;
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private FontAwesomeIconView leftBtn;
+    @FXML
+    private FontAwesomeIconView rightBtn;
+    @FXML
+    private BorderPane bar;
     @FXML
     private TextField textField;
     @FXML
@@ -39,6 +47,18 @@ public class DataManagementController implements Initializable {
     private Node previousNode;
     private DataGenerator dataGenerator = new DataGenerator();
     private ViewType selectedItem;
+
+    public BorderPane getBar() {
+        return bar;
+    }
+
+    public FontAwesomeIconView getLeftBtn() {
+        return leftBtn;
+    }
+
+    public FontAwesomeIconView getRightBtn() {
+        return rightBtn;
+    }
 
     /**
      * Sets the current pickerStageController

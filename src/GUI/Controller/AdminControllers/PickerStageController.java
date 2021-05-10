@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class PickerStageController implements Initializable {
     @FXML
@@ -140,41 +143,43 @@ public class PickerStageController implements Initializable {
     @FXML
     private void changeContent(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            try {
-                Stage stage = new Stage();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/DataManagement.fxml"));
-                AnchorPane pane = loader.load();
-                stage.setTitle("Add content");
-                DataManagementController dataManagementController = loader.getController();
-                dataManagementController.setPickerStageController(this);
-                dataManagementController.setStage(stage);
-                Scene scene = new Scene(pane);
-
+                Stage stage = changeContent();
                 stage.setX(mouseEvent.getScreenX());
                 stage.setY(mouseEvent.getScreenY());
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    private void changeContent() {
+    private Stage changeContent() {
         try {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/DataManagement.fxml"));
             AnchorPane pane = loader.load();
             stage.setTitle("Add content");
             DataManagementController dataManagementController = loader.getController();
+            dataManagementController.getLeftBtn().onMouseClickedProperty().set((v)->stage.setIconified(true));
+            dataManagementController.getRightBtn().onMouseClickedProperty().set((v)->stage.close());
+            AtomicLong x = new AtomicLong();
+            AtomicLong y = new AtomicLong();
+            dataManagementController.getBar().onMousePressedProperty().set((MouseEvent mouseEvent) -> {
+                x.set((long) mouseEvent.getSceneX());
+                y.set((long) mouseEvent.getSceneY());
+            });
+            dataManagementController.getBar().onMouseDraggedProperty().set((MouseEvent mouseEvent)->{
+                stage.setX(mouseEvent.getScreenX()-x.get());
+                stage.setY(mouseEvent.getScreenY()-y.get());
+            });
+
             dataManagementController.setPickerStageController(this);
             dataManagementController.setStage(stage);
             Scene scene = new Scene(pane);
             stage.setScene(scene);
+            stage.initStyle(StageStyle.TRANSPARENT);
             stage.show();
+            return stage;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
