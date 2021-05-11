@@ -2,8 +2,11 @@ package GUI.Controller.AdminControllers;
 
 import BE.SceneMover;
 import BE.ScreenBit;
+import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.fxml.FXML;
@@ -37,11 +40,8 @@ public class AdminScreenManagementController implements Initializable {
     @FXML
     private FlowPane root;
 
-    private double xOffset = 0;
-    private double yOffset = 0;
-
-    private SceneMover sceneMover = new SceneMover();
-    private ScreenModel screenModel = ScreenModel.getInstance();
+    private final SceneMover sceneMover = new SceneMover();
+    private final ScreenModel screenModel = ScreenModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -75,6 +75,14 @@ public class AdminScreenManagementController implements Initializable {
         settings.setLayoutY(31);
         settings.setSize(String.valueOf(20));
 
+        FontAwesomeIconView remover = new FontAwesomeIconView();
+        remover.setIcon(FontAwesomeIcon.REMOVE);
+        remover.setFill(Paint.valueOf("#0d262e"));
+        remover.getStyleClass().add("SMButtons");
+        remover.setLayoutX(20);
+        remover.setLayoutY(31);
+        remover.setSize(String.valueOf(22));
+
         MaterialDesignIconView desktop = new MaterialDesignIconView();
         desktop.setIcon(MaterialDesignIcon.MONITOR);
         desktop.setFill(Paint.valueOf("#0d262e"));
@@ -95,7 +103,7 @@ public class AdminScreenManagementController implements Initializable {
         label.setContentDisplay(ContentDisplay.CENTER);
         label.setTextAlignment(TextAlignment.CENTER);
 
-        newPane.getChildren().addAll(newRectangle, settings, desktop, label);
+        newPane.getChildren().addAll(newRectangle, settings, remover, desktop, label);
 
         root.getChildren().add(0, newPane);
 
@@ -121,6 +129,14 @@ public class AdminScreenManagementController implements Initializable {
             try {
                 handleEditScreen(screenBit);
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        remover.setOnMouseClicked(mouseEvent -> {
+            try {
+                handleRemove(screenBit);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -182,28 +198,16 @@ public class AdminScreenManagementController implements Initializable {
         editScreenStage.show();
     }
 
+    private void handleRemove(ScreenBit screenBit) throws IOException {
+        String text = "Are you sure you want to delete " + screenBit.getName() + " screen? " +
+                "This action is irreversibel";
+        ConfirmationDialog confirmationDialog = new ConfirmationDialog(text);
 
-
-    private void applyScreenDrag(Stage pickerDashboard, Scene pickerScene) {
-        pickerScene.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-
-        pickerScene.setOnMouseDragged(event -> {
-            pickerDashboard.setX(event.getScreenX() - xOffset);
-            pickerDashboard.setY(event.getScreenY() - yOffset);
-            pickerDashboard.setOpacity(0.8f);
-        });
-
-        pickerScene.setOnMouseDragExited((event) -> {
-            pickerDashboard.setOpacity(1.0f);
-        });
-
-        pickerScene.setOnMouseReleased((event) -> {
-            pickerDashboard.setOpacity(1.0f);
-        });
+        Optional<Boolean> result = confirmationDialog.showAndWait();
+        if (result.isPresent()) {
+            if (result.get()) {
+                screenModel.deleteScreenBit(screenBit);
+            }
+        }
     }
-
-
 }
