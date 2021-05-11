@@ -137,15 +137,5 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<ScreenBit> screens = ScreenModel.getInstance().getAllScreenBits();
-        List<User> users = UserModel.getInstance().getAllUsers();
-
-        for (ScreenBit s : screens) {
-            for (User u : users) {
-                if(s.getAssignedUsers().contains(u)){
-                    u.addScreenAssignment(s);
-                }
-            }
-        }
     }
 }
