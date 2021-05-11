@@ -1,5 +1,6 @@
 package GUI.Controller;
 
+import BE.SceneMover;
 import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
@@ -85,6 +86,7 @@ public class EmployeeScreenController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();
+
     }
 
     private void setScreen(ScreenBit s) throws Exception {
@@ -114,6 +116,11 @@ public class EmployeeScreenController implements Initializable {
                 stage.show();
                 LoginManager.setCurrentUser(null);
                 root1.close();
+
+                BorderPane borderPane1 = (BorderPane) stage.getScene().getRoot();
+
+                SceneMover sceneMover = new SceneMover();
+                sceneMover.move(stage,borderPane1.getTop());
             }
         }
     }

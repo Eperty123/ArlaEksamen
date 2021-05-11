@@ -79,7 +79,6 @@ public class EditScreenController implements Initializable {
             screenBit.removeUser(u);
         }
 
-        System.out.println(lstScreenUsers.getItems());
         screenBit.setAssignedUsers(lstScreenUsers.getItems());
 
         System.out.println(screenBit.getAssignedUsers());
