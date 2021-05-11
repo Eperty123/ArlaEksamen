@@ -15,7 +15,7 @@ public class ScreenModel {
 
     private ObservableList<ScreenBit> allScreenBits;
 
-    public ScreenModel() {
+    private ScreenModel() {
         screenManager = new ScreenManager();
         allScreenBits = FXCollections.observableArrayList();
         initialize();
