@@ -47,15 +47,9 @@ public class PickerDashboardController {
     }
 
     public void handleMaximize(MouseEvent mouseEvent) {
-        if (!isMaximized) {
-            isMaximized = true;
-            Stage stage = (Stage) borderPane.getScene().getWindow();
-            stage.setMaximized(true);
-        } else{
-            isMaximized = false;
-            Stage stage = (Stage) borderPane.getScene().getWindow();
-            stage.setMaximized(false);
-        }
+        isMaximized = !isMaximized;
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setMaximized(isMaximized);
     }
 
     public void handleMinimize(MouseEvent mouseEvent) {

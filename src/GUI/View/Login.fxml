@@ -14,8 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.LoginController"  styleClass="background" stylesheets="@../Resources/Styles.css">
+<BorderPane fx:id="borderPane" styleClass="background" stylesheets="@../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.LoginController">
    <center>
       <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
          <children>
@@ -37,7 +36,7 @@
       </AnchorPane>
    </center>
    <top>
-      <BorderPane BorderPane.alignment="CENTER" fx:id="topBar">
+      <BorderPane fx:id="topBar" BorderPane.alignment="CENTER">
          <top>
             <BorderPane fx:id="bar" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" BorderPane.alignment="CENTER">
                <right>

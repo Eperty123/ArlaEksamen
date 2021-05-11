@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     @FXML
+    private BorderPane borderPane;
+    @FXML
     private BorderPane topBar;
     @FXML
     private JFXTextField txtUsername;
@@ -43,6 +45,7 @@ public class LoginController implements Initializable {
     private JFXButton btnLogin;
     @FXML
     private FontAwesomeIconView maximize;
+    private boolean isMaximized = false;
 
     public FontAwesomeIconView getMaximize() {
         return maximize;
@@ -122,7 +125,9 @@ public class LoginController implements Initializable {
 
 
     public void maximize() {
-
+        isMaximized = !isMaximized;
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setMaximized(isMaximized);
     }
 
     public void exit() {
