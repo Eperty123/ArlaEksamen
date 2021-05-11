@@ -13,7 +13,7 @@ public class NewScreenController {
     @FXML
     private AnchorPane root;
 
-    private ScreenModel screenModel = new ScreenModel();
+    private ScreenModel screenModel = ScreenModel.getInstance();
 
 
     public String handleContinue() {

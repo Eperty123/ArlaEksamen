@@ -45,12 +45,12 @@ public class EditScreenController implements Initializable {
     }
 
     public void setData(List<User> users){
-        this.users = users;
+        this.users = new ArrayList<>(users);
 
         this.users.removeIf(user -> user.getUserRole() == UserType.Admin ||
                 screenBit.getAssignedUsers().stream().anyMatch(o -> o.getUserName().equalsIgnoreCase(user.getUserName())));
 
-        lstUsers.getItems().addAll(users);
+        lstUsers.getItems().addAll(this.users);
     }
 
     public void setScreen(ScreenBit screenBit){
@@ -63,6 +63,7 @@ public class EditScreenController implements Initializable {
 
     public void handleCancel(ActionEvent actionEvent) {
         usersToAdd.clear();
+        usersToDelete.clear();
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }
@@ -83,10 +84,6 @@ public class EditScreenController implements Initializable {
             ScreenModel.getInstance().removeScreenBitRights(user,screenBit);
             screenBit.removeUser(user);
         });
-        //ScreenModel.getInstance().removeScreenBitRights(usersToDeleteAssociations,screenBit);
-
-        //UserModel.getInstance().resetSingleton();
-        System.out.println(UserModel.getInstance().getAllUsers());
         setData(UserModel.getInstance().getAllUsers());
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
@@ -110,8 +107,6 @@ public class EditScreenController implements Initializable {
         usersToDelete.add(selectedUser);
         lstUsers.getItems().add(selectedUser);
         lstScreenUsers.getItems().remove(selectedUser);
-
-        System.out.println(lstScreenUsers.getItems());
     }
 
 
