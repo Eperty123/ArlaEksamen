@@ -38,11 +38,13 @@ public class EditEmployeeController implements Initializable {
 
     public void handleSave(ActionEvent actionEvent) throws SQLException {
         if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtUsername.getText().isEmpty()
-                && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
+                 && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
                 ) {
 
+            int password = txtPassword.getText().isEmpty() ? oldUser.getPassword() : passwordManager.encrypt(txtPassword.getText());
+
             User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
-                    , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
+                    , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), password);
             System.out.println(chsRole.getSelectionModel().getSelectedItem().ordinal());
             userModel.updateUser(oldUser, newUser);
 

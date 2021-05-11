@@ -35,16 +35,16 @@ public class ResultSetParser {
     public User getUser(ResultSet rs) throws SQLException {
 
         // Get assigned User info from ResultSet
-        int userId = rs.getInt("UserId");
-        String firstName = rs.getString("FirstName");
-        String lastName = rs.getString("LastName");
-        String userName = rs.getString("UserName");
-        String email = rs.getString("Email");
-        int password = rs.getInt("Password");
-        int userRole = rs.getInt("UserRole");
 
-        User assignedUser = new User(userId, firstName, lastName,  userName, email, userRole, password);
+            int userId = rs.getInt("UserId");
+            String firstName = rs.getString("FirstName");
+            String lastName = rs.getString("LastName");
+            String userName = rs.getString("UserName");
+            String email = rs.getString("Email");
+            int password = rs.getInt("Password");
+            int userRole = rs.getInt("UserRole");
 
-        return assignedUser;
+            return new User(userId, firstName, lastName,  userName, email, userRole, password);
+        
     }
 }
