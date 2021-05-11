@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -71,13 +72,15 @@ public class EditScreenController implements Initializable {
             }
         }
 
+        List<User> usersToDeleteAssociations = new ArrayList<>();
         for (User u  : lstUsers.getItems()){
-            if (!u.getAssignedScreen().contains(screenBit)){
+            if (u.getAssignedScreen().contains(screenBit)){
+                usersToDeleteAssociations.add(u);
                 u.removeScreenAssignment(screenBit);
-                ScreenModel.getInstance().removeScreenBitRights(u,screenBit);
             }
             screenBit.removeUser(u);
         }
+        ScreenModel.getInstance().removeScreenBitRights(usersToDeleteAssociations,screenBit);
 
         screenBit.setAssignedUsers(lstScreenUsers.getItems());
 
@@ -98,7 +101,6 @@ public class EditScreenController implements Initializable {
     }
 
     public void handleRemoveUser(MouseEvent mouseEvent) {
-        // TODO this does not remove screen rights, when saved
         User selectedUser = lstScreenUsers.getSelectionModel().getSelectedItem();
         lstScreenUsers.getItems().remove(selectedUser);
         lstUsers.getItems().add(selectedUser);

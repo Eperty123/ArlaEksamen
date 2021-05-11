@@ -34,4 +34,10 @@ public class ScreenManager {
         screenDAL.removeScreenBitRights(user, screenBit);
     }
 
+    public void removeScreenBitRights(List<User> users, ScreenBit screenBit){
+        screenDAL.removeScreenBitRights(users, screenBit);
+    }
+
+
+
 }

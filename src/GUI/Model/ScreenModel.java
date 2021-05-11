@@ -6,6 +6,8 @@ import BLL.ScreenManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.List;
+
 public class ScreenModel {
 
     private ScreenManager screenManager;
@@ -96,6 +98,11 @@ public class ScreenModel {
 
     public void removeScreenBitRights(User user, ScreenBit screenBit){
         screenManager.removeScreenBitRights(user,screenBit);
+        updateScreenBits();
+    }
+
+    public void removeScreenBitRights(List<User> users, ScreenBit screenBit){
+        screenManager.removeScreenBitRights(users,screenBit);
         updateScreenBits();
     }
 
