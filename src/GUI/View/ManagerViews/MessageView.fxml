@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.ManagerControllers.MessageViewController">
+   <children>
+      <JFXTextArea layoutX="41.0" layoutY="89.0" prefHeight="131.0" prefWidth="339.0" />
+      <JFXDatePicker layoutX="41.0" layoutY="255.0" />
+      <JFXTimePicker layoutX="215.0" layoutY="255.0" />
+      <JFXButton layoutX="317.0" layoutY="318.0" />
+   </children>
+</AnchorPane>
