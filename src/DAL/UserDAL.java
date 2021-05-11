@@ -96,7 +96,7 @@ public class UserDAL {
             pSql.setString(3, updatedUser.getUserName());
             pSql.setString(4, updatedUser.getEmail());
             pSql.setInt(5, updatedUser.getPassword());
-            pSql.setInt(6, updatedUser.getUserRole() == UserType.Admin ? 0 : 1);
+            pSql.setInt(6, updatedUser.getUserRole().ordinal());
             pSql.setInt(7, user.getId());
             pSql.execute();
 
