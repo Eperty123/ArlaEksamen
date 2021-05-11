@@ -72,7 +72,7 @@ public class EditScreenController implements Initializable {
         }
 
         for (User u  : lstUsers.getItems()){
-            if (u.getAssignedScreen().contains(screenBit)){
+            if (!u.getAssignedScreen().contains(screenBit)){
                 u.removeScreenAssignment(screenBit);
                 ScreenModel.getInstance().removeScreenBitRights(u,screenBit);
             }
@@ -80,8 +80,6 @@ public class EditScreenController implements Initializable {
         }
 
         screenBit.setAssignedUsers(lstScreenUsers.getItems());
-
-        System.out.println(screenBit.getAssignedUsers());
 
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
