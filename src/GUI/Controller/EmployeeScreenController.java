@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -82,6 +83,12 @@ public class EmployeeScreenController implements Initializable {
 
         Scene scene = new Scene(root);
 
+        stage.getIcons().addAll(
+                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
         stage.setAlwaysOnTop(true);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
@@ -111,6 +118,12 @@ public class EmployeeScreenController implements Initializable {
 
                 Scene scene = new Scene(fxmlLoader.load());
 
+                stage.getIcons().addAll(
+                        new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                        new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                        new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                        new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                        new Image("/GUI/Resources/AppIcons/icon64x64.png"));
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(scene);
                 stage.show();

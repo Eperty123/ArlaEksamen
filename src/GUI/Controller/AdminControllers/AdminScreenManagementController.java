@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -204,6 +205,12 @@ public class AdminScreenManagementController implements Initializable {
         Node bar = borderPane.getTop();
         sceneMover.move(pickerDashboard, bar);
 
+        pickerDashboard.getIcons().addAll(
+                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
         pickerDashboard.initStyle(StageStyle.UNDECORATED);
         pickerDashboard.setScene(pickerScene);
         pickerDashboard.show();
@@ -242,6 +249,12 @@ public class AdminScreenManagementController implements Initializable {
         sceneMover.move(editScreenStage, bar);
         //applyScreenDrag(editScreenStage, editScreenScene);
 
+        editScreenStage.getIcons().addAll(
+                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
         editScreenStage.initStyle(StageStyle.UNDECORATED);
         editScreenStage.setScene(editScreenScene);
         editScreenStage.show();

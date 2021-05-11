@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -100,6 +101,12 @@ public class AdminDashboardController implements Initializable {
 
                 Scene scene = new Scene(fxmlLoader.load());
                 stage.setTitle("Login");
+                stage.getIcons().addAll(
+                        new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                        new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                        new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                        new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                        new Image("/GUI/Resources/AppIcons/icon64x64.png"));
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(scene);
                 stage.show();
