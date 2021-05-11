@@ -12,14 +12,22 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.AdminControllers.PickerDashboardController">
    <children>
-      <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../../Resources/Styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="borderPane" stylesheets="@../../Resources/Styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
-            <Pane prefHeight="35.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton layoutX="514.0" layoutY="5.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Cancel" />
-                  <JFXButton layoutX="444.0" layoutY="5.0" onAction="#handleSave" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Save" />
+                  <BorderPane styleClass="adminDashboardBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <right>
+                        <Pane prefHeight="35.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
+                           <children>
+                              <JFXButton layoutX="514.0" layoutY="5.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Cancel" />
+                              <JFXButton layoutX="444.0" layoutY="5.0" onAction="#handleSave" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Save" />
+                           </children>
+                        </Pane>
+                     </right>
+                  </BorderPane>
                </children>
-            </Pane>
+            </AnchorPane>
          </bottom>
          <center>
             <AnchorPane fx:id="pickerStageHere" BorderPane.alignment="CENTER" />
