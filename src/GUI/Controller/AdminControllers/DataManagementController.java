@@ -121,6 +121,7 @@ public class DataManagementController implements Initializable {
                 }
             } else {
                 Stage stage1 = new Stage();
+                stage1.initOwner(root.getScene().getWindow());
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/PopUpViews/Warning.fxml"));
                 try {
                     stage1.setScene(new Scene(fxmlLoader.load()));
@@ -133,6 +134,7 @@ public class DataManagementController implements Initializable {
                 stage1.show();
                 stage1.setX(mouseEvent.getScreenX()-stage1.getWidth()/2);
                 stage1.setY(mouseEvent.getScreenY()-180);
+                stage1.setAlwaysOnTop(true);
             }
         });
 

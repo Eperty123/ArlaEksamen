@@ -152,6 +152,8 @@ public class PickerStageController implements Initializable {
     private Stage changeContent() {
         try {
             Stage stage = new Stage();
+            stage.initOwner(root.getScene().getWindow());
+            stage.setAlwaysOnTop(true);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/DataManagement.fxml"));
             AnchorPane pane = loader.load();
             stage.setTitle("Add content");
