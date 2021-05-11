@@ -144,8 +144,8 @@ public class PickerStageController implements Initializable {
     private void changeContent(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                 Stage stage = changeContent();
-                stage.setX(mouseEvent.getScreenX());
-                stage.setY(mouseEvent.getScreenY());
+                stage.setX(mouseEvent.getScreenX()-stage.getWidth()/2);
+                stage.setY(mouseEvent.getScreenY()-stage.getHeight()/2);
         }
     }
 
