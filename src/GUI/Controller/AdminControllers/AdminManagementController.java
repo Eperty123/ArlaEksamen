@@ -15,7 +15,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -52,6 +54,22 @@ public class AdminManagementController implements Initializable {
         eLN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getLastName()));
         //eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen().isEmpty() ? u.getValue().getAssignedScreen().get(0).getName() : "None"));
         //eD.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        tblEmployees.setRowFactory(tv -> {
+            TableRow<User> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                        try {
+                            handleEditEmployee();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            return row;
+        });
         handleUserUpdate();
     }
 
@@ -74,15 +92,15 @@ public class AdminManagementController implements Initializable {
         AddEmployeeController addEmployeeController = loader.getController();
 
         Scene addEmployeeScene = new Scene(root);
-        sceneMover.move(addEmployee,addEmployeeScene.getRoot());
+        sceneMover.move(addEmployee, addEmployeeScene.getRoot());
 
         addEmployee.initStyle(StageStyle.UNDECORATED);
         addEmployee.setScene(addEmployeeScene);
         addEmployee.show();
     }
 
-    public void handleEditEmployee(MouseEvent mouseEvent) throws IOException {
-        if(tblEmployees.getSelectionModel().getSelectedItem() != null){
+    public void handleEditEmployee() throws IOException {
+        if (tblEmployees.getSelectionModel().getSelectedItem() != null) {
             Stage editEmployee = new Stage();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/EditEmployee.fxml"));
@@ -102,7 +120,7 @@ public class AdminManagementController implements Initializable {
 
 
     public void handleRemoveEmployee() throws IOException {
-        if(tblEmployees.getSelectionModel().getSelectedItem() != null){
+        if (tblEmployees.getSelectionModel().getSelectedItem() != null) {
 
             Stage removeEmployeeStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
@@ -113,7 +131,7 @@ public class AdminManagementController implements Initializable {
             removeEmployeeStage.setTitle("Remove Employee");
 
             Scene removeEmployeeScene = new Scene(root);
-            sceneMover.move(removeEmployeeStage,removeEmployeeScene.getRoot());
+            sceneMover.move(removeEmployeeStage, removeEmployeeScene.getRoot());
 
             removeEmployeeController.setData(tblEmployees.getSelectionModel().getSelectedItem());
 

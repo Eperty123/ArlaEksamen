@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -8,25 +9,54 @@
    <children>
       <BorderPane fx:id="borderPane" styleClass="midPanel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <Pane fx:id="bar" prefHeight="30.0" prefWidth="1280.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <HBox layoutY="1.0" prefHeight="25.0" prefWidth="1280.0">
-                     <children>
-                        <Pane prefHeight="25.0" prefWidth="377.0" />
-                        <Pane prefHeight="25.0" prefWidth="1057.0">
-                           <children>
-                              <Label fx:id="lblBar" layoutX="350.0" layoutY="4.0" text="Admin Dashboard - Henrik Hansen" />
-                           </children>
-                        </Pane>
-                        <Pane prefHeight="25.0" prefWidth="365.0">
-                           <children>
-                              <JFXButton layoutX="96.0" layoutY="2.0" onAction="#handleLogout" prefHeight="25.0" prefWidth="88.0" styleClass="employeeLogout" text="Logout" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </HBox>
+                  <BorderPane maxHeight="25.0" minHeight="25.0" prefHeight="25.0" styleClass="adminDashboardBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <right>
+                        <BorderPane BorderPane.alignment="CENTER">
+                           <center>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="10.0" prefWidth="25.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <BorderPane>
+                                       <center>
+                                          <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleMinimize" styleClass="minimize" />
+                                       </center>
+                                    </BorderPane>
+                                    <BorderPane GridPane.columnIndex="1">
+                                       <center>
+                                          <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" styleClass="maximize" />
+                                       </center>
+                                    </BorderPane>
+                                    <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                       <center>
+                                          <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleClose" styleClass="close" BorderPane.alignment="CENTER" />
+                                       </center>
+                                    </BorderPane>
+                                 </children>
+                              </GridPane>
+                           </center>
+                           <left>
+                              <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleLogout" prefHeight="25.0" prefWidth="90.0" styleClass="employeeLogout" text="Logout" BorderPane.alignment="CENTER" />
+                           </left>
+                        </BorderPane>
+                     </right>
+                     <center>
+                        <Label fx:id="lblBar" text="Admin Dashboard - Henrik Hansen" BorderPane.alignment="CENTER" />
+                     </center>
+                     <left>
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="165.0" BorderPane.alignment="CENTER" />
+                     </left>
+                  </BorderPane>
                </children>
-            </Pane>
+            </AnchorPane>
          </top>
       </BorderPane>
    </children>
