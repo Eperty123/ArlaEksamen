@@ -95,21 +95,18 @@ public class DataManagementController implements Initializable {
 
             // Now let's add some extension based on the selected item.
             var viewTypeSelected = ViewType.valueOf(comboBox.getSelectionModel().getSelectedItem().toString());
+            fileChooser.getExtensionFilters().clear();
             switch (viewTypeSelected) {
                 case HTTP -> {
-                    fileChooser.getExtensionFilters().clear();
                     fileChooser.getExtensionFilters().add(htmlExtension);
                 }
                 case PDF -> {
-                    fileChooser.getExtensionFilters().clear();
                     fileChooser.getExtensionFilters().add(pdfExtension);
                 }
                 case Image -> {
-                    fileChooser.getExtensionFilters().clear();
                     fileChooser.getExtensionFilters().add(imgExtension);
                 }
                 case BarChart, PieChart -> {
-                    fileChooser.getExtensionFilters().clear();
                     fileChooser.getExtensionFilters().add(excelCsvExtension);
                 }
             }
