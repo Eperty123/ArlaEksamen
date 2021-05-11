@@ -171,6 +171,32 @@ public class ScreenDAL {
     }
 
     /**
+     * Deletes an association in the ScreenRights junction table in the database using a batch query.
+     * The row is identified using both userName and screenId.
+     * @param users
+     * @param screenBit
+     */
+    public void removeScreenBitRights(List<User> users, ScreenBit screenBit){
+        System.out.println(users.size());
+
+        try (Connection con = dbCon.getConnection()) {
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=? AND ScreenId=?");
+
+            for(User u : users){
+                pSql.setString(1, u.getUserName());
+                pSql.setInt(2, screenBit.getId());
+                pSql.executeBatch();
+            }
+
+            pSql.execute();
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    /**
      * * This helper method updates the allScreenBits list with data retrieved from the ResultSet in the getScreenBits() method.
      *
      * - If a user does not exist in allUsers, first the ScreenBit is assigned to the user,
