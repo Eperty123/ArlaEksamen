@@ -1,5 +1,6 @@
 package GUI.Controller.AdminControllers;
 
+import BE.SceneMover;
 import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
@@ -86,7 +87,7 @@ public class AdminDashboardController implements Initializable {
 
         if (result.isPresent()) {
             if (result.get()) {
-
+                SceneMover sceneMover = new SceneMover();
                 // Reset the singleton instance so we don't leave any cache behind.
                 UserModel.getInstance().resetSingleton();
                 ScreenModel.getInstance().resetSingleton();
@@ -102,6 +103,10 @@ public class AdminDashboardController implements Initializable {
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(scene);
                 stage.show();
+
+                BorderPane borderPane = (BorderPane) stage.getScene().getRoot();
+
+                sceneMover.move(stage, borderPane.getTop());
 
                 LoginManager.setCurrentUser(null);
                 root1.close();

@@ -47,9 +47,10 @@ public class UserDAL {
             ResultSet rs = pSql.getResultSet();
 
             while(rs.next()) {
-                User newUser = resultSetParser.getUser(rs);
-                ScreenBit screenBit = resultSetParser.getScreenBit(rs);
-                addUsersAndScreenBits(allUsers, newUser, screenBit);
+                    User newUser = resultSetParser.getUser(rs);
+                    ScreenBit screenBit = resultSetParser.getScreenBit(rs);
+                    addUsersAndScreenBits(allUsers, newUser, screenBit);
+
             }
 
         } catch (SQLException throwables) {
@@ -139,7 +140,7 @@ public class UserDAL {
     private void addUsersAndScreenBits(List<User> allUsers, User newUser, ScreenBit screenBit) {
         if(allUsers.stream().noneMatch(o -> o.getId() == newUser.getId())){
 
-            if(screenBit.getName() == null) newUser.addScreenAssignment(screenBit);
+            if(screenBit.getName() != null) newUser.addScreenAssignment(screenBit);
             allUsers.add(newUser);
         } else{
 

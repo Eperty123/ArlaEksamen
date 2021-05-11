@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class EditScreenController implements Initializable {
     @FXML
@@ -42,8 +43,8 @@ public class EditScreenController implements Initializable {
     public void setData(List<User> users){
         this.users = users;
 
-        users.removeIf(user -> user.getUserRole() == UserType.Admin ||
-                screenBit.getAssignedUsers().stream().anyMatch(o -> o.getUserName().equals(user.getUserName())));
+        this.users.removeIf(user -> user.getUserRole() == UserType.Admin ||
+                screenBit.getAssignedUsers().stream().anyMatch(o -> o.getUserName().equalsIgnoreCase(user.getUserName())));
 
         lstUsers.getItems().addAll(users);
     }
@@ -64,10 +65,20 @@ public class EditScreenController implements Initializable {
     // TODO update to handle List
     public void handleSave(ActionEvent actionEvent) {
         for (User u : lstScreenUsers.getItems()){
-            u.addScreenAssignment(screenBit);
-            ScreenModel.getInstance().assignScreenBitRights(u, screenBit);
+            if (!u.getAssignedScreen().contains(screenBit)) {
+                u.addScreenAssignment(screenBit);
+                ScreenModel.getInstance().assignScreenBitRights(u, screenBit);
+            }
         }
-        // TODO this does not remove screen rights from users who have been removed, when saved
+
+        for (User u  : lstUsers.getItems()){
+            if (!u.getAssignedScreen().contains(screenBit)){
+                u.removeScreenAssignment(screenBit);
+                ScreenModel.getInstance().removeScreenBitRights(u,screenBit);
+            }
+            screenBit.removeUser(u);
+        }
+
         screenBit.setAssignedUsers(lstScreenUsers.getItems());
 
         Stage stage = (Stage) borderPane.getScene().getWindow();
@@ -91,6 +102,8 @@ public class EditScreenController implements Initializable {
         User selectedUser = lstScreenUsers.getSelectionModel().getSelectedItem();
         lstScreenUsers.getItems().remove(selectedUser);
         lstUsers.getItems().add(selectedUser);
+
+        System.out.println(lstScreenUsers.getItems());
     }
 
 

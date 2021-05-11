@@ -143,6 +143,7 @@ public class ScreenDAL {
             pSql.setInt(1, screenBit.getId());
             pSql.setString(2, user.getUserName());
             pSql.execute();
+            System.out.println("ASSIGN EXECUTED");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -156,12 +157,13 @@ public class ScreenDAL {
      * @param screenBit
      */
     public void removeScreenBitRights(User user, ScreenBit screenBit){
-
+        System.out.println("removeScreenBitRights called");
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=? AND ScreenId=?");
             pSql.setString(1, user.getUserName());
             pSql.setInt(2, screenBit.getId());
             pSql.execute();
+            System.out.println("EXECUTED");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -181,7 +183,7 @@ public class ScreenDAL {
     private void addScreenBitAndUser(List<ScreenBit> allScreens, ScreenBit newScreenBit, User assignedUser) {
         // If ScreenBit does not exist, it is added to the return list.
         if(allScreens.stream().noneMatch(o -> o.getId() == newScreenBit.getId())){
-            if(assignedUser.getUserName() == null) newScreenBit.addUser(assignedUser);
+            if(assignedUser.getUserName() != null) newScreenBit.addUser(assignedUser);
             allScreens.add(newScreenBit);
         } else {
             // If ScreenBit does exist assignedUser is added to the ScreenBit
