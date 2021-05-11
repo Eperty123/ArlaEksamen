@@ -88,16 +88,21 @@ public class DataManagementController implements Initializable {
         // We need a selection from the combo box first.
         comboBox.setOnAction((v) -> {
             fileChooser.getExtensionFilters().clear();
-            var htmlpdfExtension = new FileChooser.ExtensionFilter("html/pdf", "*.pdf", "*.html");
-            var imgExtension = new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.gif", "*.tif", "*.bmp");
+            var htmlExtension = new FileChooser.ExtensionFilter("html",  "*.html");
+            var pdfExtension = new FileChooser.ExtensionFilter("pdf", "*.pdf");
+            var imgExtension = new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg");
             var excelCsvExtension = new FileChooser.ExtensionFilter("Csv/Excel file", "*.csv", "*.xlsx");
 
             // Now let's add some extension based on the selected item.
             var viewTypeSelected = ViewType.valueOf(comboBox.getSelectionModel().getSelectedItem().toString());
             switch (viewTypeSelected) {
-                case HTTP, PDF -> {
+                case HTTP -> {
                     fileChooser.getExtensionFilters().clear();
-                    fileChooser.getExtensionFilters().add(htmlpdfExtension);
+                    fileChooser.getExtensionFilters().add(htmlExtension);
+                }
+                case PDF -> {
+                    fileChooser.getExtensionFilters().clear();
+                    fileChooser.getExtensionFilters().add(pdfExtension);
                 }
                 case Image -> {
                     fileChooser.getExtensionFilters().clear();
