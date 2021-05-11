@@ -139,6 +139,7 @@ public class User {
         assignedScreenBits.add(assignedScreenBit);
     }
 
+    public void removeScreenAssignment(ScreenBit assignedScreenBit){assignedScreenBits.remove(assignedScreenBit);}
     public String getUserName() {
         return userName;
     }

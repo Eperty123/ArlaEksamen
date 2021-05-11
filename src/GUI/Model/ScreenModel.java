@@ -94,6 +94,11 @@ public class ScreenModel {
         updateScreenBits();
     }
 
+    public void removeScreenBitRights(User user, ScreenBit screenBit){
+        screenManager.removeScreenBitRights(user,screenBit);
+        updateScreenBits();
+    }
+
     /**
      * Reset the singleton instance.
      */

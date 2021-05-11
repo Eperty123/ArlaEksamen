@@ -113,8 +113,7 @@ public class AdminScreenManagementController implements Initializable {
         Label label = new Label();
         label.setText(screenBit.getName());
         label.setTextFill(Paint.valueOf("#FFFFFF"));
-        label.setFont(new Font("System", 16));
-        label.setStyle("-fx-font-weight: bold; -fx-font-style: italic");
+        label.setStyle("-fx-font-size: 16px;-fx-font-weight: bold; -fx-font-style: italic");
         label.setPrefSize(133, 25);
         label.setLayoutX(9);
         label.setLayoutY(111);
