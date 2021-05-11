@@ -184,7 +184,8 @@ public class ScreenDAL {
      * @param screenBit
      */
     public void removeScreenBitRights(List<User> users, ScreenBit screenBit){
-        System.out.println("removeScreenBitRights called");
+        System.out.println(users.size());
+
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=? AND ScreenId=?");
 

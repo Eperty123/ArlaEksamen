@@ -2,6 +2,7 @@ package GUI.Controller.AdminControllers;
 
 import BE.SceneMover;
 import BE.ScreenBit;
+import BE.User;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
@@ -32,6 +33,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -45,6 +47,8 @@ public class AdminScreenManagementController implements Initializable {
     private final SceneMover sceneMover = new SceneMover();
     private final ScreenModel screenModel = ScreenModel.getInstance();
     private Node createBtnNode;
+
+    private List<User> userList = UserModel.getInstance().getAllUsers();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -231,7 +235,7 @@ public class AdminScreenManagementController implements Initializable {
         Parent root = loader.load();
         EditScreenController editScreenController = loader.getController();
         editScreenController.setScreen(screenBit);
-        editScreenController.setData(UserModel.getInstance().getAllUsers());
+        editScreenController.setData(userList);
 
         Node bar = root.getChildrenUnmodifiable().get(0);
         Scene editScreenScene = new Scene(root);
