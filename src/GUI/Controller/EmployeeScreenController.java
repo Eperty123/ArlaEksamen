@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -31,6 +32,7 @@ public class EmployeeScreenController implements Initializable {
     private Label lblBar;
 
     private User currentUser;
+    private boolean isMaximized = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -42,7 +44,7 @@ public class EmployeeScreenController implements Initializable {
 
                 Optional<ScreenBit> results = selectDialog.showAndWait();
 
-                if (results.isPresent()){
+                if (results.isPresent()) {
                     ScreenBit s = results.get();
                     lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
                     try {
@@ -57,7 +59,7 @@ public class EmployeeScreenController implements Initializable {
 
 
         } else {
-            lblBar.setText("Employee Screen - NONE Contact admin - "  + currentUser.getFirstName() + " " + currentUser.getLastName());
+            lblBar.setText("Employee Screen - NONE Contact admin - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             try {
                 displayNoScreenWarning();
             } catch (IOException e) {
@@ -65,9 +67,10 @@ public class EmployeeScreenController implements Initializable {
             }
         }
     }
+
     private void displayNoScreenWarning() throws IOException {
         String text = "You have not been assigned a screen yet. \n\n" +
-                      "Please, contact an IT administrator as soon as possible, to resolve this problem.";
+                "Please, contact an IT administrator as soon as possible, to resolve this problem.";
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/View/PopUpViews/Warning.fxml"));
         Parent root = (Parent) loader.load();
@@ -113,5 +116,24 @@ public class EmployeeScreenController implements Initializable {
                 root1.close();
             }
         }
+    }
+
+    @FXML
+    private void handleMinimize(MouseEvent mouseEvent) {
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    @FXML
+    private void handleMaximize(MouseEvent mouseEvent) {
+        isMaximized = !isMaximized;
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setMaximized(isMaximized);
+    }
+
+    @FXML
+    private void handleClose(MouseEvent mouseEvent) {
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.close();
     }
 }

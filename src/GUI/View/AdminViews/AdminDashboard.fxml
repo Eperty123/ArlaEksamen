@@ -11,46 +11,61 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.AdminControllers.AdminDashboardController">
+<AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.AdminControllers.AdminDashboardController">
    <children>
       <BorderPane fx:id="borderPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <VBox>
+            <AnchorPane maxWidth="235.0" minWidth="235.0" prefWidth="235.0" BorderPane.alignment="TOP_LEFT">
                <children>
-                  <Pane fx:id="headerPanel" minHeight="235.0" minWidth="235.0" prefHeight="235.0" prefWidth="235.0" styleClass="headerPanel" VBox.vgrow="NEVER">
-                     <children>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="43.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Resources/defaultPerson.png" />
-                           </image></ImageView>
-                        <Label fx:id="lblWelcome" alignment="CENTER" layoutX="44.0" layoutY="186.0" text="Velkommen Henrik Hansen!" textAlignment="CENTER" />
-                     </children>
-                  </Pane>
-                  <Pane fx:id="midPanel" prefHeight="418.0" prefWidth="235.0" styleClass="midPanel" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleUserManagement" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="User Management">
-                           <font>
-                              <Font size="16.0" />
-                           </font></JFXButton>
-                        <JFXButton layoutX="33.0" layoutY="138.0" onAction="#handleScreenManagement" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Screen Management">
-                           <font>
-                              <Font size="16.0" />
-                           </font></JFXButton>
-                     </children>
-                  </Pane>
-                  <Pane fx:id="logoutPanel" minHeight="45.0" minWidth="235.0" prefHeight="45.0" prefWidth="235.0" VBox.vgrow="NEVER">
-                     <children>
-                        <JFXButton layoutY="-1.0" onAction="#Logout" prefHeight="45.0" prefWidth="235.0" styleClass="logout" text="Logout">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </JFXButton>
-                     </children></Pane>
+                  <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <top>
+                        <Pane fx:id="headerPanel" maxHeight="235.0" maxWidth="235.0" minHeight="235.0" minWidth="235.0" prefHeight="235.0" prefWidth="235.0" styleClass="headerPanel" BorderPane.alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="43.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../Resources/defaultPerson.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="lblWelcome" alignment="CENTER" layoutX="44.0" layoutY="186.0" text="Velkommen Henrik Hansen!" textAlignment="CENTER" />
+                           </children>
+                        </Pane>
+                     </top>
+                     <center>
+                        <AnchorPane BorderPane.alignment="CENTER">
+                           <children>
+                              <Pane fx:id="midPanel" styleClass="midPanel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleUserManagement" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="User Management">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton layoutX="33.0" layoutY="138.0" onAction="#handleScreenManagement" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Screen Management">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                     </center>
+                     <bottom>
+                        <Pane fx:id="logoutPanel" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" prefHeight="45.0" prefWidth="235.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <JFXButton layoutY="-1.0" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" onAction="#Logout" prefHeight="45.0" prefWidth="235.0" styleClass="logout" text="Logout">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </Pane>
+                     </bottom>
+                  </BorderPane>
                </children>
-            </VBox>
+            </AnchorPane>
          </left>
          <top>
             <BorderPane fx:id="topBar" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">

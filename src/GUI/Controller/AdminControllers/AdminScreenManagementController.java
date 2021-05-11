@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -38,6 +39,8 @@ import java.util.ResourceBundle;
 
 public class AdminScreenManagementController implements Initializable {
     @FXML
+    private ScrollPane scrollPane;
+    @FXML
     private FlowPane root;
 
     private final SceneMover sceneMover = new SceneMover();
@@ -46,6 +49,22 @@ public class AdminScreenManagementController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadAllScreens();
+        autofitSize();
+    }
+
+    private void autofitSize() {
+        root.setPrefWrapLength(scrollPane.getWidth());
+        scrollPane.widthProperty().addListener((observable, t, t1) -> {
+            root.setPrefWidth(t1.doubleValue());
+            root.setMaxWidth(t1.doubleValue());
+            root.setMinWidth(t1.doubleValue());
+            root.setPrefWrapLength(t1.doubleValue());
+        });
+        scrollPane.heightProperty().addListener(((observableValue, number, t1) -> {
+            root.setMaxHeight(t1.doubleValue());
+            root.setMinHeight(t1.doubleValue());
+            root.setPrefHeight(t1.doubleValue());
+        }));
     }
 
     /**
@@ -190,7 +209,7 @@ public class AdminScreenManagementController implements Initializable {
 
         Node bar = root.getChildrenUnmodifiable().get(0);
         Scene editScreenScene = new Scene(root);
-        sceneMover.move(editScreenStage,bar);
+        sceneMover.move(editScreenStage, bar);
         //applyScreenDrag(editScreenStage, editScreenScene);
 
         editScreenStage.initStyle(StageStyle.UNDECORATED);
