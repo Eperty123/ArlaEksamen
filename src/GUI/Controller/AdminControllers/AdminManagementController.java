@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -52,6 +53,20 @@ public class AdminManagementController implements Initializable {
         eLN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getLastName()));
         //eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen().isEmpty() ? u.getValue().getAssignedScreen().get(0).getName() : "None"));
         //eD.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+        tblEmployees.setRowFactory( tv -> {
+            TableRow<User> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    try {
+                        handleEditEmployee();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return row ;
+        });
         handleUserUpdate();
     }
 
@@ -81,7 +96,7 @@ public class AdminManagementController implements Initializable {
         addEmployee.show();
     }
 
-    public void handleEditEmployee(MouseEvent mouseEvent) throws IOException {
+    public void handleEditEmployee() throws IOException {
         if(tblEmployees.getSelectionModel().getSelectedItem() != null){
             Stage editEmployee = new Stage();
             FXMLLoader loader = new FXMLLoader();
