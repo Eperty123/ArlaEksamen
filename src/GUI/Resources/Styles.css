@@ -1,107 +1,109 @@
-.background{
-  -fx-background-image: url("LoginBaggrund.png") no-repeat center fixed;
-  -fx-background-size: cover;
+.background {
+    -fx-background-image: url("LoginBaggrund.png") no-repeat center fixed;
+    -fx-background-size: cover;
 }
 
-.bar{
-  -fx-background-color: rgba(0,0,0, 0.10);
+.bar {
+    -fx-background-color: rgba(0, 0, 0, 0.10);
 }
 
-.loginButtons{
-  -fx-background-color: rgba(255,255,255,0.25);
+.loginButtons {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
 }
 
-.close{
-  -fx-fill: #60646D;
+.close {
+    -fx-fill: #60646D;
 }
 
-.close:hover{
-  -fx-fill: #CF000F;
+.close:hover {
+    -fx-fill: #CF000F;
 }
 
-.minimize{
-  -fx-fill: #60646D;
+.minimize {
+    -fx-fill: #60646D;
 }
 
-.minimize:hover{
-  -fx-fill: #F29B34;
+.minimize:hover {
+    -fx-fill: #F29B34;
 }
 
-.maximize{
-  -fx-fill: #60646D;
+.maximize {
+    -fx-fill: #60646D;
 }
 
-.maximize:hover{
-  -fx-fill: #97CE68;
+.maximize:hover {
+    -fx-fill: #97CE68;
 }
 
 /*
 ADMIN DASHBOARD
  */
 
-.adminDashboardButtons{
-  -fx-background-color: rgba(255,255,255,0.25);
+.adminDashboardButtons {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
 }
 
-.headerPanel{
-  -fx-background-color: #c8f0fc;
+.headerPanel {
+    -fx-background-color: #c8f0fc;
 }
 
-.midPanel{
-  -fx-background-color: #add8e5;
+.midPanel {
+    -fx-background-color: #add8e5;
 }
 
-.logout{
-  -fx-background-color: #c8f0fc;
-}
-.logout:hover{
-  -fx-background-color: #E01931;
-  -fx-text-fill: WHITE;
-}
-.dataPanel{
-  -fx-background-color: #4c707a;
+.logout {
+    -fx-background-color: #c8f0fc;
 }
 
-.adminDashboardBar{
-  -fx-background-color: #c8f0fc;
+.logout:hover {
+    -fx-background-color: #E01931;
+    -fx-text-fill: WHITE;
+}
+
+.dataPanel {
+    -fx-background-color: #4c707a;
+}
+
+.adminDashboardBar {
+    -fx-background-color: #c8f0fc;
 }
 
 /*
 POP UP
  */
 
-.popupBaggrund{
-  -fx-background-color: #4c707a;
+.popupBaggrund {
+    -fx-background-color: #4c707a;
 }
 
-.popupForground{
-  -fx-background-color: #c8f0fc;
+.popupForground {
+    -fx-background-color: #c8f0fc;
 }
 
-.myDialog > *.button-bar > *.container{
-  -fx-background-color: #c8f0fc;
+.myDialog > *.button-bar > *.container {
+    -fx-background-color: #c8f0fc;
 }
 
-.ja{
-  -fx-background-color: rgba(255,255,255,0.25);
+.ja {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
 }
 
-.ja:hover{
-  -fx-background-color: #97CE68;
-  -fx-text-fill: WHITE;
+.ja:hover {
+    -fx-background-color: #97CE68;
+    -fx-text-fill: WHITE;
 }
 
-.nej{
-  -fx-background-color: rgba(255,255,255,0.25);
+.nej {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
 }
 
-.nej:hover{
-  -fx-background-color: #E01931;
-  -fx-text-fill: WHITE;
+.nej:hover {
+    -fx-background-color: #E01931;
+    -fx-text-fill: WHITE;
 }
 
-.textarea{
-  -fx-text-fill: #4c707a;
+.textarea {
+    -fx-text-fill: #4c707a;
 }
 
 /*
@@ -109,215 +111,279 @@ POP UP
  */
 
 .SMButtons:hover {
-  -fx-fill: rgba(255, 255, 255, 0.25);
+    -fx-fill: rgba(255, 255, 255, 0.25);
 }
 
 /*
   USER MANAGEMENT CSS
  */
-.usrBar{
-  -fx-background-color: #154c5d;
+.usrBar {
+    -fx-background-color: #154c5d;
 }
 
-.addUser{
-  -fx-fill: white;
+.addUser {
+    -fx-fill: white;
 }
 
-.addUser:hover{
-  -fx-fill: #97CE68;
+.addUser:hover {
+    -fx-fill: #97CE68;
 }
 
-.editUser{
-  -fx-fill: white;
+.editUser {
+    -fx-fill: white;
 }
 
-.editUser:hover{
-  -fx-fill: #F29B34;
+.editUser:hover {
+    -fx-fill: #F29B34;
 }
 
-.removeUser{
-  -fx-fill: white;
+.removeUser {
+    -fx-fill: white;
 }
 
-.removeUser:hover{
-  -fx-fill: #CF000F;
+.removeUser:hover {
+    -fx-fill: #CF000F;
 }
 
-.tblUsers{
-  -fx-background-color: #0d262e;
+.tblUsers {
+    -fx-background-color: #0d262e;
 }
 
 .tblUsers .column-header {
-  -fx-background-color: #154c5d;
-  -fx-text-background-color: white;
+    -fx-background-color: #154c5d;
+    -fx-text-background-color: white;
 }
 
-.tblUsers .column-header .label{
-  -fx-alignment: CENTER_LEFT;
-  -fx-padding: 2 0 2 10px;
+.tblUsers .column-header .label {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 2 0 2 10px;
 }
 
-.tblUsers .table-cell{
-  -fx-border-color: rgba(255,255,255,0.10);
-  -fx-padding: 2 0 2 10px;
+.tblUsers .table-cell {
+    -fx-border-color: rgba(255, 255, 255, 0.10);
+    -fx-padding: 2 0 2 10px;
 
 }
+
 .table-row-cell:filled:hover {
-  -fx-background-color: #154c5d;
-  -fx-text-background-color: WHITE;
-}
-.table-row-cell:odd{
-  -fx-background-color: #0f2c35;
-  -fx-text-background-color: white;
+    -fx-background-color: #154c5d;
+    -fx-text-background-color: WHITE;
 }
 
-.table-row-cell:even{
-  -fx-background-color: #0d262e;
-  -fx-text-background-color: white;
+.table-row-cell:odd {
+    -fx-background-color: #0f2c35;
+    -fx-text-background-color: white;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #0d262e;
+    -fx-text-background-color: white;
 }
 
 .table-row-cell:filled:focused:selected, .table-row-cell:filled:selected {
-  -fx-background-color: #1d6b83;
-  -fx-text-background-color: white;
+    -fx-background-color: #1d6b83;
+    -fx-text-background-color: white;
 }
 
-.list-view{
-  -fx-background-color: #0d262e;
-  -fx-text-fill: white;
+.list-view {
+    -fx-background-color: #0d262e;
+    -fx-text-fill: white;
 
 }
 
-.list-cell{
-  -fx-text-fill: white;
+.list-cell {
+    -fx-text-fill: white;
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
-  -fx-background-color: #1d6b83;
-  -fx-text-background-color: white;
+    -fx-background-color: #1d6b83;
+    -fx-text-background-color: white;
 }
 
 .list-cell:even { /* <=== changed to even */
-  -fx-background-color: #0d262e;
+    -fx-background-color: #0d262e;
 
 }
 
-.list-cell:odd{
-  -fx-background-color: #0f2c35;
+.list-cell:odd {
+    -fx-background-color: #0f2c35;
 
 }
 
 .list-cell:filled:hover {
-  -fx-background-color: #154c5d;
-  -fx-text-background-color: WHITE;
+    -fx-background-color: #154c5d;
+    -fx-text-background-color: WHITE;
 
 }
 
-.list-cell:focused:filled:hover{
-  -fx-background-color: #1d6b83;
-  -fx-text-background-color: white;
+.list-cell:focused:filled:hover {
+    -fx-background-color: #1d6b83;
+    -fx-text-background-color: white;
 }
 
 /*
   Employee screen
  */
 
-.employeeLogout{
-  -fx-background-color: rgba(255,255,255,0.25);
+.employeeLogout {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
 }
 
-.employeeLogout:hover{
-  -fx-background-color: #E01931;
-  -fx-text-fill: white;
+.employeeLogout:hover {
+    -fx-background-color: #E01931;
+    -fx-text-fill: white;
 }
 
 /*
  DataManagement
  */
 
-.pickFile{
-    -fx-background-color: rgba(255,255,255,0.25);
+.pickFile {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
     -fx-border-width: 0.5;
     -fx-border-color: grey;
 }
 
-.pickFile:hover{
+.pickFile:hover {
     -fx-background-color: #c8f0fc;
 }
 
-.combo{
-    -fx-background-color: rgba(255,255,255,0.25);
+.combo {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
     -fx-border-width: 0.5;
 }
 
-.combo:hover{
+.combo:hover {
     -fx-background-color: #c8f0fc;
+}
+
+.pickerStageBackground {
+    -fx-background-color: #0d262e;
+}
+
+.split-pane {
+    -fx-background-color: #0d262e;
+}
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-background-color: #154c5d;
+}
+
+.split-pane:vertical > .split-pane-divider {
+    -fx-background-color: #154c5d;
 }
 
 /*
   MANAGER DASHBOARD
  */
 
-.MTextArea{
-  -fx-text-fill: white;
-  -jfx-unfocux-color: white;
-  -fx-background-color:  #0d262e;;
-}
-.jfx-date-picker .jfx-text-field{
-  -fx-prompt-text-fill: white;
-  -fx-text-fill: white;
-  -jfx-unfocus-color: white;
-  -fx-background-color:  #0d262e;
+.MTextArea {
+    -fx-text-fill: white;
+    -jfx-unfocux-color: white;
+    -fx-background-color: #0d262e;;
 }
 
-.jfx-time-picker .jfx-text-field{
-  -fx-prompt-text-fill: white;
-  -fx-text-fill: white;
-  -jfx-unfocus-color: white;
-  -fx-background-color:  #0d262e;
+.jfx-date-picker .jfx-text-field {
+    -fx-prompt-text-fill: white;
+    -fx-text-fill: white;
+    -jfx-unfocus-color: white;
+    -fx-background-color: #0d262e;
 }
 
-.MSave{
-  -fx-background-color: #0d262e;
+.jfx-time-picker .jfx-text-field {
+    -fx-prompt-text-fill: white;
+    -fx-text-fill: white;
+    -jfx-unfocus-color: white;
+    -fx-background-color: #0d262e;
 }
 
-.MSave:hover{
-  -fx-background-color: #97CE68;
+.MSave {
+    -fx-background-color: #0d262e;
 }
 
-.MCancel{
-  -fx-background-color: #0d262e;
+.MSave:hover {
+    -fx-background-color: #97CE68;
+}
+
+.MCancel {
+    -fx-background-color: #0d262e;
 }
 
 .MCancel:hover {
-  -fx-background-color: #E01931;
+    -fx-background-color: #E01931;
 }
 
 .MScroll-pane {
-  -fx-background-color: transparent;
+    -fx-background-color: transparent;
 }
 
-.scroll-bar:horizontal, .scroll-bar:vertical{
-  -fx-background-color:transparent;
+.scroll-bar:horizontal, .scroll-bar:vertical {
+    -fx-background-color: transparent;
 }
 
 .increment-button, .decrement-button {
-  -fx-background-color: transparent;
-  -fx-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
 .scroll-bar:horizontal .track,
-.scroll-bar:vertical .track{
-  -fx-background-color: transparent;
-  -fx-border-color: transparent;
-  -fx-background-radius: 0em;
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
 }
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
-  -fx-background-color:  #154c5d;
-  -fx-background-radius: 5em;
+    -fx-background-color: #154c5d;
+    -fx-background-radius: 5em;
 }
 
-.scroll-pane > .corner{
-  -fx-background-color: transparent;
+.scroll-pane > .corner {
+    -fx-background-color: transparent;
+}
+
+/*
+    CHART STYLES
+ */
+
+.chart-title {
+    -fx-text-fill: white;
+}
+
+.axis{
+    -fx-tick-label-fill: white;
+}
+
+.axis-label {
+    -fx-text-fill: white;
+}
+
+.chart-plot-background{
+    -fx-background-color: #154c5d;
+}
+.chart-alternative-row-fill {
+    -fx-fill: #0d3845;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+
+.chart-label {
+    -fx-fill: white;
+}
+
+.chart-pie-label{
+    -fx-fill: white;
+}
+.chart-pie-label-line {
+    -fx-fill: white;
+    -fx-stroke: white;
+}
+
+.chart-legend {
+    -fx-background-color: #154c5d;
+}
+
+.chart-legend-item {
+    -fx-text-fill: white;
 }
