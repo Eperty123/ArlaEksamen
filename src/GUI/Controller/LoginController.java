@@ -72,7 +72,10 @@ public class LoginController implements Initializable {
             if (u.getUserRole() == UserType.Admin) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AdminDashboard.fxml"));
                 stage.setTitle("Admin dashboard");
-            } else {
+            } else if(u.getUserRole() == UserType.Manager) {
+                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/ManagerViews/ManagerDashboard.fxml"));
+                stage.setTitle("Manager Dashboard");
+            }else{
                 fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/EmployeeScreen.fxml"));
                 stage.setTitle("Employee Screen");
             }

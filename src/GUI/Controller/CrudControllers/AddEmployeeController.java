@@ -85,5 +85,9 @@ public class AddEmployeeController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chsRole.getItems().addAll(UserType.values());
         chsRole.getSelectionModel().selectFirst();
+
+        for (Enum e : chsRole.getItems()){
+            System.out.println(e.name() + " - " + e.ordinal());
+        }
     }
 }

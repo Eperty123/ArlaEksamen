@@ -56,6 +56,7 @@ ADMIN DASHBOARD
 }
 .logout:hover{
   -fx-background-color: #E01931;
+  -fx-text-fill: WHITE;
 }
 .dataPanel{
   -fx-background-color: #4c707a;
@@ -226,6 +227,7 @@ POP UP
 
 .employeeLogout:hover{
   -fx-background-color: #E01931;
+  -fx-text-fill: white;
 }
 
 /*
@@ -249,4 +251,73 @@ POP UP
 
 .combo:hover{
     -fx-background-color: #c8f0fc;
+}
+
+/*
+  MANAGER DASHBOARD
+ */
+
+.jfx-text-area{
+  -fx-text-fill: white;
+  -jfx-unfocux-color: white;
+  -fx-background-color:  #0d262e;;
+}
+.jfx-date-picker .jfx-text-field{
+  -fx-prompt-text-fill: white;
+  -fx-text-fill: white;
+  -jfx-unfocus-color: white;
+  -fx-background-color:  #0d262e;
+}
+
+.jfx-time-picker .jfx-text-field{
+  -fx-prompt-text-fill: white;
+  -fx-text-fill: white;
+  -jfx-unfocus-color: white;
+  -fx-background-color:  #0d262e;
+}
+
+.MSave{
+  -fx-background-color: #0d262e;
+}
+
+.MSave:hover{
+  -fx-background-color: #97CE68;
+}
+
+.MCancel{
+  -fx-background-color: #0d262e;
+}
+
+.MCancel:hover {
+  -fx-background-color: #E01931;
+}
+
+.scroll-pane {
+  -fx-background-color: #0d262e;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+  -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+  -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+  -fx-background-color:  #154c5d;
+  -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner{
+  -fx-background-color: transparent;
 }
