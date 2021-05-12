@@ -6,7 +6,7 @@ import javafx.scene.web.WebView;
 
 import java.io.File;
 
-public class HTTPNode implements IDataNode{
+public class HTTPNode implements IDataNode {
 
     /**
      * Add a WebView that loads a file or url.
