@@ -45,7 +45,7 @@ public class ManagerDashboardController implements Initializable {
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Manager Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         try {
-            handleCreateMessage();
+            handleViewScreens();
         } catch (IOException e) {
             e.printStackTrace();
         }

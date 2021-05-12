@@ -41,25 +41,31 @@ public class EmployeeScreenController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
 
         if (!currentUser.getAssignedScreen().isEmpty()) {
-            try {
-                EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreen());
-
-                Optional<ScreenBit> results = selectDialog.showAndWait();
-
-                if (results.isPresent()) {
-                    ScreenBit s = results.get();
-                    lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
-                    try {
-                        setScreen(s);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            if (currentUser.getAssignedScreen().size() == 1) {
+                try {
+                    setScreen(currentUser.getAssignedScreen().get(0));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                try {
+                    EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreen());
+
+                    Optional<ScreenBit> results = selectDialog.showAndWait();
+
+                    if (results.isPresent()) {
+                        ScreenBit s = results.get();
+                        lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                        try {
+                            setScreen(s);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-
-
         } else {
             lblBar.setText("Employee Screen - NONE Contact admin - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             try {

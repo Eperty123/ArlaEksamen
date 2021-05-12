@@ -46,43 +46,50 @@ public class ManagerScreenViewController implements Initializable {
         comboScreens.getItems().addAll(currentUser.getAssignedScreen());
 
         if (!currentUser.getAssignedScreen().isEmpty()) {
-            try {
-                EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreen());
-
-                Optional<ScreenBit> results = selectDialog.showAndWait();
-
-                if (results.isPresent()) {
-                    ScreenBit s = results.get();
-                    comboScreens.getSelectionModel().select(s);
-                    try {
-                        setScreen(s);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            if (currentUser.getAssignedScreen().size() == 1) {
+                try {
+                    setScreen(currentUser.getAssignedScreen().get(0));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                try {
+                    EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreen());
+
+                    Optional<ScreenBit> results = selectDialog.showAndWait();
+
+                    if (results.isPresent()) {
+                        ScreenBit s = results.get();
+                        comboScreens.getSelectionModel().select(s);
+                        try {
+                            setScreen(s);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-
-
         } else {
-             try {
+            try {
                 displayNoScreenWarning();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+
+    }
 
         comboScreens.setOnAction(e -> {
-            if (comboScreens.getSelectionModel().getSelectedItem() != null){
-                try {
-                    setScreen(comboScreens.getValue());
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
+        if (comboScreens.getSelectionModel().getSelectedItem() != null) {
+            try {
+                setScreen(comboScreens.getValue());
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-        });
-    }
+        }
+    });
+}
 
     private void displayNoScreenWarning() throws IOException {
         String text = "You have not been assigned a screen yet. \n\n" +
