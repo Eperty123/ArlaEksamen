@@ -41,9 +41,6 @@ public class AdminDashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
-        for (ScreenBit s : ScreenModel.getInstance().getAllScreenBits()){
-            System.out.println(s.getName() + " " + s.getAssignedUsers());
-        }
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());

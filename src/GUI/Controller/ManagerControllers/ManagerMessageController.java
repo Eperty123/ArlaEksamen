@@ -41,16 +41,20 @@ public class ManagerMessageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        currentUser = LoginManager.getCurrentUser();
         timePicker.set24HourView(true);
 
         loadAllScreens();
     }
 
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
     private void loadAllScreens() {
         // Remove all nodes.
         screenContainer.getChildren().clear();
-
+        currentUser = LoginManager.getCurrentUser();
+        System.out.println(currentUser.getAssignedScreen());
         // Add all screens.
         for (ScreenBit s : currentUser.getAssignedScreen()) {
             makeScreen(s);
