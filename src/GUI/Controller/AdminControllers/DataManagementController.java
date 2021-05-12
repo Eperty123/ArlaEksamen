@@ -85,7 +85,7 @@ public class DataManagementController implements Initializable {
         // We need a selection from the combo box first.
         comboBox.setOnAction((v) -> {
             fileChooser.getExtensionFilters().clear();
-            var htmlExtension = new FileChooser.ExtensionFilter("html",  "*.html");
+            var htmlExtension = new FileChooser.ExtensionFilter("html", "*.html");
             var pdfExtension = new FileChooser.ExtensionFilter("pdf", "*.pdf");
             var imgExtension = new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg");
             var excelCsvExtension = new FileChooser.ExtensionFilter("Csv/Excel file", "*.csv", "*.xlsx");
@@ -103,7 +103,7 @@ public class DataManagementController implements Initializable {
                 case Image -> {
                     fileChooser.getExtensionFilters().add(imgExtension);
                 }
-                case BarChart, PieChart -> {
+                case BarChart, PieChart, ScatterChart, BubbleChart, AreaChart, StackedAreaChart, StackedBubbleChart -> {
                     fileChooser.getExtensionFilters().add(excelCsvExtension);
                 }
             }
@@ -128,11 +128,11 @@ public class DataManagementController implements Initializable {
                     e.printStackTrace();
                 }
                 WarningController warningController = fxmlLoader.getController();
-                warningController.setText("Please select a view type!");
+                warningController.setText("Please select a screen type.");
                 stage1.initStyle(StageStyle.TRANSPARENT);
                 stage1.show();
-                stage1.setX(mouseEvent.getScreenX()-stage1.getWidth()/2);
-                stage1.setY(mouseEvent.getScreenY()-180);
+                stage1.setX(mouseEvent.getScreenX() - stage1.getWidth() / 2);
+                stage1.setY(mouseEvent.getScreenY() - 180);
                 stage1.setAlwaysOnTop(true);
             }
         });
