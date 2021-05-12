@@ -42,7 +42,8 @@ public class ScreenModel {
      * @param newScreenBit object containing info on the new ScreenBit
      */
     public void addScreenBit(ScreenBit newScreenBit){
-        if(allScreenBits.stream().noneMatch(o ->o.getName().equals(newScreenBit.getName()))){
+        // Not sure if this still return false with ! in it.
+        if(!allScreenBits.stream().noneMatch(o ->o.getName().equals(newScreenBit.getName()))){
             screenManager.addScreenBit(newScreenBit);
             updateScreenBits();
         }

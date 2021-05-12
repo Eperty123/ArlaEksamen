@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.File;
 
-public class ImageNode implements IDataNode{
+public class ImageNode implements IDataNode {
     /**
      * Adds a Image to the view
      *
@@ -17,7 +17,7 @@ public class ImageNode implements IDataNode{
      */
     @Override
     public Node getData(BorderPane pane, File file) {
-        ImageView imageView = new ImageView(new Image("file:/" + file.getAbsolutePath(),true));
+        ImageView imageView = new ImageView(new Image("file:/" + file.getAbsolutePath(), true));
         imageView.setPreserveRatio(true);
 
         //Makes it follow the panes width
@@ -34,7 +34,8 @@ public class ImageNode implements IDataNode{
         imageView.setFitWidth(pane.getWidth());
         imageView.setFitHeight(pane.getHeight());
 
-        imageView.setAccessibleText(ViewType.Image + String.format("=\"%s%s\"","file:/", file.getAbsolutePath()));
+        //imageView.setAccessibleText(ViewType.Image + String.format("=\"%s%s\"","file:/", file.getAbsolutePath()));
+        imageView.setAccessibleText(ViewType.Image.name() + String.format("=\"%s\"", file.getAbsolutePath()));
         return imageView;
     }
 }

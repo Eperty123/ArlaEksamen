@@ -1,13 +1,7 @@
 package BLL;
 
-import BLL.DataGenerator;
 import BLL.DataNodes.*;
 import GUI.Controller.AdminControllers.PickerStageController;
-import javafx.scene.Node;
-import javafx.scene.chart.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.web.WebView;
 
 import java.io.File;
 
@@ -23,28 +17,26 @@ public class ViewMaker {
     public static void callProperMethod(PickerStageController pickerStageController, ViewType viewType, File file) throws Exception {
         IDataNode iDataNode;
         String path = file.getAbsolutePath();
-        if(path.contains("\\Resources\\"))
-            path= "src\\" + path.substring(path.indexOf("\\Resources\\"));
+        if (path.contains("\\Resources\\"))
+            path = "src\\" + path.substring(path.indexOf("\\Resources\\"));
         file = new File(path);
         switch (viewType) {
-            case HTTP, PDF -> {
-                iDataNode = new HTTPNode();
-            }
-            case BarChart -> {
-                iDataNode = new BarChartNode();
-            }
-            case PieChart -> {
-                iDataNode = new PieChartNode();
-            }
-            case Image -> {
-                iDataNode = new ImageNode();
-            }
+            case HTTP, PDF -> iDataNode = new HTTPNode();
+            case BarChart -> iDataNode = new BarChartNode();
+            case PieChart -> iDataNode = new PieChartNode();
+            case ScatterChart -> iDataNode = new ScatterChartNode();
+            case LineChart -> iDataNode = new LineChartNode();
+            case AreaChart -> iDataNode = new AreaChartNode();
+            case BubbleChart -> iDataNode = new BubbleChartNode();
+            case StackedBubbleChart -> iDataNode = new StackedBarChartNode();
+            case StackedAreaChart -> iDataNode = new StackedAreaChartNode();
+            case Image -> iDataNode = new ImageNode();
             default -> {
-                throw new Exception("Option not implemented yet");
+                throw new Exception("Option not implemented yet.");
             }
         }
-        if(iDataNode!=null)
-        pickerStageController.setContent(iDataNode.getData(pickerStageController.getRoot(), file));
+        if (iDataNode != null)
+            pickerStageController.setContent(iDataNode.getData(pickerStageController.getRoot(), file));
     }
 
 

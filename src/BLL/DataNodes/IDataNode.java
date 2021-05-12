@@ -6,5 +6,5 @@ import javafx.scene.layout.BorderPane;
 import java.io.File;
 
 public interface IDataNode {
-    public Node getData(BorderPane pane, File file);
+    Node getData(BorderPane pane, File file);
 }
