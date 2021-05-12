@@ -257,7 +257,7 @@ POP UP
   MANAGER DASHBOARD
  */
 
-.jfx-text-area{
+.MTextArea{
   -fx-text-fill: white;
   -jfx-unfocux-color: white;
   -fx-background-color:  #0d262e;;
@@ -292,8 +292,8 @@ POP UP
   -fx-background-color: #E01931;
 }
 
-.scroll-pane {
-  -fx-background-color: #0d262e;
+.MScroll-pane {
+  -fx-background-color: transparent;
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical{
