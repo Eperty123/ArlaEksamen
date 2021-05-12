@@ -1,6 +1,8 @@
 package GUI.Controller.AdminControllers;
 
 import BLL.DataGenerator;
+import BLL.ViewMaker;
+import BLL.DataNodes.ViewType;
 import GUI.Controller.PopupControllers.WarningController;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
@@ -9,11 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -21,10 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -149,7 +146,11 @@ public class DataManagementController implements Initializable {
      */
     private void tryToMakeContent() {
         if (comboBox.getSelectionModel().getSelectedItem() != null && file.get() != null) {
-            ViewMaker.callProperMethod(pickerStageController, selectedItem, file.get());
+            try {
+                ViewMaker.callProperMethod(pickerStageController, selectedItem, file.get());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
