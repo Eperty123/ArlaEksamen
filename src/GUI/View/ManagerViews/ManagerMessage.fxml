@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXColorPicker?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTimePicker?>
@@ -23,7 +24,7 @@
          <children>
             <VBox style="-fx-background-color: #154c5d;">
                <children>
-                  <Pane>
+                  <Pane prefHeight="219.0" prefWidth="640.0">
                      <children>
                         <JFXTextArea focusColor="#94bdd3" layoutX="33.0" layoutY="47.0" prefHeight="172.0" prefWidth="550.0" unFocusColor="WHITE" />
                         <Label layoutX="33.0" layoutY="26.0" text="Add Text" textFill="WHITE">
@@ -31,7 +32,8 @@
                               <Font name="System Bold Italic" size="14.0" />
                            </font>
                         </Label>
-                        <MaterialDesignIconView fill="WHITE" glyphName="PALETTE" layoutX="599.0" layoutY="68.0" size="25" />
+                        <MaterialDesignIconView fx:id="palette" accessibleRole="DATE_PICKER" fill="#add8e5" glyphName="PALETTE" layoutX="588.0" layoutY="69.0" size="25" text="" />
+                        <JFXColorPicker layoutX="551.0" layoutY="121.0" promptText="Pick a color" rotate="90.0" />
                      </children>
                   </Pane>
                   <Pane prefHeight="141.0">
@@ -74,8 +76,8 @@
                   </Pane>
                   <Pane>
                      <children>
-                        <JFXButton layoutX="515.0" layoutY="13.0" prefWidth="65.0" styleClass="MCancel" text="Cancel" textFill="WHITE" />
-                        <JFXButton layoutX="415.0" layoutY="13.0" prefWidth="65.0" styleClass="MSave" text="Save" textFill="WHITE" />
+                        <JFXButton layoutX="515.0" layoutY="13.0" onAction="#handleCancel" prefWidth="65.0" styleClass="MCancel" text="Cancel" textFill="WHITE" />
+                        <JFXButton layoutX="415.0" layoutY="13.0" onAction="#handleSave" prefWidth="65.0" styleClass="MSave" text="Save" textFill="WHITE" />
                      </children>
                      <VBox.margin>
                         <Insets top="20.0" />
@@ -99,7 +101,7 @@
                   </Pane>
                   <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: #0d262e;">
                      <content>
-                        <FlowPane minWidth="0.0" style="-fx-background-color: #0d262e;" />
+                        <FlowPane fx:id="screenContainer" minWidth="0.0" style="-fx-background-color: #0d262e;" />
                      </content>
                   </ScrollPane>
                </children>

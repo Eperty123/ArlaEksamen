@@ -45,23 +45,23 @@ public class ManagerDashboardController implements Initializable {
         }
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
-        lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+        lblBar.setText("Manager Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         try {
-            handleUserManagement();
+            handleCreateMessage();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void handleUserManagement() throws IOException {
+    public void handleViewScreens() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerMessage.fxml"));
         borderPane.setCenter(fxmlLoader.load());
     }
 
-    public void handleScreenManagement() throws IOException {
+    public void handleCreateMessage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminScreenManagement.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerMessage.fxml"));
         borderPane.setCenter(fxmlLoader.load());
     }
 
