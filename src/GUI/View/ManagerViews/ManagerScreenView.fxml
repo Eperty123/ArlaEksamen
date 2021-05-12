@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.ManagerControllers.ManagerScreenViewController">
+   <children>
+      <BorderPane fx:id="borderPane" styleClass="midPanel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane maxHeight="25.0" minHeight="25.0" prefHeight="25.0" styleClass="adminDashboardBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <right>
+                        <BorderPane BorderPane.alignment="CENTER">
+                           <center>
+                              <JFXComboBox fx:id="comboScreens" prefHeight="25.0" prefWidth="150.0" promptText="Screen" BorderPane.alignment="CENTER" />
+                           </center>
+                           <left>
+                              <Label text="Select Screen" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets right="15.0" />
+                                 </BorderPane.margin>
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                           </left>
+                        </BorderPane>
+                     </right>
+                     <left>
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="165.0" BorderPane.alignment="CENTER" />
+                     </left>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>

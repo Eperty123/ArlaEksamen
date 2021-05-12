@@ -53,17 +53,18 @@ public class ManagerDashboardController implements Initializable {
 
     public void handleViewScreens() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerMessage.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
         Parent root = fxmlLoader.load();
-        ManagerMessageController controller = fxmlLoader.getController();
-        controller.setCurrentUser(currentUser);
         borderPane.setCenter(root);
     }
 
     public void handleCreateMessage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerMessage.fxml"));
-        borderPane.setCenter(fxmlLoader.load());
+        Parent root = fxmlLoader.load();
+        ManagerMessageController controller = fxmlLoader.getController();
+        controller.setCurrentUser(currentUser);
+        borderPane.setCenter(root);
     }
 
     public void minimize() {
