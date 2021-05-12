@@ -1,4 +1,4 @@
-package GUI.Controller.AdminControllers;
+package BLL.DataNodes;
 
 public enum ViewType {
     BarChart,

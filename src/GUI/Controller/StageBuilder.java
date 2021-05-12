@@ -1,7 +1,7 @@
 package GUI.Controller;
 
-import GUI.Controller.AdminControllers.ViewMaker;
-import GUI.Controller.AdminControllers.ViewType;
+import BLL.ViewMaker;
+import BLL.DataNodes.ViewType;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -114,7 +114,11 @@ public class StageBuilder {
             String path = currentString.split("=\"")[1].substring(0, currentString.split("=\"")[1].indexOf("\""));
             File file = new File(path);
             ViewType viewType = ViewType.valueOf(currentString.split("=\"")[0]);
-            ViewMaker.callProperMethod(pickerStageController, viewType, file);
+            try {
+                ViewMaker.callProperMethod(pickerStageController, viewType, file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
