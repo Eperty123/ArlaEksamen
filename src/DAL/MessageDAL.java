@@ -66,7 +66,7 @@ public class MessageDAL {
 
     }
 
-    // TODO
+    // TODO NOT DONE
     private void assignScreenBitMessages(User user, Message message, List<ScreenBit> assignedScreenBits) {
         try(Connection con = dbCon.getConnection()){
 
