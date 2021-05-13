@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="178.0" prefWidth="339.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CrudControllers.EditBugController">
+   <children>
+      <Pane layoutX="2.0" layoutY="2.0" prefHeight="174.0" prefWidth="335.0" styleClass="popupForground">
+         <children>
+            <Label alignment="TOP_CENTER" layoutX="145.0" layoutY="18.0" text="Edit Bug" textFill="#4c707a">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="65.0" layoutY="57.0" text="Admin to take responsibility of this bug" />
+            <JFXComboBox fx:id="chsAdmin" focusColor="#94bdd3" layoutX="67.0" layoutY="74.0" prefHeight="25.0" prefWidth="203.0" promptText="Admin" unFocusColor="#9f9f9f" />
+            <JFXButton layoutX="58.0" layoutY="132.0" onAction="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" />
+            <JFXButton layoutX="198.0" layoutY="132.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" />
+         </children>
+      </Pane>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="20.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="240.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
+   </children>
+</AnchorPane>

@@ -1,5 +1,6 @@
 package DAL;
 
+import BE.Bug;
 import BE.ScreenBit;
 import BE.User;
 
@@ -36,15 +37,15 @@ public class ResultSetParser {
 
         // Get assigned User info from ResultSet
 
-            int userId = rs.getInt("UserId");
-            String firstName = rs.getString("FirstName");
-            String lastName = rs.getString("LastName");
-            String userName = rs.getString("UserName");
-            String email = rs.getString("Email");
-            int password = rs.getInt("Password");
-            int userRole = rs.getInt("UserRole");
+        int userId = rs.getInt("UserId");
+        String firstName = rs.getString("FirstName");
+        String lastName = rs.getString("LastName");
+        String userName = rs.getString("UserName");
+        String email = rs.getString("Email");
+        int password = rs.getInt("Password");
+        int userRole = rs.getInt("UserRole");
 
-            return new User(userId, firstName, lastName,  userName, email, userRole, password);
-        
+        return new User(userId, firstName, lastName,  userName, email, userRole, password);
+
     }
 }

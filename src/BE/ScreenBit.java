@@ -138,6 +138,9 @@ public class ScreenBit {
     public void setPane(Pane pane) {
         this.pane = pane;
     }
-
-
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
