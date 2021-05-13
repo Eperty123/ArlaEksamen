@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -94,6 +95,12 @@ public class AdminManagementController implements Initializable {
         Scene addEmployeeScene = new Scene(root);
         sceneMover.move(addEmployee, addEmployeeScene.getRoot());
 
+        addEmployee.getIcons().addAll(
+                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
         addEmployee.initStyle(StageStyle.UNDECORATED);
         addEmployee.setScene(addEmployeeScene);
         addEmployee.show();
@@ -112,6 +119,12 @@ public class AdminManagementController implements Initializable {
             sceneMover.move(editEmployee, editEmployeeScene.getRoot());
 
             editEmployeeController.setData(tblEmployees.getSelectionModel().getSelectedItem());
+            editEmployee.getIcons().addAll(
+                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
             editEmployee.initStyle(StageStyle.UNDECORATED);
             editEmployee.setScene(editEmployeeScene);
             editEmployee.show();
@@ -135,6 +148,12 @@ public class AdminManagementController implements Initializable {
 
             removeEmployeeController.setData(tblEmployees.getSelectionModel().getSelectedItem());
 
+            removeEmployeeStage.getIcons().addAll(
+                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
             removeEmployeeStage.initStyle(StageStyle.UNDECORATED);
             removeEmployeeStage.setScene(removeEmployeeScene);
             removeEmployeeStage.show();

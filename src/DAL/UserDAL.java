@@ -73,7 +73,7 @@ public class UserDAL {
             pSql.setString(3, user.getUserName());
             pSql.setString(4, user.getEmail());
             pSql.setInt(5, user.getPassword());
-            pSql.setInt(6, user.getUserRole() == UserType.Admin ? 0 : 1);
+            pSql.setInt(6, user.getUserRole().ordinal());
             pSql.execute();
 
         } catch (SQLException throwables) {

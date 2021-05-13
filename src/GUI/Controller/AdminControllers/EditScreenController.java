@@ -5,6 +5,7 @@ import BE.Searcher;
 import BE.User;
 import BE.UserType;
 import GUI.Model.ScreenModel;
+import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +20,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class EditScreenController implements Initializable {
     @FXML
@@ -35,6 +35,9 @@ public class EditScreenController implements Initializable {
 
     private ScreenBit screenBit;
     private List<User> users;
+    private List<User> usersToAdd = new ArrayList<>();
+
+    private List<User> usersToDelete = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -42,12 +45,12 @@ public class EditScreenController implements Initializable {
     }
 
     public void setData(List<User> users){
-        this.users = users;
+        this.users = new ArrayList<>(users);
 
         this.users.removeIf(user -> user.getUserRole() == UserType.Admin ||
                 screenBit.getAssignedUsers().stream().anyMatch(o -> o.getUserName().equalsIgnoreCase(user.getUserName())));
 
-        lstUsers.getItems().addAll(users);
+        lstUsers.getItems().addAll(this.users);
     }
 
     public void setScreen(ScreenBit screenBit){
@@ -59,31 +62,29 @@ public class EditScreenController implements Initializable {
     }
 
     public void handleCancel(ActionEvent actionEvent) {
+        usersToAdd.clear();
+        usersToDelete.clear();
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }
 
     // TODO update to handle List
     public void handleSave(ActionEvent actionEvent) {
-        for (User u : lstScreenUsers.getItems()){
-            if (!u.getAssignedScreen().contains(screenBit)) {
-                u.addScreenAssignment(screenBit);
-                ScreenModel.getInstance().assignScreenBitRights(u, screenBit);
-            }
-        }
+
+        usersToAdd.forEach(user -> {
+            user.addScreenAssignment(screenBit);
+            ScreenModel.getInstance().assignScreenBitRights(user,screenBit);
+            screenBit.getAssignedUsers().add(user);
+        });
+
 
         List<User> usersToDeleteAssociations = new ArrayList<>();
-        for (User u  : lstUsers.getItems()){
-            if (u.getAssignedScreen().contains(screenBit)){
-                usersToDeleteAssociations.add(u);
-                u.removeScreenAssignment(screenBit);
-            }
-            screenBit.removeUser(u);
-        }
-        ScreenModel.getInstance().removeScreenBitRights(usersToDeleteAssociations,screenBit);
-
-        screenBit.setAssignedUsers(lstScreenUsers.getItems());
-
+        usersToDelete.forEach(user -> {
+            user.removeScreenAssignment(screenBit);
+            ScreenModel.getInstance().removeScreenBitRights(user,screenBit);
+            screenBit.removeUser(user);
+        });
+        setData(UserModel.getInstance().getAllUsers());
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }
@@ -96,16 +97,16 @@ public class EditScreenController implements Initializable {
 
     public void handleAddUser(MouseEvent mouseEvent) {
         User selectedUser = lstUsers.getSelectionModel().getSelectedItem();
+        usersToAdd.add(selectedUser);
         lstUsers.getItems().remove(selectedUser);
         lstScreenUsers.getItems().add(selectedUser);
     }
 
     public void handleRemoveUser(MouseEvent mouseEvent) {
         User selectedUser = lstScreenUsers.getSelectionModel().getSelectedItem();
-        lstScreenUsers.getItems().remove(selectedUser);
+        usersToDelete.add(selectedUser);
         lstUsers.getItems().add(selectedUser);
-
-        System.out.println(lstScreenUsers.getItems());
+        lstScreenUsers.getItems().remove(selectedUser);
     }
 
 

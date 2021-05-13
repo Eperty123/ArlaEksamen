@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -71,12 +72,21 @@ public class LoginController implements Initializable {
             if (u.getUserRole() == UserType.Admin) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AdminDashboard.fxml"));
                 stage.setTitle("Admin dashboard");
-            } else {
+            } else if(u.getUserRole() == UserType.Manager) {
+                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/ManagerViews/ManagerDashboard.fxml"));
+                stage.setTitle("Manager Dashboard");
+            }else{
                 fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/EmployeeScreen.fxml"));
                 stage.setTitle("Employee Screen");
             }
 
             Scene scene = new Scene(fxmlLoader.load());
+            stage.getIcons().addAll(
+                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(scene);
             stage.show();
@@ -137,15 +147,5 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<ScreenBit> screens = ScreenModel.getInstance().getAllScreenBits();
-        List<User> users = UserModel.getInstance().getAllUsers();
-
-        for (ScreenBit s : screens) {
-            for (User u : users) {
-                if(s.getAssignedUsers().contains(u)){
-                    u.addScreenAssignment(s);
-                }
-            }
-        }
     }
 }

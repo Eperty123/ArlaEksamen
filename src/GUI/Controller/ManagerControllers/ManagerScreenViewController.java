@@ -1,4 +1,4 @@
-package GUI.Controller;
+package GUI.Controller.ManagerControllers;
 
 import BE.SceneMover;
 import BE.ScreenBit;
@@ -7,13 +7,16 @@ import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Controller.StageBuilder;
+import GUI.Model.ScreenModel;
+import com.jfoenix.controls.JFXComboBox;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -21,17 +24,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.swing.event.DocumentEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
-import java.util.Random;
 import java.util.ResourceBundle;
 
-public class EmployeeScreenController implements Initializable {
+public class ManagerScreenViewController implements Initializable {
     @FXML
     private BorderPane borderPane;
     @FXML
-    private Label lblBar;
+    private JFXComboBox<ScreenBit> comboScreens;
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -39,6 +42,8 @@ public class EmployeeScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
+
+        comboScreens.getItems().addAll(currentUser.getAssignedScreen());
 
         if (!currentUser.getAssignedScreen().isEmpty()) {
             if (currentUser.getAssignedScreen().size() == 1) {
@@ -55,7 +60,7 @@ public class EmployeeScreenController implements Initializable {
 
                     if (results.isPresent()) {
                         ScreenBit s = results.get();
-                        lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                        comboScreens.getSelectionModel().select(s);
                         try {
                             setScreen(s);
                         } catch (Exception e) {
@@ -67,14 +72,24 @@ public class EmployeeScreenController implements Initializable {
                 }
             }
         } else {
-            lblBar.setText("Employee Screen - NONE Contact admin - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             try {
                 displayNoScreenWarning();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+
     }
+
+        comboScreens.setOnAction(e -> {
+        if (comboScreens.getSelectionModel().getSelectedItem() != null) {
+            try {
+                setScreen(comboScreens.getValue());
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+    });
+}
 
     private void displayNoScreenWarning() throws IOException {
         String text = "You have not been assigned a screen yet. \n\n" +
@@ -109,57 +124,4 @@ public class EmployeeScreenController implements Initializable {
         borderPane.setCenter(screen);
     }
 
-    public void handleLogout() throws IOException {
-        ConfirmationDialog confirmation = new ConfirmationDialog("Are you sure you want to logout of the application?");
-
-        Optional<Boolean> result = confirmation.showAndWait();
-
-        if (result.isPresent()) {
-            if (result.get()) {
-                Stage root1 = (Stage) borderPane.getScene().getWindow();
-
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/Login.fxml"));
-
-                Scene scene = new Scene(fxmlLoader.load());
-
-                stage.getIcons().addAll(
-                        new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                        new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                        new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                        new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                        new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(scene);
-                stage.show();
-                LoginManager.setCurrentUser(null);
-                root1.close();
-
-                BorderPane borderPane1 = (BorderPane) stage.getScene().getRoot();
-
-                SceneMover sceneMover = new SceneMover();
-                sceneMover.move(stage,borderPane1.getTop());
-            }
-        }
-    }
-
-    @FXML
-    private void handleMinimize(MouseEvent mouseEvent) {
-        Stage stage = (Stage) borderPane.getScene().getWindow();
-        stage.setIconified(true);
-    }
-
-    @FXML
-    private void handleMaximize(MouseEvent mouseEvent) {
-        isMaximized = !isMaximized;
-        Stage stage = (Stage) borderPane.getScene().getWindow();
-        stage.setMaximized(isMaximized);
-    }
-
-    @FXML
-    private void handleClose(MouseEvent mouseEvent) {
-        Stage stage = (Stage) borderPane.getScene().getWindow();
-        stage.close();
-    }
 }

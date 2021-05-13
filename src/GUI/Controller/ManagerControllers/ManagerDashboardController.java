@@ -1,4 +1,4 @@
-package GUI.Controller.AdminControllers;
+package GUI.Controller.ManagerControllers;
 
 import BE.SceneMover;
 import BE.ScreenBit;
@@ -11,7 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AdminDashboardController implements Initializable {
+public class ManagerDashboardController implements Initializable {
     @FXML
     private Label lblWelcome;
     @FXML
@@ -43,24 +43,28 @@ public class AdminDashboardController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
-        lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+        lblBar.setText("Manager Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         try {
-            handleUserManagement();
+            handleViewScreens();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void handleUserManagement() throws IOException {
+    public void handleViewScreens() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminManagement.fxml"));
-        borderPane.setCenter(fxmlLoader.load());
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
+        Parent root = fxmlLoader.load();
+        borderPane.setCenter(root);
     }
 
-    public void handleScreenManagement() throws IOException {
+    public void handleCreateMessage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminScreenManagement.fxml"));
-        borderPane.setCenter(fxmlLoader.load());
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerMessage.fxml"));
+        Parent root = fxmlLoader.load();
+        ManagerMessageController controller = fxmlLoader.getController();
+        controller.setCurrentUser(currentUser);
+        borderPane.setCenter(root);
     }
 
     public void minimize() {

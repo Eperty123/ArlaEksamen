@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.ManagerControllers.ManagerDashboardController">
+   <children>
+      <BorderPane fx:id="borderPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <AnchorPane maxWidth="235.0" minWidth="235.0" prefWidth="235.0" BorderPane.alignment="TOP_LEFT">
+               <children>
+                  <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <top>
+                        <Pane fx:id="headerPanel" maxHeight="235.0" maxWidth="235.0" minHeight="235.0" minWidth="235.0" prefHeight="235.0" prefWidth="235.0" styleClass="headerPanel" BorderPane.alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="43.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../Resources/defaultPerson.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="lblWelcome" alignment="CENTER" layoutX="44.0" layoutY="186.0" text="Velkommen Henrik Hansen!" textAlignment="CENTER" />
+                           </children>
+                        </Pane>
+                     </top>
+                     <center>
+                        <AnchorPane BorderPane.alignment="CENTER">
+                           <children>
+                              <Pane fx:id="midPanel" styleClass="midPanel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleViewScreens" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="View Screens">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton layoutX="33.0" layoutY="138.0" onAction="#handleCreateMessage" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Create Message">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                     </center>
+                     <bottom>
+                        <Pane fx:id="logoutPanel" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" prefHeight="45.0" prefWidth="235.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <JFXButton layoutY="-1.0" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" onAction="#Logout" prefHeight="45.0" prefWidth="235.0" styleClass="logout" text="Logout">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </Pane>
+                     </bottom>
+                  </BorderPane>
+               </children>
+            </AnchorPane>
+         </left>
+         <top>
+            <BorderPane fx:id="topBar" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
+               <top>
+                  <BorderPane fx:id="bar1" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" BorderPane.alignment="CENTER">
+                     <right>
+                        <GridPane BorderPane.alignment="CENTER">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="10.0" prefWidth="25.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <BorderPane>
+                                 <center>
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#minimize" styleClass="minimize" />
+                                 </center>
+                              </BorderPane>
+                              <BorderPane GridPane.columnIndex="1">
+                                 <center>
+                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#maximize" styleClass="maximize" />
+                                 </center>
+                              </BorderPane>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                 <center>
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#exit" styleClass="close" BorderPane.alignment="CENTER" />
+                                 </center>
+                              </BorderPane>
+                           </children>
+                        </GridPane>
+                     </right>
+                     <center>
+                        <Label fx:id="lblBar" text="Manager Dashboard - Henrik Hansen" BorderPane.alignment="CENTER" />
+                     </center>
+                     <left>
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="75.0" BorderPane.alignment="CENTER" />
+                     </left>
+                  </BorderPane>
+               </top>
+            </BorderPane>
+         </top>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #0d262e;" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

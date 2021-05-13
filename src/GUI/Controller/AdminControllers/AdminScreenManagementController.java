@@ -2,6 +2,7 @@ package GUI.Controller.AdminControllers;
 
 import BE.SceneMover;
 import BE.ScreenBit;
+import BE.User;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
@@ -20,19 +21,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -45,11 +47,27 @@ public class AdminScreenManagementController implements Initializable {
 
     private final SceneMover sceneMover = new SceneMover();
     private final ScreenModel screenModel = ScreenModel.getInstance();
+    private Node createBtnNode;
+
+    private List<User> userList = UserModel.getInstance().getAllUsers();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Get the hardcoded create screen button when not assigned yet.
+        if (createBtnNode == null) createBtnNode = root.getChildren().get(0);
         loadAllScreens();
         autofitSize();
+    }
+
+    /**
+     * Remove the Screen node from the Pane.
+     *
+     * @param screen The screen to remove.
+     */
+    private void removeScreenNode(ScreenBit screen) {
+        if (screen != null) {
+            root.getChildren().remove(screen.getPane());
+        }
     }
 
     private void autofitSize() {
@@ -71,15 +89,23 @@ public class AdminScreenManagementController implements Initializable {
      * Load all the available screens.
      */
     private void loadAllScreens() {
+        // Remove all nodes.
+        root.getChildren().clear();
+
+        // Add all screens.
         for (ScreenBit s : screenModel.getAllScreenBits()) {
             handleNewScreen(s);
         }
+
+        // Now add the create screen button.
+        root.getChildren().add(createBtnNode);
     }
 
     private void handleNewScreen(ScreenBit screenBit) {
         Pane newPane = new Pane();
         newPane.setPrefSize(150, 150);
 
+        newPane.setAccessibleText(screenBit.getName());
         Rectangle newRectangle = new Rectangle(150, 150);
         newRectangle.setArcHeight(50);
         newRectangle.setArcWidth(50);
@@ -158,6 +184,9 @@ public class AdminScreenManagementController implements Initializable {
                 e.printStackTrace();
             }
         });
+
+        // Assign the screen its respective Pane object.
+        screenBit.setPane(newPane);
     }
 
     private void handleScreenCreator(ScreenBit screenBit) throws Exception {
@@ -176,6 +205,12 @@ public class AdminScreenManagementController implements Initializable {
         Node bar = borderPane.getTop();
         sceneMover.move(pickerDashboard, bar);
 
+        pickerDashboard.getIcons().addAll(
+                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
         pickerDashboard.initStyle(StageStyle.UNDECORATED);
         pickerDashboard.setScene(pickerScene);
         pickerDashboard.show();
@@ -189,10 +224,13 @@ public class AdminScreenManagementController implements Initializable {
 
         if (result.isPresent()) {
 
-            // Add the new screen to database.
+            // Add the new screen to database. No id is assigned here. We need to RELOAD all the screens in order to
+            // get the id for it.
             screenModel.addScreenBit(new ScreenBit(result.get(), ""));
 
-            handleNewScreen(new ScreenBit(result.get()));
+            // Reload all screens. Can be optimized further using thread to not halt the gui.
+            loadAllScreens();
+            //handleNewScreen(new ScreenBit(result.get()));
         }
     }
 
@@ -201,16 +239,22 @@ public class AdminScreenManagementController implements Initializable {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/EditScreen.fxml"));
 
-        Parent root = (Parent) loader.load();
+        Parent root = loader.load();
         EditScreenController editScreenController = loader.getController();
         editScreenController.setScreen(screenBit);
-        editScreenController.setData(UserModel.getInstance().getAllUsers());
+        editScreenController.setData(userList);
 
         Node bar = root.getChildrenUnmodifiable().get(0);
         Scene editScreenScene = new Scene(root);
         sceneMover.move(editScreenStage, bar);
         //applyScreenDrag(editScreenStage, editScreenScene);
 
+        editScreenStage.getIcons().addAll(
+                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
         editScreenStage.initStyle(StageStyle.UNDECORATED);
         editScreenStage.setScene(editScreenScene);
         editScreenStage.show();
@@ -218,13 +262,15 @@ public class AdminScreenManagementController implements Initializable {
 
     private void handleRemove(ScreenBit screenBit) throws IOException {
         String text = "Are you sure you want to delete " + screenBit.getName() + " screen? " +
-                "This action is irreversibel";
+                "This action is irreversible";
         ConfirmationDialog confirmationDialog = new ConfirmationDialog(text);
 
         Optional<Boolean> result = confirmationDialog.showAndWait();
         if (result.isPresent()) {
             if (result.get()) {
+                System.out.println(String.format("Screen to delete (id: %d): %s", screenBit.getId(), screenBit.getName()));
                 screenModel.deleteScreenBit(screenBit);
+                removeScreenNode(screenBit);
             }
         }
     }

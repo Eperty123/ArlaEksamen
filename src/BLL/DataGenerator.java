@@ -62,6 +62,127 @@ public class DataGenerator {
     }
 
     /**
+     * This method creates a ScatterChart with String values on the x-axis, and Number values on the y-axis.
+     * @param filename file to be parsed by getParsedData() method.
+     * @return ScatterChart
+     */
+    public static ScatterChart<String, Number> getScatterChart(String filename){
+
+        XYChart.Series<String, Number> series = getXYSeries(getParsedData(filename));
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        ScatterChart<String, Number> scatterChart = new ScatterChart<>(xAxis, yAxis);
+
+        // TODO: Add proper title.
+        scatterChart.setTitle("Units Produced Pr. Hour");
+        scatterChart.getData().add(series);
+
+        return scatterChart;
+    }
+
+    /**
+     * This method creates a BubbleChart with String values on the x-axis, and Number values on the y-axis.
+     * @param filename file to be parsed by getParsedData() method.
+     * @return ScatterChart
+     */
+    public static BubbleChart<String, Number> getBubbleChart(String filename){
+
+        XYChart.Series<String, Number> series = getXYSeries(getParsedData(filename));
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        BubbleChart<String, Number> bubbleChart = new BubbleChart<>(xAxis, yAxis);
+
+        // TODO: Add proper title.
+        bubbleChart.setTitle("Units Produced Pr. Hour");
+        bubbleChart.getData().add(series);
+
+        return bubbleChart;
+    }
+
+    /**
+     * This method creates a AreaChart with String values on the x-axis, and Number values on the y-axis.
+     * @param filename file to be parsed by getParsedData() method.
+     * @return ScatterChart
+     */
+    public static AreaChart<String, Number> getAreaChart(String filename){
+
+        XYChart.Series<String, Number> series = getXYSeries(getParsedData(filename));
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        AreaChart<String, Number> areaChart = new AreaChart<>(xAxis, yAxis);
+
+        // TODO: Add proper title.
+        areaChart.setTitle("Units Produced Pr. Hour");
+        areaChart.getData().add(series);
+
+        return areaChart;
+    }
+
+    /**
+     * This method creates a LineChart with String values on the x-axis, and Number values on the y-axis.
+     * @param filename file to be parsed by getParsedData() method.
+     * @return ScatterChart
+     */
+    public static LineChart<String, Number> getLineChart(String filename){
+
+        XYChart.Series<String, Number> series = getXYSeries(getParsedData(filename));
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
+
+        // TODO: Add proper title.
+        lineChart.setTitle("Units Produced Pr. Hour");
+        lineChart.getData().add(series);
+
+        return lineChart;
+    }
+
+    /**
+     * This method creates a StackedBarChart with String values on the x-axis, and Number values on the y-axis.
+     * @param filename file to be parsed by getParsedData() method.
+     * @return ScatterChart
+     */
+    public static StackedBarChart<String, Number> getStackedBarChart(String filename){
+
+        XYChart.Series<String, Number> series = getXYSeries(getParsedData(filename));
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        StackedBarChart<String, Number> stackedBarChart = new StackedBarChart<>(xAxis, yAxis);
+
+        // TODO: Add proper title.
+        stackedBarChart.setTitle("Units Produced Pr. Hour");
+        stackedBarChart.getData().add(series);
+
+        return stackedBarChart;
+    }
+
+    /**
+     * This method creates a StackedAreaChart with String values on the x-axis, and Number values on the y-axis.
+     * @param filename file to be parsed by getParsedData() method.
+     * @return ScatterChart
+     */
+    public static StackedAreaChart<String, Number> getStackedAreaChart(String filename){
+
+        XYChart.Series<String, Number> series = getXYSeries(getParsedData(filename));
+
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        StackedAreaChart<String, Number> stackedAreaChart = new StackedAreaChart<>(xAxis, yAxis);
+
+        // TODO: Add proper title.
+        stackedAreaChart.setTitle("Units Produced Pr. Hour");
+        stackedAreaChart.getData().add(series);
+
+        return stackedAreaChart;
+    }
+
+
+    /**
      * Returns a list of String[]'s containing row data from either .csv or .xlxs files.
      * It does this by calling the getCSVData or the getXLXSData depending on the file type,
      * which is determined by the isCSV() method.
