@@ -7,7 +7,7 @@ public enum ViewType {
     BubbleChart,
     LineChart,
     AreaChart,
-    StackedBubbleChart,
+    StackedBarChart,
     StackedAreaChart,
     HTTP,
     PDF,

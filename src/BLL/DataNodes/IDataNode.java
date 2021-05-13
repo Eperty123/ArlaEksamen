@@ -7,4 +7,5 @@ import java.io.File;
 
 public interface IDataNode {
     Node getData(BorderPane pane, File file);
+    Node getData(BorderPane pane, String uri);
 }

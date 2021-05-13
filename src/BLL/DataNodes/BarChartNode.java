@@ -34,4 +34,9 @@ public class BarChartNode implements IDataNode{
 
         return bc;
     }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        return getData(pane, new File(uri));
+    }
 }

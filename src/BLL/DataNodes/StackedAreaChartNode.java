@@ -35,4 +35,9 @@ public class StackedAreaChartNode implements IDataNode {
         stackedAreaChart.setAccessibleText(ViewType.StackedAreaChart.name() + String.format("=\"%s\"", file.getPath()));
         return stackedAreaChart;
     }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        return getData(pane, new File(uri));
+    }
 }
