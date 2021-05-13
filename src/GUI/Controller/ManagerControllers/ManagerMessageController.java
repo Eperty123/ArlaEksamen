@@ -1,47 +1,70 @@
 package GUI.Controller.ManagerControllers;
 
+import BE.Message;
 import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
-import GUI.Model.ScreenModel;
+import GUI.Model.MessageModel;
 import com.jfoenix.controls.JFXColorPicker;
+import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTimePicker;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ManagerMessageController implements Initializable {
     @FXML
+    private JFXDatePicker datePicker;
+    @FXML
     private JFXTimePicker timePicker;
     @FXML
     private JFXColorPicker colorPicker;
     @FXML
     private FlowPane screenContainer;
+    @FXML
+    private JFXTextArea messageArea;
+    @FXML
+    private ChoiceBox<Integer> durationHoursChoice;
+    @FXML
+    private ChoiceBox<Integer> durationMinutesChoice;
 
     private User currentUser;
 
     private List<ScreenBit> selectedScreens = new ArrayList<>();
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timePicker.set24HourView(true);
+
+        durationHoursChoice.setItems(FXCollections.observableArrayList(1,2,3,4,5,6,7,8));
+
+        durationMinutesChoice.setItems(FXCollections.observableArrayList(
+                0,30));
+
 
         loadAllScreens();
     }
@@ -138,7 +161,23 @@ public class ManagerMessageController implements Initializable {
     }
 
     public void handleSave() {
+        List<ScreenBit> assignedScreenBits = new ArrayList<>();
+        String message = messageArea.getText();
+        Color color = colorPicker.getValue();
+        LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), timePicker.getValue());
+        LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
 
+        Message newMessage = new Message(startTime, endTime, message, color);
+
+        MessageModel.getInstance().addMessage(currentUser, newMessage, assignedScreenBits);
+    }
+
+    private long getDurationMinutes() {
+        return durationHoursChoice.getSelectionModel().getSelectedIndex();
+    }
+
+    private long getDurationHours() {
+        return durationMinutesChoice.getSelectionModel().getSelectedIndex() == 0 ? 0 : 30;
     }
 
     public void handleCancel() {

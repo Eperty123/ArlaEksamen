@@ -7,6 +7,7 @@
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -18,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.ManagerControllers.ManagerMessageController">
+<BorderPane stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.ManagerControllers.ManagerMessageController">
    <center>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -26,7 +27,7 @@
                <children>
                   <Pane prefHeight="219.0" prefWidth="640.0">
                      <children>
-                        <JFXTextArea focusColor="#94bdd3" layoutX="33.0" layoutY="47.0" prefHeight="172.0" prefWidth="550.0" styleClass="MTextArea" unFocusColor="WHITE" />
+                        <JFXTextArea fx:id="messageArea" focusColor="#94bdd3" layoutX="33.0" layoutY="47.0" prefHeight="172.0" prefWidth="550.0" styleClass="MTextArea" unFocusColor="WHITE" />
                         <Label layoutX="33.0" layoutY="26.0" text="Add Text" textFill="WHITE">
                            <font>
                               <Font name="System Bold Italic" size="14.0" />
@@ -38,7 +39,7 @@
                   </Pane>
                   <Pane prefHeight="141.0">
                      <children>
-                        <JFXDatePicker defaultColor="#add8e5" layoutX="34.0" layoutY="48.0" prefWidth="230.0" promptText="Date" style="-jfx-unfocus-color: white;">
+                        <JFXDatePicker fx:id="datePicker" defaultColor="#add8e5" layoutX="34.0" layoutY="48.0" prefWidth="230.0" promptText="Date" style="-jfx-unfocus-color: white;">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets></JFXDatePicker>
@@ -56,6 +57,10 @@
                               <Font name="System Bold Italic" size="14.0" />
                            </font>
                         </Label>
+                        <ChoiceBox fx:id="durationHoursChoice" layoutX="32.0" layoutY="115.0" prefHeight="25.0" prefWidth="88.0" />
+                        <Label layoutX="34.0" layoutY="91.0" text="Duration (Hours)" textFill="#fffdfd" />
+                        <Label layoutX="138.0" layoutY="91.0" text="Duration (Minutes)" textFill="#fffdfd" />
+                        <ChoiceBox fx:id="durationMinutesChoice" layoutX="138.0" layoutY="115.0" prefHeight="25.0" prefWidth="88.0" />
                      </children>
                   </Pane>
                   <Pane>

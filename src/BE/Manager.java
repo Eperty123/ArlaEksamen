@@ -1,11 +1,9 @@
 package BE;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 
 public class Manager extends User{
-    private HashMap<LocalDateTime, Message> messages;
+    private List<Message> messages;
 
     public Manager(int id, String firstName, String lastName, String userName, String email, int userRole, int password, ScreenBit assignedScreenBits) {
         super(id, firstName, lastName, userName, email, userRole, password, assignedScreenBits);
@@ -31,7 +29,7 @@ public class Manager extends User{
         super(firstName, lastName, userName, email, userRole, password);
     }
 
-    public HashMap<LocalDateTime, Message> getMessages() {
+    public List<Message> getMessages() {
         return messages;
 
     }

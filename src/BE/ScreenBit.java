@@ -2,7 +2,9 @@ package BE;
 
 import javafx.scene.layout.Pane;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ScreenBit {
@@ -11,6 +13,8 @@ public class ScreenBit {
     private String screenInfo;
     private List<User> assignedUsers;
     private Pane pane;
+    private List<Message> messages;
+    private HashMap<LocalDateTime, Boolean> timeSlots;
 
     public ScreenBit(String name) {
         this.name = name;
@@ -29,6 +33,14 @@ public class ScreenBit {
         this.name = screenName;
         this.screenInfo = screenInfo;
         this.assignedUsers = new ArrayList<>();
+    }
+
+    public ScreenBit(int id, String name, String screenInfo, List<User> assignedUsers, List<Message> messages) {
+        this.id = id;
+        this.name = name;
+        this.screenInfo = screenInfo;
+        this.assignedUsers = assignedUsers;
+        this.messages = messages;
     }
 
     /**
@@ -138,7 +150,30 @@ public class ScreenBit {
     public void setPane(Pane pane) {
         this.pane = pane;
     }
-    
+
+
+
+    // TODO Jonas javadoc
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public void addMessage(Message message){
+        this.messages.add(message);
+    }
+
+    public void removeMessage(Message message){
+        this.messages.remove(message);
+    }
+
+    public HashMap<LocalDateTime, Boolean> getTimeSlots() {
+        return timeSlots;
+    }
+  
     @Override
     public String toString() {
         return getName();
