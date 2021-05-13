@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="316.0" prefWidth="304.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.PopupControllers.BugReportController">
+   <children>
+      <Pane layoutX="2.0" prefHeight="312.0" prefWidth="300.0" styleClass="popupForground" stylesheets="@../../Resources/Styles.css">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="20.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="200.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
+            <Label alignment="TOP_CENTER" layoutX="107.0" layoutY="10.0" text="Report an issue" textFill="#4c707a">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <JFXTextArea editable="false" focusColor="#add8e5" layoutX="20.0" layoutY="39.0" prefHeight="77.0" prefWidth="264.0" styleClass="textarea" text="Oh no! Please try and express in as much detail as possible, what went wrong, when and what you did to experience this issue." unFocusColor="#add8e5" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="20.0" layoutY="133.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="260.0" />
+            <JFXTextArea fx:id="textArea" focusColor="#add8e5" layoutX="18.0" layoutY="143.0" prefHeight="149.0" prefWidth="264.0" promptText="Issue report here" styleClass="textarea" unFocusColor="#add8e5" />
+         </children></Pane>
+   </children>
+</AnchorPane>
