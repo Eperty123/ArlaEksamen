@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,7 +14,7 @@
    <children>
       <BorderPane fx:id="root" minHeight="0" minWidth="0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <GridPane fx:id="picker" alignment="CENTER" styleClass="pickerStageBackground" BorderPane.alignment="CENTER">
+            <GridPane fx:id="picker" alignment="CENTER" hgap="10.0" styleClass="pickerStageBackground" BorderPane.alignment="CENTER">
                <columnConstraints>
                   <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
                   <ColumnConstraints hgrow="NEVER" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
@@ -23,29 +24,38 @@
                   <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#changeContent" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#changeContent" pickOnBounds="true" preserveRatio="true" styleClass="addChart">
                      <image>
-                        <Image url="@/GUI/Resources/plus.png" />
+                        <Image url="@/GUI/Resources/addChart.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneHorizontally" pickOnBounds="true" preserveRatio="true" rotate="90" GridPane.columnIndex="1">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneHorizontally" pickOnBounds="true" preserveRatio="true" styleClass="addVertical" GridPane.columnIndex="1">
                      <image>
-                        <Image url="@/GUI/Resources/minus.png" />
+                        <Image url="@/GUI/Resources/vertical.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneVertically" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneVertically" pickOnBounds="true" preserveRatio="true" styleClass="addHorizontal" GridPane.columnIndex="2">
                      <image>
-                        <Image url="@/GUI/Resources/minus.png" />
+                        <Image url="@/GUI/Resources/horizontal.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
                   </ImageView>
                </children>
                <cursor>

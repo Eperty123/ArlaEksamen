@@ -45,7 +45,6 @@ public class EditEmployeeController implements Initializable {
 
             User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
                     , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), password);
-            System.out.println(chsRole.getSelectionModel().getSelectedItem().ordinal());
             userModel.updateUser(oldUser, newUser);
 
             Stage stage = (Stage) root.getScene().getWindow();

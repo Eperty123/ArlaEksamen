@@ -63,6 +63,12 @@ public class AdminDashboardController implements Initializable {
         borderPane.setCenter(fxmlLoader.load());
     }
 
+    public void handleBugManagement() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminBugReport.fxml"));
+        borderPane.setCenter(fxmlLoader.load());
+    }
+
     public void minimize() {
         Stage stage = (Stage) root.getScene().getWindow();
         stage.setIconified(true);

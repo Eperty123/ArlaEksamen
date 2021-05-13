@@ -152,6 +152,7 @@ public class ScreenBit {
     }
 
 
+
     // TODO Jonas javadoc
     public List<Message> getMessages() {
         return messages;
@@ -171,5 +172,10 @@ public class ScreenBit {
 
     public HashMap<LocalDateTime, Boolean> getTimeSlots() {
         return timeSlots;
+    }
+  
+    @Override
+    public String toString() {
+        return getName();
     }
 }

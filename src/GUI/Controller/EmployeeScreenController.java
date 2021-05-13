@@ -4,9 +4,11 @@ import BE.SceneMover;
 import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
+import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -161,5 +163,17 @@ public class EmployeeScreenController implements Initializable {
     private void handleClose(MouseEvent mouseEvent) {
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
+    }
+
+    public void handleReportIssue() throws IOException {
+        BugReportDialog reportDialog = new BugReportDialog();
+        Optional<String> result = reportDialog.showAndWait();
+
+        if (result.isPresent()){
+            if (!result.get().equals("CANCELED")){
+                //TODO Send ned til dal når det er lavet
+                System.out.println(result.get());
+            }
+        }
     }
 }
