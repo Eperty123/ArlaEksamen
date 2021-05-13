@@ -25,15 +25,15 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#changeContent" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/GUI/Resources/plus.png" />
+                        <Image url="@/GUI/Resources/addChart.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneHorizontally" pickOnBounds="true" preserveRatio="true" rotate="90" GridPane.columnIndex="1">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneHorizontally" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                      <image>
-                        <Image url="@/GUI/Resources/minus.png" />
+                        <Image url="@/GUI/Resources/vertical.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -41,7 +41,7 @@
                   </ImageView>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneVertically" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                      <image>
-                        <Image url="@/GUI/Resources/minus.png" />
+                        <Image url="@/GUI/Resources/horizontal.png" />
                      </image>
                      <cursor>
                         <Cursor fx:constant="HAND" />
