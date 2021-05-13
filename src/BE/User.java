@@ -131,6 +131,15 @@ public class User {
 
     }
 
+    public boolean hasScreenBitAssigned(ScreenBit screenBit){
+        for(ScreenBit s : this.assignedScreenBits){
+            if(s.getName().equals(screenBit.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<ScreenBit> getAssignedScreen() {
         return assignedScreenBits;
     }
