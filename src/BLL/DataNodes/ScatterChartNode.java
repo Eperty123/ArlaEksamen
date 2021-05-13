@@ -35,4 +35,9 @@ public class ScatterChartNode implements IDataNode {
         scatterChart.setAccessibleText(ViewType.ScatterChart.name() + String.format("=\"%s\"", file.getPath()));
         return scatterChart;
     }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        return getData(pane, new File(uri));
+    }
 }

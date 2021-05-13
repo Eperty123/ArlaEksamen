@@ -20,8 +20,8 @@ public class XLSXParserTest {
     public void getSpecificColumnValueTest() {
         var xlsxParser = new XLSXParser();
         xlsxParser.loadFile("src/Resources/PieChart_mockData.xlsx");
-        var data = xlsxParser.getRow(1);
-        System.out.println(data);
+        var data = (String[]) xlsxParser.getRow(1);
+        System.out.println(data[1]);
 
         Assertions.assertNotNull(data);
     }

@@ -35,4 +35,9 @@ public class LineChartNode implements IDataNode {
         lineChart.setAccessibleText(ViewType.LineChart.name()  + String.format("=\"%s\"", file.getPath()));
         return lineChart;
     }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        return getData(pane, new File(uri));
+    }
 }

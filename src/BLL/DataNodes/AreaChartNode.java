@@ -35,4 +35,9 @@ public class AreaChartNode implements IDataNode {
         areaChart.setAccessibleText(ViewType.AreaChart.name() + String.format("=\"%s\"", file.getPath()));
         return areaChart;
     }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        return getData(pane, new File(uri));
+    }
 }

@@ -38,4 +38,9 @@ public class ImageNode implements IDataNode {
         imageView.setAccessibleText(ViewType.Image.name() + String.format("=\"%s\"", file.getAbsolutePath()));
         return imageView;
     }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        return getData(pane, new File(uri));
+    }
 }

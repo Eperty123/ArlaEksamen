@@ -1,7 +1,8 @@
 package GUI.Controller;
 
-import BLL.ViewMaker;
 import BLL.DataNodes.ViewType;
+import BLL.ViewMaker;
+import GUI.Controller.AdminControllers.PickerStageController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -9,8 +10,6 @@ import javafx.scene.Node;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
-
-import GUI.Controller.AdminControllers.PickerStageController;
 
 public class StageBuilder {
     private PickerStageController rootController;
@@ -81,9 +80,10 @@ public class StageBuilder {
 
     /**
      * Splits a builderString to two PickerStageControllers
+     *
      * @param pickerStageController the PickerStageController
-     * @param builderString the builderString you pass on
-     * @param pickerPattern the pattern of the picker
+     * @param builderString         the builderString you pass on
+     * @param pickerPattern         the pattern of the picker
      */
     private void splitToSeparateControllers(PickerStageController pickerStageController, String builderString, String pickerPattern) {
         //If the builderString contains '{' we are safe to assume it contains the end bracket,
@@ -101,7 +101,7 @@ public class StageBuilder {
             makeStage(pickerStageController1, builderStrings[index]);
         }
         //If the second string is empty we flip the SplitPane to order it properly
-        if(builderStrings[1].equals("")){
+        if (builderStrings[1].equals("")) {
             pickerStageController.flipSplitPane();
         }
     }
@@ -115,7 +115,10 @@ public class StageBuilder {
             File file = new File(path);
             ViewType viewType = ViewType.valueOf(currentString.split("=\"")[0]);
             try {
-                ViewMaker.callProperMethod(pickerStageController, viewType, file);
+                // Assume local file if no web links are present.
+                if (!(path.startsWith("http://") || path.startsWith("https://") || path.startsWith("www.")))
+                    ViewMaker.callProperMethod(pickerStageController, viewType, file);
+                else ViewMaker.callProperMethod(pickerStageController, viewType, path);
             } catch (Exception e) {
                 e.printStackTrace();
             }
