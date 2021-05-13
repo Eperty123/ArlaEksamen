@@ -37,4 +37,26 @@ public class HTTPNode implements IDataNode {
         webView.setAccessibleText(ViewType.HTTP.name() + String.format("=\"%s\"", file.getAbsolutePath()));
         return webView;
     }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        WebView webView = new WebView();
+        webView.getEngine().load(uri);
+
+        //Makes it follow the panes width
+        pane.widthProperty().addListener((observableValue, bounds, t1) -> {
+            webView.setPrefWidth(t1.doubleValue());
+        });
+        //Makes it follow the panes height
+        pane.heightProperty().addListener((observableValue, bounds, t1) -> {
+            webView.setPrefHeight(t1.doubleValue());
+        });
+
+        //sets initial height and width
+        webView.setPrefWidth(pane.getWidth());
+        webView.setPrefHeight(pane.getHeight());
+
+        webView.setAccessibleText(ViewType.HTTP.name() + String.format("=\"%s\"", uri));
+        return webView;
+    }
 }

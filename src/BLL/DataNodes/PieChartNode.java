@@ -35,4 +35,9 @@ public class PieChartNode implements IDataNode{
         pieChart.setAccessibleText(ViewType.PieChart.name() + String.format("=\"%s\"", file.getPath()));
         return pieChart;
     }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        return getData(pane, new File(uri));
+    }
 }

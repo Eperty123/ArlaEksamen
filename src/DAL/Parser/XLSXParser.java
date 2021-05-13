@@ -10,7 +10,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,7 +19,7 @@ import java.util.List;
  */
 public class XLSXParser implements IFileParser {
     protected XSSFWorkbook excelSheet;
-    protected HashMap<Integer, List<String[]>> rows;
+    protected List<String[]> rows;
 
 
     public XLSXParser() {
@@ -36,7 +35,7 @@ public class XLSXParser implements IFileParser {
      * Initialize the class.
      */
     private void initialize() {
-        rows = new HashMap<>();
+        rows = new ArrayList<>();
     }
 
     /**
@@ -93,7 +92,7 @@ public class XLSXParser implements IFileParser {
                 // Traversing over each row of XLSX file
                 while (rowIterator.hasNext()) {
                     Row row = rowIterator.next();
-                    var rowColumns = new ArrayList<String[]>();
+                    //var rowColumns = new ArrayList<String[]>();
 
                     Iterator<Cell> cellIterator = row.cellIterator();
                     String[] columnValues = new String[row.getLastCellNum()];
@@ -117,10 +116,9 @@ public class XLSXParser implements IFileParser {
                         columnValues[cellIndex] = value.replace(";", "");
                         cellIndex++;
                     }
-                    rowColumns.add(columnValues);
 
                     // Columns included.
-                    rows.put(row_index, rowColumns);
+                    rows.add(columnValues);
                     row_index++;
                 }
 

@@ -35,4 +35,9 @@ public class BubbleChartNode implements IDataNode {
         bubbleChart.setAccessibleText(ViewType.BubbleChart.name() + String.format("=\"%s\"", file.getPath()));
         return bubbleChart;
     }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        return getData(pane, new File(uri));
+    }
 }

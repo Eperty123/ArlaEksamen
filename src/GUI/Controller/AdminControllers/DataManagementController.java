@@ -81,6 +81,7 @@ public class DataManagementController implements Initializable {
         this.stage = stage;
         previousNode = pickerStageController.getContent();
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Carlo De Leon\\Desktop\\test"));
 
         // We need a selection from the combo box first.
         comboBox.setOnAction((v) -> {
@@ -103,7 +104,7 @@ public class DataManagementController implements Initializable {
                 case Image -> {
                     fileChooser.getExtensionFilters().add(imgExtension);
                 }
-                case BarChart, PieChart, ScatterChart, BubbleChart, AreaChart, StackedAreaChart, StackedBubbleChart -> {
+                case BarChart, PieChart, ScatterChart, BubbleChart, AreaChart, StackedAreaChart, StackedBarChart -> {
                     fileChooser.getExtensionFilters().add(excelCsvExtension);
                 }
             }
@@ -137,7 +138,7 @@ public class DataManagementController implements Initializable {
             }
         });
 
-        textField.textProperty().addListener((observable -> tryToMakeContent()));
+        textField.textProperty().addListener((observable -> tryToMakeContent(textField.getText())));
 
     }
 
@@ -148,6 +149,16 @@ public class DataManagementController implements Initializable {
         if (comboBox.getSelectionModel().getSelectedItem() != null && file.get() != null) {
             try {
                 ViewMaker.callProperMethod(pickerStageController, selectedItem, file.get());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void tryToMakeContent(String uri) {
+        if (comboBox.getSelectionModel().getSelectedItem() != null && !uri.isEmpty()) {
+            try {
+                ViewMaker.callProperMethod(pickerStageController, selectedItem, uri);
             } catch (Exception e) {
                 e.printStackTrace();
             }

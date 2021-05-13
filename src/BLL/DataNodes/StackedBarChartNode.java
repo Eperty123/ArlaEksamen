@@ -32,7 +32,12 @@ public class StackedBarChartNode implements IDataNode {
         stackedBarChart.setPrefWidth(pane.getWidth());
         stackedBarChart.setPrefHeight(pane.getHeight());
 
-        stackedBarChart.setAccessibleText(ViewType.StackedBubbleChart.name() + String.format("=\"%s\"", file.getPath()));
+        stackedBarChart.setAccessibleText(ViewType.StackedBarChart.name() + String.format("=\"%s\"", file.getPath()));
         return stackedBarChart;
+    }
+
+    @Override
+    public Node getData(BorderPane pane, String uri) {
+        return getData(pane, new File(uri));
     }
 }
