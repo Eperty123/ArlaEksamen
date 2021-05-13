@@ -18,4 +18,8 @@ public class MessageManager {
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
         messageDAL.addMessage(user, newMessage, assignedScreenBits);
     }
+
+    public List<Message> getUsersMessages(User user) {
+        return messageDAL.getUsersMessages(user);
+    }
 }

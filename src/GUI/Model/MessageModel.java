@@ -25,4 +25,7 @@ public class MessageModel {
         messageManger.addMessage(user, newMessage, assignedScreenBits);
     }
 
+    public List<Message> getUsersMessages(User user) {
+        return messageManger.getUsersMessages(user);
+    }
 }
