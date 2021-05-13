@@ -273,6 +273,31 @@ POP UP
     -fx-background-color: #154c5d;
 }
 
+.addChart {
+    -fx-image: url("addChart.png");
+}
+
+.addChart:hover {
+    -fx-image: url("addChart-hover.png");
+}
+
+.addVertical {
+    -fx-image: url("vertical.png");
+}
+
+.addVertical:hover {
+    -fx-image: url("vertical-hover.png");
+}
+
+.addHorizontal {
+    -fx-image: url("horizontal.png");
+}
+
+.addHorizontal:hover {
+    -fx-image: url("horizontal-hover.png");
+}
+
+
 /*
   MANAGER DASHBOARD
  */
@@ -351,7 +376,7 @@ POP UP
     -fx-text-fill: white;
 }
 
-.axis{
+.axis {
     -fx-tick-label-fill: white;
 }
 
@@ -359,9 +384,10 @@ POP UP
     -fx-text-fill: white;
 }
 
-.chart-plot-background{
+.chart-plot-background {
     -fx-background-color: #154c5d;
 }
+
 .chart-alternative-row-fill {
     -fx-fill: #0d3845;
     -fx-stroke: transparent;
@@ -372,9 +398,10 @@ POP UP
     -fx-fill: white;
 }
 
-.chart-pie-label{
+.chart-pie-label {
     -fx-fill: white;
 }
+
 .chart-pie-label-line {
     -fx-fill: white;
     -fx-stroke: white;
