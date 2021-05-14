@@ -81,7 +81,7 @@ public class DataManagementController implements Initializable {
         this.stage = stage;
         previousNode = pickerStageController.getContent();
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Carlo De Leon\\Desktop\\test"));
+        //fileChooser.setInitialDirectory(new File("C:\\Users\\Carlo De Leon\\Desktop\\test"));
 
         // We need a selection from the combo box first.
         comboBox.setOnAction((v) -> {
