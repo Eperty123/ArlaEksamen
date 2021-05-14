@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class Timer {
     private List<Node> nodesToDisable = new ArrayList<>();
     private String textBeforeTimer = "Time until you can try to log in:";
-    private Duration timeoutDuration = Duration.ofSeconds(30);
+    private Duration timeoutDuration = Duration.ofSeconds(5);
     private Duration countDownDuration = timeoutDuration;
     private TimeUnit timerSpeed = TimeUnit.SECONDS;
     private ScheduledExecutorService executor;
@@ -90,5 +90,6 @@ public class Timer {
 
     public void setTimeoutDuration(Duration timeoutDuration) {
         this.timeoutDuration = timeoutDuration;
+        this.countDownDuration = timeoutDuration;
     }
 }
