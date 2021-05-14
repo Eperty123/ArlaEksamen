@@ -17,14 +17,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class PickerStageController implements Initializable {
@@ -42,9 +40,6 @@ public class PickerStageController implements Initializable {
     private MenuItem resetItem = new MenuItem("Reset");
     private MenuItem changeContent = new MenuItem("Change content");
     private MenuItem turnItem = new MenuItem("Change orientation");
-    private ContextMenu userContextMenu = new ContextMenu();
-    private Menu zoom = new Menu();
-    private List<MenuItem> menuItems = new ArrayList<>(Arrays.asList(new MenuItem("50"), new MenuItem("100"), new MenuItem("150"), new MenuItem("200")));
     private PickerStageController parentPickerStageController;
     private PickerStageController closestParentPickerStageController;
 
@@ -86,8 +81,6 @@ public class PickerStageController implements Initializable {
                 splitPane.setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
             }
         });
-        menuItems.forEach(m -> zoom.getItems().add(m));
-        userContextMenu.getItems().add(zoom);
     }
 
     private List<Node> getNodes(PickerStageController pickerStageController) {
@@ -112,7 +105,6 @@ public class PickerStageController implements Initializable {
                 } else
                     contextMenu.hide();
             } else {
-                boolean stopMovingFFS = false;
                 if (parentPickerStageController == this) {
                     AnchorPane anchorPane = parentPickerStageController.getAp();
                     if (mouseEvent.getButton() == MouseButton.PRIMARY && !isZoomed) {
@@ -125,12 +117,20 @@ public class PickerStageController implements Initializable {
                         });
                         scale.set(1.5);
 
-                        anchorPane.onMouseDraggedProperty().set((MouseEvent mouseEvent1) -> {
-                            if (isZoomed && mouseEvent1.isMiddleButtonDown()) {
-                                if (mouseEvent1.getSceneX() >= 0 && mouseEvent1.getSceneX() <= anchorPane.getWidth())
-                                    anchorPane.setTranslateX((mouseEvent1.getSceneX() - anchorPane.getWidth() / 2) * invScale.get());
-                                if (mouseEvent1.getSceneY() >= 0 && mouseEvent1.getSceneY() <= anchorPane.getHeight())
-                                    anchorPane.setTranslateY((mouseEvent1.getSceneY() - anchorPane.getHeight() / 2) * invScale.get());
+                        AtomicLong x = new AtomicLong();
+                        AtomicLong y = new AtomicLong();
+                        anchorPane.onMousePressedProperty().set((MouseEvent mouseEvent1337) -> {
+                            if(mouseEvent1337.getButton()==MouseButton.MIDDLE){
+                                x.set((long) mouseEvent1337.getSceneX());
+                                y.set((long) mouseEvent1337.getSceneY());
+                            }
+                        });
+                        anchorPane.onMouseDraggedProperty().set((MouseEvent mouseEvent1337) -> {
+                            if (isZoomed && mouseEvent1337.getButton() == MouseButton.MIDDLE) {
+                                if (Math.abs(mouseEvent1337.getSceneX() - x.get()) <= (anchorPane.getWidth() / 2) * invScale.get())
+                                    anchorPane.setTranslateX(mouseEvent1337.getSceneX() - x.get());
+                                if (Math.abs(mouseEvent1337.getSceneY() - y.get()) <= (anchorPane.getHeight() / 2) * invScale.get())
+                                    anchorPane.setTranslateY(mouseEvent1337.getSceneY() - y.get());
                             }
                         });
                     } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
@@ -140,9 +140,9 @@ public class PickerStageController implements Initializable {
                         scale.set(1);
                     }
                     if (mouseEvent.getButton() == MouseButton.PRIMARY && isZoomed) {
-                        if (mouseEvent.isShiftDown() && scale.get() > 1)
+                        if (mouseEvent.isShiftDown() && scale.get() > 1) {
                             scale.set(scale.get() - 0.25);
-                        else
+                        } else
                             scale.set(scale.get() + 0.25);
                     }
                 }
