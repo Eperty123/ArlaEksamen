@@ -41,6 +41,7 @@ public class ManagerScreenViewController implements Initializable {
 
     private User currentUser;
     private boolean isMaximized = false;
+    private Stage parentStage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -147,6 +148,7 @@ public class ManagerScreenViewController implements Initializable {
 
     @FXML
     private void handleClose(MouseEvent mouseEvent) {
+        parentStage.setIconified(false);
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }
@@ -163,4 +165,7 @@ public class ManagerScreenViewController implements Initializable {
         }
     }
 
+    public void setParentStage(Stage parentStage) {
+        this.parentStage = parentStage;
+    }
 }

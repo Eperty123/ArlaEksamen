@@ -19,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,6 +57,8 @@ public class ManagerDashboardController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
         Parent root = fxmlLoader.load();
+        ManagerScreenViewController controller = fxmlLoader.getController();
+        controller.setParentStage((Stage)this.root.getScene().getWindow());
         Scene scene = new Scene(root);
         stage.getIcons().addAll(
                 new Image("/GUI/Resources/AppIcons/icon16x16.png"),
