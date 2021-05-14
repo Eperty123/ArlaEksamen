@@ -97,7 +97,7 @@ public class PickerStageController implements Initializable {
 
     private void initContextMenu(Node node, ContextMenu contextMenu) {
         node.setOnMouseClicked((MouseEvent mouseEvent) -> {
-            if (!getRoot().isDisabled()) {
+            if (!parentPickerStageController.getRoot().isDisabled()) {
                 if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                     if (contextMenu.isShowing())
                         contextMenu.hide();
@@ -151,14 +151,7 @@ public class PickerStageController implements Initializable {
     }
 
     private void lockPanes(PickerStageController pickerStageController) {
-        if (pickerStageController.getControllers().isEmpty()) {
-            pickerStageController.getRoot().setDisable(true);
-        } else {
-            pickerStageController.getControllers().forEach(p -> {
-                lockPanes(p);
-                p.getSplitPane().setDisable(true);
-            });
-        }
+            parentPickerStageController.getRoot().setDisable(true);
     }
 
     public void lockPanes() {
