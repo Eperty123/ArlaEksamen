@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -97,14 +98,14 @@ public class PickerStageController implements Initializable {
 
     private void initContextMenu(Node node, ContextMenu contextMenu) {
         node.setOnMouseClicked((MouseEvent mouseEvent) -> {
-            if (!parentPickerStageController.getRoot().isDisabled()) 
-            if (!splitPane.isDisabled()) 
-                if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                    if (contextMenu.isShowing())
+            if (!parentPickerStageController.getRoot().isDisabled()) {
+                if (!splitPane.isDisabled())
+                    if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                        if (contextMenu.isShowing())
+                            contextMenu.hide();
+                        contextMenu.show(node, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+                    } else
                         contextMenu.hide();
-                    contextMenu.show(node, mouseEvent.getScreenX(), mouseEvent.getScreenY());
-                } else
-                    contextMenu.hide();
             } else {
                 if (parentPickerStageController == this) {
                     AnchorPane anchorPane = parentPickerStageController.getAp();
@@ -121,7 +122,7 @@ public class PickerStageController implements Initializable {
                         AtomicLong x = new AtomicLong();
                         AtomicLong y = new AtomicLong();
                         anchorPane.onMousePressedProperty().set((MouseEvent mouseEvent1337) -> {
-                            if(mouseEvent1337.getButton()==MouseButton.MIDDLE){
+                            if (mouseEvent1337.getButton() == MouseButton.MIDDLE) {
                                 x.set((long) mouseEvent1337.getSceneX());
                                 y.set((long) mouseEvent1337.getSceneY());
                             }
@@ -152,7 +153,7 @@ public class PickerStageController implements Initializable {
     }
 
     private void lockPanes(PickerStageController pickerStageController) {
-            parentPickerStageController.getRoot().setDisable(true);
+        parentPickerStageController.getRoot().setDisable(true);
     }
 
     public void lockPanes() {
