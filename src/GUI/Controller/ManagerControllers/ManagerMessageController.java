@@ -18,15 +18,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -36,6 +37,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ManagerMessageController implements Initializable {
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private JFXDatePicker datePicker;
     @FXML
@@ -50,23 +53,45 @@ public class ManagerMessageController implements Initializable {
     private ChoiceBox<Integer> durationHoursChoice;
     @FXML
     private ChoiceBox<Integer> durationMinutesChoice;
+    @FXML
+    private TableView comingMessages;
+    @FXML
+    private TableColumn msgColumn;
+    @FXML
+    private TableColumn timeColumn;
+    @FXML
+    private TableColumn dateColumn;
+
 
     private User currentUser;
 
     private List<ScreenBit> selectedScreens = new ArrayList<>();
+    private List<Message> currentUsersMessages = MessageModel.getInstance().getUsersMessages(currentUser);
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timePicker.set24HourView(true);
 
-        durationHoursChoice.setItems(FXCollections.observableArrayList(1,2,3,4,5,6,7,8));
-
-        durationMinutesChoice.setItems(FXCollections.observableArrayList(
-                0,30));
+        setDurationChoiceBoxes();
+        setUpCommingMessages();
 
 
         loadAllScreens();
+    }
+
+    private void setUpCommingMessages() {
+
+    }
+
+    private void setDurationChoiceBoxes() {
+        durationHoursChoice.setItems(FXCollections.observableArrayList(0,1,2,3,4,5,6,7,8));
+        durationHoursChoice.setValue(0);
+
+
+        durationMinutesChoice.setItems(FXCollections.observableArrayList(
+                0,30));
+        durationMinutesChoice.setValue(0);
     }
 
     public void setCurrentUser(User currentUser) {
@@ -161,26 +186,45 @@ public class ManagerMessageController implements Initializable {
     }
 
     public void handleSave() {
-        List<ScreenBit> assignedScreenBits = new ArrayList<>();
+        List<ScreenBit> assignedScreenBits = selectedScreens;
         String message = messageArea.getText();
         Color color = colorPicker.getValue();
         LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), timePicker.getValue());
+        System.out.println(getDurationHours());
+        System.out.println(getDurationMinutes());
         LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
 
         Message newMessage = new Message(startTime, endTime, message, color);
 
         MessageModel.getInstance().addMessage(currentUser, newMessage, assignedScreenBits);
+
+        clearMessageFields();
     }
 
     private long getDurationMinutes() {
-        return durationHoursChoice.getSelectionModel().getSelectedIndex();
+        return durationMinutesChoice.getSelectionModel().getSelectedItem();
     }
 
     private long getDurationHours() {
-        return durationMinutesChoice.getSelectionModel().getSelectedIndex() == 0 ? 0 : 30;
+        return durationHoursChoice.getSelectionModel().getSelectedItem();
     }
 
     public void handleCancel() {
 
+    }
+
+    private void clearMessageFields(){
+        messageArea.clear();
+        messageArea.setPromptText("Enter your message here...");
+        colorPicker.setValue(null);
+        datePicker.setValue(null);
+        timePicker.setValue(null);
+        durationHoursChoice.setValue(0);
+        durationMinutesChoice.setValue(0);
+    }
+
+    public void showSelectedMessage(MouseEvent mouseEvent) {
+
+        messageArea.setText("hey");
     }
 }
