@@ -22,18 +22,40 @@ public class ScreenDAL {
      * @param screenBit used to get the ScreenBit's id, which is used to identify the row to be deleted.
      */
     public void deleteScreenBit(ScreenBit screenBit) {
-
+        long t0 = System.currentTimeMillis();
         // First the ScreenBit is deleted from the ScreenRights junction table.
-        deleteScreenBitUserAssociations(screenBit);
+
 
         try (Connection con = dbCon.getConnection()) {
+            deleteScreenBitUserAssociations(con, screenBit);
+            deleteScreenBitTimeTable(con,screenBit);
+            deleteScreenBitMessage(con,screenBit);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Screen WHERE Id=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
+            System.out.println("Exec time " + (System.currentTimeMillis()-t0));
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    private void deleteScreenBitMessage(Connection con, ScreenBit screenBit) throws SQLException {
+
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenMessage WHERE ScreenId=?");
+            pSql.setInt(1, screenBit.getId());
+            pSql.execute();
+
+
+    }
+
+    private void deleteScreenBitTimeTable(Connection con, ScreenBit screenBit) throws SQLException {
+
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenTime WHERE ScreenId=?");
+            pSql.setInt(1, screenBit.getId());
+            pSql.execute();
+
+
     }
 
     /**
@@ -41,15 +63,13 @@ public class ScreenDAL {
      *
      * @param screenBit object containing information on which rows to be deleted from the  ScreenRights table.
      */
-    private void deleteScreenBitUserAssociations(ScreenBit screenBit) {
-        try (Connection con = dbCon.getConnection()) {
+    private void deleteScreenBitUserAssociations(Connection con, ScreenBit screenBit) throws SQLException {
+
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
     }
 
     /**
