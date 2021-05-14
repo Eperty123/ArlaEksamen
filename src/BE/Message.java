@@ -25,6 +25,15 @@ public class Message {
         setId(message, messageStartTime, messageEndTime);
     }
 
+    public Message(int id, String message, LocalDateTime messageStartTime, LocalDateTime messageEndTime,  Color textColor, MessageType messageType) {
+        this.messageStartTime = messageStartTime;
+        this.messageEndTime = messageEndTime;
+        this.message = message;
+        this.textColor = textColor;
+        this.messageType = messageType;
+        this.id = id;
+    }
+
     public Message(LocalDateTime messageStartTime, LocalDateTime messageEndTime, String message, Color textColor) {
         this.messageStartTime = messageStartTime;
         this.messageEndTime = messageEndTime;
@@ -47,6 +56,8 @@ public class Message {
         this.message = message;
         this.textColor = Color.RED; //Default
     }
+
+
 
     public String getMessage() {
         return message;

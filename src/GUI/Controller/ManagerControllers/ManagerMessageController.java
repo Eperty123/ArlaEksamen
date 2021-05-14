@@ -69,12 +69,13 @@ public class ManagerMessageController implements Initializable {
     private User currentUser;
 
     private List<ScreenBit> selectedScreens = new ArrayList<>();
-    private List<Message> currentUsersMessages = MessageModel.getInstance().getUsersMessages(currentUser);
+    private List<Message> currentUsersMessages = new ArrayList<>();
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timePicker.set24HourView(true);
+        //currentUsersMessages = MessageModel.getInstance().getUsersMessages(currentUser);
 
         setDurationChoiceBoxes();
         UpdateUpCommingMessages();

@@ -35,13 +35,14 @@ public class JonasTest {
 
          */
 
-        LocalDateTime start = LocalDateTime.of(2021,05,15,14,00);
-        LocalDateTime end = start.plusHours(9).plusMinutes(30);
+
+
+        LocalDateTime start = LocalDateTime.of(2021,05,15,23,0);
+        LocalDateTime end = start.plusHours(8).plusMinutes(0);
 
         Message msg = new Message( start, end, "testtesasdt", Color.AZURE, MessageType.Manager);
 
-        System.out.println(((end.getHour()- start.getHour()) * 2) + ((end.getMinute()-start.getMinute() == 0 ? 0 : 1)));
-        //messageDAL.addMessage();
+
 
 
     }

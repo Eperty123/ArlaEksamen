@@ -184,11 +184,18 @@ public class ScreenDAL {
                 addScreenBitAndUser(allScreens, newScreenBit, assignedUser);
             }
             loadTimeTables(con, allScreens);
+            loadMessages(con, allScreens);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return allScreens;
+    }
+
+    private void loadMessages(Connection con, List<ScreenBit> allScreens) throws SQLException {
+
+        PreparedStatement pSql = con.prepareStatement("");
+
     }
 
     /**
