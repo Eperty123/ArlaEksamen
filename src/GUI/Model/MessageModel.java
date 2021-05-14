@@ -4,16 +4,20 @@ import BE.Message;
 import BE.ScreenBit;
 import BE.User;
 import BLL.MessageManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
 public class MessageModel {
 
     private static MessageModel instance;
-    private MessageManager messageManger;
+    private MessageManager messageManager;
+
 
     private MessageModel(){
-        messageManger = new MessageManager();
+        messageManager = new MessageManager();
+
 
     }
 
@@ -22,7 +26,10 @@ public class MessageModel {
     }
 
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits){
-        messageManger.addMessage(user, newMessage, assignedScreenBits);
+        messageManager.addMessage(user, newMessage, assignedScreenBits);
     }
 
+    public List<Message> getUsersMessages(User user) {
+        return messageManager.getUsersMessages(user);
+    }
 }

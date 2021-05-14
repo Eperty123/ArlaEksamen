@@ -34,10 +34,11 @@ public class UserModel {
     /**
      * If no user in allUsers have the username requested for the newUser,
      * the the newUser object is passed on to UserDal through UserManager for insertion.
+     *
      * @param newUser object to be written to the database.
      */
     public void addUser(User newUser) {
-        if(allUsers.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))){
+        if (allUsers.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
             userManager.addUser(newUser);
             updateUsers();
         }
@@ -45,6 +46,7 @@ public class UserModel {
 
     /**
      * Retrieves a list of all users from the database (through UserManager).
+     *
      * @return list of all users in the database.
      */
     public ObservableList<User> getAllUsers() {
@@ -54,6 +56,7 @@ public class UserModel {
     /**
      * Updates a user in the database. Passes a old and new user object to UserManager,
      * which passes them on to UserDAL.
+     *
      * @param oldUser object used to identify the row that is to be updated.
      * @param newUser object containing the updated User information.
      */
@@ -69,7 +72,7 @@ public class UserModel {
         allUsers.clear();
         try {
             allUsers.addAll(userManager.getUsers());
-            
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -78,11 +81,42 @@ public class UserModel {
     /**
      * Passes a user object to UserManager for deleting. Then re-initializes allUsers with
      * the updateUsers() method.
+     *
      * @param user user to be deleted.
      */
-    public void deleteUser(User user){
+    public void deleteUser(User user) {
         userManager.deleteUser(user);
         updateUsers();
+    }
+
+    /**
+     * Get the ScreenBit specified by an id.
+     *
+     * @param userId The id of the ScreenBit.
+     * @return Returns the found ScreenBit.
+     */
+    public User getUser(int userId) {
+        for (int i = 0; i < allUsers.size(); i++) {
+            User user = allUsers.get(i);
+            if (user.getId() == userId)
+                return user;
+        }
+        return null;
+    }
+
+    /**
+     * Get the User specified by a name.
+     *
+     * @param userName The name of the ScreenBit.
+     * @return Returns the found ScreenBit.
+     */
+    public User getUser(String userName) {
+        for (int i = 0; i < allUsers.size(); i++) {
+            User user = allUsers.get(i);
+            if (user.getUserName().equals(userName))
+                return user;
+        }
+        return null;
     }
 
     /**

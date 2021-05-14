@@ -48,6 +48,9 @@ public class UserDAL {
 
             while(rs.next()) {
                     User newUser = resultSetParser.getUser(rs);
+                    if(newUser.getUserRole() == UserType.Manager){
+                        loadManagerMessages(con, newUser);
+                    }
                     ScreenBit screenBit = resultSetParser.getScreenBit(rs);
                     addUsersAndScreenBits(allUsers, newUser, screenBit);
 
@@ -57,6 +60,12 @@ public class UserDAL {
             throwables.printStackTrace();
         }
         return allUsers;
+    }
+
+    private void loadManagerMessages(Connection con, User newUser) {
+
+        //PreparedStatement pSql = con.prepareStatement("SELECT FROM Messag")
+
     }
 
     /**

@@ -1,17 +1,16 @@
 package GUI.Controller.AdminControllers;
 
 import BE.SceneMover;
-import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Model.BugModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -74,7 +73,7 @@ public class AdminDashboardController implements Initializable {
         stage.setIconified(true);
     }
 
-    public void maximize(){
+    public void maximize() {
         isMaximized = !isMaximized;
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.setMaximized(isMaximized);
@@ -92,10 +91,12 @@ public class AdminDashboardController implements Initializable {
         if (result.isPresent()) {
             if (result.get()) {
                 SceneMover sceneMover = new SceneMover();
+
                 // Reset the singleton instance so we don't leave any cache behind.
                 UserModel.getInstance().resetSingleton();
                 ScreenModel.getInstance().resetSingleton();
-                
+                BugModel.getInstance().resetSingleton();
+
                 Stage root1 = (Stage) root.getScene().getWindow();
 
                 Stage stage = new Stage();

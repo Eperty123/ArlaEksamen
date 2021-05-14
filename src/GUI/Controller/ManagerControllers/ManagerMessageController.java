@@ -1,26 +1,29 @@
 package GUI.Controller.ManagerControllers;
 
-import BE.Message;
-import BE.ScreenBit;
-import BE.User;
+import BE.*;
 import BLL.LoginManager;
 import GUI.Model.MessageModel;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTimePicker;
+import com.mysql.cj.result.LocalDateTimeValueFactory;
+import com.mysql.cj.result.LocalDateValueFactory;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -31,11 +34,14 @@ import javafx.scene.text.TextAlignment;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ManagerMessageController implements Initializable {
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private JFXDatePicker datePicker;
     @FXML
@@ -50,23 +56,48 @@ public class ManagerMessageController implements Initializable {
     private ChoiceBox<Integer> durationHoursChoice;
     @FXML
     private ChoiceBox<Integer> durationMinutesChoice;
+    @FXML
+    private TableView<Message> comingMessages;
+    @FXML
+    private TableColumn<Message, String> msgColumn;
+    @FXML
+    private TableColumn<Message, LocalTime> timeColumn;
+    @FXML
+    private TableColumn<Message, LocalDate> dateColumn;
+
 
     private User currentUser;
 
     private List<ScreenBit> selectedScreens = new ArrayList<>();
+    private List<Message> currentUsersMessages = new ArrayList<>();
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timePicker.set24HourView(true);
+        //currentUsersMessages = MessageModel.getInstance().getUsersMessages(currentUser);
 
-        durationHoursChoice.setItems(FXCollections.observableArrayList(1,2,3,4,5,6,7,8));
-
-        durationMinutesChoice.setItems(FXCollections.observableArrayList(
-                0,30));
+        setDurationChoiceBoxes();
+        UpdateUpCommingMessages();
 
 
         loadAllScreens();
+    }
+
+    private void UpdateUpCommingMessages() {
+
+
+
+    }
+
+    private void setDurationChoiceBoxes() {
+        durationHoursChoice.setItems(FXCollections.observableArrayList(0,1,2,3,4,5,6,7,8));
+        durationHoursChoice.setValue(0);
+
+
+        durationMinutesChoice.setItems(FXCollections.observableArrayList(
+                0,30));
+        durationMinutesChoice.setValue(0);
     }
 
     public void setCurrentUser(User currentUser) {
@@ -161,26 +192,51 @@ public class ManagerMessageController implements Initializable {
     }
 
     public void handleSave() {
-        List<ScreenBit> assignedScreenBits = new ArrayList<>();
+        Message newMessage = getMessage();
+
+        MessageModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
+
+        clearMessageFields();
+        loadAllScreens();
+    }
+
+    private Message getMessage() {
         String message = messageArea.getText();
         Color color = colorPicker.getValue();
         LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), timePicker.getValue());
+        System.out.println(getDurationHours());
+        System.out.println(getDurationMinutes());
         LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
+        MessageType messageType = currentUser.getUserRole() == UserType.Manager ? MessageType.Manager : MessageType.Admin;
 
-        Message newMessage = new Message(startTime, endTime, message, color);
-
-        MessageModel.getInstance().addMessage(currentUser, newMessage, assignedScreenBits);
+        Message newMessage = new Message(startTime, endTime, message, color, messageType);
+        return newMessage;
     }
 
     private long getDurationMinutes() {
-        return durationHoursChoice.getSelectionModel().getSelectedIndex();
+        return durationMinutesChoice.getSelectionModel().getSelectedItem();
     }
 
     private long getDurationHours() {
-        return durationMinutesChoice.getSelectionModel().getSelectedIndex() == 0 ? 0 : 30;
+        return durationHoursChoice.getSelectionModel().getSelectedItem();
     }
 
     public void handleCancel() {
 
+    }
+
+    private void clearMessageFields(){
+        messageArea.clear();
+        messageArea.setPromptText("Enter your message here...");
+        colorPicker.setValue(null);
+        datePicker.setValue(null);
+        timePicker.setValue(null);
+        durationHoursChoice.setValue(0);
+        durationMinutesChoice.setValue(0);
+    }
+
+    public void showSelectedMessage(MouseEvent mouseEvent) {
+
+        messageArea.setText("hey");
     }
 }
