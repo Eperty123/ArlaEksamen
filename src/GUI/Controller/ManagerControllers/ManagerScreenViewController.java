@@ -4,6 +4,7 @@ import BE.SceneMover;
 import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
+import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
@@ -35,6 +36,8 @@ public class ManagerScreenViewController implements Initializable {
     private BorderPane borderPane;
     @FXML
     private JFXComboBox<ScreenBit> comboScreens;
+    @FXML
+    private Label lblBar;
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -49,6 +52,8 @@ public class ManagerScreenViewController implements Initializable {
             if (currentUser.getAssignedScreen().size() == 1) {
                 try {
                     setScreen(currentUser.getAssignedScreen().get(0));
+                    lblBar.setText("Manager Screen - " + currentUser.getAssignedScreen().get(0).getName()+ " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -61,6 +66,8 @@ public class ManagerScreenViewController implements Initializable {
                     if (results.isPresent()) {
                         ScreenBit s = results.get();
                         comboScreens.getSelectionModel().select(s);
+                        lblBar.setText("Manager Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+
                         try {
                             setScreen(s);
                         } catch (Exception e) {
@@ -74,6 +81,7 @@ public class ManagerScreenViewController implements Initializable {
         } else {
             try {
                 displayNoScreenWarning();
+                lblBar.setText("Manager Screen - NONE Contact admin - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -122,6 +130,37 @@ public class ManagerScreenViewController implements Initializable {
         Node screen = stageBuilder.makeStage(s.getScreenInfo());
         stageBuilder.getRootController().lockPanes();
         borderPane.setCenter(screen);
+    }
+
+    @FXML
+    private void handleMinimize(MouseEvent mouseEvent) {
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    @FXML
+    private void handleMaximize(MouseEvent mouseEvent) {
+        isMaximized = !isMaximized;
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.setMaximized(isMaximized);
+    }
+
+    @FXML
+    private void handleClose(MouseEvent mouseEvent) {
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.close();
+    }
+
+    public void handleReportIssue() throws IOException {
+        BugReportDialog reportDialog = new BugReportDialog();
+        Optional<String> result = reportDialog.showAndWait();
+
+        if (result.isPresent()){
+            if (!result.get().equals("CANCELED")){
+                //TODO Send ned til dal når det er lavet
+                System.out.println(result.get());
+            }
+        }
     }
 
 }

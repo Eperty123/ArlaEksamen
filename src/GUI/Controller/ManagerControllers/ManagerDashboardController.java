@@ -42,22 +42,32 @@ public class ManagerDashboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
 
-
-
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Manager Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         try {
-            handleViewScreens();
+            handleCreateMessage();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void handleViewScreens() throws IOException {
+        Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
         Parent root = fxmlLoader.load();
-        borderPane.setCenter(root);
+        Scene scene = new Scene(root);
+        stage.getIcons().addAll(
+                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(scene);
+        stage.setTitle("Manager screen view");
+        stage.show();
+        minimize();
     }
 
     public void handleCreateMessage() throws IOException {

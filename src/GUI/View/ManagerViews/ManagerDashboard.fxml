@@ -37,12 +37,12 @@
                            <children>
                               <Pane fx:id="midPanel" styleClass="midPanel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleViewScreens" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="View Screens">
+                                    <JFXButton layoutX="33.0" layoutY="138.0" onAction="#handleViewScreens" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="View Screens">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </JFXButton>
-                                    <JFXButton layoutX="33.0" layoutY="138.0" onAction="#handleCreateMessage" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Create Message">
+                                    <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleCreateMessage" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Create Message">
                                        <font>
                                           <Font size="16.0" />
                                        </font>

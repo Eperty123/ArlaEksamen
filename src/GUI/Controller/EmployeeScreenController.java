@@ -57,7 +57,7 @@ public class EmployeeScreenController implements Initializable {
 
                     if (results.isPresent()) {
                         ScreenBit s = results.get();
-                        lblBar.setText("Employee Screen - " + currentUser.getAssignedScreen().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                        lblBar.setText("Employee Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
                         try {
                             setScreen(s);
                         } catch (Exception e) {
