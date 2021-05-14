@@ -14,18 +14,20 @@ public class ScreenBit {
     private List<User> assignedUsers;
     private Pane pane;
     private List<Message> messages;
-    private HashMap<LocalDateTime, Boolean> timeSlots;
+    private HashMap<LocalDateTime, Boolean> timeTable;
 
     public ScreenBit(String name) {
         this.name = name;
         this.screenInfo = "void";
         this.assignedUsers = new ArrayList<>();
+        this.timeTable = new HashMap<>();
     }
 
     public ScreenBit(String name, String screenInfo) {
         this.name = name;
         this.screenInfo = screenInfo;
-        this.assignedUsers = new ArrayList<>();
+        this.assignedUsers = new ArrayList<>();this.timeTable = new HashMap<>();
+
     }
 
     public ScreenBit(int id, String screenName, String screenInfo) {
@@ -33,6 +35,7 @@ public class ScreenBit {
         this.name = screenName;
         this.screenInfo = screenInfo;
         this.assignedUsers = new ArrayList<>();
+        this.timeTable = new HashMap<>();
     }
 
     public ScreenBit(int id, String name, String screenInfo, List<User> assignedUsers, List<Message> messages) {
@@ -41,6 +44,7 @@ public class ScreenBit {
         this.screenInfo = screenInfo;
         this.assignedUsers = assignedUsers;
         this.messages = messages;
+        this.timeTable = new HashMap<>();
     }
 
     /**
@@ -170,8 +174,8 @@ public class ScreenBit {
         this.messages.remove(message);
     }
 
-    public HashMap<LocalDateTime, Boolean> getTimeSlots() {
-        return timeSlots;
+    public HashMap<LocalDateTime, Boolean> getTimeTable() {
+        return timeTable;
     }
   
     @Override

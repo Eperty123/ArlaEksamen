@@ -1,24 +1,27 @@
 package GUI.Controller.ManagerControllers;
 
-import BE.Message;
-import BE.ScreenBit;
-import BE.User;
+import BE.*;
 import BLL.LoginManager;
 import GUI.Model.MessageModel;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTimePicker;
+import com.mysql.cj.result.LocalDateTimeValueFactory;
+import com.mysql.cj.result.LocalDateValueFactory;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -27,11 +30,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -54,33 +57,36 @@ public class ManagerMessageController implements Initializable {
     @FXML
     private ChoiceBox<Integer> durationMinutesChoice;
     @FXML
-    private TableView comingMessages;
+    private TableView<Message> comingMessages;
     @FXML
-    private TableColumn msgColumn;
+    private TableColumn<Message, String> msgColumn;
     @FXML
-    private TableColumn timeColumn;
+    private TableColumn<Message, LocalTime> timeColumn;
     @FXML
-    private TableColumn dateColumn;
+    private TableColumn<Message, LocalDate> dateColumn;
 
 
     private User currentUser;
 
     private List<ScreenBit> selectedScreens = new ArrayList<>();
-    private List<Message> currentUsersMessages = MessageModel.getInstance().getUsersMessages(currentUser);
+    private List<Message> currentUsersMessages = new ArrayList<>();
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timePicker.set24HourView(true);
+        //currentUsersMessages = MessageModel.getInstance().getUsersMessages(currentUser);
 
         setDurationChoiceBoxes();
-        setUpCommingMessages();
+        UpdateUpCommingMessages();
 
 
         loadAllScreens();
     }
 
-    private void setUpCommingMessages() {
+    private void UpdateUpCommingMessages() {
+
+
 
     }
 
@@ -186,19 +192,25 @@ public class ManagerMessageController implements Initializable {
     }
 
     public void handleSave() {
-        List<ScreenBit> assignedScreenBits = selectedScreens;
+        Message newMessage = getMessage();
+
+        MessageModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
+
+        clearMessageFields();
+        loadAllScreens();
+    }
+
+    private Message getMessage() {
         String message = messageArea.getText();
         Color color = colorPicker.getValue();
         LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), timePicker.getValue());
         System.out.println(getDurationHours());
         System.out.println(getDurationMinutes());
         LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
+        MessageType messageType = currentUser.getUserRole() == UserType.Manager ? MessageType.Manager : MessageType.Admin;
 
-        Message newMessage = new Message(startTime, endTime, message, color);
-
-        MessageModel.getInstance().addMessage(currentUser, newMessage, assignedScreenBits);
-
-        clearMessageFields();
+        Message newMessage = new Message(startTime, endTime, message, color, messageType);
+        return newMessage;
     }
 
     private long getDurationMinutes() {
