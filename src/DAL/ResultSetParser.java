@@ -11,6 +11,7 @@ public class ResultSetParser {
 
     /**
      * Creates and returns a ScreenBit object from a ResultSet row.
+     *
      * @param rs
      * @return ScreenBit object
      * @throws SQLException
@@ -29,6 +30,7 @@ public class ResultSetParser {
 
     /**
      * Creates and returns a User object from a ResultSet row.
+     *
      * @param rs
      * @return User object
      * @throws SQLException
@@ -45,7 +47,27 @@ public class ResultSetParser {
         int password = rs.getInt("Password");
         int userRole = rs.getInt("UserRole");
 
-        return new User(userId, firstName, lastName,  userName, email, userRole, password);
+        return new User(userId, firstName, lastName, userName, email, userRole, password);
+    }
 
+    /**
+     * Creates and returns a User object from a ResultSet row.
+     *
+     * @param rs
+     * @return User object
+     * @throws SQLException
+     */
+    public Bug getBug(ResultSet rs) throws SQLException {
+
+        // Get Bug info from ResultSet
+
+        String description = rs.getString("Description");
+        String dateRegistered = rs.getString("DateRegistered");
+        int bugId = rs.getInt("Id");
+        int resolved = rs.getInt("ResolvedStatus");
+        int adminId = rs.getInt("UserId");
+        int screenId = rs.getInt("ScreenId");
+
+        return new Bug(bugId, description, dateRegistered, resolved, adminId, screenId);
     }
 }
