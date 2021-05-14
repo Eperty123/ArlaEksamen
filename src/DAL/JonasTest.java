@@ -22,7 +22,6 @@ public class JonasTest {
         List<User> users = UserModel.getInstance().getAllUsers();
         List<ScreenBit> screenBits = ScreenModel.getInstance().getAllScreenBits();
 
-        Message msg = new Message( LocalDateTime.now(), LocalDateTime.now().plusHours(1), "testtesasdt", Color.AZURE, MessageType.Manager);
 
 
         /*
@@ -36,11 +35,13 @@ public class JonasTest {
 
          */
 
-        LocalDateTime start = LocalDateTime.of(2021,05,4,14,30);
-        LocalDateTime end = start.plusHours(5).plusMinutes(15);
+        LocalDateTime start = LocalDateTime.of(2021,05,15,14,00);
+        LocalDateTime end = start.plusHours(9).plusMinutes(30);
 
-        System.out.println(end.getHour()-start.getHour());
-        System.out.println(end.getMinute()-start.getMinute());
+        Message msg = new Message( start, end, "testtesasdt", Color.AZURE, MessageType.Manager);
+
+        System.out.println(((end.getHour()- start.getHour()) * 2) + ((end.getMinute()-start.getMinute() == 0 ? 0 : 1)));
+        //messageDAL.addMessage();
 
 
     }

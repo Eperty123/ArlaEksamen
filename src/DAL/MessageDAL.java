@@ -65,20 +65,38 @@ public class MessageDAL {
 
     private void bookTimeSlots(Connection con, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
 
-        int slots = getSlots(newMessage);
+        List<LocalDateTime> timeSlots = getSlots(newMessage);
+        System.out.println("TimeSlots: " + timeSlots.size());
 
         PreparedStatement pSql = con.prepareStatement("UPDATE ScreenTime SET Available=? WHERE ScreenId=? AND TimeSlot=?");
         for(ScreenBit s : assignedScreenBits){
-            pSql.setBoolean(1,false);
-            pSql.setInt(2, s.getId());
-            pSql.setTimestamp(3, Timestamp.valueOf(newMessage.getMessageStartTime()));
-            pSql.addBatch();
+            for(int i = 0; i < timeSlots.size(); i++){
+                pSql.setBoolean(1,false);
+                pSql.setInt(2, s.getId());
+                pSql.setTimestamp(3, Timestamp.valueOf(timeSlots.get(i)));
+                pSql.addBatch();
+            }
         }
         pSql.executeBatch();
     }
 
-    private int getSlots(Message newMessage) {
-        return 2;
+
+    private List<LocalDateTime> getSlots(Message newMessage) {
+        LocalDateTime start = newMessage.getMessageStartTime();
+        LocalDateTime end = newMessage.getMessageEndTime();
+        List<LocalDateTime> timeSlots = new ArrayList<>();
+
+
+        timeSlots.add(start);
+
+        // Get amount of 30 minute time slots to book
+        int slotCount = ((end.getHour()- start.getHour()) * 2) + ((end.getMinute()-start.getMinute() == 0 ? 0 : 1));
+        System.out.println("slotCount =" + slotCount);
+        for(int i = 1; i < slotCount; i++){
+            timeSlots.add(start.plusMinutes(i * 30));
+        }
+
+        return timeSlots;
     }
 
     // TODO NOT DONE
