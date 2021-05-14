@@ -26,8 +26,10 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class LoginController implements Initializable {
     @FXML
@@ -58,6 +60,8 @@ public class LoginController implements Initializable {
 
     private double xOffset = 0;
     private double yOffset = 0;
+
+    private int failedLoginAttempts = 0;
 
     @FXML
     private void login() throws SQLException, IOException {
@@ -96,6 +100,8 @@ public class LoginController implements Initializable {
 
             root1.close();
         } else {
+            failedLoginAttempts++;
+            if(failedLoginAttempts%3==0)
             startTimer();
         }
     }
@@ -107,6 +113,7 @@ public class LoginController implements Initializable {
      */
     private void startTimer() {
         timer.startTimer();
+        timer.setTimeoutDuration(Duration.ofSeconds(timer.getTimeoutDuration().getSeconds()*2));
         lblPane.getChildren().clear();
         Label label = timer.getTimerLabel();
 
