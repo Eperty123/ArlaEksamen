@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class JonasTest {
 
@@ -21,10 +22,25 @@ public class JonasTest {
         List<User> users = UserModel.getInstance().getAllUsers();
         List<ScreenBit> screenBits = ScreenModel.getInstance().getAllScreenBits();
 
-        Message msg = new Message( LocalDateTime.now(), LocalDateTime.now().plusHours(1), "testtest", Color.AZURE, MessageType.Manager);
+        Message msg = new Message( LocalDateTime.now(), LocalDateTime.now().plusHours(1), "testtesasdt", Color.AZURE, MessageType.Manager);
 
-        messageDAL.addMessage(users.get(1), msg, screenBits );
 
+        /*
+        for(ScreenBit s : screenBits){
+            for (Map.Entry<LocalDateTime, Boolean> localDateTimeBooleanEntry : s.getTimeTable().entrySet()) {
+                Map.Entry pair = (Map.Entry) localDateTimeBooleanEntry;
+                System.out.println(pair.getKey() + " available: " + pair.getValue());
+            }
+
+        }
+
+         */
+
+        LocalDateTime start = LocalDateTime.of(2021,05,4,14,30);
+        LocalDateTime end = start.plusHours(5).plusMinutes(15);
+
+        System.out.println(end.getHour()-start.getHour());
+        System.out.println(end.getMinute()-start.getMinute());
 
 
     }

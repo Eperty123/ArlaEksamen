@@ -7,6 +7,7 @@ import DAL.DbConnector.DbConnectionHandler;
 import com.mysql.cj.Messages;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,16 +55,30 @@ public class MessageDAL {
 
             pSql.execute();
 
+            bookTimeSlots(con, newMessage, assignedScreenBits);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
             assignScreenBitMessages(user, newMessage, assignedScreenBits);
+    }
 
+    private void bookTimeSlots(Connection con, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
 
+        int slots = getSlots(newMessage);
 
+        PreparedStatement pSql = con.prepareStatement("UPDATE ScreenTime SET Available=? WHERE ScreenId=? AND TimeSlot=?");
+        for(ScreenBit s : assignedScreenBits){
+            pSql.setBoolean(1,false);
+            pSql.setInt(2, s.getId());
+            pSql.setTimestamp(3, Timestamp.valueOf(newMessage.getMessageStartTime()));
+            pSql.addBatch();
+        }
+        pSql.executeBatch();
+    }
 
+    private int getSlots(Message newMessage) {
+        return 2;
     }
 
     // TODO NOT DONE
