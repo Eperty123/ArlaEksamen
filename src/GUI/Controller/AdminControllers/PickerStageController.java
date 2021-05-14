@@ -97,7 +97,8 @@ public class PickerStageController implements Initializable {
 
     private void initContextMenu(Node node, ContextMenu contextMenu) {
         node.setOnMouseClicked((MouseEvent mouseEvent) -> {
-            if (!parentPickerStageController.getRoot().isDisabled()) {
+            if (!parentPickerStageController.getRoot().isDisabled()) 
+            if (!splitPane.isDisabled()) 
                 if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                     if (contextMenu.isShowing())
                         contextMenu.hide();
