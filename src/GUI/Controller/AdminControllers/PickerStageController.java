@@ -14,12 +14,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class PickerStageController implements Initializable {
@@ -34,9 +36,7 @@ public class PickerStageController implements Initializable {
     private MenuItem flipItem = new MenuItem("Flip");
     private MenuItem resetItem = new MenuItem("Reset");
     private MenuItem changeContent = new MenuItem("Change content");
-    private MenuItem turnItem = new MenuItem("Change orientation");
     private PickerStageController parentPickerStageController;
-    private PickerStageController closestParentPickerStageController;
 
     public PickerStageController() {
     }
@@ -52,30 +52,11 @@ public class PickerStageController implements Initializable {
      */
     private void init() {
         initContextMenu(root, contextMenu);
-        contextMenu.getItems().addAll(Arrays.asList(changeContent, unsplitItem, turnItem, flipItem, new SeparatorMenuItem(), resetItem));
-        unsplitItem.onActionProperty().set((action) -> {
-            if (closestParentPickerStageController != null)
-                closestParentPickerStageController.unSplit();
-            else
-                unSplit();
-        });
-        flipItem.onActionProperty().set((action) -> {
-            if (closestParentPickerStageController != null)
-                closestParentPickerStageController.flipSplitPane();
-            else
-                flipSplitPane();
-        });
-        resetItem.onActionProperty().set((action) -> unSplit());
-        changeContent.setOnAction((action) -> changeContent());
-        turnItem.setOnAction((action) -> {
-            if (closestParentPickerStageController != null) {
-                Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
-                closestParentPickerStageController.getSplitPane().setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
-            } else {
-                Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
-                splitPane.setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
-            }
-        });
+        contextMenu.getItems().addAll(Arrays.asList(changeContent, unsplitItem, flipItem, new SeparatorMenuItem(), resetItem));
+        unsplitItem.onActionProperty().set((v) -> unSplit());
+        flipItem.onActionProperty().set((b) -> flipSplitPane());
+        resetItem.onActionProperty().set((x) -> unSplit());
+        changeContent.setOnAction((v) -> changeContent());
     }
 
     private void initContextMenu(Node node, ContextMenu contextMenu2) {
@@ -102,14 +83,6 @@ public class PickerStageController implements Initializable {
 
     public void lockPanes() {
         lockPanes(parentPickerStageController);
-    }
-
-    public PickerStageController getClosestParentPickerStageController() {
-        return closestParentPickerStageController;
-    }
-
-    public void setClosestParentPickerStageController(PickerStageController closestParentPickerStageController) {
-        this.closestParentPickerStageController = closestParentPickerStageController;
     }
 
     public PickerStageController getParentPickerStageController() {
@@ -154,7 +127,6 @@ public class PickerStageController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/PickerStage.fxml"));
                 splitPane.getItems().add(loader.load());
                 PickerStageController p = loader.getController();
-                p.setClosestParentPickerStageController(this);
                 controllers.add(p);
             }
             this.setContent(splitPane);
@@ -171,9 +143,9 @@ public class PickerStageController implements Initializable {
     @FXML
     private void changeContent(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            Stage stage = changeContent();
-            stage.setX(mouseEvent.getScreenX() - stage.getWidth() / 2);
-            stage.setY(mouseEvent.getScreenY() - stage.getHeight() / 2);
+                Stage stage = changeContent();
+                stage.setX(mouseEvent.getScreenX()-stage.getWidth()/2);
+                stage.setY(mouseEvent.getScreenY()-stage.getHeight()/2);
         }
     }
 
@@ -186,17 +158,17 @@ public class PickerStageController implements Initializable {
             AnchorPane pane = loader.load();
             stage.setTitle("Add content");
             DataManagementController dataManagementController = loader.getController();
-            dataManagementController.getLeftBtn().onMouseClickedProperty().set((v) -> stage.setIconified(true));
-            dataManagementController.getRightBtn().onMouseClickedProperty().set((v) -> stage.close());
+            dataManagementController.getLeftBtn().onMouseClickedProperty().set((v)->stage.setIconified(true));
+            dataManagementController.getRightBtn().onMouseClickedProperty().set((v)->stage.close());
             AtomicLong x = new AtomicLong();
             AtomicLong y = new AtomicLong();
             dataManagementController.getBar().onMousePressedProperty().set((MouseEvent mouseEvent) -> {
                 x.set((long) mouseEvent.getSceneX());
                 y.set((long) mouseEvent.getSceneY());
             });
-            dataManagementController.getBar().onMouseDraggedProperty().set((MouseEvent mouseEvent) -> {
-                stage.setX(mouseEvent.getScreenX() - x.get());
-                stage.setY(mouseEvent.getScreenY() - y.get());
+            dataManagementController.getBar().onMouseDraggedProperty().set((MouseEvent mouseEvent)->{
+                stage.setX(mouseEvent.getScreenX()-x.get());
+                stage.setY(mouseEvent.getScreenY()-y.get());
             });
 
             dataManagementController.setPickerStageController(this);
@@ -218,7 +190,7 @@ public class PickerStageController implements Initializable {
      * @return
      */
     public Node getContent() {
-        return root.getCenter();
+        return getRoot().getCenter();
     }
 
     /**
@@ -238,7 +210,7 @@ public class PickerStageController implements Initializable {
      * @param node The node you want it to show
      */
     public void setContent(Node node) {
-        root.setCenter(node);
+        getRoot().setCenter(node);
     }
 
     /**
