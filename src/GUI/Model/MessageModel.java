@@ -21,6 +21,10 @@ public class MessageModel {
 
     }
 
+    /**
+     * Get the singleton instance.
+     * @return Returns a singleton instance of this class.
+     */
     public static MessageModel getInstance() {
         return instance == null ? instance = new MessageModel() : instance;
     }

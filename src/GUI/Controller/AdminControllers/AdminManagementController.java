@@ -44,9 +44,6 @@ public class AdminManagementController implements Initializable {
     private UserModel userModel = new UserModel();
     private SceneMover sceneMover = new SceneMover();
 
-    private double xOffset = 0;
-    private double yOffset = 0;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tblEmployees.setItems(userModel.getAllUsers());
@@ -84,7 +81,11 @@ public class AdminManagementController implements Initializable {
         });
     }
 
-    public void handleAddEmployee(MouseEvent mouseEvent) throws IOException {
+    /**
+     * Displays the add Employee screen.
+     * @throws IOException if it cannot find the FXML file.
+     */
+    public void handleAddEmployee() throws IOException {
         Stage addEmployee = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/AddEmployee.fxml"));
@@ -105,6 +106,7 @@ public class AdminManagementController implements Initializable {
         addEmployee.setScene(addEmployeeScene);
         addEmployee.show();
     }
+
 
     public void handleEditEmployee() throws IOException {
         if (tblEmployees.getSelectionModel().getSelectedItem() != null) {

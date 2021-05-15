@@ -48,65 +48,123 @@ public class Bug {
         setReferencedScreen(ScreenModel.getInstance().getScreen(screenId));
     }
 
+    /**
+     *  gets the description of the bug
+     * @return the description string
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * gets the date the bug was reported
+     * @return the date reported in a string
+     */
     public String getDateReported() {
         return dateReported;
     }
 
+    /**
+     * gets the admin responsible for fixing the bug
+     * @return the user object for the admin responsible for fixing the bug.
+     */
     public User getAdminResponsible() {
         return adminResponsible;
     }
 
+    /**
+     * Sets a user object to be responsible for fixing the bug.
+     * @param adminResponsible the admin responsible for fixing the bug.
+     */
     public void setAdminResponsible(User adminResponsible) {
         this.adminResponsible = adminResponsible;
     }
 
+    /**
+     * sets the description of the bug.
+     * @param description the description of the bug.
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * sets the date the specified bug was reported.
+     * @param dateReported the date reported.
+     */
     public void setDateReported(LocalDate dateReported) {
         setDateReported(dateReported.toString());
     }
-    
+
+    /**
+     * sets the date the specified bug was reported.
+     * @param dateReported the date reported.
+     */
     public void setDateReported(LocalDateTime dateReported) {
         setDateReported(dateReported.toString());
     }
 
+    /**
+     * sets the date the specified bug was reported.
+     * @param dateReported the date reported.
+     */
     public void setDateReported(String dateReported) {
         this.dateReported = dateReported;
     }
 
+    /**
+     * gets the boolean indicating whether the bug is resolved or not.
+     * @return the boolean indicating whether the the bug is resolved or not.
+     */
     public boolean isBugResolved() {
         return bugResolved;
     }
 
+    /**
+     * sets the boolean indicating whether the bug is resolved or not to either true or false.
+     * @param bugResolved true or false.
+     */
     public void setBugResolved(boolean bugResolved) {
         this.bugResolved = bugResolved;
     }
 
+    /**
+     * parses the bit int from db to either true or false.
+     * @param bugResolved the bit from the database. true if 1 or false if 0.
+     */
     public void setBugResolved(int bugResolved) {
         this.bugResolved = bugResolved > 0 ? true : false;
     }
 
+    /**
+     * Gets the ScreenBit the bug was reported on.
+     * @return the ScreenBit the bug was reported on.
+     */
     public ScreenBit getReferencedScreen() {
         return referencedScreen;
     }
 
+    /**
+     * sets the ScreenBit the bug was reported on.
+     * @param referencedScreen
+     */
     public void setReferencedScreen(ScreenBit referencedScreen) {
         this.referencedScreen = referencedScreen;
     }
 
+    /**
+     * gets the ID of the bug.
+     * @return the ID of this bug.
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Sets the current id ID the bug.
+     * @param id the int ID.
+     */
     public void setId(int id) {
         this.id = id;
     }
-
-
 }

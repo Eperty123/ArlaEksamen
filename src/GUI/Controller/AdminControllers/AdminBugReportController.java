@@ -73,7 +73,7 @@ public class AdminBugReportController implements Initializable {
     }
 
     /**
-     * Handle any incoming changes to the User ObservableList and update the table.
+     * Handle any incoming changes to the Bug ObservableList and update the table.
      */
     private void handleBugUpdate() {
         bugModel.getInstance().getAllBugs().addListener((ListChangeListener<Bug>) c -> {
@@ -81,6 +81,10 @@ public class AdminBugReportController implements Initializable {
         });
     }
 
+    /**
+     * handles clicking the view all bugs icon on the UI
+     * @throws IOException if it cannot find the FXML file.
+     */
     public void handleViewAllBugs() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -106,6 +110,10 @@ public class AdminBugReportController implements Initializable {
         stage.show();
     }
 
+    /**
+     * handles clicking the bug fixed icon.
+     * @throws IOException if it cannot find the FXML file in the ConfirmationDialog.
+     */
     public void handleBugFixed() throws IOException {
         String text = "Are you sure you want to mark the currently selected bug as finished? \n\n" +
                 "This action is irreversible!";
@@ -120,6 +128,10 @@ public class AdminBugReportController implements Initializable {
 
     }
 
+    /**
+     * handles clicking the edit bug icon.
+     * @throws IOException if it cannot find the FXML file given.
+     */
     public void handleEditBug() throws IOException {
         if (tblBugs.getSelectionModel().getSelectedItem() != null) {
             Stage editBug = new Stage();
