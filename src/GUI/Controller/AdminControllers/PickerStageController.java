@@ -238,22 +238,10 @@ public class PickerStageController implements Initializable {
             Stage stage = new Stage();
             stage.initOwner(root.getScene().getWindow());
             stage.setAlwaysOnTop(true);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/AdminViews/DataManagement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/PopupViews/DataManagement.fxml"));
             AnchorPane pane = loader.load();
             stage.setTitle("Add content");
             DataManagementController dataManagementController = loader.getController();
-            dataManagementController.getLeftBtn().onMouseClickedProperty().set((v) -> stage.setIconified(true));
-            dataManagementController.getRightBtn().onMouseClickedProperty().set((v) -> stage.close());
-            AtomicLong x = new AtomicLong();
-            AtomicLong y = new AtomicLong();
-            dataManagementController.getBar().onMousePressedProperty().set((MouseEvent mouseEvent) -> {
-                x.set((long) mouseEvent.getSceneX());
-                y.set((long) mouseEvent.getSceneY());
-            });
-            dataManagementController.getBar().onMouseDraggedProperty().set((MouseEvent mouseEvent) -> {
-                stage.setX(mouseEvent.getScreenX() - x.get());
-                stage.setY(mouseEvent.getScreenY() - y.get());
-            });
 
             dataManagementController.setPickerStageController(this);
             dataManagementController.setStage(stage);
