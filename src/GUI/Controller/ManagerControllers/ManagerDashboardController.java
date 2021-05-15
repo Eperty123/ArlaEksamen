@@ -60,6 +60,10 @@ public class ManagerDashboardController implements Initializable {
         ManagerScreenViewController controller = fxmlLoader.getController();
         controller.setParentStage((Stage)this.root.getScene().getWindow());
         Scene scene = new Scene(root);
+        BorderPane bp = (BorderPane) root.getChildrenUnmodifiable().get(0);
+        SceneMover sceneMover = new SceneMover();
+        sceneMover.move(stage,bp.getTop());
+
         stage.getIcons().addAll(
                 new Image("/GUI/Resources/AppIcons/icon16x16.png"),
                 new Image("/GUI/Resources/AppIcons/icon24x24.png"),
