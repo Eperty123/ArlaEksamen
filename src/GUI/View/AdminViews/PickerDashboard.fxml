@@ -30,7 +30,7 @@
             </AnchorPane>
          </bottom>
          <center>
-            <AnchorPane fx:id="pickerStageHere" styleClass="midPanel" BorderPane.alignment="CENTER" />
+            <AnchorPane fx:id="pickerStageHere" style="-fx-background-color: #0d262e;" BorderPane.alignment="CENTER" />
          </center>
          <top>
             <AnchorPane BorderPane.alignment="CENTER">
