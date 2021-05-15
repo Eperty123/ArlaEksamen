@@ -8,18 +8,29 @@ import java.util.List;
 import java.util.Locale;
 
 public class Searcher {
-    private static ObservableList<User> OLreturn = FXCollections.observableArrayList();
+    private static ObservableList<User> OLUsersReturn = FXCollections.observableArrayList();
+    private static ObservableList<Bug> OLBugReturn = FXCollections.observableArrayList();
 
-
-    public static ObservableList<User> search(List<User> currentList, String query) {
-        OLreturn.clear();
+    public static ObservableList<User> searchUsers(List<User> currentList, String query) {
+        OLUsersReturn.clear();
         List<User> results = new ArrayList<>(currentList);
         results.removeIf(user -> !(user.getUserName().toLowerCase().contains(query.toLowerCase())
-                                || user.getFirstName().toLowerCase().contains(query.toLowerCase())
-                                || user.getLastName().toLowerCase().contains(query.toLowerCase())));
+                || user.getFirstName().toLowerCase().contains(query.toLowerCase())
+                || user.getLastName().toLowerCase().contains(query.toLowerCase())));
 
-        OLreturn.addAll(results);
-        return OLreturn;
+        OLUsersReturn.addAll(results);
+        return OLUsersReturn;
+    }
+
+    public static ObservableList<Bug> searchBugs(List<Bug> currentList, String query) {
+        OLBugReturn.clear();
+        List<Bug> results = new ArrayList<>(currentList);
+        results.removeIf(bug -> !(bug.getAdminResponsible().getUserName().toLowerCase().contains(query.toLowerCase())
+                || bug.getDateReported().toLowerCase().contains(query.toLowerCase())
+                || bug.getDescription().toLowerCase().contains(query.toLowerCase())));
+
+        OLBugReturn.addAll(results);
+        return OLBugReturn;
     }
 }
 

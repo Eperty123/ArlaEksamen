@@ -3,6 +3,7 @@ package GUI.Controller.AdminControllers;
 import BE.Bug;
 import BE.SceneMover;
 import BE.User;
+import BE.UserType;
 import GUI.Controller.CrudControllers.EditBugController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.BugModel;
@@ -20,6 +21,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -67,16 +69,41 @@ public class AdminBugReportController implements Initializable {
             });
             return row;
         });
-        handleUserUpdate();
+        handleBugUpdate();
     }
 
     /**
      * Handle any incoming changes to the User ObservableList and update the table.
      */
-    private void handleUserUpdate() {
-        UserModel.getInstance().getAllUsers().addListener((ListChangeListener<User>) c -> {
+    private void handleBugUpdate() {
+        bugModel.getInstance().getAllBugs().addListener((ListChangeListener<Bug>) c -> {
             tblBugs.setItems(bugs);
         });
+    }
+
+    public void handleViewAllBugs() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+
+        fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AllBugs.fxml"));
+        Parent root = fxmlLoader.load();
+        stage.setTitle("All fixed bugs");
+
+        Scene scene = new Scene(root);
+
+        SceneMover sceneMover = new SceneMover();
+        BorderPane bp = (BorderPane) root.getChildrenUnmodifiable().get(0);
+        sceneMover.move(stage,bp.getTop());
+
+        stage.getIcons().addAll(
+                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void handleBugFixed() throws IOException {

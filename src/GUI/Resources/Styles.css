@@ -414,3 +414,11 @@ POP UP
 .chart-legend-item {
     -fx-text-fill: white;
 }
+
+/*
+    BUG STYLES
+*/
+
+.bugSearch{
+    -fx-prompt-text-fill: white;
+}

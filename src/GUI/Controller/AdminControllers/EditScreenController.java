@@ -91,7 +91,7 @@ public class EditScreenController implements Initializable {
 
     public void handleSearch() {
         if (!txtUserField.getText().isEmpty() || txtUserField.getText() != null && !lstUsers.getItems().isEmpty()) {
-            lstUsers.setItems(Searcher.search(users, txtUserField.getText()));
+            lstUsers.setItems(Searcher.searchUsers(users, txtUserField.getText()));
         }
     }
 

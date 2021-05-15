@@ -28,6 +28,7 @@
                <children>
                   <MaterialDesignIconView glyphName="PENCIL" layoutX="274.0" layoutY="25.0" onMouseClicked="#handleEditBug" size="24" styleClass="editUser" />
                   <MaterialDesignIconView glyphName="CHECK_CIRCLE" layoutX="304.0" layoutY="25.0" onMouseClicked="#handleBugFixed" size="24" styleClass="addUser" />
+                  <MaterialDesignIconView glyphName="FORMAT_LIST_BULLETED" layoutX="246.0" layoutY="25.0" onMouseClicked="#handleViewAllBugs" size="24" styleClass="addUser" />
                </children>
             </Pane>
          </right>
