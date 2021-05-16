@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -34,6 +35,8 @@ public class EmployeeScreenController implements Initializable {
     private BorderPane borderPane;
     @FXML
     private Label lblBar;
+    @FXML
+    private TextArea txtMessage;
 
     private User currentUser;
     private boolean isMaximized = false;

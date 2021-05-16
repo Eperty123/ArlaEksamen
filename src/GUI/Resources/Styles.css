@@ -229,6 +229,22 @@ POP UP
     -fx-background-color: rgba(255, 255, 255, 0.25);
 }
 
+.text-area {
+    -fx-background-color:  #0d262e;
+}
+
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
 .employeeLogout:hover {
     -fx-background-color: #E01931;
     -fx-text-fill: white;
