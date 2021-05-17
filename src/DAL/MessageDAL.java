@@ -5,7 +5,6 @@ import BE.MessageType;
 import BE.ScreenBit;
 import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
-import com.mysql.cj.Messages;
 import javafx.scene.paint.Color;
 
 import java.sql.*;
@@ -22,6 +21,21 @@ public class MessageDAL {
         List<Message> messages = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
+            PreparedStatement pSql = con.prepareStatement("SELECT * FROM Message");
+            pSql.execute();
+
+            ResultSet rs = pSql.getResultSet();
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String message = rs.getString("Message");
+                LocalDateTime startTime = rs.getTimestamp("StartTime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("EndTime").toLocalDateTime();
+                Color textColor = Color.valueOf((rs.getString("TextColor")));
+                MessageType messageType = rs.getBoolean("MessageType") ? MessageType.Admin : MessageType.Manager;
+
+                Message newMessage = new Message(id, message, startTime, endTime, textColor, messageType);
+                messages.add(newMessage);
+            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -174,17 +188,20 @@ public class MessageDAL {
     }
 
     // TODO
-    public void deleteMessage(Message newMessage) {
+    public void deleteMessage(Message message) {
 
         try(Connection con = dbCon.getConnection()){
-
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM Message WHERE Id=?");
+            pSql.setInt(1, message.getId());
+            pSql.execute();
+            
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
     }
 
-    // TODO
+
     public void updateMessage(Message oldMessage, Message newMessage) {
 
         try(Connection con = dbCon.getConnection()){
