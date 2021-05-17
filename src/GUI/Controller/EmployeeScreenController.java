@@ -8,6 +8,7 @@ import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
+import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,6 +38,8 @@ public class EmployeeScreenController implements Initializable {
     private Label lblBar;
     @FXML
     private TextArea txtMessage;
+    @FXML
+    private JFXComboBox<ScreenBit> comboScreens;
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -44,6 +47,8 @@ public class EmployeeScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
+
+        comboScreens.getItems().addAll(currentUser.getAssignedScreen());
 
         if (!currentUser.getAssignedScreen().isEmpty()) {
             if (currentUser.getAssignedScreen().size() == 1) {
@@ -61,6 +66,7 @@ public class EmployeeScreenController implements Initializable {
                     if (results.isPresent()) {
                         ScreenBit s = results.get();
                         lblBar.setText("Employee Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                        comboScreens.getSelectionModel().select(s);
                         try {
                             setScreen(s);
                         } catch (Exception e) {
@@ -79,6 +85,16 @@ public class EmployeeScreenController implements Initializable {
                 e.printStackTrace();
             }
         }
+
+        comboScreens.setOnAction(e -> {
+            if (comboScreens.getSelectionModel().getSelectedItem() != null) {
+                try {
+                    setScreen(comboScreens.getValue());
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
     }
 
     private void displayNoScreenWarning() throws IOException {
@@ -144,7 +160,7 @@ public class EmployeeScreenController implements Initializable {
                 BorderPane borderPane1 = (BorderPane) stage.getScene().getRoot();
 
                 SceneMover sceneMover = new SceneMover();
-                sceneMover.move(stage,borderPane1.getTop());
+                sceneMover.move(stage, borderPane1.getTop());
             }
         }
     }
@@ -172,8 +188,8 @@ public class EmployeeScreenController implements Initializable {
         BugReportDialog reportDialog = new BugReportDialog();
         Optional<String> result = reportDialog.showAndWait();
 
-        if (result.isPresent()){
-            if (!result.get().equals("CANCELED")){
+        if (result.isPresent()) {
+            if (!result.get().equals("CANCELED")) {
                 //TODO Send ned til dal når det er lavet
                 System.out.println(result.get());
             }

@@ -60,7 +60,7 @@ public class ManagerDashboardController implements Initializable {
         ManagerScreenViewController controller = fxmlLoader.getController();
         controller.setParentStage((Stage)this.root.getScene().getWindow());
         Scene scene = new Scene(root);
-        BorderPane bp = (BorderPane) root.getChildrenUnmodifiable().get(0);
+        BorderPane bp = (BorderPane) root.getScene().getRoot();
         SceneMover sceneMover = new SceneMover();
         sceneMover.move(stage,bp.getTop());
 
