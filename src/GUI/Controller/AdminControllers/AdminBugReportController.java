@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class AdminBugReportController implements Initializable {
     @FXML
@@ -115,16 +116,7 @@ public class AdminBugReportController implements Initializable {
      * @throws IOException if it cannot find the FXML file in the ConfirmationDialog.
      */
     public void handleBugFixed() throws IOException {
-        String text = "Are you sure you want to mark the currently selected bug as finished? \n\n" +
-                "This action is irreversible!";
-        ConfirmationDialog confirmationDialog = new ConfirmationDialog(text);
-        Optional<Boolean> result = confirmationDialog.showAndWait();
-
-        if (result.isPresent()) {
-            if (result.get()) {
-                bugModel.deleteBug(tblBugs.getSelectionModel().getSelectedItem());
-            }
-        }
+        Stage stage = new Stage();
 
     }
 

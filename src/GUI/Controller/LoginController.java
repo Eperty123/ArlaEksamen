@@ -78,13 +78,18 @@ public class LoginController implements Initializable {
             if (u.getUserRole() == UserType.Admin) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminDashboard.fxml"));
                 stage.setTitle("Admin dashboard");
+                scene = new Scene(fxmlLoader.load());
+                BorderPane borderPane = (BorderPane) scene.getRoot().getChildrenUnmodifiable().get(0);
+                sceneMover.move(stage, borderPane.getTop());
             } else if(u.getUserRole() == UserType.Manager) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerDashboard.fxml"));
                 stage.setTitle("Manager Dashboard");
+                scene = new Scene(fxmlLoader.load());
+                BorderPane borderPane = (BorderPane) scene.getRoot().getChildrenUnmodifiable().get(0);
+                sceneMover.move(stage, borderPane.getTop());
             }else{
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/EmployeeScreen.fxml"));
                 stage.setTitle("Employee Screen");
-
                 scene = new Scene(fxmlLoader.load());
                 BorderPane borderPane = (BorderPane) scene.getRoot();
                 sceneMover.move(stage, borderPane.getTop());
