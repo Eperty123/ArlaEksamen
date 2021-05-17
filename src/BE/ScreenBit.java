@@ -21,13 +21,14 @@ public class ScreenBit {
         this.screenInfo = "void";
         this.assignedUsers = new ArrayList<>();
         this.timeTable = new HashMap<>();
+        this.messages = new ArrayList<>();
     }
 
     public ScreenBit(String name, String screenInfo) {
         this.name = name;
         this.screenInfo = screenInfo;
         this.assignedUsers = new ArrayList<>();this.timeTable = new HashMap<>();
-
+        this.messages = new ArrayList<>();
     }
 
     public ScreenBit(int id, String screenName, String screenInfo) {
@@ -36,6 +37,7 @@ public class ScreenBit {
         this.screenInfo = screenInfo;
         this.assignedUsers = new ArrayList<>();
         this.timeTable = new HashMap<>();
+        this.messages = new ArrayList<>();
     }
 
     public ScreenBit(int id, String name, String screenInfo, List<User> assignedUsers, List<Message> messages) {
