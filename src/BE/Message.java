@@ -1,10 +1,7 @@
 package BE;
 
 import javafx.scene.paint.Color;
-
 import java.time.LocalDateTime;
-
-
 
 public class Message {
     private int id;
@@ -50,14 +47,10 @@ public class Message {
         setId(message, messageStartTime, this.messageEndTime);
     }
 
-
-
     public Message(String message) {
         this.message = message;
         this.textColor = Color.RED; //Default
     }
-
-
 
     public String getMessage() {
         return message;

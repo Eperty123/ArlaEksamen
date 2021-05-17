@@ -187,14 +187,14 @@ public class MessageDAL {
         }
     }
 
-    // TODO
+
     public void deleteMessage(Message message) {
 
         try(Connection con = dbCon.getConnection()){
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Message WHERE Id=?");
             pSql.setInt(1, message.getId());
             pSql.execute();
-            
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

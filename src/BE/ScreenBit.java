@@ -160,8 +160,6 @@ public class ScreenBit {
         this.pane = pane;
     }
 
-
-
     // TODO Jonas javadoc
     public List<Message> getMessages() {
         return messages;

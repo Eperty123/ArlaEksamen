@@ -25,10 +25,8 @@ public class ScreenDAL {
      * @param screenBit used to get the ScreenBit's id, which is used to identify the row to be deleted.
      */
     public void deleteScreenBit(ScreenBit screenBit) {
-        long t0 = System.currentTimeMillis();
+
         // First the ScreenBit is deleted from the ScreenRights junction table.
-
-
         try (Connection con = dbCon.getConnection()) {
             deleteScreenBitUserAssociations(con, screenBit);
             deleteScreenBitTimeTable(con,screenBit);
@@ -36,7 +34,6 @@ public class ScreenDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Screen WHERE Id=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
-            System.out.println("Exec time " + (System.currentTimeMillis()-t0));
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -48,8 +45,6 @@ public class ScreenDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenMessage WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
-
-
     }
 
     private void deleteScreenBitTimeTable(Connection con, ScreenBit screenBit) throws SQLException {
@@ -57,8 +52,6 @@ public class ScreenDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenTime WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
-
-
     }
 
     /**
@@ -71,8 +64,6 @@ public class ScreenDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
-
-
     }
 
     /**
@@ -112,9 +103,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
-
     }
 
     // TODO javadoc jonas
@@ -193,11 +181,6 @@ public class ScreenDAL {
         }
         return allScreens;
     }
-
-
-
-
-
 
     /**
      * Creates a row in the junction table ScreenRights in the database. An association in the ScreenRights table
