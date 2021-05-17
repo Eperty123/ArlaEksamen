@@ -76,19 +76,13 @@ public class LoginController implements Initializable {
 
             Scene scene = null;
             if (u.getUserRole() == UserType.Admin) {
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AdminDashboard.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminDashboard.fxml"));
                 stage.setTitle("Admin dashboard");
-                scene = new Scene(fxmlLoader.load());
-                BorderPane borderPane = (BorderPane) scene.getRoot().getChildrenUnmodifiable().get(0);
-                sceneMover.move(stage, borderPane.getTop());
-            } else if (u.getUserRole() == UserType.Manager) {
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/ManagerViews/ManagerDashboard.fxml"));
+            } else if(u.getUserRole() == UserType.Manager) {
+                fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerDashboard.fxml"));
                 stage.setTitle("Manager Dashboard");
-                scene = new Scene(fxmlLoader.load());
-                BorderPane borderPane = (BorderPane) scene.getRoot().getChildrenUnmodifiable().get(0);
-                sceneMover.move(stage, borderPane.getTop());
-            } else {
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/EmployeeScreen.fxml"));
+            }else{
+                fxmlLoader.setLocation(getClass().getResource("/GUI/View/EmployeeScreen.fxml"));
                 stage.setTitle("Employee Screen");
 
                 scene = new Scene(fxmlLoader.load());
