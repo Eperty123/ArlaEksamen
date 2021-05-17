@@ -39,7 +39,7 @@ public class EScreenSelectDialog extends Dialog<ScreenBit> {
 
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/View/PopUpViews/EmployeeScreenSelect.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/PopUpViews/EmployeeScreenSelect.fxml"));
             Parent root = loader.load();
             EmployeeScreenSelectController controller = loader.getController();
 
@@ -59,8 +59,8 @@ public class EScreenSelectDialog extends Dialog<ScreenBit> {
     }
 
     public void setData(List<ScreenBit> screenBits) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/View/PopUpViews/EmployeeScreenSelect.fxml"));
-        Parent root = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/PopUpViews/EmployeeScreenSelect.fxml"));
+        Parent root = (Parent)loader.load();
         EmployeeScreenSelectController controller = loader.getController();
         controller.setData(screenBits);
 
