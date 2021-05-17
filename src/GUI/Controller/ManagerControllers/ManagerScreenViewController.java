@@ -48,7 +48,6 @@ public class ManagerScreenViewController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
 
         comboScreens.getItems().addAll(currentUser.getAssignedScreen());
-
         if (!currentUser.getAssignedScreen().isEmpty()) {
             if (currentUser.getAssignedScreen().size() == 1) {
                 try {
@@ -90,15 +89,15 @@ public class ManagerScreenViewController implements Initializable {
     }
 
         comboScreens.setOnAction(e -> {
-        if (comboScreens.getSelectionModel().getSelectedItem() != null) {
-            try {
-                setScreen(comboScreens.getValue());
-            } catch (Exception exception) {
-                exception.printStackTrace();
+            if (comboScreens.getSelectionModel().getSelectedItem() != null) {
+                try {
+                    setScreen(comboScreens.getValue());
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             }
-        }
-    });
-}
+        });
+    }
 
     private void displayNoScreenWarning() throws IOException {
         String text = "You have not been assigned a screen yet. \n\n" +
@@ -147,7 +146,7 @@ public class ManagerScreenViewController implements Initializable {
     }
 
     @FXML
-    private void handleClose(MouseEvent mouseEvent) {
+    private void handleClose() {
         parentStage.setIconified(false);
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
@@ -163,6 +162,10 @@ public class ManagerScreenViewController implements Initializable {
                 System.out.println(result.get());
             }
         }
+    }
+
+    public void handleBack(){
+        handleClose();
     }
 
     public void setParentStage(Stage parentStage) {

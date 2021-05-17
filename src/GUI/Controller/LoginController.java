@@ -11,6 +11,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -73,18 +74,22 @@ public class LoginController implements Initializable {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();
 
+            Scene scene = null;
             if (u.getUserRole() == UserType.Admin) {
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/AdminDashboard.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminDashboard.fxml"));
                 stage.setTitle("Admin dashboard");
             } else if(u.getUserRole() == UserType.Manager) {
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/ManagerViews/ManagerDashboard.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerDashboard.fxml"));
                 stage.setTitle("Manager Dashboard");
             }else{
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/EmployeeScreen.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/GUI/View/EmployeeScreen.fxml"));
                 stage.setTitle("Employee Screen");
+
+                scene = new Scene(fxmlLoader.load());
+                BorderPane borderPane = (BorderPane) scene.getRoot();
+                sceneMover.move(stage, borderPane.getTop());
             }
 
-            Scene scene = new Scene(fxmlLoader.load());
             stage.getIcons().addAll(
                     new Image("/GUI/Resources/AppIcons/icon16x16.png"),
                     new Image("/GUI/Resources/AppIcons/icon24x24.png"),
@@ -95,14 +100,11 @@ public class LoginController implements Initializable {
             stage.setScene(scene);
             stage.show();
 
-            BorderPane borderPane = (BorderPane) scene.getRoot().getChildrenUnmodifiable().get(0);
-            sceneMover.move(stage,borderPane.getTop());
-
             root1.close();
         } else {
             failedLoginAttempts++;
-            if(failedLoginAttempts%3==0)
-            startTimer();
+            if (failedLoginAttempts % 3 == 0)
+                startTimer();
         }
     }
 
@@ -113,7 +115,7 @@ public class LoginController implements Initializable {
      */
     private void startTimer() {
         timer.startTimer();
-        timer.setTimeoutDuration(Duration.ofSeconds(timer.getTimeoutDuration().getSeconds()*2));
+        timer.setTimeoutDuration(Duration.ofSeconds(timer.getTimeoutDuration().getSeconds() * 2));
         lblPane.getChildren().clear();
         Label label = timer.getTimerLabel();
 

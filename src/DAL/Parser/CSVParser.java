@@ -1,10 +1,15 @@
 package DAL.Parser;
 
+import GUI.Controller.PopupControllers.WarningController;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.commons.io.input.BOMInputStream;
 
 import java.io.*;
@@ -68,7 +73,21 @@ public class CSVParser implements IFileParser {
             this.csvReader = reader;
             parse();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Stage stage1 = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/PopUpViews/Warning.fxml"));
+
+            try {
+                stage1.setScene(new Scene(fxmlLoader.load()));
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+            WarningController warningController = fxmlLoader.getController();
+            warningController.setText("Warning! Something went wrong trying to make the chart. \n\n" +
+                    "Please ensure the selected excel/csv/website/PDF file is valid or contact an admin");
+            stage1.initStyle(StageStyle.TRANSPARENT);
+            stage1.show();
+            stage1.setAlwaysOnTop(true);
         }
     }
 

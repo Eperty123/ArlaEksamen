@@ -7,6 +7,9 @@ import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.BugModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
+import com.jfoenix.controls.JFXBadge;
+import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -33,9 +37,12 @@ public class AdminDashboardController implements Initializable {
     private AnchorPane root;
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private JFXButton btnSelectAll;
 
     private User currentUser;
     private boolean isMaximized = false;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,6 +72,12 @@ public class AdminDashboardController implements Initializable {
     public void handleBugManagement() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminBugReport.fxml"));
+        borderPane.setCenter(fxmlLoader.load());
+    }
+
+    public void handleCreateMessage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminMessage.fxml"));
         borderPane.setCenter(fxmlLoader.load());
     }
 

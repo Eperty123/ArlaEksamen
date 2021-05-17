@@ -1,5 +1,6 @@
 package GUI.Controller.AdminControllers;
 
+import BE.MenuItemBit;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
@@ -9,7 +10,6 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
@@ -36,11 +36,6 @@ public class PickerStageController implements Initializable {
     private SplitPane splitPane = new SplitPane();
     private List<PickerStageController> controllers = new ArrayList<>();
     private ContextMenu contextMenu = new ContextMenu();
-    private MenuItem unsplitItem = new MenuItem("Unsplit");
-    private MenuItem flipItem = new MenuItem("Flip");
-    private MenuItem resetItem = new MenuItem("Reset");
-    private MenuItem changeContent = new MenuItem("Change content");
-    private MenuItem turnItem = new MenuItem("Change orientation");
     private PickerStageController parentPickerStageController;
     private PickerStageController closestParentPickerStageController;
 
@@ -58,30 +53,31 @@ public class PickerStageController implements Initializable {
      */
     private void init() {
         initContextMenu(ap, contextMenu);
-        contextMenu.getItems().addAll(Arrays.asList(changeContent, unsplitItem, turnItem, flipItem, new SeparatorMenuItem(), resetItem));
-        unsplitItem.onActionProperty().set((action) -> {
-            if (closestParentPickerStageController != null)
-                closestParentPickerStageController.unSplit();
-            else
-                unSplit();
-        });
-        flipItem.onActionProperty().set((action) -> {
-            if (closestParentPickerStageController != null)
-                closestParentPickerStageController.flipSplitPane();
-            else
-                flipSplitPane();
-        });
-        resetItem.onActionProperty().set((action) -> unSplit());
-        changeContent.setOnAction((action) -> changeContent());
-        turnItem.setOnAction((action) -> {
-            if (closestParentPickerStageController != null) {
-                Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
-                closestParentPickerStageController.getSplitPane().setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
-            } else {
-                Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
-                splitPane.setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
-            }
-        });
+        contextMenu.getItems().addAll(Arrays.asList(
+                new MenuItemBit("Change content", (action) -> changeContent()).getMenuItem(),
+                new MenuItemBit("Unsplit", (action) -> {
+                    if (closestParentPickerStageController != null)
+                        closestParentPickerStageController.unSplit();
+                    else
+                        unSplit();
+                }).getMenuItem(),
+                new MenuItemBit("Change Orientation", (action) -> {
+                    if (closestParentPickerStageController != null) {
+                        Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
+                        closestParentPickerStageController.getSplitPane().setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
+                    } else {
+                        Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
+                        splitPane.setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
+                    }
+                }).getMenuItem(),
+                new MenuItemBit("Flip",(action) -> {
+                    if (closestParentPickerStageController != null)
+                        closestParentPickerStageController.flipSplitPane();
+                    else
+                        flipSplitPane();
+                }).getMenuItem(),
+                new SeparatorMenuItem(),
+                new MenuItemBit("Reset",(action)->unSplit()).getMenuItem()));
     }
 
     private List<Node> getNodes(PickerStageController pickerStageController) {
@@ -98,7 +94,7 @@ public class PickerStageController implements Initializable {
 
     private void initContextMenu(Node node, ContextMenu contextMenu) {
         node.setOnMouseClicked((MouseEvent mouseEvent) -> {
-            if (!parentPickerStageController.getRoot().isDisabled()) {
+            if (parentPickerStageController==null||!parentPickerStageController.getRoot().isDisabled()) {
                 if (!splitPane.isDisabled())
                     if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                         if (contextMenu.isShowing())
@@ -238,7 +234,7 @@ public class PickerStageController implements Initializable {
             Stage stage = new Stage();
             stage.initOwner(root.getScene().getWindow());
             stage.setAlwaysOnTop(true);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/PopupViews/DataManagement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/PopUpViews/DataManagement.fxml"));
             AnchorPane pane = loader.load();
             stage.setTitle("Add content");
             DataManagementController dataManagementController = loader.getController();

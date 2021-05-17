@@ -192,7 +192,7 @@ public class AdminScreenManagementController implements Initializable {
     private void handleScreenCreator(ScreenBit screenBit) throws Exception {
         Stage pickerDashboard = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/VIEW/AdminViews/PickerDashboard.fxml"));
+        loader.setLocation(getClass().getResource("/GUI/View/AdminViews/PickerDashboard.fxml"));
 
         AnchorPane root = loader.load();
         PickerDashboardController pickerDashboardController = loader.getController();

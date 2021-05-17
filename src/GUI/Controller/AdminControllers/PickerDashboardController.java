@@ -29,20 +29,18 @@ public class PickerDashboardController {
     StageBuilder stageBuilder = new StageBuilder();
 
     public void init(ScreenBit screenBit) throws Exception {
-
         Node node = stageBuilder.makeStage(screenBit.getScreenInfo().trim());
         pickerStageController = stageBuilder.getRootController();
 
         this.screenBit = screenBit;
         borderPane.setCenter(node);
-
     }
 
     public void setTitle(String title) {
         lblTitle.setText(title);
     }
 
-    public void handleExit(MouseEvent mouseEvent) {
+    public void handleExit(MouseEvent mouseEvent) throws IOException {
         handleCancel();
     }
 
@@ -57,26 +55,30 @@ public class PickerDashboardController {
         stage.setIconified(true);
     }
 
-    public void handleCancel() {
-        Stage stage = (Stage) borderPane.getScene().getWindow();
-        stage.close();
-    }
+    public void handleCancel() throws IOException {
+        String text = """
+                Unsaved changes are made!\s
 
-    public void handleSave(ActionEvent actionEvent) throws IOException {
-        String text = "Are you sure you want to save the current screen? \n\n This action is not final" +
-                " and the screen will continue to be editable.";
+                Are you sure you want to cancel your progress on the current screen?\s
+
+                All unsaved progress will be lost.""";
         ConfirmationDialog confirmationDialog = new ConfirmationDialog(text);
         Optional<Boolean> result = confirmationDialog.showAndWait();
         if (result.isPresent()) {
             if (result.get()) {
-                ScreenBit oldScreenBit = screenBit;
-                screenBit.setScreenInfo(pickerStageController.getParentBuilderString());
-                ScreenModel screenModel = ScreenModel.getInstance();
-                screenModel.updateScreenBit(screenBit, oldScreenBit);
-                //System.out.println(oldScreenBit.getName() + " " + oldScreenBit.getScreenInfo());
                 Stage stage = (Stage) borderPane.getScene().getWindow();
                 stage.close();
             }
         }
+    }
+
+    public void handleSave(ActionEvent actionEvent) throws IOException {
+        ScreenBit oldScreenBit = screenBit;
+        screenBit.setScreenInfo(pickerStageController.getParentBuilderString());
+        ScreenModel screenModel = ScreenModel.getInstance();
+        screenModel.updateScreenBit(screenBit, oldScreenBit);
+        //System.out.println(oldScreenBit.getName() + " " + oldScreenBit.getScreenInfo());
+        Stage stage = (Stage) borderPane.getScene().getWindow();
+        stage.close();
     }
 }
