@@ -35,7 +35,7 @@ public class MessageDAL {
         List<Message> messages = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
-            PreparedStatement pSql = con.prepareStatement("SELECT * FROM Message WHERE Athor=?");
+            PreparedStatement pSql = con.prepareStatement("SELECT * FROM Message WHERE Author=?");
             pSql.setString(1, user.getUserName());
             pSql.execute();
 
