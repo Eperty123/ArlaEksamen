@@ -5,6 +5,7 @@ import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.BugModel;
+import GUI.Model.MessageModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXBadge;
@@ -109,6 +110,7 @@ public class AdminDashboardController implements Initializable {
                 UserModel.getInstance().resetSingleton();
                 ScreenModel.getInstance().resetSingleton();
                 BugModel.getInstance().resetSingleton();
+                MessageModel.getInstance().resetSingleton();
 
                 Stage root1 = (Stage) root.getScene().getWindow();
 

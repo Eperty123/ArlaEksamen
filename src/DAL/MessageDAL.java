@@ -5,7 +5,6 @@ import BE.MessageType;
 import BE.ScreenBit;
 import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
-import com.mysql.cj.Messages;
 import javafx.scene.paint.Color;
 
 import java.sql.*;
