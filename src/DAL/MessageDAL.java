@@ -17,7 +17,11 @@ public class MessageDAL {
 
     private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
 
-    // TODO
+    /**
+     * Retrieves a list of all messages from the database.
+     *
+     * @return List<Message>
+     */
     public List<Message> getAllMessages() {
         List<Message> messages = new ArrayList<>();
 
@@ -26,11 +30,15 @@ public class MessageDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return messages;
     }
 
-    // TODO
+    /**
+     * Retrieves a list of messages, specific to the user passed as a parameter.
+     *
+     * @param user the user who's messages are loaded from database.
+     * @return List<Message>
+     */
     public List<Message> getUsersMessages(User user) {
         List<Message> messages = new ArrayList<>();
 
@@ -60,6 +68,14 @@ public class MessageDAL {
         return messages;
     }
 
+    /**
+     * Adds the new message to the database. Creates associations between the message and the ScreenBit's passed
+     * as parameter, and books timeslots for each assigned screen.
+     *
+     * @param user Used to set the message's author in the database.
+     * @param newMessage Object containing the new message information.
+     * @param assignedScreenBits Screen(s) the message will be assigned to.
+     */
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
 
         try(Connection con = dbCon.getConnection()){
