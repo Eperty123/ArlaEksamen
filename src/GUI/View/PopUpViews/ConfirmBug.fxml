@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="219.0" prefWidth="304.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.PopupControllers.ConfirmationController">
+   <children>
+      <Pane layoutX="2.0" layoutY="2.0" prefHeight="215.0" prefWidth="300.0" styleClass="popupForground" stylesheets="@../../Resources/Styles.css">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="20.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="200.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />
+            <Label alignment="TOP_CENTER" layoutX="104.0" layoutY="9.0" text="Confirm Bug Fix" textFill="#4c707a">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <JFXTextArea fx:id="textArea" editable="false" focusColor="#add8e5" layoutX="20.0" layoutY="58.0" prefHeight="103.0" prefWidth="264.0" promptText="What did you do to fix the bug" styleClass="textarea" unFocusColor="#add8e5" />
+            <Label layoutX="20.0" layoutY="41.0" text="Please describe what you did to fix the bug" />
+            <JFXButton layoutX="50.0" layoutY="176.0" onAction="#handleSave" prefWidth="75.0" styleClass="addUser" text="Save" />
+            <JFXButton layoutX="175.0" layoutY="176.0" onAction="#handleCancel" prefWidth="75.0" styleClass="removeUser" text="Cancel" />
+         </children></Pane>
+   </children>
+</AnchorPane>
