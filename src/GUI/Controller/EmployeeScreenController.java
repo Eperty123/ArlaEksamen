@@ -27,6 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -103,23 +104,29 @@ public class EmployeeScreenController implements Initializable {
                 }
             }
         });
-        service.scheduleAtFixedRate(new Thread(() -> {
-            userMessages = MessageModel.getInstance().getUsersMessages(currentUser);
-            userMessages.forEach(message->{
-            if (txtMessage.getText() == message.getMessage() || LocalDateTime.now().isBefore(message.getMessageStartTime()) || LocalDateTime.now().isAfter(message.getMessageEndTime())) {
-            }
-            else
-                updateMessage(message);
-            });
-        }),0,5, TimeUnit.MINUTES);
+        autoUpdateMessageBox();
     }
 
-    private void updateMessage(Message message){
-        Platform.runLater(new Thread(()->{
-            String textColor = String.format("rgb( %s , %s , %s )",message.getTextColor().getRed()*255,message.getTextColor().getGreen()*255,message.getTextColor().getBlue()*255);
-            String highLightTextFillColor = String.format("rgb( %s , %s , %s )",message.getTextColor().brighter().getRed()*255,message.getTextColor().brighter().getGreen()*255,message.getTextColor().brighter().getBlue()*255);
-            String hightLightColor = String.format("rgb( %s , %s , %s )",message.getTextColor().darker().getRed()*255,message.getTextColor().darker().getGreen()*255,message.getTextColor().darker().getBlue()*255);
-            txtMessage.setStyle(String.format("-fx-text-fill: %s; -fx-highlight-text-fill: %s; -fx-highlight-fill: %s;",textColor,highLightTextFillColor,hightLightColor));
+    private void autoUpdateMessageBox() {
+        service.scheduleAtFixedRate(new Thread(() -> {
+            userMessages = MessageModel.getInstance().getUsersMessages(currentUser);
+            userMessages.forEach(message -> {
+                if (txtMessage.getText() == message.getMessage() || LocalDateTime.now().isAfter(message.getMessageStartTime()) || LocalDateTime.now().isBefore(message.getMessageEndTime())) {
+                    if (message.getMessageEndTime().isBefore(LocalDateTime.now())) ;
+                    //TODO couple up with delete message call from MessageModel
+                } else {
+                    String textColor = String.format("rgb( %s , %s , %s )",message.getTextColor().getRed()*255,message.getTextColor().getGreen()*255,message.getTextColor().getBlue()*255);
+                    String highLightTextFillColor = String.format("rgb( %s , %s , %s )",message.getTextColor().brighter().getRed()*255,message.getTextColor().brighter().getGreen()*255,message.getTextColor().brighter().getBlue()*255);
+                    String highLightColor = String.format("rgb( %s , %s , %s )",message.getTextColor().darker().getRed()*255,message.getTextColor().darker().getGreen()*255,message.getTextColor().darker().getBlue()*255);
+                    updateMessage(message,textColor,highLightTextFillColor,highLightColor);
+                }
+            });
+        }), 0, 5, TimeUnit.MINUTES);
+    }
+
+    private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {
+        Platform.runLater(new Thread(() -> {
+            txtMessage.setStyle(String.format("-fx-text-fill: %s; -fx-highlight-text-fill: %s; -fx-highlight-fill: %s;", textColor, highLightTextFillColor, hightLightColor));
             txtMessage.setText(message.getMessage());
         }));
     }
