@@ -40,13 +40,14 @@ public class BugDAL {
     public void updateBug(Bug newBug, Bug oldBug) {
 
         try (Connection con = dbCon.getConnection()) {
-            PreparedStatement pSql = con.prepareStatement("UPDATE Bug SET DateRegistered=?, ResolvedStatus=?, Description=?, ScreenId=?, UserId=? WHERE Id=?");
+            PreparedStatement pSql = con.prepareStatement("UPDATE Bug SET DateRegistered=?, ResolvedStatus=?, Description=?, ScreenId=?, UserId=?, FixMessage=? WHERE Id=?");
             pSql.setString(1, newBug.getDateReported());
             pSql.setInt(2, newBug.isBugResolved() ? 1 : 0);
             pSql.setString(3, oldBug.getDescription());
             pSql.setInt(4, oldBug.getReferencedScreen().getId());
             pSql.setInt(5, oldBug.getAdminResponsible().getId());
             pSql.setInt(6, oldBug.getId());
+            pSql.setString(7, newBug.getFixMessage());
             //System.out.println(String.format("Bug update status: %s", pSql.executeUpdate() != 0 ? "successful" : "failed"));
 
         } catch (SQLException throwables) {

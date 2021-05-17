@@ -45,11 +45,13 @@ public class JonasTest {
         Message msg = new Message( start, end, "testtesasdt", Color.AZURE, MessageType.Manager);
 
 
+        LocalDateTime startTime = LocalDateTime.of(2021,05,17,19,30);
+        LocalDateTime endTime = LocalDateTime.of(2021,05,17,20,30);
+
 
         for(ScreenBit s : screenBits){
             if(s.getId() == 1010){
-                messageDAL.getScreenBitsMessages(s);
-                System.out.println(s.getCurrentMessage().getMessage());
+                System.out.println(s.isAvailable(startTime, endTime));
             }
         }
 

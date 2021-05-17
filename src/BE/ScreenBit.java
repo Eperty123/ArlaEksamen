@@ -188,7 +188,7 @@ public class ScreenBit {
             if(m.getMessageType() == MessageType.Admin){
                 return m;
             }
-            if(m.getMessageStartTime().isBefore(LocalDateTime.now())){
+            if(m.getMessageEndTime().isBefore(LocalDateTime.now())){
                 messages.remove(m);
             }
         }
@@ -196,7 +196,7 @@ public class ScreenBit {
         return messages.get(0);
     }
 
-    public boolean isAvailable(LocalDateTime startTime, LocalDateTime endTime, int durationHours, int durationMinutes){
+    public boolean isAvailable(LocalDateTime startTime, LocalDateTime endTime){
 
         int endb = (endTime.getHour() * 2) + (endTime.getMinute()== 0 ? 0 : 1);
         int startb = (startTime.getHour() * 2) + (startTime.getMinute()== 0 ? 0 : 1);
@@ -204,13 +204,13 @@ public class ScreenBit {
             endb += 48 * (endTime.getDayOfMonth() - startTime.getDayOfMonth());
         }
         int slotCount = endb - startb;
-        boolean isAvailable = true;
+
         for(int i = 0; i < slotCount; i++){
             if(!timeTable.get(startTime.plusMinutes(i * 30))){
                 return false;
             }
         }
-        return false;
+        return true;
     }
   
     @Override

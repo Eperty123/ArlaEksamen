@@ -189,6 +189,20 @@ public class MessageDAL {
 
         try(Connection con = dbCon.getConnection()){
 
+            PreparedStatement pSql = con.prepareStatement(
+                    "UPDATE Message " +
+                        "SET Message=?," +
+                        "StartTime=?, " +
+                            "EndTime=?, " +
+                            "TextColor=?" +
+                        "WHERE Id=?");
+
+            pSql.setString(1, newMessage.getMessage());
+            pSql.setTimestamp(2, Timestamp.valueOf(newMessage.getMessageStartTime()));
+            pSql.setTimestamp(3, Timestamp.valueOf(newMessage.getMessageEndTime()));
+            pSql.setString(4, String.valueOf(newMessage.getTextColor()));
+            pSql.setInt(5, oldMessage.getId());
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
