@@ -118,6 +118,4 @@ public class Message {
 
         this.id = messageHash + startTimeHash + endTimeHash;
     }
-
-
 }

@@ -1,9 +1,11 @@
 package BE;
 
+import BLL.MessageSorter;
 import javafx.scene.layout.Pane;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,18 +18,20 @@ public class ScreenBit {
     private List<Message> messages;
     private HashMap<LocalDateTime, Boolean> timeTable;
 
+
     public ScreenBit(String name) {
         this.name = name;
         this.screenInfo = "void";
         this.assignedUsers = new ArrayList<>();
         this.timeTable = new HashMap<>();
+        this.messages = new ArrayList<>();
     }
 
     public ScreenBit(String name, String screenInfo) {
         this.name = name;
         this.screenInfo = screenInfo;
         this.assignedUsers = new ArrayList<>();this.timeTable = new HashMap<>();
-
+        this.messages = new ArrayList<>();
     }
 
     public ScreenBit(int id, String screenName, String screenInfo) {
@@ -36,6 +40,7 @@ public class ScreenBit {
         this.screenInfo = screenInfo;
         this.assignedUsers = new ArrayList<>();
         this.timeTable = new HashMap<>();
+        this.messages = new ArrayList<>();
     }
 
     public ScreenBit(int id, String name, String screenInfo, List<User> assignedUsers, List<Message> messages) {
@@ -176,6 +181,36 @@ public class ScreenBit {
 
     public HashMap<LocalDateTime, Boolean> getTimeTable() {
         return timeTable;
+    }
+
+    public Message getCurrentMessage(){
+        for(Message m : messages){
+            if(m.getMessageType() == MessageType.Admin){
+                return m;
+            }
+            if(m.getMessageEndTime().isBefore(LocalDateTime.now())){
+                messages.remove(m);
+            }
+        }
+        Collections.sort(messages, new MessageSorter());
+        return messages.get(0);
+    }
+
+    public boolean isAvailable(LocalDateTime startTime, LocalDateTime endTime){
+
+        int endb = (endTime.getHour() * 2) + (endTime.getMinute()== 0 ? 0 : 1);
+        int startb = (startTime.getHour() * 2) + (startTime.getMinute()== 0 ? 0 : 1);
+        if(endTime.getDayOfMonth() > startTime.getDayOfMonth()){
+            endb += 48 * (endTime.getDayOfMonth() - startTime.getDayOfMonth());
+        }
+        int slotCount = endb - startb;
+
+        for(int i = 0; i < slotCount; i++){
+            if(!timeTable.get(startTime.plusMinutes(i * 30))){
+                return false;
+            }
+        }
+        return true;
     }
   
     @Override

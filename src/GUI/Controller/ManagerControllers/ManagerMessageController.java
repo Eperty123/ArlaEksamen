@@ -228,7 +228,7 @@ public class ManagerMessageController implements Initializable {
     private void clearMessageFields(){
         messageArea.clear();
         messageArea.setPromptText("Enter your message here...");
-        colorPicker.setValue(null);
+        colorPicker.setValue(Color.RED);
         datePicker.setValue(null);
         timePicker.setValue(null);
         durationHoursChoice.setValue(0);

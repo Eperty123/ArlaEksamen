@@ -10,6 +10,7 @@ public class Bug {
 
     private int id;
     private String description;
+    private String fixMessage;
     private String dateReported;
     private boolean bugResolved;
     private User adminResponsible;
@@ -46,6 +47,16 @@ public class Bug {
         setAdminResponsible(UserModel.getInstance().getUser(userId));
         setBugResolved(bugResolved);
         setReferencedScreen(ScreenModel.getInstance().getScreen(screenId));
+    }
+
+    public Bug(int id, String description, String fixMessage, String dateReported, boolean bugResolved, User adminResponsible, ScreenBit referencedScreen) {
+        this.id = id;
+        this.description = description;
+        this.fixMessage = fixMessage;
+        this.dateReported = dateReported;
+        this.bugResolved = bugResolved;
+        this.adminResponsible = adminResponsible;
+        this.referencedScreen = referencedScreen;
     }
 
     /**
@@ -166,5 +177,13 @@ public class Bug {
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setFixMessage(String fixMessage){
+        this.fixMessage = fixMessage;
+    }
+
+    public String getFixMessage() {
+        return fixMessage;
     }
 }

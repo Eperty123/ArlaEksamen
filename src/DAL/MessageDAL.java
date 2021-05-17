@@ -35,7 +35,7 @@ public class MessageDAL {
         List<Message> messages = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
-            PreparedStatement pSql = con.prepareStatement("SELECT * FROM Message WHERE Athor=?");
+            PreparedStatement pSql = con.prepareStatement("SELECT * FROM Message WHERE Author=?");
             pSql.setString(1, user.getUserName());
             pSql.execute();
 
@@ -58,6 +58,35 @@ public class MessageDAL {
         }
 
         return messages;
+    }
+
+    public void getScreenBitsMessages(ScreenBit screenBit)  {
+
+        try (Connection con = dbCon.getConnection()) {
+            PreparedStatement pSql = con.prepareStatement(
+                    "SELECT [Message].*, " +
+                            "ScreenMessage.ScreenId AS ScreenId " +
+                            "FROM Message " +
+                            "LEFT OUTER JOIN ScreenMessage " +
+                            "ON [Message].Id = ScreenMessage.MessageId");
+            pSql.execute();
+
+            ResultSet rs = pSql.getResultSet();
+
+            while (rs.next()) {
+                int id = rs.getInt("Id");
+                String message = rs.getString("Message");
+                LocalDateTime startTime = rs.getTimestamp("StartTime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("EndTime").toLocalDateTime();
+                Color textColor = Color.valueOf((rs.getString("TextColor")));
+                MessageType messageType = rs.getBoolean("MessageType") ? MessageType.Admin : MessageType.Manager;
+
+                Message newMessage = new Message(id, message, startTime, endTime, textColor, messageType);
+                screenBit.addMessage(newMessage);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
@@ -159,6 +188,20 @@ public class MessageDAL {
     public void updateMessage(Message oldMessage, Message newMessage) {
 
         try(Connection con = dbCon.getConnection()){
+
+            PreparedStatement pSql = con.prepareStatement(
+                    "UPDATE Message " +
+                        "SET Message=?," +
+                        "StartTime=?, " +
+                            "EndTime=?, " +
+                            "TextColor=?" +
+                        "WHERE Id=?");
+
+            pSql.setString(1, newMessage.getMessage());
+            pSql.setTimestamp(2, Timestamp.valueOf(newMessage.getMessageStartTime()));
+            pSql.setTimestamp(3, Timestamp.valueOf(newMessage.getMessageEndTime()));
+            pSql.setString(4, String.valueOf(newMessage.getTextColor()));
+            pSql.setInt(5, oldMessage.getId());
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

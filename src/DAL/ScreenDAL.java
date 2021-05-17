@@ -1,8 +1,11 @@
 package DAL;
 
+import BE.Message;
+import BE.MessageType;
 import BE.ScreenBit;
 import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
+import javafx.scene.paint.Color;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -184,7 +187,6 @@ public class ScreenDAL {
                 addScreenBitAndUser(allScreens, newScreenBit, assignedUser);
             }
             loadTimeTables(con, allScreens);
-            loadMessages(con, allScreens);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -192,11 +194,10 @@ public class ScreenDAL {
         return allScreens;
     }
 
-    private void loadMessages(Connection con, List<ScreenBit> allScreens) throws SQLException {
 
-        PreparedStatement pSql = con.prepareStatement("");
 
-    }
+
+
 
     /**
      * Creates a row in the junction table ScreenRights in the database. An association in the ScreenRights table
