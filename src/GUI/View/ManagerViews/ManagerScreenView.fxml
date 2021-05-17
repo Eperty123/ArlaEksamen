@@ -83,9 +83,10 @@
                   <Label fx:id="lblBar" text="Admin Dashboard - Henrik Hansen" BorderPane.alignment="CENTER" />
                </center>
                <left>
-                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="165.0" BorderPane.alignment="CENTER">
+                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="240.0" BorderPane.alignment="CENTER">
                      <children>
-                        <JFXButton layoutX="31.0" onAction="#handleReportIssue" prefHeight="25.0" prefWidth="90.0" styleClass="SMButtons" text="Repport issue" />
+                        <JFXButton layoutX="150.0" onAction="#handleReportIssue" prefHeight="25.0" prefWidth="90.0" styleClass="SMButtons" text="Repport issue" />
+                        <Label fx:id="lblTime" layoutX="18.0" layoutY="4.0" text="Label" />
                      </children>
                   </Pane>
                </left>

@@ -1,27 +1,22 @@
-package GUI.Controller.ManagerControllers;
+package GUI.Controller.AdminControllers;
 
 import BE.*;
 import BLL.LoginManager;
 import GUI.Model.MessageModel;
-import com.jfoenix.controls.JFXColorPicker;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTimePicker;
-import com.mysql.cj.result.LocalDateTimeValueFactory;
-import com.mysql.cj.result.LocalDateValueFactory;
+import GUI.Model.ScreenModel;
+import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -36,10 +31,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ManagerMessageController implements Initializable {
+public class AdminMessageController implements Initializable {
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -64,9 +60,12 @@ public class ManagerMessageController implements Initializable {
     private TableColumn<Message, LocalTime> timeColumn;
     @FXML
     private TableColumn<Message, LocalDate> dateColumn;
+    @FXML
+    private JFXButton btnSelectAll;
 
 
     private User currentUser;
+    private Boolean isAllSelected = false;
 
     private List<ScreenBit> selectedScreens = new ArrayList<>();
     private List<Message> currentUsersMessages = new ArrayList<>();
@@ -87,16 +86,14 @@ public class ManagerMessageController implements Initializable {
     private void UpdateUpCommingMessages() {
 
 
-
     }
 
     private void setDurationChoiceBoxes() {
-        durationHoursChoice.setItems(FXCollections.observableArrayList(0,1,2,3,4,5,6,7,8));
+        durationHoursChoice.setItems(FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8));
         durationHoursChoice.setValue(0);
 
-
         durationMinutesChoice.setItems(FXCollections.observableArrayList(
-                0,30));
+                0, 30));
         durationMinutesChoice.setValue(0);
     }
 
@@ -107,10 +104,8 @@ public class ManagerMessageController implements Initializable {
     private void loadAllScreens() {
         // Remove all nodes.
         screenContainer.getChildren().clear();
-        currentUser = LoginManager.getCurrentUser();
-        System.out.println(currentUser.getAssignedScreen());
         // Add all screens.
-        for (ScreenBit s : currentUser.getAssignedScreen()) {
+        for (ScreenBit s : ScreenModel.getInstance().getAllScreenBits()) {
             makeScreen(s);
         }
     }
@@ -127,6 +122,7 @@ public class ManagerMessageController implements Initializable {
         newRectangle.getStyleClass().add("SMButtons");
 
         FontAwesomeIconView check = new FontAwesomeIconView();
+        check.setId("Check");
         check.setIcon(FontAwesomeIcon.CHECK_CIRCLE_ALT);
         check.setFill(Paint.valueOf("#97CE68"));
         check.getStyleClass().add("SMButtons");
@@ -225,10 +221,10 @@ public class ManagerMessageController implements Initializable {
 
     }
 
-    private void clearMessageFields(){
+    private void clearMessageFields() {
         messageArea.clear();
         messageArea.setPromptText("Enter your message here...");
-        colorPicker.setValue(Color.RED);
+        colorPicker.setValue(null);
         datePicker.setValue(null);
         timePicker.setValue(null);
         durationHoursChoice.setValue(0);
@@ -238,5 +234,36 @@ public class ManagerMessageController implements Initializable {
     public void showSelectedMessage(MouseEvent mouseEvent) {
 
         messageArea.setText("hey");
+    }
+
+    public void handleSelectAll() {
+        isAllSelected = !isAllSelected;
+
+        for (ScreenBit s : ScreenModel.getInstance().getAllScreenBits()) {
+            if (isAllSelected) {
+                btnSelectAll.setText("Deselect All");
+                if (!selectedScreens.contains(s)) {
+                    selectedScreens.add(s);
+                }
+            } else {
+                btnSelectAll.setText("Select All");
+                if (selectedScreens.contains(s)) {
+                    selectedScreens.remove(s);
+                }
+            }
+        }
+        if (isAllSelected) {
+            for (int i = 0; i < screenContainer.getChildren().size(); i++) {
+                Pane p = (Pane) screenContainer.getChildren().get(i);
+                FontAwesomeIconView f = (FontAwesomeIconView) p.getChildren().get(1);
+                f.setVisible(true);
+            }
+        } else {
+            for (int i = 0; i < screenContainer.getChildren().size(); i++) {
+                Pane p = (Pane) screenContainer.getChildren().get(i);
+                FontAwesomeIconView f = (FontAwesomeIconView) p.getChildren().get(1);
+                f.setVisible(false);
+            }
+        }
     }
 }
