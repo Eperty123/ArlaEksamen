@@ -211,7 +211,7 @@ public class MessageDAL {
                         "SET Message=?," +
                         "StartTime=?, " +
                             "EndTime=?, " +
-                            "TextColor=?" +
+                            "TextColor=? " +
                         "WHERE Id=?");
 
             pSql.setString(1, newMessage.getMessage());
@@ -219,6 +219,8 @@ public class MessageDAL {
             pSql.setTimestamp(3, Timestamp.valueOf(newMessage.getMessageEndTime()));
             pSql.setString(4, String.valueOf(newMessage.getTextColor()));
             pSql.setInt(5, oldMessage.getId());
+
+            pSql.executeUpdate();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

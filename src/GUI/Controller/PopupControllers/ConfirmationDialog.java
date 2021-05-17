@@ -1,23 +1,19 @@
 package GUI.Controller.PopupControllers;
 
-import GUI.Controller.AdminControllers.NewScreenController;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Optional;
 
 public class ConfirmationDialog extends Dialog<Boolean> {
 
@@ -30,7 +26,7 @@ public class ConfirmationDialog extends Dialog<Boolean> {
         var btnContinue = new ButtonType("Continue", ButtonBar.ButtonData.OK_DONE);
         var btnCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        getDialogPane().getButtonTypes().addAll(btnContinue,btnCancel);
+        getDialogPane().getButtonTypes().addAll(btnContinue, btnCancel);
 
         var continueBtn = (Button) getDialogPane().lookupButton(btnContinue);
         var cancelBtn = (Button) getDialogPane().lookupButton(btnCancel);
@@ -47,9 +43,9 @@ public class ConfirmationDialog extends Dialog<Boolean> {
 
             getDialogPane().setContent(root);
             //FIXME MEGET MEGET MEGET CRUDE Men det virker. FIX PLEASE
-            AnchorPane test = (AnchorPane) getDialogPane().getContent().getScene().getRoot().getChildrenUnmodifiable().get(getDialogPane().getContent().getScene().getRoot().getChildrenUnmodifiable().size()-1);
+            AnchorPane test = (AnchorPane) getDialogPane().getContent().getScene().getRoot().getChildrenUnmodifiable().get(getDialogPane().getContent().getScene().getRoot().getChildrenUnmodifiable().size() - 1);
             Pane test2 = (Pane) test.getChildren().get(0);
-            JFXTextArea textArea = (JFXTextArea) test2.getChildrenUnmodifiable().get(test2.getChildrenUnmodifiable().size()-1);
+            JFXTextArea textArea = (JFXTextArea) test2.getChildrenUnmodifiable().get(test2.getChildrenUnmodifiable().size() - 1);
 
             textArea.setText(text);
 
@@ -66,5 +62,23 @@ public class ConfirmationDialog extends Dialog<Boolean> {
         ConfirmationController controller = loader.getController();
 
         controller.setText(text);
+    }
+
+    /**
+     * Create a confirmation dialog with the specified message.
+     *
+     * @param message The message to show.
+     * @return Returns the selected choice.
+     */
+    public static boolean createConfirmationDialog(String message) {
+        try {
+            ConfirmationDialog confirmation = null;
+            confirmation = new ConfirmationDialog(message);
+            Optional<Boolean> result = confirmation.showAndWait();
+            return result.get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
