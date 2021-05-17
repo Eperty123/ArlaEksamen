@@ -38,8 +38,6 @@ public class AdminManagementController implements Initializable {
     private TableColumn<User, String> eLN;
     @FXML
     private TableColumn<User, String> eSN;
-    @FXML
-    private TableColumn<User, String> eD;
 
     private UserModel userModel = new UserModel();
     private SceneMover sceneMover = new SceneMover();
@@ -50,9 +48,8 @@ public class AdminManagementController implements Initializable {
         eID.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getId()));
         eFN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getFirstName()));
         eLN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getLastName()));
-        //eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreen().isEmpty() ? u.getValue().getAssignedScreen().get(0).getName() : "None"));
-        //eD.setCellValueFactory(new PropertyValueFactory<>("description"));
-
+        eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreensString().isEmpty() ? "None" : u.getValue().getAssignedScreensString()));
+        
         tblEmployees.setRowFactory(tv -> {
             TableRow<User> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
