@@ -14,10 +14,11 @@ public class MessageModel {
     private static MessageModel instance;
     private MessageManager messageManager;
 
+    private ObservableList<Message> allMessages;
 
     private MessageModel(){
         messageManager = new MessageManager();
-
+        allMessages = FXCollections.observableArrayList();
 
     }
 

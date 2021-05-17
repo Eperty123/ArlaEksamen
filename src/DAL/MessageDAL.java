@@ -60,6 +60,35 @@ public class MessageDAL {
         return messages;
     }
 
+    public void getScreenBitsMessages(ScreenBit screenBit)  {
+
+        try (Connection con = dbCon.getConnection()) {
+            PreparedStatement pSql = con.prepareStatement(
+                    "SELECT [Message].*, " +
+                            "ScreenMessage.ScreenId AS ScreenId " +
+                            "FROM Message " +
+                            "LEFT OUTER JOIN ScreenMessage " +
+                            "ON [Message].Id = ScreenMessage.MessageId");
+            pSql.execute();
+
+            ResultSet rs = pSql.getResultSet();
+
+            while (rs.next()) {
+                int id = rs.getInt("Id");
+                String message = rs.getString("Message");
+                LocalDateTime startTime = rs.getTimestamp("StartTime").toLocalDateTime();
+                LocalDateTime endTime = rs.getTimestamp("EndTime").toLocalDateTime();
+                Color textColor = Color.valueOf((rs.getString("TextColor")));
+                MessageType messageType = rs.getBoolean("MessageType") ? MessageType.Admin : MessageType.Manager;
+
+                Message newMessage = new Message(id, message, startTime, endTime, textColor, messageType);
+                screenBit.addMessage(newMessage);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
 
         try(Connection con = dbCon.getConnection()){

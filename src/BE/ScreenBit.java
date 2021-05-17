@@ -1,9 +1,11 @@
 package BE;
 
+import BLL.MessageSorter;
 import javafx.scene.layout.Pane;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class ScreenBit {
     private Pane pane;
     private List<Message> messages;
     private HashMap<LocalDateTime, Boolean> timeTable;
+
 
     public ScreenBit(String name) {
         this.name = name;
@@ -178,6 +181,36 @@ public class ScreenBit {
 
     public HashMap<LocalDateTime, Boolean> getTimeTable() {
         return timeTable;
+    }
+
+    public Message getCurrentMessage(){
+        for(Message m : messages){
+            if(m.getMessageType() == MessageType.Admin){
+                return m;
+            }
+            if(m.getMessageStartTime().isBefore(LocalDateTime.now())){
+                messages.remove(m);
+            }
+        }
+        Collections.sort(messages, new MessageSorter());
+        return messages.get(0);
+    }
+
+    public boolean isAvailable(LocalDateTime startTime, LocalDateTime endTime, int durationHours, int durationMinutes){
+
+        int endb = (endTime.getHour() * 2) + (endTime.getMinute()== 0 ? 0 : 1);
+        int startb = (startTime.getHour() * 2) + (startTime.getMinute()== 0 ? 0 : 1);
+        if(endTime.getDayOfMonth() > startTime.getDayOfMonth()){
+            endb += 48 * (endTime.getDayOfMonth() - startTime.getDayOfMonth());
+        }
+        int slotCount = endb - startb;
+        boolean isAvailable = true;
+        for(int i = 0; i < slotCount; i++){
+            if(!timeTable.get(startTime.plusMinutes(i * 30))){
+                return false;
+            }
+        }
+        return false;
     }
   
     @Override

@@ -45,14 +45,15 @@ public class JonasTest {
         Message msg = new Message( start, end, "testtesasdt", Color.AZURE, MessageType.Manager);
 
 
+
         for(ScreenBit s : screenBits){
             if(s.getId() == 1010){
-                screenDAL.loadScreenBitsMessages(s);
-                for(Message m : s.getMessages()){
-                    System.out.println(m.getMessage());
-                }
+                messageDAL.getScreenBitsMessages(s);
+                System.out.println(s.getCurrentMessage().getMessage());
             }
         }
+
+
 
 
 
