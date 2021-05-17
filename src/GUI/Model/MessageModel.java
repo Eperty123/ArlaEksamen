@@ -35,10 +35,13 @@ public class MessageModel {
 
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
         messageManager.addMessage(user, newMessage, assignedScreenBits);
+        allMessages.add(newMessage);
     }
 
     public void updateMessage(Message oldMessage, Message newMessage) {
         messageManager.updateMessage(oldMessage, newMessage);
+        allMessages.remove(oldMessage);
+        allMessages.add(newMessage);
     }
 
     public void loadUserMessages(User user) {

@@ -102,17 +102,17 @@ public class ManagerMessageController implements Initializable {
     }
 
     /**
-     * Handle any incoming changes to the User ObservableList and update the table.
+     * Handle any incoming changes to the Message ObservableList and update the table.
      */
     private void handleMessageUpdate() {
         currentUsersMessages.addListener((ListChangeListener<Message>) c -> {
 
             // Reload screens & clear messages.
-            clearMessageFields();
+            //clearMessageFields();
             loadAllScreens();
 
             // Now assign the table.
-            comingMessages.setItems(currentUsersMessages);
+            //comingMessages.setItems(currentUsersMessages);
         });
     }
 
@@ -233,13 +233,13 @@ public class ManagerMessageController implements Initializable {
 
             // Add the message to database.
             messageModel.addMessage(currentUser, newMessage, selectedScreens);
-
-            // Also add the message to the ObservableList to simulate an update.
-            currentUsersMessages.add(newMessage);
         } else {
-            messageModel.updateMessage(selectedMessage, newMessage);
+            var confirmUpdate = ConfirmationDialog.createConfirmationDialog("Are you sure you want to update the existing bug report?");
+            if (confirmUpdate) messageModel.updateMessage(selectedMessage, newMessage);
         }
 
+        // Then reload all the updated messages.
+        currentUsersMessages.setAll(messageModel.getAllUserMessages());
         sortMessagesByStartTime();
     }
 
