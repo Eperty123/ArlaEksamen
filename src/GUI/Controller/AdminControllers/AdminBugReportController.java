@@ -6,6 +6,7 @@ import BE.User;
 import BE.UserType;
 import GUI.Controller.CrudControllers.EditBugController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.BugModel;
 import GUI.Model.UserModel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -116,8 +117,29 @@ public class AdminBugReportController implements Initializable {
      * @throws IOException if it cannot find the FXML file in the ConfirmationDialog.
      */
     public void handleBugFixed() throws IOException {
-        Stage stage = new Stage();
+        if (tblBugs.getSelectionModel().getSelectedItem() != null) {
+            Stage fixBug = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUI/VIEW/PopUpViews/ConfirmBug.fxml"));
+            fixBug.setTitle("Fix Bug");
+            Parent root = (Parent) loader.load();
+            EditBugController editBugController = loader.getController();
 
+            Scene fixBugScene = new Scene(root);
+            sceneMover.move(fixBug, fixBugScene.getRoot());
+
+            editBugController.setData(tblBugs.getSelectionModel().getSelectedItem());
+
+            fixBug.getIcons().addAll(
+                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
+            fixBug.initStyle(StageStyle.UNDECORATED);
+            fixBug.setScene(fixBugScene);
+            fixBug.show();
+        }
     }
 
     /**
