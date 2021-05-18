@@ -18,7 +18,7 @@
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <JFXTextArea fx:id="textArea" editable="false" focusColor="#add8e5" layoutX="20.0" layoutY="39.0" prefHeight="122.0" prefWidth="264.0" styleClass="textarea" text="Pellentesque nec semper nulla. Vestibulum ac imperdiet nisl. Integer a risus id lorem laoreet efficitur eu eget risus. Integer ac condimentum augue. Donec at iaculis elit. Nullam euismod, lacus id mollis imperdiet, odio leo condimentum risus, sollicitudin maximus magna ex vitae diam. Mauris lacus nisi, lobortis non dapibus non, porttitor nec magna. Morbi at cursus lacus." unFocusColor="#add8e5" />
+            <JFXTextArea fx:id="textArea" editable="false" focusColor="#add8e5" layoutX="20.0" layoutY="39.0" prefHeight="122.0" prefWidth="264.0" styleClass="textarea" text="Pellentesque nec semper nulla. Vestibulum ac imperdiet nisl. Integer a risus id lorem laoreet efficitur eu eget risus. Integer ac condimentum augue. Donec at iaculis elit. Nullam euismod, lacus id mollis imperdiet, odio leo condimentum risus, sollicitudin maximus magna ex vitae diam. Mauris lacus nisi, lobortis non dapibus non, porttitor nec magna. Morbi at cursus lacus." unFocusColor="#add8e5" wrapText="true" />
          </children></Pane>
    </children>
 </AnchorPane>

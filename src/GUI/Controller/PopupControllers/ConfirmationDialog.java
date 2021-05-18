@@ -75,7 +75,7 @@ public class ConfirmationDialog extends Dialog<Boolean> {
             ConfirmationDialog confirmation = null;
             confirmation = new ConfirmationDialog(message);
             Optional<Boolean> result = confirmation.showAndWait();
-            return result.get();
+            return result.orElse(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
