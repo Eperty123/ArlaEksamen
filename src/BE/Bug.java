@@ -46,6 +46,16 @@ public class Bug {
         this.referencedScreen = referencedScreen;
     }
 
+    public Bug(int id, String description, String fixMessage, String dateReported, boolean bugResolved, User adminResponsible, ScreenBit referencedScreen) {
+        this.id = id;
+        this.description = description;
+        this.fixMessage = fixMessage;
+        this.dateReported = dateReported;
+        this.bugResolved = bugResolved;
+        this.adminResponsible = adminResponsible;
+        this.referencedScreen = referencedScreen;
+    }
+
     /**
      *  gets the description of the bug
      * @return the description string
@@ -174,6 +184,7 @@ public class Bug {
         return fixMessage;
     }
 
+
     public String getReferencedUser() {
         return referencedUser;
     }
@@ -181,4 +192,5 @@ public class Bug {
     public void setReferencedUser(String referencedUser) {
         this.referencedUser = referencedUser;
     }
+
 }

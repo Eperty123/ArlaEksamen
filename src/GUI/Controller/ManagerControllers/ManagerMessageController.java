@@ -2,26 +2,25 @@ package GUI.Controller.ManagerControllers;
 
 import BE.*;
 import BLL.LoginManager;
+import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.MessageModel;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTimePicker;
-import com.mysql.cj.result.LocalDateTimeValueFactory;
-import com.mysql.cj.result.LocalDateValueFactory;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -36,6 +35,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -69,34 +69,67 @@ public class ManagerMessageController implements Initializable {
     private User currentUser;
 
     private List<ScreenBit> selectedScreens = new ArrayList<>();
-    private List<Message> currentUsersMessages = new ArrayList<>();
-
+    private MessageModel messageModel = MessageModel.getInstance();
+    private ObservableList<Message> currentUsersMessages = FXCollections.observableArrayList();
+    private Message selectedMessage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timePicker.set24HourView(true);
-        //currentUsersMessages = MessageModel.getInstance().getUsersMessages(currentUser);
 
+        initializeTable();
+        handleMessageUpdate();
         setDurationChoiceBoxes();
-        UpdateUpCommingMessages();
-
-
         loadAllScreens();
+
+        // Set the Message Model's current user to be the one now. Needed in order to know which manager messages to load.
+        messageModel.loadUserMessages(currentUser);
+
+        // Then get all the user's (manager) messages.
+        currentUsersMessages.setAll(messageModel.getAllUserMessages());
+
+        // Sort the messages by start time (date & time reported).
+        sortMessagesByStartTime();
+
+        System.out.println(String.format("Manager message count: %d", currentUsersMessages.size()));
     }
 
-    private void UpdateUpCommingMessages() {
+    /**
+     * Sort the manager message list by the start time (date & time reported).
+     */
+    private void sortMessagesByStartTime() {
+        currentUsersMessages.sort(Comparator.comparing(Message::getMessageStartTime));
+    }
 
+    /**
+     * Handle any incoming changes to the Message ObservableList and update the table.
+     */
+    private void handleMessageUpdate() {
+        currentUsersMessages.addListener((ListChangeListener<Message>) c -> {
 
+            // Reload screens & clear messages.
+            //clearMessageFields();
+            loadAllScreens();
 
+            // Now assign the table.
+            //comingMessages.setItems(currentUsersMessages);
+        });
+    }
+
+    private void initializeTable() {
+        comingMessages.setItems(currentUsersMessages);
+        msgColumn.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getMessage()));
+        timeColumn.setCellValueFactory(u -> new ReadOnlyObjectWrapper(u.getValue().getMessageStartTime().toLocalTime()));
+        dateColumn.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getMessageStartTime().toLocalDate()));
     }
 
     private void setDurationChoiceBoxes() {
-        durationHoursChoice.setItems(FXCollections.observableArrayList(0,1,2,3,4,5,6,7,8));
+        durationHoursChoice.setItems(FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8));
         durationHoursChoice.setValue(0);
 
 
         durationMinutesChoice.setItems(FXCollections.observableArrayList(
-                0,30));
+                0, 30));
         durationMinutesChoice.setValue(0);
     }
 
@@ -192,12 +225,22 @@ public class ManagerMessageController implements Initializable {
     }
 
     public void handleSave() {
+
         Message newMessage = getMessage();
 
-        MessageModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
+        // If no previous message is selected, create new and add it to the database.
+        if (selectedMessage == null) {
 
-        clearMessageFields();
-        loadAllScreens();
+            // Add the message to database.
+            messageModel.addMessage(currentUser, newMessage, selectedScreens);
+        } else {
+            var confirmUpdate = ConfirmationDialog.createConfirmationDialog("Are you sure you want to update the existing bug report?");
+            if (confirmUpdate) messageModel.updateMessage(selectedMessage, newMessage);
+        }
+
+        // Then reload all the updated messages.
+        currentUsersMessages.setAll(messageModel.getAllUserMessages());
+        sortMessagesByStartTime();
     }
 
     private Message getMessage() {
@@ -213,6 +256,20 @@ public class ManagerMessageController implements Initializable {
         return newMessage;
     }
 
+    /**
+     * Load the selected Message's info.
+     *
+     * @param message The message to load.
+     */
+    private void loadSelectedMessage(Message message) {
+        if (message != null) {
+            messageArea.setText(message.getMessage());
+            datePicker.setValue(message.getMessageStartTime().toLocalDate());
+            timePicker.setValue(message.getMessageStartTime().toLocalTime());
+            colorPicker.setValue(message.getTextColor());
+        }
+    }
+
     private long getDurationMinutes() {
         return durationMinutesChoice.getSelectionModel().getSelectedItem();
     }
@@ -225,7 +282,7 @@ public class ManagerMessageController implements Initializable {
 
     }
 
-    private void clearMessageFields(){
+    private void clearMessageFields() {
         messageArea.clear();
         messageArea.setPromptText("Enter your message here...");
         colorPicker.setValue(Color.RED);
@@ -237,6 +294,16 @@ public class ManagerMessageController implements Initializable {
 
     public void showSelectedMessage(MouseEvent mouseEvent) {
 
-        messageArea.setText("hey");
+        selectedMessage = comingMessages.getSelectionModel().getSelectedItem();
+        if (selectedMessage != null) {
+            // If the user has written text in message that don't match the selected message, ask for confirmation
+            // to override the current data.
+            if (!messageArea.getText().equals(selectedMessage.getMessage()) && !messageArea.getText().isEmpty()) {
+
+                var confirmation = ConfirmationDialog.createConfirmationDialog("Do you really want to load the selected message? Your current message will be overridden.");
+                if (confirmation) loadSelectedMessage(selectedMessage);
+            } else if (messageArea.getText().isEmpty())
+                loadSelectedMessage(selectedMessage);
+        }
     }
 }

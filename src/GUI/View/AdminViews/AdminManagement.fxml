@@ -35,11 +35,10 @@
       </BorderPane>
       <TableView fx:id="tblEmployees" styleClass="tblUsers" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
         <columns>
-          <TableColumn fx:id="eID" prefWidth="103.99999749660492" text="Employee ID" />
-            <TableColumn fx:id="eFN" prefWidth="220.0" text="Employee First name" />
-            <TableColumn fx:id="eLN" prefWidth="287.33331298828125" text="Employee Last name" />
-            <TableColumn fx:id="eSN" prefWidth="125.33331298828125" text="Screen number" />
-            <TableColumn fx:id="eD" prefWidth="308.6666259765625" text="Description" />
+          <TableColumn fx:id="eID" editable="false" prefWidth="103.99999749660492" text="Employee ID" />
+            <TableColumn fx:id="eFN" editable="false" prefWidth="220.0" text="Employee First name" />
+            <TableColumn fx:id="eLN" editable="false" prefWidth="287.33331298828125" text="Employee Last name" />
+            <TableColumn fx:id="eSN" editable="false" prefWidth="350.0" text="Screen Names" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

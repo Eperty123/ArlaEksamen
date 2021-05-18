@@ -5,6 +5,7 @@ import BE.MessageType;
 import BE.ScreenBit;
 import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
+import GUI.Controller.PopupControllers.WarningController;
 import javafx.scene.paint.Color;
 
 import java.sql.*;
@@ -35,7 +36,8 @@ public class MessageDAL {
             }
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages " +
+                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
         return messages;
@@ -59,7 +61,8 @@ public class MessageDAL {
                 messages.add(getMessage(rs));
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages for the specified user" +
+                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
         return messages;
     }
@@ -132,7 +135,8 @@ public class MessageDAL {
             bookTimeSlots(con, newMessage, assignedScreenBits);
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to add a message " +
+                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
             // Creates associations between message and ScreenBit(s) in the ScreenMessage junction table.
             assignScreenBitMessages(user, newMessage, assignedScreenBits);
@@ -216,9 +220,11 @@ public class MessageDAL {
             pSql.executeBatch();
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to make an associtaion between " +
+                    "a list of screens and a message in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
+
 
     /**
      * Deletes a message from the database.
@@ -233,13 +239,13 @@ public class MessageDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Message WHERE Id=?");
             pSql.setInt(1, message.getId());
             pSql.execute();
-
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message " +
+                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
     }
-
+  
     /**
      * Deletes all association entries from the junction table ScreenMessage.
      *
@@ -279,7 +285,8 @@ public class MessageDAL {
             pSql.setInt(5, oldMessage.getId());
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to update a message " +
+                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 

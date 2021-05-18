@@ -3,6 +3,7 @@ package BE;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class User {
     private int id;
@@ -116,7 +117,7 @@ public class User {
     }
 
     public void setUserRole(int userRole) {
-        switch(userRole){
+        switch (userRole) {
             case 0:
                 this.userRole = UserType.Admin;
                 break;
@@ -131,9 +132,9 @@ public class User {
 
     }
 
-    public boolean hasScreenBitAssigned(ScreenBit screenBit){
-        for(ScreenBit s : this.assignedScreenBits){
-            if(s.getName().equals(screenBit.getName())){
+    public boolean hasScreenBitAssigned(ScreenBit screenBit) {
+        for (ScreenBit s : this.assignedScreenBits) {
+            if (s.getName().equals(screenBit.getName())) {
                 return true;
             }
         }
@@ -144,11 +145,17 @@ public class User {
         return assignedScreenBits;
     }
 
+    public String getAssignedScreensString() {
+        return getAssignedScreen().stream().map(ScreenBit::getName).collect(Collectors.joining(", "));
+    }
+
     public void addScreenAssignment(ScreenBit assignedScreenBit) {
         assignedScreenBits.add(assignedScreenBit);
     }
 
-    public void removeScreenAssignment(ScreenBit assignedScreenBit){assignedScreenBits.remove(assignedScreenBit);}
+    public void removeScreenAssignment(ScreenBit assignedScreenBit) {
+        assignedScreenBits.remove(assignedScreenBit);
+    }
 
     public String getUserName() {
         return userName;
@@ -168,6 +175,6 @@ public class User {
 
     @Override
     public String toString() {
-        return userName + " - " + firstName + " " +lastName;
+        return userName + " - " + firstName + " " + lastName;
     }
 }

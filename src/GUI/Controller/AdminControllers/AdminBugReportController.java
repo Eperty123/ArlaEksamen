@@ -5,6 +5,7 @@ import BE.SceneMover;
 import BE.User;
 import GUI.Controller.CrudControllers.EditBugController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.BugModel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ListChangeListener;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class AdminBugReportController implements Initializable {
     @FXML
@@ -113,17 +115,29 @@ public class AdminBugReportController implements Initializable {
      * @throws IOException if it cannot find the FXML file in the ConfirmationDialog.
      */
     public void handleBugFixed() throws IOException {
-        String text = "Are you sure you want to mark the currently selected bug as finished? \n\n" +
-                "This action is irreversible!";
-        ConfirmationDialog confirmationDialog = new ConfirmationDialog(text);
-        Optional<Boolean> result = confirmationDialog.showAndWait();
+        if (tblBugs.getSelectionModel().getSelectedItem() != null) {
+            Stage fixBug = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/GUI/VIEW/PopUpViews/ConfirmBug.fxml"));
+            fixBug.setTitle("Fix Bug");
+            Parent root = (Parent) loader.load();
+            EditBugController editBugController = loader.getController();
 
-        if (result.isPresent()) {
-            if (result.get()) {
-                bugModel.deleteBug(tblBugs.getSelectionModel().getSelectedItem());
-            }
+            Scene fixBugScene = new Scene(root);
+            sceneMover.move(fixBug, fixBugScene.getRoot());
+
+            editBugController.setData(tblBugs.getSelectionModel().getSelectedItem());
+
+            fixBug.getIcons().addAll(
+                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
+            fixBug.initStyle(StageStyle.UNDECORATED);
+            fixBug.setScene(fixBugScene);
+            fixBug.show();
         }
-
     }
 
     /**

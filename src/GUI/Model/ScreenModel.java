@@ -49,8 +49,6 @@ public class ScreenModel {
             screenManager.addScreenBit(newScreenBit);
             updateScreenBits();
         }
-        // TODO make GUI handle error ?
-
     }
 
     /**

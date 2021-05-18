@@ -11,12 +11,16 @@ public class MessageManager {
 
     private MessageDAL messageDAL;
 
-    public MessageManager(){
+    public MessageManager() {
         messageDAL = new MessageDAL();
     }
 
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
         messageDAL.addMessage(user, newMessage, assignedScreenBits);
+    }
+
+    public void updateMessage(Message oldMessage, Message newMessage) {
+        messageDAL.updateMessage(oldMessage, newMessage);
     }
 
     public List<Message> getUsersMessages(User user) {

@@ -1,14 +1,16 @@
 package GUI.Controller;
 
-import BE.SceneMover;
-import BE.ScreenBit;
-import BE.User;
+import BE.*;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.MessageModel;
+import GUI.Model.ScreenModel;
+import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXComboBox;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,14 +24,19 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import static BLL.DataNodes.ViewType.Image;
 
 public class EmployeeScreenController implements Initializable {
     @FXML
@@ -40,6 +47,8 @@ public class EmployeeScreenController implements Initializable {
     private TextArea txtMessage;
     @FXML
     private JFXComboBox<ScreenBit> comboScreens;
+    private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    private List<Message> userMessages = new ArrayList<>();
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -95,6 +104,31 @@ public class EmployeeScreenController implements Initializable {
                 }
             }
         });
+        autoUpdateMessageBox();
+    }
+
+    private void autoUpdateMessageBox() {
+        service.scheduleAtFixedRate(new Thread(() -> {
+            userMessages = MessageModel.getInstance().getUsersMessages(currentUser);
+            userMessages.forEach(message -> {
+                if (txtMessage.getText() == message.getMessage() || LocalDateTime.now().isAfter(message.getMessageStartTime()) || LocalDateTime.now().isBefore(message.getMessageEndTime())) {
+                    if (message.getMessageEndTime().isBefore(LocalDateTime.now())) ;
+                    //TODO couple up with delete message call from MessageModel
+                } else {
+                    String textColor = String.format("rgb( %s , %s , %s )",message.getTextColor().getRed()*255,message.getTextColor().getGreen()*255,message.getTextColor().getBlue()*255);
+                    String highLightTextFillColor = String.format("rgb( %s , %s , %s )",message.getTextColor().brighter().getRed()*255,message.getTextColor().brighter().getGreen()*255,message.getTextColor().brighter().getBlue()*255);
+                    String highLightColor = String.format("rgb( %s , %s , %s )",message.getTextColor().darker().getRed()*255,message.getTextColor().darker().getGreen()*255,message.getTextColor().darker().getBlue()*255);
+                    updateMessage(message,textColor,highLightTextFillColor,highLightColor);
+                }
+            });
+        }), 0, 5, TimeUnit.MINUTES);
+    }
+
+    private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {
+        Platform.runLater(new Thread(() -> {
+            txtMessage.setStyle(String.format("-fx-text-fill: %s; -fx-highlight-text-fill: %s; -fx-highlight-fill: %s;", textColor, highLightTextFillColor, hightLightColor));
+            txtMessage.setText(message.getMessage());
+        }));
     }
 
     private void displayNoScreenWarning() throws IOException {

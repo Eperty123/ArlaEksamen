@@ -2,6 +2,7 @@ package DAL;
 
 import BE.Bug;
 import DAL.DbConnector.DbConnectionHandler;
+import GUI.Controller.PopupControllers.WarningController;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class BugDAL {
             pSql.execute();
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a bug from " +
+                    "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -37,17 +39,18 @@ public class BugDAL {
     public void updateBug(Bug newBug, Bug oldBug) {
 
         try (Connection con = dbCon.getConnection()) {
+
             PreparedStatement pSql = con.prepareStatement("UPDATE Bug SET Description=?, ResolvedStatus=?, FixMessage=?, AssignedAdmin=? WHERE Id=?");
             pSql.setString(1, newBug.getDateReported());
             pSql.setInt(2, newBug.isBugResolved() ? 1 : 0);
             pSql.setString(3, newBug.getFixMessage());
             pSql.setInt(4, newBug.getAdminId());
             pSql.setInt(5, oldBug.getId());
-
             //System.out.println(String.format("Bug update status: %s", pSql.executeUpdate() != 0 ? "successful" : "failed"));
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to update a bug " +
+                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -69,7 +72,8 @@ public class BugDAL {
             pSql.execute();
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to add a bug " +
+                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -94,7 +98,8 @@ public class BugDAL {
                 allBugs.add(bug);
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to get all bugs from " +
+                    "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
         return allBugs;
     }

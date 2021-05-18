@@ -3,6 +3,7 @@ package DAL;
 import BE.ScreenBit;
 import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
+import GUI.Controller.PopupControllers.WarningController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,7 +50,8 @@ public class UserDAL {
                     addUsersAndScreenBits(allUsers, newUser, screenBit);
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to get all users " +
+                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
         return allUsers;
     }
@@ -72,7 +74,8 @@ public class UserDAL {
             pSql.execute();
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
+                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -96,7 +99,8 @@ public class UserDAL {
             pSql.execute();
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to update a user " +
+                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -115,7 +119,8 @@ public class UserDAL {
             pSql.execute();
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user " +
+                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
     }
@@ -158,7 +163,8 @@ public class UserDAL {
             pSql.execute();
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user - screen association " +
+                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
     }
