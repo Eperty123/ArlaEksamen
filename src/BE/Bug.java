@@ -13,8 +13,9 @@ public class Bug {
     private String fixMessage;
     private String dateReported;
     private boolean bugResolved;
-    private User adminResponsible;
-    private ScreenBit referencedScreen;
+    private int adminId;
+    private String referencedScreen;
+    private String referencedUser;
 
     public Bug() {
     }
@@ -22,40 +23,26 @@ public class Bug {
     public Bug(String description, String dateReported) {
         setDescription(description);
         setDateReported(dateReported);
-        adminResponsible = null;
+        adminId = 0;
     }
 
-    public Bug(int id, String description, String dateReported, User adminResponsible) {
-        setId(id);
-        setDescription(description);
-        setDateReported(dateReported);
-        setAdminResponsible(adminResponsible);
-    }
-
-    public Bug(int id, String description, String dateReported, int bugResolved, int userId, int screenId) {
-        setId(id);
-        setDescription(description);
-        setDateReported(dateReported);
-        setAdminResponsible(UserModel.getInstance().getUser(userId));
-        setBugResolved(bugResolved);
-        setReferencedScreen(ScreenModel.getInstance().getScreen(screenId));
-    }
-
-    public Bug(String description, String dateReported, int bugResolved, int userId, int screenId) {
-        this.description = description;
-        this.dateReported = dateReported;
-        setAdminResponsible(UserModel.getInstance().getUser(userId));
-        setBugResolved(bugResolved);
-        setReferencedScreen(ScreenModel.getInstance().getScreen(screenId));
-    }
-
-    public Bug(int id, String description, String fixMessage, String dateReported, boolean bugResolved, User adminResponsible, ScreenBit referencedScreen) {
+    public Bug(int id, String description, String fixMessage, String dateReported, boolean bugResolved, int adminId, String referencedScreen, String referencedUser) {
         this.id = id;
         this.description = description;
         this.fixMessage = fixMessage;
         this.dateReported = dateReported;
         this.bugResolved = bugResolved;
-        this.adminResponsible = adminResponsible;
+        this.adminId = adminId;
+        this.referencedScreen = referencedScreen;
+        this.referencedUser = referencedUser;
+    }
+
+    public Bug(int id, String description, String dateReported, boolean bugResolved, int adminId, String referencedScreen) {
+        this.id = id;
+        this.description = description;
+        this.dateReported = dateReported;
+        this.bugResolved = bugResolved;
+        this.adminId = adminId;
         this.referencedScreen = referencedScreen;
     }
 
@@ -79,16 +66,16 @@ public class Bug {
      * gets the admin responsible for fixing the bug
      * @return the user object for the admin responsible for fixing the bug.
      */
-    public User getAdminResponsible() {
-        return adminResponsible;
+    public int getAdminId() {
+        return adminId;
     }
 
     /**
      * Sets a user object to be responsible for fixing the bug.
-     * @param adminResponsible the admin responsible for fixing the bug.
+     * @param adminId the admin responsible for fixing the bug.
      */
-    public void setAdminResponsible(User adminResponsible) {
-        this.adminResponsible = adminResponsible;
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
     }
 
     /**
@@ -151,7 +138,7 @@ public class Bug {
      * Gets the ScreenBit the bug was reported on.
      * @return the ScreenBit the bug was reported on.
      */
-    public ScreenBit getReferencedScreen() {
+    public String getReferencedScreen() {
         return referencedScreen;
     }
 
@@ -159,7 +146,7 @@ public class Bug {
      * sets the ScreenBit the bug was reported on.
      * @param referencedScreen
      */
-    public void setReferencedScreen(ScreenBit referencedScreen) {
+    public void setReferencedScreen(String referencedScreen) {
         this.referencedScreen = referencedScreen;
     }
 
@@ -185,5 +172,13 @@ public class Bug {
 
     public String getFixMessage() {
         return fixMessage;
+    }
+
+    public String getReferencedUser() {
+        return referencedUser;
+    }
+
+    public void setReferencedUser(String referencedUser) {
+        this.referencedUser = referencedUser;
     }
 }

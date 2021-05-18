@@ -61,13 +61,14 @@ public class ResultSetParser {
 
         // Get Bug info from ResultSet
 
+        // TODO
         String description = rs.getString("Description");
-        String dateRegistered = rs.getString("DateRegistered");
+        String dateRegistered = String.valueOf(rs.getTimestamp("DateRegistered"));
         int bugId = rs.getInt("Id");
-        int resolved = rs.getInt("ResolvedStatus");
+        boolean resolvedStatus = rs.getBoolean("ResolvedStatus");
         int adminId = rs.getInt("UserId");
-        int screenId = rs.getInt("ScreenId");
+        String screenName = rs.getString("ScreenName");
 
-        return new Bug(bugId, description, dateRegistered, resolved, adminId, screenId);
+        return new Bug(bugId, description, dateRegistered, resolvedStatus, adminId, screenName);
     }
 }

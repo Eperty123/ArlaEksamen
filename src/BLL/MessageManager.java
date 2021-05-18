@@ -4,7 +4,6 @@ import BE.Message;
 import BE.ScreenBit;
 import BE.User;
 import DAL.MessageDAL;
-import javafx.stage.Screen;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class MessageManager {
         return messageDAL.getUsersMessages(user);
     }
 
-    public void getScreenBitsMessages(ScreenBit screen){
-        messageDAL.getScreenBitsMessages(screen);
+    public void loadScreenBitsMessages(ScreenBit screen){
+        messageDAL.loadScreenBitsMessages(screen);
     }
 }

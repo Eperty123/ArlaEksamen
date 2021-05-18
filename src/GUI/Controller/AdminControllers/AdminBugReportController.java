@@ -3,11 +3,9 @@ package GUI.Controller.AdminControllers;
 import BE.Bug;
 import BE.SceneMover;
 import BE.User;
-import BE.UserType;
 import GUI.Controller.CrudControllers.EditBugController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.BugModel;
-import GUI.Model.UserModel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -52,7 +50,7 @@ public class AdminBugReportController implements Initializable {
 
         bD.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDescription()));
         bDR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDateReported()));
-        bAR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getAdminResponsible()));
+        bAR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getAdminId()));
 
         tblBugs.setRowFactory(tv -> {
             TableRow<Bug> row = new TableRow<>();

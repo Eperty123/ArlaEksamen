@@ -16,7 +16,11 @@ public class MessageDAL {
 
     private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
 
-    // TODO
+    /**
+     * Retrieves all messages from the database.
+     *
+     * @return a list of all messages.
+     */
     public List<Message> getAllMessages() {
         List<Message> messages = new ArrayList<>();
 
@@ -25,16 +29,9 @@ public class MessageDAL {
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
-            while(rs.next()){
-                int id = rs.getInt("id");
-                String message = rs.getString("Message");
-                LocalDateTime startTime = rs.getTimestamp("StartTime").toLocalDateTime();
-                LocalDateTime endTime = rs.getTimestamp("EndTime").toLocalDateTime();
-                Color textColor = Color.valueOf((rs.getString("TextColor")));
-                MessageType messageType = rs.getBoolean("MessageType") ? MessageType.Admin : MessageType.Manager;
 
-                Message newMessage = new Message(id, message, startTime, endTime, textColor, messageType);
-                messages.add(newMessage);
+            while(rs.next()){
+                messages.add(getMessage(rs));
             }
 
         } catch (SQLException throwables) {
@@ -44,7 +41,11 @@ public class MessageDAL {
         return messages;
     }
 
-    // TODO
+    /**
+     * Retrieves a list of messages, specific to a user.
+     * @param user user who's messages are retrieved.
+     * @return List<Message>
+     */
     public List<Message> getUsersMessages(User user) {
         List<Message> messages = new ArrayList<>();
 
@@ -54,55 +55,65 @@ public class MessageDAL {
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
-
             while(rs.next()){
-                int id = rs.getInt("id");
-                String message = rs.getString("Message");
-                LocalDateTime startTime = rs.getTimestamp("StartTime").toLocalDateTime();
-                LocalDateTime endTime = rs.getTimestamp("EndTime").toLocalDateTime();
-                Color textColor = Color.valueOf((rs.getString("TextColor")));
-                MessageType messageType = rs.getBoolean("MessageType") ? MessageType.Admin : MessageType.Manager;
-
-                Message newMessage = new Message(id, message, startTime, endTime, textColor, messageType);
-                messages.add(newMessage);
+                messages.add(getMessage(rs));
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return messages;
     }
 
-    public void getScreenBitsMessages(ScreenBit screenBit)  {
+    /**
+     * Creates a Message object from a ResultSet row.
+     * @param rs
+     * @throws SQLException
+     */
+    private Message getMessage(ResultSet rs) throws SQLException {
+        int id = rs.getInt("id");
+        String message = rs.getString("Message");
+        LocalDateTime startTime = rs.getTimestamp("StartTime").toLocalDateTime();
+        LocalDateTime endTime = rs.getTimestamp("EndTime").toLocalDateTime();
+        Color textColor = Color.valueOf((rs.getString("TextColor")));
+        MessageType messageType = rs.getBoolean("MessageType") ? MessageType.Admin : MessageType.Manager;
+
+        Message newMessage = new Message(id, message, startTime, endTime, textColor, messageType);
+        return newMessage;
+    }
+
+    /**
+     * Retrieves all messages assigned to a ScreenBit, adds the messages to the ScreenBit instance.
+     *
+     * @param screenBit ScreenBit to
+     */
+    public void loadScreenBitsMessages(ScreenBit screenBit)  {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement(
-                    "SELECT [Message].*, " +
-                            "ScreenMessage.ScreenId AS ScreenId " +
-                            "FROM Message " +
-                            "LEFT OUTER JOIN ScreenMessage " +
-                            "ON [Message].Id = ScreenMessage.MessageId");
+             "SELECT [Message].*, " +
+                 "ScreenMessage.ScreenId AS ScreenId " +
+                 "FROM Message " +
+                 "LEFT OUTER JOIN ScreenMessage " +
+                 "ON [Message].Id = ScreenMessage.MessageId");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
-
             while (rs.next()) {
-                int id = rs.getInt("Id");
-                String message = rs.getString("Message");
-                LocalDateTime startTime = rs.getTimestamp("StartTime").toLocalDateTime();
-                LocalDateTime endTime = rs.getTimestamp("EndTime").toLocalDateTime();
-                Color textColor = Color.valueOf((rs.getString("TextColor")));
-                MessageType messageType = rs.getBoolean("MessageType") ? MessageType.Admin : MessageType.Manager;
-
-                Message newMessage = new Message(id, message, startTime, endTime, textColor, messageType);
-                screenBit.addMessage(newMessage);
+                screenBit.addMessage(getMessage(rs));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
+    /**
+     * Adds the new message to the database, books the relevant time slots in the ScreenBit(s) time table,
+     * and creates associations between the message and the ScreenBit(s) it is assigned to.
+     *
+     * @param user used to set the message's author in the database.
+     * @param newMessage Object containing the new message information.
+     * @param assignedScreenBits ScreenBit(s) to have the message assigned to it.
+     */
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
 
         try(Connection con = dbCon.getConnection()){
@@ -115,17 +126,27 @@ public class MessageDAL {
             pSql.setString(5, String.valueOf(newMessage.getTextColor()));
             pSql.setInt(6, newMessage.getMessageType().ordinal());
             pSql.setString(7, user.getUserName());
-
             pSql.execute();
 
+            // Toggle's the ScreenBits timetable, so that it is booked during the message's duration.
             bookTimeSlots(con, newMessage, assignedScreenBits);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+            // Creates associations between message and ScreenBit(s) in the ScreenMessage junction table.
             assignScreenBitMessages(user, newMessage, assignedScreenBits);
     }
 
+    /**
+     * A ScreenBit has a time table with possible time slots for a message to be displayed. When assigning a
+     * message, the time slots corresponding to the duration of the message will be set du "unavailable".
+     *
+     * @param con Connection to the database.
+     * @param newMessage Object
+     * @param assignedScreenBits
+     * @throws SQLException
+     */
     private void bookTimeSlots(Connection con, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
 
         List<LocalDateTime> timeSlots = getSlots(newMessage);
@@ -143,33 +164,45 @@ public class MessageDAL {
         pSql.executeBatch();
     }
 
-
+    /**
+     * Creates a list of LocalDateTime objects based on a message's start- and end-display time.
+     * This list is used to book specific slots in a ScreenBit's time table.
+     *
+     * @param newMessage object containing the LocalDateTime information.
+     * @return list of time slots to book.
+     */
     private List<LocalDateTime> getSlots(Message newMessage) {
         LocalDateTime start = newMessage.getMessageStartTime();
         LocalDateTime end = newMessage.getMessageEndTime();
         List<LocalDateTime> timeSlots = new ArrayList<>();
 
-
-        timeSlots.add(start);
-
-        //TODO explain better
-        // Get amount of 30 minute time slots to book
+        // Determine how many 30 minute time slots the LocalDateTime's represent.
+        // 14:30 would represent 29 slots for instance.
         int endb = (end.getHour() * 2) + (end.getMinute()== 0 ? 0 : 1);
         int startb = (start.getHour() * 2) + (start.getMinute()== 0 ? 0 : 1);
+
+        // If the message's end time is on a different day than the start time, the time slots are adjusted accordingly.
         if(end.getDayOfMonth() > start.getDayOfMonth()){
             endb += 48 * (end.getDayOfMonth() - start.getDayOfMonth());
         }
         int slotCount = endb - startb;
 
-        System.out.println("slotCount =" + slotCount);
-        for(int i = 1; i < slotCount; i++){
+        // Adding LocalDateTime objects with 30 minute increments (appropriate for the ScreenBit's time table.
+        for(int i = 0; i < slotCount; i++){
             timeSlots.add(start.plusMinutes(i * 30));
         }
-
         return timeSlots;
     }
 
-    // TODO NOT DONE
+    /**
+     * Creates an association between one or more ScreenBits, and a Message
+     * in the junction table ScreenMessage in the database. The method uses batches in case more than one ScreenBit
+     * has been assigned.
+     *
+     * @param user // TODO delete this param?
+     * @param message Object containing message information.
+     * @param assignedScreenBits List of ScreenBits to have the message assigned to them.
+     */
     private void assignScreenBitMessages(User user, Message message, List<ScreenBit> assignedScreenBits) {
         try(Connection con = dbCon.getConnection()){
 
@@ -187,10 +220,16 @@ public class MessageDAL {
         }
     }
 
-
+    /**
+     * Deletes a message from the database.
+     * @param message message to be deleted.
+     */
     public void deleteMessage(Message message) {
 
         try(Connection con = dbCon.getConnection()){
+            // Deletes all association entries from the junction table ScreenMessage.
+            deleteMessageScreenAssociation(con, message);
+
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Message WHERE Id=?");
             pSql.setInt(1, message.getId());
             pSql.execute();
@@ -201,7 +240,26 @@ public class MessageDAL {
 
     }
 
+    /**
+     * Deletes all association entries from the junction table ScreenMessage.
+     *
+     * @param con Connection to the database.
+     * @param message object containing the message Id, which is used in the query.
+     * @throws SQLException
+     */
+    private void deleteMessageScreenAssociation(Connection con, Message message) throws SQLException {
 
+        PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenMessage WHERE MessageId=?");
+        pSql.setInt(1, message.getId());
+        pSql.execute();
+    }
+
+    /**
+     * Updates an existing message in the database. Message, start- and end-time, and color can be changed
+     * by the client.
+     * @param oldMessage object containing the old message info for referencing the database.
+     * @param newMessage object containing the new message info for updating the database.
+     */
     public void updateMessage(Message oldMessage, Message newMessage) {
 
         try(Connection con = dbCon.getConnection()){
@@ -223,7 +281,6 @@ public class MessageDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
 
 

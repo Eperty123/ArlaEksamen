@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Searcher {
     private static ObservableList<User> OLUsersReturn = FXCollections.observableArrayList();
@@ -25,7 +24,7 @@ public class Searcher {
     public static ObservableList<Bug> searchBugs(List<Bug> currentList, String query) {
         OLBugReturn.clear();
         List<Bug> results = new ArrayList<>(currentList);
-        results.removeIf(bug -> !(bug.getAdminResponsible().getUserName().toLowerCase().contains(query.toLowerCase())
+        results.removeIf(bug -> !(bug.getAdminId().getUserName().toLowerCase().contains(query.toLowerCase())
                 || bug.getDateReported().toLowerCase().contains(query.toLowerCase())
                 || bug.getDescription().toLowerCase().contains(query.toLowerCase())));
 
