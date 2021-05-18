@@ -15,13 +15,9 @@ public class MessageModel {
     private MessageManager messageManager;
     private ObservableList<Message> allMessages;
 
-    private MessageModel() {
+    private MessageModel(){
         messageManager = new MessageManager();
         allMessages = FXCollections.observableArrayList();
-    }
-
-    public ObservableList<Message> getMessages() {
-        return allMessages;
     }
 
     /**

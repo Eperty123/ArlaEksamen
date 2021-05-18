@@ -26,10 +26,8 @@ public class ScreenDAL {
      * @param screenBit used to get the ScreenBit's id, which is used to identify the row to be deleted.
      */
     public void deleteScreenBit(ScreenBit screenBit) {
-        long t0 = System.currentTimeMillis();
+
         // First the ScreenBit is deleted from the ScreenRights junction table.
-
-
         try (Connection con = dbCon.getConnection()) {
             deleteScreenBitUserAssociations(con, screenBit);
             deleteScreenBitTimeTable(con,screenBit);
@@ -37,7 +35,6 @@ public class ScreenDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Screen WHERE Id=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
-            System.out.println("Exec time " + (System.currentTimeMillis()-t0));
 
         } catch (SQLException throwables) {
             WarningController.createWarning("Oh no! Something went wrong when attempting to delete the given screen " +
@@ -50,12 +47,10 @@ public class ScreenDAL {
         try {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenMessage WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
-            pSql.execute();
         }catch (SQLException throwables){
             WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message on the given screen " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-
 
     }
 
@@ -65,12 +60,11 @@ public class ScreenDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenTime WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
+
         }catch (SQLException throwables){
             WarningController.createWarning("Oh no! Something went wrong when attempting to delete a timetable on the given screen " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-
-
     }
 
     /**
@@ -79,17 +73,15 @@ public class ScreenDAL {
      * @param screenBit object containing information on which rows to be deleted from the  ScreenRights table.
      */
     private void deleteScreenBitUserAssociations(Connection con, ScreenBit screenBit) {
-
         try{
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
+
         } catch (SQLException throwables) {
             WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user - screen association" +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-
-
     }
 
     /**
@@ -131,9 +123,6 @@ public class ScreenDAL {
             WarningController.createWarning("Oh no! Something went wrong when attempting to add the given screen " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-
-
-
     }
 
     // TODO javadoc jonas
@@ -218,11 +207,6 @@ public class ScreenDAL {
         }
         return allScreens;
     }
-
-
-
-
-
 
     /**
      * Creates a row in the junction table ScreenRights in the database. An association in the ScreenRights table

@@ -27,7 +27,7 @@ public class MessageManager {
         return messageDAL.getUsersMessages(user);
     }
 
-    public void getScreenBitsMessages(ScreenBit screen) {
-        messageDAL.getScreenBitsMessages(screen);
+    public void loadScreenBitsMessages(ScreenBit screen){
+        messageDAL.loadScreenBitsMessages(screen);
     }
 }

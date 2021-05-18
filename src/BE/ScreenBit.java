@@ -160,8 +160,6 @@ public class ScreenBit {
         this.pane = pane;
     }
 
-
-
     // TODO Jonas javadoc
     public List<Message> getMessages() {
         return messages;
@@ -196,14 +194,32 @@ public class ScreenBit {
         return messages.get(0);
     }
 
+    // TODO bookTimeSlots()
+
+    /**
+     * This method analyses if a ScreenBit is available in the time frame specified
+     * by the startTime and endTime objects.
+     *
+     * @param startTime object defining when a message is supposed to be shown on the ScreenBit.
+     * @param endTime object defining when after a message should no longer be shown on the ScreenBit.
+     * @return true if ScreenBit is available in the specified time window, false if not.
+     */
     public boolean isAvailable(LocalDateTime startTime, LocalDateTime endTime){
 
+        // Determine how many 30 minute time slots the LocalDateTime's represent.
+        // 14:30 would represent 29 slots for instance.
         int endb = (endTime.getHour() * 2) + (endTime.getMinute()== 0 ? 0 : 1);
         int startb = (startTime.getHour() * 2) + (startTime.getMinute()== 0 ? 0 : 1);
+
+        // If the message's end time is on a different day than the start time, the time slots are adjusted accordingly.
         if(endTime.getDayOfMonth() > startTime.getDayOfMonth()){
             endb += 48 * (endTime.getDayOfMonth() - startTime.getDayOfMonth());
         }
         int slotCount = endb - startb;
+
+
+        // timeTable is a HashMap with a LocalDateTime object as key, and a boolean as value.
+        // If a time slot is booked, the boolean is set to false.
 
         for(int i = 0; i < slotCount; i++){
             if(!timeTable.get(startTime.plusMinutes(i * 30))){

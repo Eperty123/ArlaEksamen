@@ -2,10 +2,8 @@ package DAL;
 
 import BE.ScreenBit;
 import BE.User;
-import BE.UserType;
 import DAL.DbConnector.DbConnectionHandler;
 import GUI.Controller.PopupControllers.WarningController;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,12 +27,12 @@ public class UserDAL {
             PreparedStatement pSql = con.prepareStatement(
                     "SELECT" +
                     "[User].Id AS UserId," +
-                            "[User].FirstName," +
-                            "[User].LastName," +
-                            "[User].Email," +
-                            "[User].Password," +
-                            "[User].UserName," +
-                            "[User].UserRole ," +
+                    "[User].FirstName," +
+                    "[User].LastName," +
+                    "[User].Email," +
+                    "[User].Password," +
+                    "[User].UserName," +
+                    "[User].UserRole ," +
                     "Screen.Id AS ScreenId," +
                     "Screen.ScreenName," +
                     "Screen.ScreenInfo " +
@@ -46,28 +44,16 @@ public class UserDAL {
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
-
             while(rs.next()) {
                     User newUser = resultSetParser.getUser(rs);
-                    if(newUser.getUserRole() == UserType.Manager){
-                        loadManagerMessages(con, newUser);
-                    }
                     ScreenBit screenBit = resultSetParser.getScreenBit(rs);
                     addUsersAndScreenBits(allUsers, newUser, screenBit);
-
             }
-
         } catch (SQLException throwables) {
             WarningController.createWarning("Oh no! Something went wrong when attempting to get all users " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
         return allUsers;
-    }
-
-    private void loadManagerMessages(Connection con, User newUser) {
-
-        //PreparedStatement pSql = con.prepareStatement("SELECT FROM Messag")
-
     }
 
     /**
@@ -91,7 +77,6 @@ public class UserDAL {
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-
     }
 
     /**
@@ -125,7 +110,6 @@ public class UserDAL {
      * @param user object used to identify which row to delete in database.
      */
     public void deleteUser(User user) {
-
         // Deletes all User-Screen associations in the ScreenRights junction table.
         deleteUserScreenAssociation(user);
 

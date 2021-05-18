@@ -1,21 +1,15 @@
 package GUI.Controller.AdminControllers;
 
 import BE.Bug;
-import BE.ScreenBit;
 import BE.Searcher;
 import BE.User;
-import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.StageBuilder;
 import GUI.Model.BugModel;
-import GUI.Model.ScreenModel;
 import com.jfoenix.controls.JFXTextField;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,9 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AllBugsController implements Initializable {
@@ -59,7 +51,7 @@ public class AllBugsController implements Initializable {
 
         bD.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDescription()));
         bDR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDateReported()));
-        bAR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getAdminResponsible()));
+        bAR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getAdminId()));
     }
 
     public void setTitle(String title) {

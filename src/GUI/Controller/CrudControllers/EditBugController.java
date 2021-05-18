@@ -46,7 +46,7 @@ public class EditBugController implements Initializable {
             Bug newBug = new Bug();
             newBug.setId(selectedBug.getId());
             newBug.setDescription(selectedBug.getDescription());
-            newBug.setAdminResponsible(chsAdmin.getSelectionModel().getSelectedItem());
+            newBug.setAdminId(chsAdmin.getSelectionModel().getSelectedItem().getId());
             newBug.setReferencedScreen(selectedBug.getReferencedScreen());
 
             // Update the selected Bug report.
