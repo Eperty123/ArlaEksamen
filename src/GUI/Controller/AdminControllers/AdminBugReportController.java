@@ -4,10 +4,14 @@ import BE.Bug;
 import BE.SceneMover;
 import BE.User;
 import GUI.Controller.CrudControllers.EditBugController;
+import GUI.Controller.PopupControllers.BugReportController;
+import GUI.Controller.PopupControllers.ConfirmBugController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.BugModel;
+import GUI.Model.UserModel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,9 +30,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.Stack;
+import java.util.*;
 
 public class AdminBugReportController implements Initializable {
     @FXML
@@ -38,7 +40,7 @@ public class AdminBugReportController implements Initializable {
     @FXML
     private TableColumn<Bug, String> bDR;
     @FXML
-    private TableColumn<Bug, User> bAR;
+    private TableColumn<Bug, String> bAR;
 
     private BugModel bugModel = BugModel.getInstance();
     private SceneMover sceneMover = new SceneMover();
@@ -48,11 +50,14 @@ public class AdminBugReportController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set the table's content with the BugModel's.
-        tblBugs.setItems(bugs);
+        ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
+        allUnresolvedBugs.addAll(bugs);
+        allUnresolvedBugs.removeIf(Bug::isBugResolved);
+        tblBugs.setItems(allUnresolvedBugs);
 
         bD.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDescription()));
         bDR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDateReported()));
-        bAR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getAdminId()));
+        bAR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getAdminId() == 0 ? "None assigned" : getAdmin(b.getValue().getAdminId())));
 
         tblBugs.setRowFactory(tv -> {
             TableRow<Bug> row = new TableRow<>();
@@ -72,11 +77,25 @@ public class AdminBugReportController implements Initializable {
         handleBugUpdate();
     }
 
+
+    private String getAdmin(int id){
+        System.out.println(id);
+        for (User u : UserModel.getInstance().getAllUsers()){
+            if (u.getId() == id){
+                return u.getUserName();
+            }
+        }
+        return null;
+    }
+
     /**
      * Handle any incoming changes to the Bug ObservableList and update the table.
      */
     private void handleBugUpdate() {
         bugModel.getInstance().getAllBugs().addListener((ListChangeListener<Bug>) c -> {
+            List<Bug> allUnresolvedBugs = new ArrayList<>();
+            allUnresolvedBugs.addAll(bugs);
+            allUnresolvedBugs.removeIf(Bug::isBugResolved);
             tblBugs.setItems(bugs);
         });
     }
@@ -121,12 +140,11 @@ public class AdminBugReportController implements Initializable {
             loader.setLocation(getClass().getResource("/GUI/VIEW/PopUpViews/ConfirmBug.fxml"));
             fixBug.setTitle("Fix Bug");
             Parent root = (Parent) loader.load();
-            EditBugController editBugController = loader.getController();
+            ConfirmBugController bugFixController = loader.getController();
+            bugFixController.setSelectedBug(tblBugs.getSelectionModel().getSelectedItem());
 
             Scene fixBugScene = new Scene(root);
             sceneMover.move(fixBug, fixBugScene.getRoot());
-
-            editBugController.setData(tblBugs.getSelectionModel().getSelectedItem());
 
             fixBug.getIcons().addAll(
                     new Image("/GUI/Resources/AppIcons/icon16x16.png"),

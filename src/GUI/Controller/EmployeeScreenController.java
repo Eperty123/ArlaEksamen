@@ -6,6 +6,7 @@ import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.BugModel;
 import GUI.Model.MessageModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
@@ -30,6 +31,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -224,6 +227,10 @@ public class EmployeeScreenController implements Initializable {
 
         if (result.isPresent()) {
             if (!result.get().equals("CANCELED")) {
+                Bug newBug = new Bug(result.get(),Timestamp.valueOf(LocalDateTime.now()).toString());
+                newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem().getName());
+                newBug.setReferencedUser(currentUser.getUserName());
+                BugModel.getInstance().addBug(newBug);
                 //TODO Send ned til dal når det er lavet
                 System.out.println(result.get());
             }

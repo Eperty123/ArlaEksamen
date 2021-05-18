@@ -41,13 +41,12 @@ public class BugDAL {
         try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement("UPDATE Bug SET Description=?, ResolvedStatus=?, FixMessage=?, AssignedAdmin=? WHERE Id=?");
-            pSql.setString(1, newBug.getDateReported());
+            pSql.setString(1, newBug.getDescription());
             pSql.setInt(2, newBug.isBugResolved() ? 1 : 0);
-            pSql.setString(3, newBug.getFixMessage());
+            pSql.setString(3, newBug.getFixMessage().equalsIgnoreCase("No Fix Yet") ? "No Fix Yet" : newBug.getFixMessage());
             pSql.setInt(4, newBug.getAdminId());
             pSql.setInt(5, oldBug.getId());
-            //System.out.println(String.format("Bug update status: %s", pSql.executeUpdate() != 0 ? "successful" : "failed"));
-
+            pSql.executeUpdate();
         } catch (SQLException throwables) {
             WarningController.createWarning("Oh no! Something went wrong when attempting to update a bug " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
@@ -62,16 +61,19 @@ public class BugDAL {
     public void addBug(Bug newBug) {
 
         try (Connection con = dbCon.getConnection()) {
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO Bug VALUES(?,?,?,?,?,?)");
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO Bug VALUES(?,?,?,?,?,?,?)");
             pSql.setString(1, newBug.getDescription());
             pSql.setString(2, "No fix yet");
             pSql.setTimestamp(3, Timestamp.valueOf(newBug.getDateReported()));
             pSql.setString(4, newBug.getReferencedScreen());
             pSql.setString(5, newBug.getReferencedUser());
-            pSql.setInt(6, newBug.getAdminId());
+            pSql.setInt(6, newBug.getAdminId() != 0 ? newBug.getAdminId() : 0);
+            pSql.setInt(7,0);
             pSql.execute();
 
         } catch (SQLException throwables) {
+
+            System.out.println(throwables.toString());
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a bug " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
@@ -98,6 +100,7 @@ public class BugDAL {
                 allBugs.add(bug);
             }
         } catch (SQLException throwables) {
+            System.out.println(throwables.getMessage());
             WarningController.createWarning("Oh no! Something went wrong when attempting to get all bugs from " +
                     "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }

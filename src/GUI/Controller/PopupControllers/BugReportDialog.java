@@ -41,7 +41,7 @@ public class BugReportDialog extends Dialog<String> {
 
             getDialogPane().setContent(root);
 
-            setResultConverter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE ? controller.handleJa() : controller.handleNej());
+            setResultConverter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE ? controller.handleSave() : controller.handleCancel());
 
         } catch (IOException e) {
             e.printStackTrace();

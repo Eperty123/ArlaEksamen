@@ -5,8 +5,10 @@ import BE.Searcher;
 import BE.User;
 import GUI.Controller.StageBuilder;
 import GUI.Model.BugModel;
+import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,22 +38,38 @@ public class AllBugsController implements Initializable {
     @FXML
     private TableColumn<Bug,String> bDR;
     @FXML
-    private TableColumn<Bug, User> bAR;
+    private TableColumn<Bug, String> bAR;
+    @FXML
+    private TableColumn<Bug, String> bFM;
 
 
     private BugModel bugModel = BugModel.getInstance();
     private ObservableList<Bug> bugs = bugModel.getAllBugs();
+    ObservableList<Bug> allResolvedBugs = FXCollections.observableArrayList();
     private Boolean isMaximized = false;
     StageBuilder stageBuilder = new StageBuilder();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         lblTitle.setText("All fixed bugs");
-        tblBugs.setItems(bugs);
+        allResolvedBugs.addAll(bugs);
+        allResolvedBugs.removeIf(Bug -> !Bug.isBugResolved());
+        tblBugs.setItems(allResolvedBugs);
 
         bD.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDescription()));
+        bFM.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getFixMessage()));
         bDR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDateReported()));
-        bAR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getAdminId()));
+        bAR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getAdminId() == 0 ? "None assigned" : getAdmin(b.getValue().getAdminId())));
+    }
+
+    private String getAdmin(int id){
+        System.out.println(id);
+        for (User u : UserModel.getInstance().getAllUsers()){
+            if (u.getId() == id){
+                return u.getUserName();
+            }
+        }
+        return null;
     }
 
     public void setTitle(String title) {
@@ -81,7 +99,7 @@ public class AllBugsController implements Initializable {
 
     public void handleSearch(){
         if (!txtSearch.getText().isEmpty() || txtSearch.getText() != null && !tblBugs.getItems().isEmpty()) {
-            tblBugs.setItems(Searcher.searchBugs(bugs, txtSearch.getText()));
+            tblBugs.setItems(Searcher.searchBugs(allResolvedBugs, txtSearch.getText()));
         }
     }
 

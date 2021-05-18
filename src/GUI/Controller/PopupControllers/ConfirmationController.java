@@ -2,6 +2,7 @@ package GUI.Controller.PopupControllers;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -16,12 +17,11 @@ public class ConfirmationController {
         textArea.setText(text);
     }
 
-    public boolean handleJa(){
+    public boolean handleSave(){
         return true;
     }
 
-    public boolean handleNej(){
+    public boolean handleCancel(){
         return false;
     }
-
 }

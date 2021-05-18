@@ -437,4 +437,5 @@ POP UP
 
 .bugSearch{
     -fx-prompt-text-fill: white;
+    -fx-text-fill: white;
 }

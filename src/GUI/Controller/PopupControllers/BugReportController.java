@@ -1,6 +1,7 @@
 package GUI.Controller.PopupControllers;
 
 import com.jfoenix.controls.JFXTextArea;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 
@@ -10,12 +11,11 @@ public class BugReportController {
     @FXML
     private AnchorPane root;
 
-    public String handleJa(){
+    public String handleSave(){
         return textArea.getText();
     }
 
-    public String handleNej(){
+    public String handleCancel(){
         return "CANCELED";
     }
-
 }

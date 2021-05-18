@@ -46,13 +46,13 @@ public class Bug {
         this.referencedScreen = referencedScreen;
     }
 
-    public Bug(int id, String description, String fixMessage, String dateReported, boolean bugResolved, User adminResponsible, ScreenBit referencedScreen) {
+    public Bug(int id, String description, String fixMessage, String dateReported, boolean bugResolved, int adminId, String referencedScreen) {
         this.id = id;
         this.description = description;
         this.fixMessage = fixMessage;
         this.dateReported = dateReported;
         this.bugResolved = bugResolved;
-        this.adminResponsible = adminResponsible;
+        this.adminId = adminId;
         this.referencedScreen = referencedScreen;
     }
 

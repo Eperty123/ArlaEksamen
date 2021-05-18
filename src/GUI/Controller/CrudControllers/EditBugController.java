@@ -43,7 +43,7 @@ public class EditBugController implements Initializable {
         if (!chsAdmin.getSelectionModel().isEmpty()) {
 
             // Create a new Bug instance with updated values.
-            Bug newBug = new Bug();
+            Bug newBug = selectedBug;
             newBug.setId(selectedBug.getId());
             newBug.setDescription(selectedBug.getDescription());
             newBug.setAdminId(chsAdmin.getSelectionModel().getSelectedItem().getId());

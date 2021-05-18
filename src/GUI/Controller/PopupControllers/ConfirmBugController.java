@@ -27,7 +27,7 @@ public class ConfirmBugController {
         return textArea.getText();
     }
 
-    public void handleJa() throws IOException {
+    public void handleSave() throws IOException {
         ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to save this bug?\n\n" +
                 "The bug will be marked as resolved and will not be able to be editted");
 
@@ -36,6 +36,7 @@ public class ConfirmBugController {
             if (result.get()){
                 Bug updatedbug = selectedBug;
                 updatedbug.setFixMessage(getText());
+                updatedbug.setBugResolved(1);
 
                 BugModel.getInstance().updateBug(selectedBug,updatedbug);
 
@@ -45,7 +46,7 @@ public class ConfirmBugController {
         }
     }
 
-    public void handleNej() throws IOException {
+    public void handleCancel() throws IOException {
         ConfirmationDialog confirmationDialog = new ConfirmationDialog("Are you sure you want to cancel?\n\n" +
                 "The bug will not be marked as resolved");
 

@@ -49,7 +49,7 @@ public class ConfirmationDialog extends Dialog<Boolean> {
 
             textArea.setText(text);
 
-            setResultConverter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE ? controller.handleJa() : controller.handleNej());
+            setResultConverter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE ? controller.handleSave() : controller.handleCancel());
 
         } catch (IOException e) {
             e.printStackTrace();
