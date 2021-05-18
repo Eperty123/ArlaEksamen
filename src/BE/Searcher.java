@@ -28,7 +28,7 @@ public class Searcher {
         results.removeIf(bug -> !(bug.getDateReported().toLowerCase().contains(query.toLowerCase())
                 || bug.getDescription().toLowerCase().contains(query.toLowerCase())
                 || bug.getFixMessage().toLowerCase().contains(query.toLowerCase())));
-        
+
 
         OLBugReturn.addAll(results);
         return OLBugReturn;

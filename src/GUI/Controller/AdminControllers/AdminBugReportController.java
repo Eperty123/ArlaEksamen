@@ -79,7 +79,6 @@ public class AdminBugReportController implements Initializable {
 
 
     private String getAdmin(int id){
-        System.out.println(id);
         for (User u : UserModel.getInstance().getAllUsers()){
             if (u.getId() == id){
                 return u.getUserName();
@@ -93,10 +92,10 @@ public class AdminBugReportController implements Initializable {
      */
     private void handleBugUpdate() {
         bugModel.getInstance().getAllBugs().addListener((ListChangeListener<Bug>) c -> {
-            List<Bug> allUnresolvedBugs = new ArrayList<>();
+            ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
             allUnresolvedBugs.addAll(bugs);
             allUnresolvedBugs.removeIf(Bug::isBugResolved);
-            tblBugs.setItems(bugs);
+            tblBugs.setItems(allUnresolvedBugs);
         });
     }
 
