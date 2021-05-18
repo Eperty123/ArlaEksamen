@@ -1,5 +1,6 @@
 package GUI.Controller.ManagerControllers;
 
+import BE.Bug;
 import BE.SceneMover;
 import BE.ScreenBit;
 import BE.User;
@@ -9,6 +10,7 @@ import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Controller.StageBuilder;
+import GUI.Model.BugModel;
 import GUI.Model.ScreenModel;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.event.EventType;
@@ -28,6 +30,8 @@ import javafx.stage.StageStyle;
 import javax.swing.event.DocumentEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -52,6 +56,7 @@ public class ManagerScreenViewController implements Initializable {
             if (currentUser.getAssignedScreen().size() == 1) {
                 try {
                     setScreen(currentUser.getAssignedScreen().get(0));
+                    comboScreens.setValue(currentUser.getAssignedScreen().get(0));
                     lblBar.setText("Manager Screen - " + currentUser.getAssignedScreen().get(0).getName()+ " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
                 } catch (Exception e) {
@@ -158,8 +163,10 @@ public class ManagerScreenViewController implements Initializable {
 
         if (result.isPresent()){
             if (!result.get().equals("CANCELED")){
-                //TODO Send ned til dal når det er lavet
-                System.out.println(result.get());
+                Bug newBug = new Bug(result.get(), Timestamp.valueOf(LocalDateTime.now()).toString());
+                newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
+                newBug.setReferencedUser(currentUser.getUserName());
+                BugModel.getInstance().addBug(newBug);
             }
         }
     }

@@ -228,11 +228,9 @@ public class EmployeeScreenController implements Initializable {
         if (result.isPresent()) {
             if (!result.get().equals("CANCELED")) {
                 Bug newBug = new Bug(result.get(),Timestamp.valueOf(LocalDateTime.now()).toString());
-                newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem().getName());
+                newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
                 BugModel.getInstance().addBug(newBug);
-                //TODO Send ned til dal når det er lavet
-                System.out.println(result.get());
             }
         }
     }
