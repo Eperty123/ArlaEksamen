@@ -73,21 +73,10 @@ public class CSVParser implements IFileParser {
             this.csvReader = reader;
             parse();
         } catch (FileNotFoundException e) {
-            Stage stage1 = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/PopUpViews/Warning.fxml"));
 
-            try {
-                stage1.setScene(new Scene(fxmlLoader.load()));
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-
-            WarningController warningController = fxmlLoader.getController();
-            warningController.setText("Warning! Something went wrong trying to make the chart. \n\n" +
+            WarningController.createWarning("Warning! Something went wrong trying to make the chart. \n\n" +
                     "Please ensure the selected excel/csv/website/PDF file is valid or contact an admin");
-            stage1.initStyle(StageStyle.TRANSPARENT);
-            stage1.show();
-            stage1.setAlwaysOnTop(true);
+
         }
     }
 
@@ -121,9 +110,7 @@ public class CSVParser implements IFileParser {
                 }
                 setHeader(this.rows.get(0));
                 return (T) rows;
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (CsvException e) {
+            } catch (IOException | CsvException e) {
                 e.printStackTrace();
             }
         }

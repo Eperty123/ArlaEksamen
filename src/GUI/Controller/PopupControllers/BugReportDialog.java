@@ -44,7 +44,8 @@ public class BugReportDialog extends Dialog<String> {
             setResultConverter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE ? controller.handleSave() : controller.handleCancel());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong trying to load the " +
+                    "bug report view. It might be corrupted or lost.");
         }
     }
 }

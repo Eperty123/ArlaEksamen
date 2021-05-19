@@ -5,6 +5,7 @@ import BE.User;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
 import GUI.Controller.CrudControllers.RemoveEmployeeController;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.UserModel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ListChangeListener;
@@ -58,7 +59,8 @@ public class AdminManagementController implements Initializable {
                         try {
                             handleEditEmployee();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            WarningController.createWarning("Oh no! Something went wrong trying to load the " +
+                                    "admins edit employee view. It might be corrupted or lost.");
                         }
                     }
                 }

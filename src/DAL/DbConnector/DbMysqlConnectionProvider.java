@@ -1,5 +1,7 @@
 package DAL.DbConnector;
 
+import GUI.Controller.PopupControllers.WarningController;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -60,7 +62,8 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
                 return connect();
             return connection;
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong trying to reconnect to the Database." +
+                    " Please try again. If the problem persists, please contact an IT-Administrator");
         }
         return null;
     }
@@ -201,7 +204,8 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
                 setPort(Integer.parseInt(databaseFileProperties.getProperty("Port")));
 
             } catch (IOException e) {
-                e.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong trying to read the Database settings. " +
+                    "It might be corrupted or lost. Please try again. If the problem persists, please contact an IT-Administrator");
             }
         }
     }

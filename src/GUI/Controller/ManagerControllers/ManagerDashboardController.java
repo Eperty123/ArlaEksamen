@@ -5,6 +5,7 @@ import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import javafx.event.ActionEvent;
@@ -48,7 +49,9 @@ public class ManagerDashboardController implements Initializable {
         try {
             handleCreateMessage();
         } catch (IOException e) {
-            e.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong trying to read the Managers create message view." +
+                    " Please try again. If the problem persists, please contact an IT-Administrator");
+
         }
     }
 

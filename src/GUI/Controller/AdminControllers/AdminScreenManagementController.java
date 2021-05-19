@@ -4,6 +4,7 @@ import BE.SceneMover;
 import BE.ScreenBit;
 import BE.User;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -157,7 +158,8 @@ public class AdminScreenManagementController implements Initializable {
             try {
                 handleScreenCreator(screenBit);
             } catch (Exception e) {
-                e.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong trying to load the " +
+                        "screen creator view. It might be corrupted or lost.");
             }
         });
 
@@ -165,7 +167,8 @@ public class AdminScreenManagementController implements Initializable {
             try {
                 handleScreenCreator(screenBit);
             } catch (Exception e) {
-                e.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong trying to load the " +
+                        "screen creator view. It might be corrupted or lost.");
             }
         });
 
@@ -173,7 +176,8 @@ public class AdminScreenManagementController implements Initializable {
             try {
                 handleEditScreen(screenBit);
             } catch (Exception e) {
-                e.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong trying to load the " +
+                        "screen creator view. It might be corrupted or lost.");
             }
         });
 
@@ -181,7 +185,8 @@ public class AdminScreenManagementController implements Initializable {
             try {
                 handleRemove(screenBit);
             } catch (IOException e) {
-                e.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong trying to delete the " +
+                        "screen. It might not be able to find the confirmation dialog view.");
             }
         });
 
