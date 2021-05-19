@@ -5,6 +5,7 @@ import BE.ScreenBit;
 import BE.User;
 import DAL.MessageDAL;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageManager {
@@ -28,10 +29,25 @@ public class MessageManager {
     }
 
     public List<Message> getUsersMessages(User user) {
-        return messageDAL.getUsersMessages(user);
+        List<Message> tmp = new ArrayList<>();
+
+        if (user != null) {
+            user.getAssignedScreen().forEach(screenBit -> {
+                messageDAL.loadScreenBitsMessages(screenBit);
+            });
+            user.getAssignedScreen().forEach(screenBit -> screenBit.getMessages().forEach((msg) -> {
+                if (!tmp.contains(msg))
+                    tmp.add(msg);
+            }));
+        }
+        return tmp;
     }
 
-    public void loadScreenBitsMessages(ScreenBit screen){
+    public void loadScreenBitsMessages(ScreenBit screen) {
         messageDAL.loadScreenBitsMessages(screen);
+    }
+
+    public void deleteMessage(Message message) {
+        messageDAL.deleteMessage(message);
     }
 }
