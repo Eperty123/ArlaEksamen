@@ -306,4 +306,8 @@ public class ManagerMessageController implements Initializable {
                 loadSelectedMessage(selectedMessage);
         }
     }
+
+    public void handleRemoveMessage(){
+        MessageModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
+    }
 }

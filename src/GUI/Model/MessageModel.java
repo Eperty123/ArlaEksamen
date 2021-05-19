@@ -4,9 +4,14 @@ import BE.Message;
 import BE.ScreenBit;
 import BE.User;
 import BLL.MessageManager;
+import DAL.MessageDAL;
+import DAL.ScreenDAL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.swing.*;
+import java.lang.reflect.Method;
+import java.security.MessageDigest;
 import java.util.List;
 
 public class MessageModel {
@@ -32,6 +37,10 @@ public class MessageModel {
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
         messageManager.addMessage(user, newMessage, assignedScreenBits);
         allMessages.add(newMessage);
+    }
+
+    public void deleteMessage(Message message){
+        messageManager.deleteMessage(message);
     }
 
     public void updateMessage(Message oldMessage, Message newMessage) {

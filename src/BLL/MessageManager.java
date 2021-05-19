@@ -19,6 +19,10 @@ public class MessageManager {
         messageDAL.addMessage(user, newMessage, assignedScreenBits);
     }
 
+    public void deleteMessage(Message message){
+        messageDAL.deleteMessage(message);
+    }
+
     public void updateMessage(Message oldMessage, Message newMessage) {
         messageDAL.updateMessage(oldMessage, newMessage);
     }
