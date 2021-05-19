@@ -134,7 +134,6 @@ public class EmployeeScreenController implements Initializable {
 
     private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {
         Platform.runLater(new Thread(() -> {
-            System.out.println(message.getMessage());
             txtMessage.setStyle(String.format("-fx-text-fill: %s; -fx-highlight-text-fill: %s; -fx-highlight-fill: %s;", textColor, highLightTextFillColor, hightLightColor));
             txtMessage.setText(message.getMessage());
         }));
