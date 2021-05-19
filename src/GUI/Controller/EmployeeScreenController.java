@@ -38,6 +38,7 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static BLL.DataNodes.ViewType.Image;
 
@@ -112,23 +113,28 @@ public class EmployeeScreenController implements Initializable {
 
     private void autoUpdateMessageBox() {
         service.scheduleAtFixedRate(new Thread(() -> {
-            userMessages = MessageModel.getInstance().getUsersMessages(currentUser);
+            userMessages = new ArrayList<>(MessageModel.getInstance().getUsersMessages(currentUser));
+            userMessages.sort(Comparator.comparing(Message::getMessageStartTime));
+            AtomicReference<Message> messageAtomicReference = new AtomicReference<>();
             userMessages.forEach(message -> {
-                if (txtMessage.getText() == message.getMessage() || LocalDateTime.now().isAfter(message.getMessageStartTime()) || LocalDateTime.now().isBefore(message.getMessageEndTime())) {
+                if (txtMessage.getText() == message.getMessage() || LocalDateTime.now().isBefore(message.getMessageStartTime()) || LocalDateTime.now().isAfter(message.getMessageEndTime())) {
                     if (message.getMessageEndTime().isBefore(LocalDateTime.now())) ;
-                    //TODO couple up with delete message call from MessageModel
+                    MessageModel.getInstance().deleteMessage(message);
                 } else {
-                    String textColor = String.format("rgb( %s , %s , %s )",message.getTextColor().getRed()*255,message.getTextColor().getGreen()*255,message.getTextColor().getBlue()*255);
-                    String highLightTextFillColor = String.format("rgb( %s , %s , %s )",message.getTextColor().brighter().getRed()*255,message.getTextColor().brighter().getGreen()*255,message.getTextColor().brighter().getBlue()*255);
-                    String highLightColor = String.format("rgb( %s , %s , %s )",message.getTextColor().darker().getRed()*255,message.getTextColor().darker().getGreen()*255,message.getTextColor().darker().getBlue()*255);
-                    updateMessage(message,textColor,highLightTextFillColor,highLightColor);
+                    messageAtomicReference.set(message);
                 }
             });
-        }), 0, 5, TimeUnit.MINUTES);
+            Message message = messageAtomicReference.get();
+            String textColor = String.format("rgb( %s , %s , %s )",message.getTextColor().getRed()*255,message.getTextColor().getGreen()*255,message.getTextColor().getBlue()*255);
+            String highLightTextFillColor = String.format("rgb( %s , %s , %s )",message.getTextColor().brighter().getRed()*255,message.getTextColor().brighter().getGreen()*255,message.getTextColor().brighter().getBlue()*255);
+            String highLightColor = String.format("rgb( %s , %s , %s )",message.getTextColor().darker().getRed()*255,message.getTextColor().darker().getGreen()*255,message.getTextColor().darker().getBlue()*255);
+            updateMessage(message,textColor,highLightTextFillColor,highLightColor);
+        }), 0, 5, TimeUnit.SECONDS);
     }
 
     private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {
         Platform.runLater(new Thread(() -> {
+            System.out.println(message.getMessage());
             txtMessage.setStyle(String.format("-fx-text-fill: %s; -fx-highlight-text-fill: %s; -fx-highlight-fill: %s;", textColor, highLightTextFillColor, hightLightColor));
             txtMessage.setText(message.getMessage());
         }));
