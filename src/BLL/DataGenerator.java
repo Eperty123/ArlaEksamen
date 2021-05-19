@@ -2,6 +2,7 @@ package BLL;
 
 import DAL.Parser.CSVParser;
 import DAL.Parser.XLSXParser;
+import GUI.Controller.PopupControllers.WarningController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
@@ -270,7 +271,8 @@ public class DataGenerator {
             try {
                 series.getData().add(new XYChart.Data(data.get(i)[0], Double.parseDouble(data.get(i)[1])));
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong trying to create the chart data." +
+                        " Please try again. If the problem persists, please contact an IT-Administrator");
             }
         }
         return series;
@@ -291,7 +293,8 @@ public class DataGenerator {
             try {
                 series.getData().add(new XYChart.Data(Double.parseDouble(data.get(i)[0]), Double.parseDouble(data.get(i)[1])));
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong trying to create the chart data." +
+                        " Please try again. If the problem persists, please contact an IT-Administrator");
             }
         }
         return series;

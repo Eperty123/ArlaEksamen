@@ -1,5 +1,6 @@
 package GUI.Controller.AdminControllers;
 
+import GUI.Controller.PopupControllers.WarningController;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +45,8 @@ public class NewScreenDialog extends Dialog<String> {
             setResultConverter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE ? controller.handleContinue() : null);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong trying to load the " +
+                    "new screen view. It might be corrupted or lost.");
         }
     }
 }

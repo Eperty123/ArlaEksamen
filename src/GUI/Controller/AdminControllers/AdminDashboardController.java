@@ -4,6 +4,7 @@ import BE.SceneMover;
 import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.BugModel;
 import GUI.Model.MessageModel;
 import GUI.Model.ScreenModel;
@@ -54,7 +55,8 @@ public class AdminDashboardController implements Initializable {
         try {
             handleUserManagement();
         } catch (IOException e) {
-            e.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong trying to load the admins user management view." +
+                    " It might be corrupted or lost.");
         }
     }
 

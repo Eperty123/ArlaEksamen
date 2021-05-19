@@ -105,7 +105,8 @@ public class MessageDAL {
                 screenBit.addMessage(getMessage(rs));
             }
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong trying to load the messages for this screen. " +
+                    "Please try again. If the problem persists, please contact an IT-Administrator");
         }
     }
 

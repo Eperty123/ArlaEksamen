@@ -52,7 +52,8 @@ public class ConfirmationDialog extends Dialog<Boolean> {
             setResultConverter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE ? controller.handleSave() : controller.handleCancel());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong trying to load the " +
+                    "confirmation dialog view. It might be corrupted or lost.");
         }
     }
 

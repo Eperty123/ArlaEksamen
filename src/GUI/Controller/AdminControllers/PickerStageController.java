@@ -1,6 +1,7 @@
 package GUI.Controller.AdminControllers;
 
 import BE.MenuItemBit;
+import GUI.Controller.PopupControllers.WarningController;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
@@ -213,7 +214,8 @@ public class PickerStageController implements Initializable {
             }
             this.setContent(splitPane);
         } catch (IOException e) {
-            e.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong trying to load the " +
+                    "screen picker view. It might be corrupted or lost.");
         }
     }
 
@@ -249,7 +251,8 @@ public class PickerStageController implements Initializable {
             stage.show();
             return stage;
         } catch (IOException e) {
-            e.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong trying to load the " +
+                    "screen picker view. It might be corrupted or lost.");
         }
         return null;
     }

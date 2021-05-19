@@ -53,8 +53,6 @@ public class XLSXParser implements IFileParser {
             XSSFWorkbook myWorkBook = new XSSFWorkbook(fs);
             excelSheet = myWorkBook;
             parse();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

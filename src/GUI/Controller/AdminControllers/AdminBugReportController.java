@@ -67,7 +67,8 @@ public class AdminBugReportController implements Initializable {
                         try {
                             handleEditBug();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            WarningController.createWarning("Oh no! Something went wrong trying to load the admins bug report view." +
+                                    " It might be corrupted or lost.");
                         }
                     }
                 }
