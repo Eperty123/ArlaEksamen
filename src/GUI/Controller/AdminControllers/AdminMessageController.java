@@ -27,6 +27,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -75,6 +76,9 @@ public class AdminMessageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timePicker.set24HourView(true);
         //currentUsersMessages = MessageModel.getInstance().getUsersMessages(currentUser);
+
+        datePicker.setValue(LocalDate.now());
+        timePicker.setValue(LocalTime.now());
 
         setDurationChoiceBoxes();
         UpdateUpCommingMessages();
@@ -265,5 +269,9 @@ public class AdminMessageController implements Initializable {
                 f.setVisible(false);
             }
         }
+    }
+
+    public void handleDeleteMessage(){
+        MessageModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
     }
 }

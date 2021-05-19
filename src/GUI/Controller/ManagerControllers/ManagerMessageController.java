@@ -77,6 +77,9 @@ public class ManagerMessageController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timePicker.set24HourView(true);
 
+        datePicker.setValue(LocalDate.now());
+        timePicker.setValue(LocalTime.now());
+
         initializeTable();
         handleMessageUpdate();
         setDurationChoiceBoxes();
@@ -307,7 +310,7 @@ public class ManagerMessageController implements Initializable {
         }
     }
 
-    public void handleRemoveMessage(){
+    public void handleDeleteMessage(){
         MessageModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
     }
 }
