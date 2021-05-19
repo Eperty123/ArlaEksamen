@@ -61,4 +61,8 @@ public class MessageModel {
             System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
+
+    public void deleteMessage(Message message){
+        messageManager.deleteMessage(message);
+    }
 }
