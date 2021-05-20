@@ -71,7 +71,5 @@ public class MessageModel {
         }
     }
 
-    public void deleteMessage(Message message){
-        messageManager.deleteMessage(message);
-    }
+
 }

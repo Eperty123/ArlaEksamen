@@ -1,5 +1,6 @@
 package GUI.Controller.ManagerControllers;
 
+import BE.ClockCalender;
 import BE.SceneMover;
 import BE.ScreenBit;
 import BE.User;
@@ -36,6 +37,8 @@ public class ManagerDashboardController implements Initializable {
     private AnchorPane root;
     @FXML
     private BorderPane borderPane;
+    @FXML
+    private Label dateTimeLabel;
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -43,6 +46,7 @@ public class ManagerDashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
+        ClockCalender.initClock(dateTimeLabel);
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Manager Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
