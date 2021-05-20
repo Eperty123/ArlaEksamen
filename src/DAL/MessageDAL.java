@@ -36,7 +36,7 @@ public class MessageDAL {
             }
 
         } catch (SQLException throwables) {
-            throwables
+            throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages " +
                     "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
