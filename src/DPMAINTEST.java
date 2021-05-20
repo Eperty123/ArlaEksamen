@@ -1,4 +1,3 @@
-import BE.Clock;
 import GUI.Controller.StageBuilder;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Application;
@@ -24,7 +23,7 @@ public class DPMAINTEST extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        BorderPane borderPane = new BorderPane(new Clock());
+        BorderPane borderPane = new BorderPane();
         stage.setScene(new Scene(borderPane));
         stage.show();
 
