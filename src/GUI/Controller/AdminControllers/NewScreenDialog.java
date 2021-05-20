@@ -45,6 +45,7 @@ public class NewScreenDialog extends Dialog<String> {
             setResultConverter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE ? controller.handleContinue() : null);
 
         } catch (IOException e) {
+            e.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to load the " +
                     "new screen view. It might be corrupted or lost.");
         }

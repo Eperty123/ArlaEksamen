@@ -59,6 +59,7 @@ public class AdminManagementController implements Initializable {
                         try {
                             handleEditEmployee();
                         } catch (IOException e) {
+                            e.printStackTrace();
                             WarningController.createWarning("Oh no! Something went wrong trying to load the " +
                                     "admins edit employee view. It might be corrupted or lost.");
                         }

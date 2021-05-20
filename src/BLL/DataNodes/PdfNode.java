@@ -32,6 +32,7 @@ public class PdfNode implements IDataNode {
             pdfNode.setAccessibleText(ViewType.PDF.name() + String.format("=\"%s\"", file.getAbsolutePath()));
             return pdfNode;
         } catch (IOException e) {
+            e.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to read the PDF file." +
                     " The file may be corrupted or lost. " +
                     "Please try again. If the problem persists, please contact an IT-Administrator");

@@ -49,6 +49,7 @@ public class DbConnectionHandler {
             database.setPassword(databaseProperties.getProperty("Password"));
             database.setPort(Integer.parseInt(databaseProperties.getProperty("Port")));
         } catch (IOException e) {
+            e.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to read the Database settings." +
                     " Please try again. If the problem persists, please contact an IT-Administrator");
         }

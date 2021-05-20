@@ -158,6 +158,7 @@ public class AdminScreenManagementController implements Initializable {
             try {
                 handleScreenCreator(screenBit);
             } catch (Exception e) {
+                e.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong trying to load the " +
                         "screen creator view. It might be corrupted or lost.");
             }
@@ -167,6 +168,7 @@ public class AdminScreenManagementController implements Initializable {
             try {
                 handleScreenCreator(screenBit);
             } catch (Exception e) {
+                e.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong trying to load the " +
                         "screen creator view. It might be corrupted or lost.");
             }
@@ -176,6 +178,7 @@ public class AdminScreenManagementController implements Initializable {
             try {
                 handleEditScreen(screenBit);
             } catch (Exception e) {
+                e.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong trying to load the " +
                         "screen creator view. It might be corrupted or lost.");
             }
@@ -185,6 +188,7 @@ public class AdminScreenManagementController implements Initializable {
             try {
                 handleRemove(screenBit);
             } catch (IOException e) {
+                e.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong trying to delete the " +
                         "screen. It might not be able to find the confirmation dialog view.");
             }

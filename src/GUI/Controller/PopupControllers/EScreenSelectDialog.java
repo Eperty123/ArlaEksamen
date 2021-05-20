@@ -54,6 +54,7 @@ public class EScreenSelectDialog extends Dialog<ScreenBit> {
             setResultConverter(buttonType -> buttonType.getButtonData() == ButtonBar.ButtonData.OK_DONE ? controller.handleContinue() : controller.handleCancel());
 
         } catch (IOException e) {
+            e.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to load the " +
                     "employee screen selector view. It might be corrupted or lost.");
         }

@@ -50,6 +50,7 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
             connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", getHost(), getPort(), getDatabase()), getUser(), getPassword());
             System.out.println(String.format("[%s]: Successfully connected to database: %s!", this.getClass().getSimpleName(), getDatabase()));
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println(String.format("MySQL connect exception: %s", e.getMessage()));
         }
         return connection;
@@ -62,6 +63,7 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
                 return connect();
             return connection;
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to reconnect to the Database." +
                     " Please try again. If the problem persists, please contact an IT-Administrator");
         }
@@ -204,6 +206,7 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
                 setPort(Integer.parseInt(databaseFileProperties.getProperty("Port")));
 
             } catch (IOException e) {
+                e.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong trying to read the Database settings. " +
                     "It might be corrupted or lost. Please try again. If the problem persists, please contact an IT-Administrator");
             }

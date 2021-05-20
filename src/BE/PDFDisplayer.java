@@ -142,6 +142,8 @@ public class PDFDisplayer {
                 try {
                     webView.getEngine().executeScript(js);
                 } catch (Exception ex) {
+
+                    ex.printStackTrace();
                     if (!pdfJsLoaded) loadScript = js;
                 }
             }
@@ -171,6 +173,7 @@ public class PDFDisplayer {
         try {
             webView.getEngine().executeScript(js);
         } catch (Exception ex) {
+            ex.printStackTrace();
             if (!pdfJsLoaded) toExecuteWhenPDFJSLoaded += js;
         }
     }
@@ -193,6 +196,7 @@ public class PDFDisplayer {
         try {
             webView.getEngine().executeScript(css);
         } catch (Exception ex) {
+            ex.printStackTrace();
             if (!pdfJsLoaded) this.toExecuteWhenPDFJSLoaded += css;
         }
     }
@@ -206,6 +210,7 @@ public class PDFDisplayer {
         try {
             return (int) webView.getEngine().executeScript("PDFViewerApplication.page;");
         } catch (Exception e) {
+            e.printStackTrace();
             return 0;
         }
     }
@@ -219,6 +224,7 @@ public class PDFDisplayer {
         try {
             return (int) webView.getEngine().executeScript("PDFViewerApplication.pagesCount;");
         } catch (Exception e) {
+            e.printStackTrace();
             return 0;
         }
     }
@@ -233,6 +239,7 @@ public class PDFDisplayer {
         try {
             webView.getEngine().executeScript(jsCommand);
         } catch (Exception ex) {
+            ex.printStackTrace();
             if (!pdfJsLoaded) toExecuteWhenPDFJSLoaded += jsCommand;
         }
     }
@@ -246,6 +253,7 @@ public class PDFDisplayer {
         try {
             this.webView.getEngine().executeScript(js);
         } catch (Exception ex) {
+            ex.printStackTrace();
             if (!pdfJsLoaded) toExecuteWhenPDFJSLoaded += String.format("%s;", js);
         }
     }
@@ -290,6 +298,7 @@ public class PDFDisplayer {
                                         toExecuteWhenPDFJSLoaded = null;
                                         observable.removeListener(this);
                                     } catch (Exception e) {
+                                        e.printStackTrace();
                                         throw new RuntimeException(e);
                                     }
                                 }

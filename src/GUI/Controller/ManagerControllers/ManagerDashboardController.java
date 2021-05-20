@@ -53,6 +53,7 @@ public class ManagerDashboardController implements Initializable {
         try {
             handleCreateMessage();
         } catch (IOException e) {
+            e.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to read the Managers create message view." +
                     " Please try again. If the problem persists, please contact an IT-Administrator");
 

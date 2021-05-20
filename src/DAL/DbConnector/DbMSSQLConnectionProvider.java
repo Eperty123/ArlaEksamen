@@ -70,6 +70,7 @@ public class DbMSSQLConnectionProvider implements IDbConnectionProvider {
                 return connect();
             return ds.getConnection();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to reconnect to the Database." +
                     " Please try again. If the problem persists, please contact an IT-Administrator");
 
@@ -214,6 +215,7 @@ public class DbMSSQLConnectionProvider implements IDbConnectionProvider {
                 setPort(Integer.parseInt(databaseFileProperties.getProperty("Port")));
 
             } catch (IOException e) {
+                e.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong trying to read the Database settings. " +
                     "It might be corrupted or lost. Please try again. If the problem persists, please contact an IT-Administrator");
             }

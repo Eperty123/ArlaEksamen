@@ -36,6 +36,7 @@ public class MessageDAL {
             }
 
         } catch (SQLException throwables) {
+            throwables
             WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages " +
                     "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
@@ -61,6 +62,7 @@ public class MessageDAL {
                 messages.add(getMessage(rs));
             }
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages for the specified user" +
                     "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
@@ -105,6 +107,7 @@ public class MessageDAL {
                 screenBit.addMessage(getMessage(rs));
             }
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to load the messages for this screen. " +
                     "Please try again. If the problem persists, please contact an IT-Administrator");
         }
@@ -136,6 +139,7 @@ public class MessageDAL {
             bookTimeSlots(con, newMessage, assignedScreenBits);
 
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a message " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
@@ -221,6 +225,7 @@ public class MessageDAL {
             pSql.executeBatch();
 
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to make an associtaion between " +
                     "a list of screens and a message in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
@@ -241,6 +246,7 @@ public class MessageDAL {
             pSql.setInt(1, message.getId());
             pSql.execute();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message " +
                     "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
@@ -286,6 +292,7 @@ public class MessageDAL {
             pSql.setInt(5, oldMessage.getId());
 
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to update a message " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
