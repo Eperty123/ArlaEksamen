@@ -48,6 +48,8 @@ public class EmployeeScreenController implements Initializable {
     @FXML
     private Label lblBar;
     @FXML
+    private Label lblTime;
+    @FXML
     private TextArea txtMessage;
     @FXML
     private JFXComboBox<ScreenBit> comboScreens;
@@ -60,6 +62,7 @@ public class EmployeeScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
+        ClockCalender.initClock(lblTime);
 
         comboScreens.getItems().addAll(currentUser.getAssignedScreen());
 

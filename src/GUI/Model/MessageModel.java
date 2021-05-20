@@ -65,4 +65,8 @@ public class MessageModel {
             System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
+
+    public ObservableList<Message> getAllMessages(){
+        return messageManager.getAllMessages();
+    }
 }

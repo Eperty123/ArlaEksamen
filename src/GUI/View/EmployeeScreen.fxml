@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane fx:id="root" stylesheets="@../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.EmployeeScreenController">
    <center>
       <AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../Resources/Styles.css">
@@ -22,7 +21,10 @@
                <top>
                   <AnchorPane prefHeight="30.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
                      <children>
-                        <TextArea fx:id="txtMessage" editable="false" layoutY="-4.0" prefHeight="30.0" styleClass="message" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextArea fx:id="txtMessage" editable="false" layoutY="-4.0" prefHeight="30.0" styleClass="message" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <font>
+                              <Font size="16.0" />
+                           </font></TextArea>
                      </children>
                   </AnchorPane>
                </top>

@@ -65,6 +65,7 @@ public class AdminDashboardController implements Initializable {
         try {
             handleUserManagement();
         } catch (IOException e) {
+            e.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to load the admins user management view." +
                     " It might be corrupted or lost.");
         }

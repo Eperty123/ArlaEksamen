@@ -9,13 +9,13 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -27,12 +27,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -82,15 +80,17 @@ public class AdminMessageController implements Initializable {
         timePicker.setValue(LocalTime.now());
 
         setDurationChoiceBoxes();
-        UpdateUpCommingMessages();
+        UpdateUpcomingMessages();
 
+        msgColumn.setCellValueFactory((data)->new SimpleStringProperty(data.getValue().getMessage()));
+        timeColumn.setCellValueFactory((data)->new SimpleObjectProperty<LocalTime>(data.getValue().getMessageStartTime().toLocalTime()));
+        dateColumn.setCellValueFactory((data->new SimpleObjectProperty<LocalDate>(data.getValue().getMessageStartTime().toLocalDate())));
 
         loadAllScreens();
     }
 
-    private void UpdateUpCommingMessages() {
-
-
+    private void UpdateUpcomingMessages() {
+        comingMessages.setItems(MessageModel.getInstance().getAllMessages());
     }
 
     private void setDurationChoiceBoxes() {
@@ -192,7 +192,8 @@ public class AdminMessageController implements Initializable {
         screenBit.setPane(newPane);
     }
 
-    public void handleSave() {
+    @FXML
+    private void handleSave() {
         Message newMessage = getMessage();
 
         MessageModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
@@ -222,26 +223,41 @@ public class AdminMessageController implements Initializable {
         return durationHoursChoice.getSelectionModel().getSelectedItem();
     }
 
-    public void handleCancel() {
-
+    @FXML
+    private void handleCancel() {
+        messageArea.clear();
+        messageArea.setPromptText("Enter your message here...");
+        colorPicker.setValue(Color.WHITE);
+        datePicker.setValue(LocalDate.now());
+        timePicker.setValue(LocalTime.now());
+        durationHoursChoice.setValue(0);
+        durationMinutesChoice.setValue(0);
+        comingMessages.getSelectionModel().clearSelection();
     }
 
     private void clearMessageFields() {
         messageArea.clear();
         messageArea.setPromptText("Enter your message here...");
-        colorPicker.setValue(null);
-        datePicker.setValue(null);
-        timePicker.setValue(null);
+        colorPicker.setValue(Color.WHITE);
+        datePicker.setValue(LocalDate.now());
+        timePicker.setValue(LocalTime.now());
         durationHoursChoice.setValue(0);
         durationMinutesChoice.setValue(0);
     }
 
-    public void showSelectedMessage(MouseEvent mouseEvent) {
-
-        messageArea.setText("hey");
+    @FXML
+    private void showSelectedMessage(MouseEvent mouseEvent) {
+        Message msg = comingMessages.getSelectionModel().getSelectedItem();
+        if(msg!=null) {
+            messageArea.setText(msg.getMessage());
+            colorPicker.setValue(msg.getTextColor());
+            datePicker.setValue(msg.getMessageStartTime().toLocalDate());
+            timePicker.setValue(msg.getMessageStartTime().toLocalTime());
+        }
     }
 
-    public void handleSelectAll() {
+    @FXML
+    private void handleSelectAll() {
         isAllSelected = !isAllSelected;
 
         for (ScreenBit s : ScreenModel.getInstance().getAllScreenBits()) {
@@ -272,7 +288,8 @@ public class AdminMessageController implements Initializable {
         }
     }
 
-    public void handleDeleteMessage(){
+    @FXML
+    private void handleDeleteMessage(){
         MessageModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
     }
 }

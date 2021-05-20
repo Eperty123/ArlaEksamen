@@ -73,7 +73,7 @@ public class CSVParser implements IFileParser {
             this.csvReader = reader;
             parse();
         } catch (FileNotFoundException e) {
-
+            e.printStackTrace();
             WarningController.createWarning("Warning! Something went wrong trying to make the chart. \n\n" +
                     "Please ensure the selected excel/csv/website/PDF file is valid or contact an admin");
 

@@ -231,6 +231,12 @@ POP UP
 
 .message {
     -fx-background-color: #0d262e;
+    -fx-text-fill: white;
+}
+
+.message *.text{
+
+    -fx-text-alignment: CENTER;
 }
 
 .message .scroll-pane {
