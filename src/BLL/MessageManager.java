@@ -4,6 +4,8 @@ import BE.Message;
 import BE.ScreenBit;
 import BE.User;
 import DAL.MessageDAL;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +47,9 @@ public class MessageManager {
 
     public void loadScreenBitsMessages(ScreenBit screen) {
         messageDAL.loadScreenBitsMessages(screen);
+    }
+
+    public ObservableList<Message> getAllMessages() {
+        return FXCollections.observableArrayList(messageDAL.getAllMessages());
     }
 }
