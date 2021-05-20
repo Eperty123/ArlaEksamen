@@ -46,8 +46,4 @@ public class MessageManager {
     public void loadScreenBitsMessages(ScreenBit screen) {
         messageDAL.loadScreenBitsMessages(screen);
     }
-
-    public void deleteMessage(Message message) {
-        messageDAL.deleteMessage(message);
-    }
 }
