@@ -1,5 +1,6 @@
 package GUI.Controller.AdminControllers;
 
+import BE.ClockCalender;
 import BE.SceneMover;
 import BE.User;
 import BLL.LoginManager;
@@ -12,6 +13,9 @@ import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +28,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -41,6 +48,8 @@ public class AdminDashboardController implements Initializable {
     private BorderPane borderPane;
     @FXML
     private JFXButton btnSelectAll;
+    @FXML
+    private Label dateTimeLabel;
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -49,6 +58,7 @@ public class AdminDashboardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
+        ClockCalender.initClock(dateTimeLabel);
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
@@ -59,6 +69,9 @@ public class AdminDashboardController implements Initializable {
                     " It might be corrupted or lost.");
         }
     }
+
+
+
 
     public void handleUserManagement() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();

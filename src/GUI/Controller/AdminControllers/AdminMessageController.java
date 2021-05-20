@@ -75,6 +75,7 @@ public class AdminMessageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timePicker.set24HourView(true);
+        currentUser = LoginManager.getCurrentUser();
         //currentUsersMessages = MessageModel.getInstance().getUsersMessages(currentUser);
 
         datePicker.setValue(LocalDate.now());
