@@ -4,14 +4,9 @@ import BE.Message;
 import BE.ScreenBit;
 import BE.User;
 import BLL.MessageManager;
-import DAL.MessageDAL;
-import DAL.ScreenDAL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.swing.*;
-import java.lang.reflect.Method;
-import java.security.MessageDigest;
 import java.util.List;
 
 public class MessageModel {
@@ -69,9 +64,5 @@ public class MessageModel {
             instance = null;
             System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
-    }
-
-    public void deleteMessage(Message message){
-        messageManager.deleteMessage(message);
     }
 }

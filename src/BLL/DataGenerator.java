@@ -194,7 +194,7 @@ public class DataGenerator {
 
         // Hardcoded mock data to show.
         XYChart.Series<String, Number> series1 = getXYSeriesStringNumber(getParsedData("src/Resources/StackedAreaChart_mockData1.csv"), seriesHeader + "1");
-        XYChart.Series<String, Number> series2 = getXYSeriesStringNumber(getParsedData("src/Resources/StackedAreaChart_mockData2.csv"), seriesHeader + "2");
+        //XYChart.Series<String, Number> series2 = getXYSeriesStringNumber(getParsedData("src/Resources/StackedAreaChart_mockData2.csv"), seriesHeader + "2");
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -204,7 +204,7 @@ public class DataGenerator {
         stackedAreaChart.setTitle("Total Sales");
         stackedAreaChart.getData().add(series);
         stackedAreaChart.getData().add(series1);
-        stackedAreaChart.getData().add(series2);
+        //stackedAreaChart.getData().add(series2);
 
         return stackedAreaChart;
     }
@@ -271,6 +271,7 @@ public class DataGenerator {
             try {
                 series.getData().add(new XYChart.Data(data.get(i)[0], Double.parseDouble(data.get(i)[1])));
             } catch (NumberFormatException e) {
+                e.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong trying to create the chart data." +
                         " Please try again. If the problem persists, please contact an IT-Administrator");
             }
@@ -293,6 +294,7 @@ public class DataGenerator {
             try {
                 series.getData().add(new XYChart.Data(Double.parseDouble(data.get(i)[0]), Double.parseDouble(data.get(i)[1])));
             } catch (NumberFormatException e) {
+                e.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong trying to create the chart data." +
                         " Please try again. If the problem persists, please contact an IT-Administrator");
             }
