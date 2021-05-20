@@ -3,6 +3,7 @@ package GUI.Controller.ManagerControllers;
 import BE.*;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.MessageModel;
 import GUI.Model.ScreenModel;
 import com.jfoenix.controls.*;
@@ -352,6 +353,10 @@ public class ManagerMessageController implements Initializable {
     }
 
     public void handleDeleteMessage(){
-        MessageModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
+        if (comingMessages.getSelectionModel().getSelectedItem() != null) {
+            MessageModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
+        }else{
+            WarningController.createWarning("Please select a message to delete!");
+        }
     }
 }
