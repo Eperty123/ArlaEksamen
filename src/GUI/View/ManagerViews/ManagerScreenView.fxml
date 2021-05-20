@@ -3,23 +3,23 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.ManagerControllers.ManagerScreenViewController">
+<BorderPane fx:id="root" prefWidth="1280.0" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.ManagerControllers.ManagerScreenViewController">
    <center>
-      <AnchorPane prefHeight="720.0" prefWidth="1280.0">
+      <AnchorPane prefHeight="720.0">
          <children>
             <BorderPane fx:id="borderPane" style="-fx-background-color: #0d262e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <top>
-                  <AnchorPane prefHeight="30.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="30.0" BorderPane.alignment="CENTER">
                      <children>
                         <TextArea fx:id="txtMessage" editable="false" layoutY="-4.0" prefHeight="30.0" styleClass="message" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
@@ -34,9 +34,9 @@
          <children>
             <BorderPane maxHeight="25.0" minHeight="25.0" prefHeight="25.0" styleClass="adminDashboardBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <right>
-                  <BorderPane BorderPane.alignment="CENTER">
+                  <BorderPane BorderPane.alignment="CENTER_LEFT">
                      <center>
-                        <GridPane>
+                        <GridPane minWidth="75.0" BorderPane.alignment="CENTER_LEFT">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
@@ -65,17 +65,21 @@
                         </GridPane>
                      </center>
                      <left>
-                        <Pane prefHeight="25.0" prefWidth="381.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <JFXComboBox fx:id="comboScreens" focusColor="#94bdd3" layoutX="120.0" prefHeight="25.0" prefWidth="150.0" promptText="Screen" unFocusColor="#9f9f9f" />
-                              <JFXButton layoutX="280.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleBack" prefHeight="25.0" prefWidth="90.0" styleClass="employeeLogout" text="Back" />
-                              <Label layoutX="41.0" layoutY="4.0" text="Select Screen">
+                        <BorderPane minWidth="350.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+                           <left>
+                              <Label text="Select Screen" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="System Italic" size="12.0" />
                                  </font>
                               </Label>
-                           </children>
-                        </Pane>
+                           </left>
+                           <right>
+                              <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleBack" prefHeight="25.0" prefWidth="90.0" styleClass="employeeLogout" text="Back" BorderPane.alignment="CENTER" />
+                           </right>
+                           <center>
+                              <JFXComboBox fx:id="comboScreens" focusColor="#94bdd3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="Screen" unFocusColor="#9f9f9f" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
                      </left>
                   </BorderPane>
                </right>
@@ -83,12 +87,22 @@
                   <Label fx:id="lblBar" text="Admin Dashboard - Henrik Hansen" BorderPane.alignment="CENTER" />
                </center>
                <left>
-                  <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="240.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <JFXButton layoutX="150.0" onAction="#handleReportIssue" prefHeight="25.0" prefWidth="90.0" styleClass="SMButtons" text="Repport issue" />
-                        <Label fx:id="lblTime" layoutX="18.0" layoutY="4.0" text="Label" />
-                     </children>
-                  </Pane>
+                  <BorderPane prefHeight="25.0" prefWidth="240.0" BorderPane.alignment="CENTER_RIGHT">
+                     <right>
+                        <JFXButton onAction="#handleReportIssue" prefHeight="25.0" styleClass="SMButtons" text="Report issue" BorderPane.alignment="CENTER_RIGHT">
+                           <BorderPane.margin>
+                              <Insets right="5.0" />
+                           </BorderPane.margin>
+                        </JFXButton>
+                     </right>
+                     <left>
+                        <Label fx:id="lblTime" text="Label" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets left="5.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </left>
+                  </BorderPane>
                </left>
             </BorderPane>
          </children>
