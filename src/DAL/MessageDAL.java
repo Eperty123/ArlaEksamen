@@ -67,6 +67,25 @@ public class MessageDAL {
         return messages;
     }
 
+    public List<Message> getUsersMessages(String user) {
+        List<Message> messages = new ArrayList<>();
+
+        try(Connection con = dbCon.getConnection()){
+            PreparedStatement pSql = con.prepareStatement("SELECT * FROM Message WHERE Author=?");
+            pSql.setString(1, user);
+            pSql.execute();
+
+            ResultSet rs = pSql.getResultSet();
+            while(rs.next()){
+                messages.add(getMessage(rs));
+            }
+        } catch (SQLException throwables) {
+            WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages for the specified user" +
+                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+        }
+        return messages;
+    }
+
     /**
      * Creates a Message object from a ResultSet row.
      * @param rs

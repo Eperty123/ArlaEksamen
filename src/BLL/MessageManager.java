@@ -45,6 +45,11 @@ public class MessageManager {
         return tmp;
     }
 
+    public List<Message> getUsersMessages(String user) {
+        return messageDAL.getUsersMessages(user);
+    }
+
+
     public void loadScreenBitsMessages(ScreenBit screen) {
         messageDAL.loadScreenBitsMessages(screen);
     }
@@ -52,4 +57,6 @@ public class MessageManager {
     public ObservableList<Message> getAllMessages() {
         return FXCollections.observableArrayList(messageDAL.getAllMessages());
     }
+
+
 }

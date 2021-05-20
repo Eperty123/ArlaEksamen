@@ -75,7 +75,7 @@ public class ManagerMessageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
+        currentUsersMessages.addAll(MessageModel.getInstance().getAllUserMessages(currentUser.getUserName()));
         datePicker.setValue(LocalDate.now());
 
 

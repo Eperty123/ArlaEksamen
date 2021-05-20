@@ -69,4 +69,8 @@ public class MessageModel {
     public ObservableList<Message> getAllMessages(){
         return messageManager.getAllMessages();
     }
+
+    public List<Message> getAllUserMessages(String userName) {
+        return messageManager.getUsersMessages(userName);
+    }
 }
