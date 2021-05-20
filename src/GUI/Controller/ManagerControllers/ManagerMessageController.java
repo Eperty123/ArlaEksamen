@@ -4,10 +4,7 @@ import BE.*;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.MessageModel;
-import com.jfoenix.controls.JFXColorPicker;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
@@ -45,7 +42,9 @@ public class ManagerMessageController implements Initializable {
     @FXML
     private JFXDatePicker datePicker;
     @FXML
-    private JFXTimePicker timePicker;
+    private JFXComboBox hourBox;
+    @FXML
+    private JFXComboBox minuteBox;
     @FXML
     private JFXColorPicker colorPicker;
     @FXML
@@ -75,10 +74,10 @@ public class ManagerMessageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        timePicker.set24HourView(true);
 
+        currentUsersMessages.addAll(MessageModel.getInstance().getAllUserMessages(currentUser.getUserName()));
         datePicker.setValue(LocalDate.now());
-        timePicker.setValue(LocalTime.now());
+
 
         initializeTable();
         handleMessageUpdate();
@@ -127,9 +126,13 @@ public class ManagerMessageController implements Initializable {
     }
 
     private void setDurationChoiceBoxes() {
+        hourBox.setItems(FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24));
+        minuteBox.setItems(FXCollections.observableArrayList(
+                0, 30));
         durationHoursChoice.setItems(FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8));
         durationHoursChoice.setValue(0);
-
+        hourBox.setValue(LocalTime.now().getHour());
+        minuteBox.setValue(0);
 
         durationMinutesChoice.setItems(FXCollections.observableArrayList(
                 0, 30));
@@ -249,7 +252,7 @@ public class ManagerMessageController implements Initializable {
     private Message getMessage() {
         String message = messageArea.getText();
         Color color = colorPicker.getValue();
-        LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), timePicker.getValue());
+        LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), LocalTime.of(hourBox.getSelectionModel().getSelectedIndex(), minuteBox.getSelectionModel().getSelectedIndex()));
         System.out.println(getDurationHours());
         System.out.println(getDurationMinutes());
         LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
@@ -268,7 +271,8 @@ public class ManagerMessageController implements Initializable {
         if (message != null) {
             messageArea.setText(message.getMessage());
             datePicker.setValue(message.getMessageStartTime().toLocalDate());
-            timePicker.setValue(message.getMessageStartTime().toLocalTime());
+            hourBox.setValue(message.getMessageStartTime().getHour());
+            minuteBox.setValue(0);
             colorPicker.setValue(message.getTextColor());
         }
     }
@@ -290,7 +294,8 @@ public class ManagerMessageController implements Initializable {
         messageArea.setPromptText("Enter your message here...");
         colorPicker.setValue(Color.WHITE);
         datePicker.setValue(LocalDate.now());
-        timePicker.setValue(LocalTime.now());
+        hourBox.setValue(LocalTime.now().getHour());
+        minuteBox.setValue(0);
         durationHoursChoice.setValue(0);
         durationMinutesChoice.setValue(0);
     }
