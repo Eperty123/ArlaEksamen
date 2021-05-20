@@ -388,6 +388,10 @@ POP UP
     CHART STYLES
  */
 
+.chart{
+    -fx-background-color: #0d262e;
+}
+
 .chart-title {
     -fx-text-fill: white;
 }
