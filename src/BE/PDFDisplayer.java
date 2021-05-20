@@ -265,6 +265,7 @@ public class PDFDisplayer {
 
         engine.setJavaScriptEnabled(true);
         engine.load(url);
+        System.out.println(url);
 
 
         engine.getLoadWorker()
