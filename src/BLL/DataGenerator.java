@@ -73,7 +73,7 @@ public class DataGenerator {
      */
     public static ScatterChart<String, Number> getScatterChart(String filename) {
 
-        String seriesHeader = "Units Produced Pr. Hour";
+        String seriesHeader = "Temperature Pr. Hour";
         XYChart.Series<String, Number> series = getXYSeriesStringNumber(getParsedData(filename), seriesHeader);
 
         CategoryAxis xAxis = new CategoryAxis();
@@ -81,7 +81,7 @@ public class DataGenerator {
         ScatterChart<String, Number> scatterChart = new ScatterChart<>(xAxis, yAxis);
 
         // TODO: Add proper title.
-        scatterChart.setTitle(seriesHeader);
+        scatterChart.setTitle("Max Temperature");
         scatterChart.getData().add(series);
 
         return scatterChart;
@@ -91,7 +91,7 @@ public class DataGenerator {
      * This method creates a BubbleChart with String values on the x-axis, and Number values on the y-axis.
      *
      * @param filename file to be parsed by getParsedData() method.
-     * @return ScatterChart
+     * @return BubbleChart
      */
     public static BubbleChart<Number, Number> getBubbleChart(String filename) {
 
@@ -113,7 +113,7 @@ public class DataGenerator {
      * This method creates a AreaChart with String values on the x-axis, and Number values on the y-axis.
      *
      * @param filename file to be parsed by getParsedData() method.
-     * @return ScatterChart
+     * @return AreaChart
      */
     public static AreaChart<String, Number> getAreaChart(String filename) {
 
@@ -135,7 +135,7 @@ public class DataGenerator {
      * This method creates a LineChart with String values on the x-axis, and Number values on the y-axis.
      *
      * @param filename file to be parsed by getParsedData() method.
-     * @return ScatterChart
+     * @return LineChart
      */
     public static LineChart<String, Number> getLineChart(String filename) {
 
@@ -157,7 +157,7 @@ public class DataGenerator {
      * This method creates a StackedBarChart with String values on the x-axis, and Number values on the y-axis.
      *
      * @param filename file to be parsed by getParsedData() method.
-     * @return ScatterChart
+     * @return StackedBarChart
      */
     public static StackedBarChart<String, Number> getStackedBarChart(String filename) {
 
@@ -185,7 +185,7 @@ public class DataGenerator {
      * This method creates a StackedAreaChart with String values on the x-axis, and Number values on the y-axis.
      *
      * @param filename file to be parsed by getParsedData() method.
-     * @return ScatterChart
+     * @return StackedAreaChart
      */
     public static StackedAreaChart<String, Number> getStackedAreaChart(String filename) {
 

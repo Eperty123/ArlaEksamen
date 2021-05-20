@@ -13,8 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tooltip;
-import javafx.scene.input.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -283,6 +283,7 @@ public class PickerStageController implements Initializable {
      * @param node The node you want it to show
      */
     public void setContent(Node node) {
+        //root.setStyle("src/GUI/Resources/Styles.css");
         root.setCenter(node);
     }
 
