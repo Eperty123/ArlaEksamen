@@ -167,6 +167,8 @@ public class ManagerScreenViewController implements Initializable {
                 newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
                 BugModel.getInstance().addBug(newBug);
+                WarningController.createWarning("Report Send!","Bug report successfully send, " +
+                        "thank you for helping improving this program!");
             }
         }
     }
