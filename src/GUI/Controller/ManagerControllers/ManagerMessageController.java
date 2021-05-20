@@ -4,6 +4,7 @@ import BE.*;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.MessageModel;
+import GUI.Model.ScreenModel;
 import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -52,9 +53,9 @@ public class ManagerMessageController implements Initializable {
     @FXML
     private JFXTextArea messageArea;
     @FXML
-    private ChoiceBox<Integer> durationHoursChoice;
+    private JFXComboBox<Integer> durationHoursChoice;
     @FXML
-    private ChoiceBox<Integer> durationMinutesChoice;
+    private JFXComboBox<Integer> durationMinutesChoice;
     @FXML
     private TableView<Message> comingMessages;
     @FXML
@@ -63,6 +64,8 @@ public class ManagerMessageController implements Initializable {
     private TableColumn<Message, LocalTime> timeColumn;
     @FXML
     private TableColumn<Message, LocalDate> dateColumn;
+    @FXML
+    private JFXButton btnSelectAll;
 
 
     private User currentUser;
@@ -71,10 +74,11 @@ public class ManagerMessageController implements Initializable {
     private MessageModel messageModel = MessageModel.getInstance();
     private ObservableList<Message> currentUsersMessages = FXCollections.observableArrayList();
     private Message selectedMessage;
+    private Boolean isAllSelected = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        currentUser = LoginManager.getCurrentUser();
         currentUsersMessages.addAll(MessageModel.getInstance().getAllUserMessages(currentUser.getUserName()));
         datePicker.setValue(LocalDate.now());
 
@@ -298,6 +302,38 @@ public class ManagerMessageController implements Initializable {
         minuteBox.setValue(0);
         durationHoursChoice.setValue(0);
         durationMinutesChoice.setValue(0);
+    }
+
+    @FXML
+    private void handleSelectAll() {
+        isAllSelected = !isAllSelected;
+
+        for (ScreenBit s : ScreenModel.getInstance().getAllScreenBits()) {
+            if (isAllSelected) {
+                btnSelectAll.setText("Deselect All");
+                if (!selectedScreens.contains(s)) {
+                    selectedScreens.add(s);
+                }
+            } else {
+                btnSelectAll.setText("Select All");
+                if (selectedScreens.contains(s)) {
+                    selectedScreens.remove(s);
+                }
+            }
+        }
+        if (isAllSelected) {
+            for (int i = 0; i < screenContainer.getChildren().size(); i++) {
+                Pane p = (Pane) screenContainer.getChildren().get(i);
+                FontAwesomeIconView f = (FontAwesomeIconView) p.getChildren().get(1);
+                f.setVisible(true);
+            }
+        } else {
+            for (int i = 0; i < screenContainer.getChildren().size(); i++) {
+                Pane p = (Pane) screenContainer.getChildren().get(i);
+                FontAwesomeIconView f = (FontAwesomeIconView) p.getChildren().get(1);
+                f.setVisible(false);
+            }
+        }
     }
 
     public void showSelectedMessage(MouseEvent mouseEvent) {

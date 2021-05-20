@@ -1,9 +1,6 @@
 package GUI.Controller.ManagerControllers;
 
-import BE.Bug;
-import BE.SceneMover;
-import BE.ScreenBit;
-import BE.User;
+import BE.*;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
@@ -42,6 +39,8 @@ public class ManagerScreenViewController implements Initializable {
     private JFXComboBox<ScreenBit> comboScreens;
     @FXML
     private Label lblBar;
+    @FXML
+    private Label lblTime;
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -50,6 +49,7 @@ public class ManagerScreenViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
+        ClockCalender.initClock(lblTime);
 
         comboScreens.getItems().addAll(currentUser.getAssignedScreen());
         if (!currentUser.getAssignedScreen().isEmpty()) {
