@@ -121,14 +121,15 @@ public class EmployeeScreenController implements Initializable {
                     if (message.getMessageEndTime().isBefore(LocalDateTime.now())) ;
                     MessageModel.getInstance().deleteMessage(message);
                 } else {
-                    messageAtomicReference.set(message);
+                    if (messageAtomicReference.get() == null || messageAtomicReference.get().getMessageType() != MessageType.Admin || message.getMessageType()==MessageType.Admin)
+                        messageAtomicReference.set(message);
                 }
             });
             Message message = messageAtomicReference.get();
-            String textColor = String.format("rgb( %s , %s , %s )",message.getTextColor().getRed()*255,message.getTextColor().getGreen()*255,message.getTextColor().getBlue()*255);
-            String highLightTextFillColor = String.format("rgb( %s , %s , %s )",message.getTextColor().brighter().getRed()*255,message.getTextColor().brighter().getGreen()*255,message.getTextColor().brighter().getBlue()*255);
-            String highLightColor = String.format("rgb( %s , %s , %s )",message.getTextColor().darker().getRed()*255,message.getTextColor().darker().getGreen()*255,message.getTextColor().darker().getBlue()*255);
-            updateMessage(message,textColor,highLightTextFillColor,highLightColor);
+            String textColor = String.format("rgb( %s , %s , %s )", message.getTextColor().getRed() * 255, message.getTextColor().getGreen() * 255, message.getTextColor().getBlue() * 255);
+            String highLightTextFillColor = String.format("rgb( %s , %s , %s )", message.getTextColor().brighter().getRed() * 255, message.getTextColor().brighter().getGreen() * 255, message.getTextColor().brighter().getBlue() * 255);
+            String highLightColor = String.format("rgb( %s , %s , %s )", message.getTextColor().darker().getRed() * 255, message.getTextColor().darker().getGreen() * 255, message.getTextColor().darker().getBlue() * 255);
+            updateMessage(message, textColor, highLightTextFillColor, highLightColor);
         }), 0, 5, TimeUnit.SECONDS);
     }
 
@@ -232,7 +233,7 @@ public class EmployeeScreenController implements Initializable {
 
         if (result.isPresent()) {
             if (!result.get().equals("CANCELED")) {
-                Bug newBug = new Bug(result.get(),Timestamp.valueOf(LocalDateTime.now()).toString());
+                Bug newBug = new Bug(result.get(), Timestamp.valueOf(LocalDateTime.now()).toString());
                 newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
                 BugModel.getInstance().addBug(newBug);
