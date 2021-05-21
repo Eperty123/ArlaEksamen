@@ -8,6 +8,7 @@ import GUI.Controller.CrudControllers.RemoveEmployeeController;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.UserModel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -46,10 +47,16 @@ public class AdminManagementController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tblEmployees.setItems(userModel.getAllUsers());
-        eID.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getId()));
-        eFN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getFirstName()));
-        eLN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getLastName()));
-        eSN.setCellValueFactory(u -> new ReadOnlyObjectWrapper<>(u.getValue().getAssignedScreensString().isEmpty() ? "None" : u.getValue().getAssignedScreensString()));
+        eID.setCellValueFactory(u -> u.getValue().idProperty());
+        eFN.setCellValueFactory(u -> u.getValue().firstNameProperty());
+        eLN.setCellValueFactory(u -> u.getValue().lastNameProperty());
+        eSN.setCellValueFactory(u -> {
+            if (!u.getValue().getAssignedScreensString().get().isEmpty()) {
+                return u.getValue().getAssignedScreensString();
+            } else {
+                return new SimpleStringProperty("none");
+            }
+        });
 
         tblEmployees.setRowFactory(tv -> {
             TableRow<User> row = new TableRow<>();
@@ -83,6 +90,7 @@ public class AdminManagementController implements Initializable {
 
     /**
      * Displays the add Employee screen.
+     *
      * @throws IOException if it cannot find the FXML file.
      */
     public void handleAddEmployee() throws IOException {

@@ -51,20 +51,20 @@ public class ManagerScreenViewController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(lblTime);
 
-        comboScreens.getItems().addAll(currentUser.getAssignedScreen());
-        if (!currentUser.getAssignedScreen().isEmpty()) {
-            if (currentUser.getAssignedScreen().size() == 1) {
+        comboScreens.getItems().addAll(currentUser.getAssignedScreenBits());
+        if (!currentUser.getAssignedScreenBits().isEmpty()) {
+            if (currentUser.getAssignedScreenBits().size() == 1) {
                 try {
-                    setScreen(currentUser.getAssignedScreen().get(0));
-                    comboScreens.setValue(currentUser.getAssignedScreen().get(0));
-                    lblBar.setText("Manager Screen - " + currentUser.getAssignedScreen().get(0).getName()+ " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                    setScreen(currentUser.getAssignedScreenBits().get(0));
+                    comboScreens.setValue(currentUser.getAssignedScreenBits().get(0));
+                    lblBar.setText("Manager Screen - " + currentUser.getAssignedScreenBits().get(0).getName()+ " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 try {
-                    EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreen());
+                    EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreenBits());
 
                     Optional<ScreenBit> results = selectDialog.showAndWait();
 

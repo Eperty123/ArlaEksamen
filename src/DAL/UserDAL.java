@@ -142,13 +142,13 @@ public class UserDAL {
     private void addUsersAndScreenBits(List<User> allUsers, User newUser, ScreenBit screenBit) {
         if(allUsers.stream().noneMatch(o -> o.getId() == newUser.getId())){
 
-            if(screenBit.getName() != null) newUser.addScreenAssignment(screenBit);
+            if(screenBit.getName() != null) newUser.getAssignedScreenBits().add(screenBit);
             allUsers.add(newUser);
         } else{
 
             for(User u : allUsers){
                 if(u.getId() == newUser.getId() && screenBit.getName() != null){
-                    u.addScreenAssignment(screenBit);
+                    u.getAssignedScreenBits().add(screenBit);
                 }
             }
         }
