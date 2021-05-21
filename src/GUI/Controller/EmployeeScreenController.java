@@ -116,7 +116,7 @@ public class EmployeeScreenController implements Initializable {
 
     private void autoUpdateMessageBox() {
         service.scheduleAtFixedRate(new Thread(() -> {
-            userMessages = new ArrayList<>(MessageModel.getInstance().getUsersMessages(currentUser));
+            userMessages = new ArrayList<>(MessageModel.getInstance().getAllMessages());
             userMessages.sort(Comparator.comparing(Message::getMessageStartTime));
             AtomicReference<Message> messageAtomicReference = new AtomicReference<>();
             userMessages.forEach(message -> {
