@@ -80,7 +80,7 @@ public class BugModel {
             ArrayList<Bug> _unresolvedBugs = new ArrayList<>();
             allBugs.setAll(managerBugs);
 
-            // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports.
+            // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports for each bug.
             managerBugs.forEach((x) -> {
                 if (!x.isBugResolved()) {
                     _unresolvedBugs.add(x);
@@ -117,7 +117,7 @@ public class BugModel {
     }
 
     /**
-     * Send a bug report to all the admins.
+     * Send an email about a bug report to all the admins.
      *
      * @param bug       The bug to send an email about.
      * @param screenBit The associated screen.
