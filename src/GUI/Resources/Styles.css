@@ -449,3 +449,20 @@ POP UP
     -fx-prompt-text-fill: white;
     -fx-text-fill: white;
 }
+
+/*
+    SNACKBAR STYLES
+*/
+
+.snackbar-text-title {
+    -fx-fill: #ff0000;
+    -fx-font-weight: bold;
+}
+
+.snackbar-text {
+    -fx-fill: #fff;
+}
+
+.snackbar-bg {
+    -fx-background-color: #0d262e;
+}

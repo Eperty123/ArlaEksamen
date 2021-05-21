@@ -1,21 +1,19 @@
 package GUI.Controller.AdminControllers;
 
+import BE.Bug;
 import BE.ClockCalender;
 import BE.SceneMover;
 import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.SnackBarPopup;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.BugModel;
 import GUI.Model.MessageModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
-import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXButton;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,17 +21,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -53,15 +47,21 @@ public class AdminDashboardController implements Initializable {
 
     private User currentUser;
     private boolean isMaximized = false;
-
+    private BugModel bugModel = BugModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initialize();
+    }
+
+    private void initialize() {
         currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(dateTimeLabel);
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+        handleBugReportUpdate();
+
         try {
             handleUserManagement();
         } catch (IOException e) {
@@ -71,8 +71,27 @@ public class AdminDashboardController implements Initializable {
         }
     }
 
+    /**
+     * Handle any new incoming bug reports.
+     */
+    private void handleBugReportUpdate() {
+        bugModel.getAllUnresolvedBugs().addListener((ListChangeListener<Bug>) c -> {
 
+            if (c.getList().size() > 0) {
+                String properContext = c.getList().size() > 1 ? "reports" : "report";
+                String title = String.format("New bug %s", properContext);
+                String text = String.format("%d new bug %s", c.getList().size(), properContext);
+                while (c.next()) {
 
+                    // If a new bug report is added show a SnackBar at the bottom center.
+                    if (c.wasAdded()) {
+                        SnackBarPopup.createSnackBarPopup(borderPane, title, text, 3.25).showSnackBar();
+                        break;
+                    }
+                }
+            }
+        });
+    }
 
     public void handleUserManagement() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();

@@ -4,9 +4,7 @@ import BE.Bug;
 import BE.SceneMover;
 import BE.User;
 import GUI.Controller.CrudControllers.EditBugController;
-import GUI.Controller.PopupControllers.BugReportController;
 import GUI.Controller.PopupControllers.ConfirmBugController;
-import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.BugModel;
 import GUI.Model.UserModel;
@@ -30,7 +28,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ResourceBundle;
 
 public class AdminBugReportController implements Initializable {
     @FXML
@@ -93,7 +91,7 @@ public class AdminBugReportController implements Initializable {
      * Handle any incoming changes to the Bug ObservableList and update the table.
      */
     private void handleBugUpdate() {
-        bugModel.getInstance().getAllBugs().addListener((ListChangeListener<Bug>) c -> {
+        bugModel.getAllBugs().addListener((ListChangeListener<Bug>) c -> {
             ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
             allUnresolvedBugs.addAll(bugs);
             allUnresolvedBugs.removeIf(Bug::isBugResolved);
