@@ -20,12 +20,28 @@ public class User {
     private SimpleIntegerProperty password = new SimpleIntegerProperty(-1);
     private ObjectProperty<Integer> phone = new SimpleObjectProperty<>(-1);
     private List<ScreenBit> assignedScreenBits = new ArrayList<>();
+    private Enum gender;
 
     public User(String fName, String lName, String email, int phone) {
         this.firstName.setValue(fName);
         this.lastName.setValue(lName);
         this.email.setValue(email);
         this.phone.set(phone);
+    }
+
+    public User(int id, String firstName, String lastName, String userName, String email, String phoneNumber, int userRole, int password, Enum gender, String photoPath, Enum department, String title, List<ScreenBit> assignedScreenBits) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        setUserRole(userRole);
+        this.password = password;
+        this.gender = gender;
+        this.photoPath = photoPath;
+        this.department = department;
+        this.title = title;
+        this.assignedScreenBits = assignedScreenBits;
     }
 
     public User(int id, String firstName, String lastName, String userName, String email, int userRole, int password, ScreenBit assignedScreenBits) {
