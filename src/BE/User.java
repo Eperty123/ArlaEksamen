@@ -20,6 +20,9 @@ public class User {
     private SimpleIntegerProperty password = new SimpleIntegerProperty(-1);
     private ObjectProperty<Integer> phone = new SimpleObjectProperty<>(-1);
     private List<ScreenBit> assignedScreenBits = new ArrayList<>();
+    private StringProperty photoPath = new SimpleStringProperty();
+    private StringProperty title = new SimpleStringProperty();
+    private Enum department;
     private Enum gender;
 
     public User(String fName, String lName, String email, int phone) {
@@ -30,17 +33,18 @@ public class User {
     }
 
     public User(int id, String firstName, String lastName, String userName, String email, String phoneNumber, int userRole, int password, Enum gender, String photoPath, Enum department, String title, List<ScreenBit> assignedScreenBits) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
+
+        this.firstName = new SimpleStringProperty(firstName);
+        this.lastName = new SimpleStringProperty(lastName);
+        this.userName = new SimpleStringProperty(userName);
+        this.email = new SimpleStringProperty(email);
+        this.phone.set(Integer.valueOf(phoneNumber));
         setUserRole(userRole);
-        this.password = password;
+        this.password = new SimpleIntegerProperty(password);
         this.gender = gender;
-        this.photoPath = photoPath;
-        this.department = department;
-        this.title = title;
+        this.photoPath.set(photoPath);
+        this.department=department;
+        this.title.set(title);
         this.assignedScreenBits = assignedScreenBits;
     }
 
@@ -231,5 +235,51 @@ public class User {
 
     public StringProperty getAssignedScreensString() {
         return new SimpleStringProperty(getAssignedScreenBits().stream().map(ScreenBit::getName).collect(Collectors.joining(", ")));
+    }
+
+
+
+    public void setPhone(Integer phone) {
+        this.phone.set(phone);
+    }
+
+    public String getPhotoPath() {
+        return photoPath.get();
+    }
+
+    public StringProperty photoPathProperty() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath.set(photoPath);
+    }
+
+    public String getTitle() {
+        return title.get();
+    }
+
+    public StringProperty titleProperty() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title.set(title);
+    }
+
+    public Enum getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Enum department) {
+        this.department = department;
+    }
+
+    public Enum getGender() {
+        return gender;
+    }
+
+    public void setGender(Enum gender) {
+        this.gender = gender;
     }
 }
