@@ -152,9 +152,9 @@ public class ManagerMessageController implements Initializable {
         // Remove all nodes.
         screenContainer.getChildren().clear();
         currentUser = LoginManager.getCurrentUser();
-        System.out.println(currentUser.getAssignedScreen());
+        System.out.println(currentUser.getAssignedScreenBits());
         // Add all screens.
-        for (ScreenBit s : currentUser.getAssignedScreen()) {
+        for (ScreenBit s : currentUser.getAssignedScreenBits()) {
             makeScreen(s);
         }
     }

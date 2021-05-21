@@ -1,7 +1,11 @@
+import BE.Department;
+import BE.User;
+import GUI.Controller.DPT.DepartmentViewController;
 import GUI.Controller.StageBuilder;
 import com.jfoenix.controls.JFXTextField;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,7 +27,21 @@ public class DPMAINTEST extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        BorderPane borderPane = new BorderPane();
+        Department department = new Department(-1,"SuperDepartment");
+        department.getUsers().add(new User("doku","poker","denn062g@easv365.dk",112));
+
+        for(int i = 0 ; i < 2; i++)
+        {
+            department.getSubDepartments().add(new Department(i,"subDepartment"));
+        }
+        department.getSubDepartments().get(0).getUsers().add(new User("Miku","QWERTY","MikuMain@SOMEDomain.com",69));
+        department.getSubDepartments().get(1).getUsers().add(new User("C","Sharp","C_the_man@SOMEDomain.com",69420));
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
+
+        BorderPane borderPane = new BorderPane(fxmlLoader.load());
+        DepartmentViewController con = fxmlLoader.getController();
+        con.setDepartment(department);
         stage.setScene(new Scene(borderPane));
         stage.show();
 
