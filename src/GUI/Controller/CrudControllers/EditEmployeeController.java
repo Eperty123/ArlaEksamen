@@ -9,8 +9,10 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -29,7 +31,17 @@ public class EditEmployeeController implements Initializable {
     @FXML
     private JFXTextField txtEmail;
     @FXML
+    private JFXTextField txtJobTitle;
+    @FXML
+    private JFXTextField txtDepartment;
+    @FXML
     private JFXComboBox<Enum> chsRole;
+    @FXML
+    private JFXComboBox<Enum> chsSex;
+    @FXML
+    private JFXComboBox<Enum> chsSuperior;
+    @FXML
+    private ImageView image;
 
 
     private User oldUser;
@@ -72,5 +84,9 @@ public class EditEmployeeController implements Initializable {
         txtUsername.setText(user.getUserName());
         txtEmail.setText(user.getEmail());
         chsRole.getSelectionModel().select(user.getUserRole());
+    }
+
+    public void handleSelectImage(){
+        //TODO
     }
 }

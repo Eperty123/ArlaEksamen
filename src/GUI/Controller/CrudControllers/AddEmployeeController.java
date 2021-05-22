@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -38,8 +39,17 @@ public class AddEmployeeController implements Initializable {
     @FXML
     private JFXTextField txtEmail;
     @FXML
+    private JFXTextField txtJobTitle;
+    @FXML
+    private JFXTextField txtDepartment;
+    @FXML
     private JFXComboBox<Enum> chsRole;
-
+    @FXML
+    private JFXComboBox<Enum> chsSex;
+    @FXML
+    private JFXComboBox<Enum> chsSuperior;
+    @FXML
+    private ImageView image;
 
     private UserModel userModel = UserModel.getInstance();
     private PasswordManager passwordManager = new PasswordManager();
@@ -89,5 +99,9 @@ public class AddEmployeeController implements Initializable {
         for (Enum e : chsRole.getItems()){
             System.out.println(e.name() + " - " + e.ordinal());
         }
+    }
+
+    public void handleSelectImage(){
+        //TODO SELECT IMAGE
     }
 }
