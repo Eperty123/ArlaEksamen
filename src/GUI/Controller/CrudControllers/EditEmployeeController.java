@@ -31,6 +31,8 @@ public class EditEmployeeController implements Initializable {
     @FXML
     private JFXTextField txtEmail;
     @FXML
+    private JFXTextField txtPhoneNumber;
+    @FXML
     private JFXTextField txtJobTitle;
     @FXML
     private JFXTextField txtDepartment;
