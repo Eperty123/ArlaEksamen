@@ -41,6 +41,7 @@ public class MessageDAL {
                     "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
+        System.out.println(messages);
         return messages;
     }
 

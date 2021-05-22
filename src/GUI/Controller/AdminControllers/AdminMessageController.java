@@ -63,8 +63,8 @@ public class AdminMessageController implements Initializable {
     private JFXButton btnSelectAll;
 
 
-    private User currentUser;
-    private Boolean isAllSelected = false;
+        private User currentUser;
+        private Boolean isAllSelected = false;
 
     private List<ScreenBit> selectedScreens = new ArrayList<>();
     private List<Message> currentUsersMessages = new ArrayList<>();
