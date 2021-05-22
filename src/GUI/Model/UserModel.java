@@ -1,11 +1,14 @@
 package GUI.Model;
 
 import BE.User;
+import BE.UserType;
 import BLL.UserManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserModel {
 
@@ -117,6 +120,21 @@ public class UserModel {
                 return user;
         }
         return null;
+    }
+
+    /**
+     * Get all users by the specified role.
+     * @param role The role of the users to get.
+     * @return Returns a List of Users filtered by the specified role.
+     */
+    public List<User> getAllUsersByRole(UserType role) {
+        var filteredUsers = new ArrayList<User>();
+        for (int i = 0; i < allUsers.size(); i++) {
+            User user = allUsers.get(i);
+            if (user.getUserRole().equals(role))
+                filteredUsers.add(user);
+        }
+        return filteredUsers;
     }
 
     /**

@@ -1,16 +1,16 @@
 package GUI.Controller.ManagerControllers;
 
-import BE.*;
+import BE.Bug;
+import BE.ClockCalender;
+import BE.ScreenBit;
+import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.BugReportDialog;
-import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Controller.StageBuilder;
 import GUI.Model.BugModel;
-import GUI.Model.ScreenModel;
 import com.jfoenix.controls.JFXComboBox;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,7 +24,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.swing.event.DocumentEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -57,7 +56,7 @@ public class ManagerScreenViewController implements Initializable {
                 try {
                     setScreen(currentUser.getAssignedScreenBits().get(0));
                     comboScreens.setValue(currentUser.getAssignedScreenBits().get(0));
-                    lblBar.setText("Manager Screen - " + currentUser.getAssignedScreenBits().get(0).getName()+ " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                    lblBar.setText("Manager Screen - " + currentUser.getAssignedScreenBits().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -91,7 +90,7 @@ public class ManagerScreenViewController implements Initializable {
                 e.printStackTrace();
             }
 
-    }
+        }
 
         comboScreens.setOnAction(e -> {
             if (comboScreens.getSelectionModel().getSelectedItem() != null) {
@@ -161,19 +160,20 @@ public class ManagerScreenViewController implements Initializable {
         BugReportDialog reportDialog = new BugReportDialog();
         Optional<String> result = reportDialog.showAndWait();
 
-        if (result.isPresent()){
-            if (!result.get().equals("CANCELED")){
+        if (result.isPresent()) {
+            if (!result.get().equals("CANCELED")) {
                 Bug newBug = new Bug(result.get(), Timestamp.valueOf(LocalDateTime.now()).toString());
                 newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
                 BugModel.getInstance().addBug(newBug);
-                WarningController.createWarning("Report Send!","Bug report successfully send, " +
+                BugModel.getInstance().sendEmailBugReportToAllAdmins(newBug, comboScreens.getSelectionModel().getSelectedItem(), currentUser);
+                WarningController.createWarning("Report Send!", "Bug report successfully send, " +
                         "thank you for helping improving this program!");
             }
         }
     }
 
-    public void handleBack(){
+    public void handleBack() {
         handleClose();
     }
 

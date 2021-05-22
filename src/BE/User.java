@@ -1,12 +1,9 @@
 package BE;
 
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import javafx.beans.property.*;
-import javafx.beans.value.ObservableIntegerValue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +40,7 @@ public class User {
         this.password = new SimpleIntegerProperty(password);
         this.gender = gender;
         this.photoPath.set(photoPath);
-        this.department=department;
+        this.department = department;
         this.title.set(title);
         this.assignedScreenBits = assignedScreenBits;
     }
@@ -238,7 +235,6 @@ public class User {
     }
 
 
-
     public void setPhone(Integer phone) {
         this.phone.set(phone);
     }
@@ -281,5 +277,10 @@ public class User {
 
     public void setGender(Enum gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", getFirstName(), getLastName());
     }
 }

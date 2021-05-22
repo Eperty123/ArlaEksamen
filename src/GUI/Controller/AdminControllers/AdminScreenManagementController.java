@@ -48,9 +48,10 @@ public class AdminScreenManagementController implements Initializable {
 
     private final SceneMover sceneMover = new SceneMover();
     private final ScreenModel screenModel = ScreenModel.getInstance();
+    private final UserModel userModel = UserModel.getInstance();
     private Node createBtnNode;
 
-    private List<User> userList = UserModel.getInstance().getAllUsers();
+    private List<User> userList = userModel.getAllUsers();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

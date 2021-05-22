@@ -36,7 +36,6 @@ public class EditScreenController implements Initializable {
     private ScreenBit screenBit;
     private List<User> users;
     private List<User> usersToAdd = new ArrayList<>();
-
     private List<User> usersToDelete = new ArrayList<>();
 
     @Override

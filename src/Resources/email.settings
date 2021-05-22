@@ -1,0 +1,7 @@
+# Settings examples taken from: https://mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/.
+# Only gmail is supported atm. Don't hak me plz.
+Host=smtp.gmail.com
+Port=587
+Username=<Add email here>
+Password=<Password of email here>
+UseTLS=true
