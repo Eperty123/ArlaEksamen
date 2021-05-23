@@ -95,6 +95,7 @@ public class AdminManagementController implements Initializable {
         newRectangle.getStyleClass().add("SMButtons");
 
         FontAwesomeIconView check = new FontAwesomeIconView();
+        check.setMouseTransparent(true);
         check.setId("Check");
         check.setIcon(FontAwesomeIcon.CHECK_CIRCLE_ALT);
         check.setFill(Paint.valueOf("#97CE68"));
@@ -105,20 +106,20 @@ public class AdminManagementController implements Initializable {
         check.setVisible(false);
 
         Circle newCircle = new Circle();
-        newCircle.getStyleClass().add("SMButtons");
+        newCircle.setMouseTransparent(true);
         newCircle.setRadius(50);
         newCircle.setLayoutX(75);
         newCircle.setLayoutY(64);
 
         ImageView image = new ImageView(new Image("/Gui/Resources/defaultPerson.png"));
-        image.getStyleClass().add("SMButtons");
+        image.setMouseTransparent(true);
         image.setFitWidth(105);
         image.setFitHeight(105);
         image.setLayoutX(23);
         image.setLayoutY(12);
 
         Rectangle underBar = new Rectangle();
-        underBar.getStyleClass().add("SMButtons");
+        underBar.setMouseTransparent(true);
         underBar.setArcWidth(5);
         underBar.setArcHeight(5);
         underBar.setWidth(120);
@@ -128,6 +129,7 @@ public class AdminManagementController implements Initializable {
         underBar.setFill(Paint.valueOf("#add8e5"));
 
         Label name = new Label();
+        name.setMouseTransparent(true);
         name.getStyleClass().add("SMButtons");
         name.setText(u.getFirstName() + " " + u.getLastName());
         name.setTextFill(Paint.valueOf("#FFFFFF"));
@@ -140,6 +142,7 @@ public class AdminManagementController implements Initializable {
         name.setTextAlignment(TextAlignment.CENTER);
 
         Label title = new Label();
+        title.setMouseTransparent(true);
         title.getStyleClass().add("SMButtons");
         title.setText("Title");
         title.setTextFill(Paint.valueOf("#FFFFFF"));
@@ -152,6 +155,7 @@ public class AdminManagementController implements Initializable {
         title.setTextAlignment(TextAlignment.CENTER);
 
         Label department = new Label();
+        department.setMouseTransparent(true);
         department.getStyleClass().add("SMButtons");
         department.setText("Department");
         department.setTextFill(Paint.valueOf("#FFFFFF"));
@@ -164,8 +168,7 @@ public class AdminManagementController implements Initializable {
         department.setTextAlignment(TextAlignment.CENTER);
 
         Rectangle viewMoreButton = new Rectangle();
-        viewMoreButton.getStyleClass().add("SMButtons");
-        viewMoreButton.setFill(Paint.valueOf("#add8e5"));
+        viewMoreButton.getStyleClass().add("employeeButton");
         viewMoreButton.setArcHeight(15);
         viewMoreButton.setArcWidth(15);
         viewMoreButton.setWidth(120);
@@ -174,6 +177,7 @@ public class AdminManagementController implements Initializable {
         viewMoreButton.setLayoutX(15);
 
         Label viewMoreLabel = new Label();
+        viewMoreLabel.setMouseTransparent(true);
         viewMoreLabel.setText("View More");
         viewMoreLabel.setTextFill(Paint.valueOf("#154c5d"));
         viewMoreLabel.setStyle("-fx-font-size: 12px;-fx-font-weight: bold; -fx-font-style: italic");

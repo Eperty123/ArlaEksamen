@@ -68,6 +68,14 @@ ADMIN DASHBOARD
     -fx-background-color: #c8f0fc;
 }
 
+.employeeButton{
+    -fx-fill: #add8e5;
+}
+
+.employeeButton:hover{
+    -fx-fill: #97CE68;
+}
+
 /*
 POP UP
  */
