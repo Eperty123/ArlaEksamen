@@ -40,7 +40,11 @@ ADMIN DASHBOARD
  */
 
 .adminDashboardButtons {
-    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-background-color: #c8f0fc;
+}
+
+.adminDashboardButtons:hover{
+    -fx-background-color: rgba(255, 255, 255, 0.50);;
 }
 
 .headerPanel {

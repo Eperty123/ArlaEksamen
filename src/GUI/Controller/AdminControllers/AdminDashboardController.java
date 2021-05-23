@@ -6,6 +6,7 @@ import BE.SceneMover;
 import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.SettingsController;
 import GUI.Controller.PopupControllers.SnackBarPopup;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.BugModel;
@@ -115,6 +116,10 @@ public class AdminDashboardController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminMessage.fxml"));
         borderPane.setCenter(fxmlLoader.load());
+    }
+
+    public void handleSettings(){
+        SettingsController.OpenSettings();
     }
 
     public void minimize() {

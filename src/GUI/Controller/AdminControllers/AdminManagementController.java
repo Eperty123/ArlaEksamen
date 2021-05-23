@@ -5,6 +5,7 @@ import BE.User;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
 import GUI.Controller.CrudControllers.RemoveEmployeeController;
+import GUI.Controller.EmployeeCardController;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.UserModel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -267,11 +268,11 @@ public class AdminManagementController implements Initializable {
         });
 
         viewMoreButton.setOnMouseClicked(e -> {
-            //TODO Lav view screen til user
+            EmployeeCardController.OpenEmployeeCard(u);
         });
 
         viewMoreLabel.setOnMouseClicked(e -> {
-            //TODO Lav view screen til user
+            EmployeeCardController.OpenEmployeeCard(u);
         });
     }
 
