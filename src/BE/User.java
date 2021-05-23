@@ -11,16 +11,19 @@ public class User {
     private String lastName;
     private String userName;
     private String email;
-    private String phoneNumber;
+    private int phoneNumber;
     private Enum userRole;
     private int password;
     private Enum gender;
     private String photoPath;
-    private Enum department;
+    private int departmentId;
     private String title;
-    private List<ScreenBit> assignedScreenBits;
+    private List<ScreenBit> assignedScreenBits = new ArrayList<>();
 
-    public User(int id, String firstName, String lastName, String userName, String email, String phoneNumber, int userRole, int password, Enum gender, String photoPath, Enum department, String title, List<ScreenBit> assignedScreenBits) {
+
+
+    public User(int id, String firstName, String lastName, String userName, String email, int phoneNumber, int userRole, int password, Enum gender, String photoPath, int departmentId, String title, List<ScreenBit> assignedScreenBits) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
@@ -30,7 +33,7 @@ public class User {
         this.password = password;
         this.gender = gender;
         this.photoPath = photoPath;
-        this.department = department;
+        this.departmentId = departmentId;
         this.title = title;
         this.assignedScreenBits = assignedScreenBits;
     }
@@ -97,6 +100,21 @@ public class User {
         setUserRole(userRole);
         this.password = password;
         this.assignedScreenBits = new ArrayList<ScreenBit>();
+    }
+
+    public User(int id, String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title, int departmentId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        setUserRole(userRole);
+        this.password = password;
+        this.gender = gender;
+        this.photoPath = photoPath;
+        this.departmentId = departmentId;
+        this.title = title;
     }
 
 
@@ -193,8 +211,9 @@ public class User {
         this.password = password;
     }
 
+
     @Override
     public String toString() {
-        return userName + " - " + firstName + " " + lastName;
+        return id + ";" + firstName + ";" + lastName + ";" + userName + ";" + email + ";" + phoneNumber + ";" + userRole.ordinal() + ";" + password + ";" + gender.ordinal() + ";" + departmentId + ";" + title;
     }
 }

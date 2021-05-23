@@ -15,6 +15,7 @@ public class UserDAL {
     private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
     private ResultSetParser resultSetParser = new ResultSetParser();
 
+
     /**
      * Creates a list of all users in the database. The query join the User and Screen tables through
      * the ScreenRights junction table. Users who
@@ -25,29 +26,26 @@ public class UserDAL {
 
         try(Connection con = dbCon.getConnection()){
             PreparedStatement pSql = con.prepareStatement(
-                    "SELECT" +
-                    "[User].Id AS UserId," +
-                    "[User].FirstName," +
-                    "[User].LastName," +
-                    "[User].Email," +
-                    "[User].Password," +
-                    "[User].UserName," +
-                    "[User].UserRole ," +
-                    "Screen.Id AS ScreenId," +
-                    "Screen.ScreenName," +
-                    "Screen.ScreenInfo " +
-                    "FROM [User]" +
-                    "LEFT OUTER JOIN ScreenRights " +
-                    "ON [User].UserName = ScreenRights.UserName " +
-                    "LEFT OUTER JOIN Screen " +
-                    "ON Screen.Id = ScreenRights.ScreenId AND ScreenRights.UserName = [User].UserName;");
+                    "SELECT " +
+                            "[User].*, " +
+                            "Screen.Id AS ScreenId, " +
+                            "Screen.ScreenName, " +
+                            "Screen.ScreenInfo, " +
+                            "DepartmentUser.DepartmentId " +
+                            "FROM [User] " +
+                            "LEFT OUTER JOIN ScreenRights " +
+                            "ON [User].UserName = ScreenRights.UserName " +
+                            "LEFT OUTER JOIN Screen " +
+                            "ON Screen.Id = ScreenRights.ScreenId AND ScreenRights.UserName = [User].UserName " +
+                            "LEFT OUTER JOIN DepartmentUser ON DepartmentUser.UserName = [User].UserName;");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
             while(rs.next()) {
-                    User newUser = resultSetParser.getUser(rs);
-                    ScreenBit screenBit = resultSetParser.getScreenBit(rs);
-                    addUsersAndScreenBits(allUsers, newUser, screenBit);
+
+                User newUser = resultSetParser.getUser(rs);
+                ScreenBit screenBit = resultSetParser.getScreenBit(rs);
+                addUsersAndScreenBits(allUsers, newUser, screenBit);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -56,6 +54,9 @@ public class UserDAL {
         }
         return allUsers;
     }
+
+
+
 
     /**
      * Method performs an INSERT query to create a new user/row in the User table.
@@ -142,7 +143,9 @@ public class UserDAL {
     private void addUsersAndScreenBits(List<User> allUsers, User newUser, ScreenBit screenBit) {
         if(allUsers.stream().noneMatch(o -> o.getId() == newUser.getId())){
 
-            if(screenBit.getName() != null) newUser.addScreenAssignment(screenBit);
+            if(screenBit.getName() != null){
+                newUser.addScreenAssignment(screenBit);
+            }
             allUsers.add(newUser);
         } else{
 
