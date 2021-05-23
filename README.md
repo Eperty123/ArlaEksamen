@@ -28,12 +28,26 @@ Arla Infographic System or AIS is a clean, all in one infographic system created
 - An orginization diagram display which displays all employees sorted after title, with the ability to look up a employees personal information name, mail and phone number.
 
 
-[Back To The Top](#read-me-template)
+[Back To The Top](#Arla-Infographic-System)
 
 ---
 
 ## How To Use
-The application can be run directly from the intellij IDE with the following VM options if they are not already set due to maven.
+The application can be run directly from the intellij IDE with the following VM options and libraries if they are not already set due to maven.
+
+To login and use the system, you can use the following credentials to access different layers of the application.
+
+#### Login Credentials
+- Regular Employee
+    - Username: usrtest
+    - Password: testu
+- Manager
+    - Username: mgrtest
+    - Password: testm
+- IT-Administrator
+    - Username: admtest
+    - Password: testa
+
 #### VM options
 ```
 --module-path
@@ -59,7 +73,6 @@ javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED
 ```
 
 #### Libraries
-Aswell as VM options, if the libraries is not there, the list of libraries used is as follows and should be added via the maven library installation tool intergrated in IntelliJ.
 
 - com.jfoenix:jfoenix:9.0.10
 - com.microsoft.sqlserver:mssql-jdbc:9.1.1.jre15-preview
@@ -76,6 +89,6 @@ Aswell as VM options, if the libraries is not there, the list of libraries used 
 - org.openjfx:javafx-fxml:16-ea+7
 - org.openjfx:javafx-web:16
 
-[Back To The Top](#read-me-template)
+[Back To The Top](#Arla-Infographic-System)
 
 ---
