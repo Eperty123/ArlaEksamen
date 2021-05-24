@@ -14,6 +14,8 @@ public class DepartmentManager {
 
     public DepartmentManager() {
         department.getUsers().add(new User("doku", "poker", "denn062g@easv365.dk", 112));
+        department.getUsers().add(new User("doku3", "poker3", "denn062g@easv365.dk", 112));
+        department.getUsers().add(new User("doku69", "poker3", "denn062g@easv365.dk", 112));
 
         for (int i = 0; i < 2; i++) {
             Department department2 = new Department(i, "subDepartment" + i);

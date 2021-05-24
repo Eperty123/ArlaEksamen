@@ -5,10 +5,11 @@ import BE.SceneMover;
 import BE.User;
 import BLL.DepartmentManager;
 import GUI.Controller.CrudControllers.AddDepartmentController;
-import GUI.Controller.PopupControllers.ConfirmationController;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -17,11 +18,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -34,6 +39,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class DepartmentViewController implements Initializable {
     @FXML
@@ -73,7 +79,7 @@ public class DepartmentViewController implements Initializable {
         settingsIcon.setOnMouseClicked(v -> openDepartmentModifyWindow());
         nameField.setCellValueFactory(data -> data.getValue().getFullNameProperty());
         emailField.setCellValueFactory(data -> data.getValue().emailProperty());
-        phoneField.setCellValueFactory(data -> data.getValue().phoneProperty());
+        phoneField.setCellValueFactory(data -> data.getValue().phoneProperty().get()<0?new SimpleObjectProperty<>():data.getValue().phoneProperty());
         initUserChangeListener();
         hideIcon.setOnMouseClicked((v) -> {
             if (!isHidden) {
@@ -96,6 +102,7 @@ public class DepartmentViewController implements Initializable {
             departmentManager.removeDepartment(department);
             superAC.getChildren().clear();
         });
+
     }
 
     private void openDepartmentModifyWindow() {
@@ -151,6 +158,8 @@ public class DepartmentViewController implements Initializable {
         this.users = department.getUsers();
         this.subDepartments = department.getSubDepartments();
         dptUsersTable.setItems(department.getUsers());
+
+        TableDragMod.makeTableDraggable(dptUsersTable);
 
         department.nameProperty().addListener((observableValue, s, t1) -> dptNameField.setText(t1));
         dptNameField.setText(department.getName());

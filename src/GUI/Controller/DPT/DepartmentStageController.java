@@ -4,12 +4,14 @@ import BE.User;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
+import org.apache.xmlbeans.impl.xb.xmlconfig.Usertypeconfig;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,7 +45,8 @@ public class DepartmentStageController implements Initializable {
                     });
                 }
         );
-
+        TableDragMod.setDontDeleteFromTable(userTable);
+        TableDragMod.makeTableDraggable(userTable);
     }
 }
 
