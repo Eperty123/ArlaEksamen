@@ -9,10 +9,7 @@ import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.SettingsController;
 import GUI.Controller.PopupControllers.SnackBarPopup;
 import GUI.Controller.PopupControllers.WarningController;
-import GUI.Model.BugModel;
-import GUI.Model.MessageModel;
-import GUI.Model.ScreenModel;
-import GUI.Model.UserModel;
+import GUI.Model.*;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
@@ -119,7 +116,7 @@ public class AdminDashboardController implements Initializable {
     }
 
     public void handleSettings(){
-        SettingsController.OpenSettings();
+        SettingsController.openSettings();
     }
 
     public void minimize() {
@@ -151,6 +148,7 @@ public class AdminDashboardController implements Initializable {
                 ScreenModel.getInstance().resetSingleton();
                 BugModel.getInstance().resetSingleton();
                 MessageModel.getInstance().resetSingleton();
+                SettingsModel.getInstance().resetSingleton();
 
                 Stage root1 = (Stage) root.getScene().getWindow();
 

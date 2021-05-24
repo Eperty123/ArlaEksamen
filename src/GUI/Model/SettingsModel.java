@@ -15,12 +15,13 @@ public class SettingsModel implements ISettingsCRUD {
     private static SettingsModel instance;
 
     public SettingsModel() {
-        settings.setAll(getSettings());
+        updateAllSettings();
     }
 
     @Override
     public void addSetting(Settings settings) {
         settingsManager.addSetting(settings);
+        updateAllSettings();
     }
 
     @Override
@@ -48,11 +49,13 @@ public class SettingsModel implements ISettingsCRUD {
     @Override
     public void deleteSetting(Settings settings) {
         settingsManager.deleteSetting(settings);
+        updateAllSettings();
     }
 
     @Override
     public void updateSetting(Settings oldSettings, Settings newSettings) {
         settingsManager.updateSetting(oldSettings, newSettings);
+        updateAllSettings();
     }
 
     @Override
@@ -60,8 +63,22 @@ public class SettingsModel implements ISettingsCRUD {
         return settingsManager.getSettings();
     }
 
+    public void updateAllSettings() {
+        settings.setAll(getSettings());
+    }
+
     public ObservableList<Settings> getAllSettings() {
         return settings;
+    }
+
+    /**
+     * Reset the singleton instance.
+     */
+    public void resetSingleton() {
+        if (instance != null) {
+            instance = null;
+            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
+        }
     }
 
     public static SettingsModel getInstance() {
