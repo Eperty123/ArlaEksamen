@@ -1,9 +1,6 @@
 package DAL;
 
-import BE.Message;
-import BE.MessageType;
-import BE.ScreenBit;
-import BE.User;
+import BE.*;
 import DAL.Parser.CSVParser;
 import DAL.Parser.UserBackUp;
 import GUI.Model.ScreenModel;
@@ -16,6 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,25 +28,35 @@ public class JonasTest {
         MessageDAL messageDAL = new MessageDAL();
         ScreenDAL screenDAL = new ScreenDAL();
         UserBackUp userBackUp = new UserBackUp();
+        DepartmentDAL departmentDAL = new DepartmentDAL();
 
         List<User> users = UserModel.getInstance().getAllUsers();
         List<ScreenBit> screenBits = ScreenModel.getInstance().getAllScreenBits();
+        List<Department> departments = departmentDAL.getDepartments();
 
+        System.out.println(departments.size() + " departments");
+        System.out.println("----------------------------");
 
+        for(Department d : departments){
+            System.out.println("Department: " + d.getName());
+            System.out.println();
 
-        /*
-        for(ScreenBit s : screenBits){
-            for (Map.Entry<LocalDateTime, Boolean> localDateTimeBooleanEntry : s.getTimeTable().entrySet()) {
-                Map.Entry pair = (Map.Entry) localDateTimeBooleanEntry;
-                System.out.println(pair.getKey() + " available: " + pair.getValue());
+            System.out.println("Users:");
+            for(User u : d.getUsers()){
+                System.out.println(u.getUserName());
             }
+            System.out.println();
+            if (d.getManager() != null){
+                System.out.println("Manager: " + d.getManager().getUserName());
+                System.out.println("ManagerID: " + d.getManager().getId());
+            }
+            System.out.println("------------------------------");
+            System.out.println();
 
         }
 
-         */
 
-
-
+        /*
         try (CSVReader reader = new CSVReader(new FileReader("src/Resources/MOCK_USERS2.csv"))) {
             List<String[]> r = reader.readAll();
             r.forEach(x -> System.out.println(Arrays.toString(x)));
@@ -58,6 +66,7 @@ public class JonasTest {
             e.printStackTrace();
         }
 
+         */
 
 
 

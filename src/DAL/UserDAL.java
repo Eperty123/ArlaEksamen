@@ -30,14 +30,12 @@ public class UserDAL {
                             "[User].*, " +
                             "Screen.Id AS ScreenId, " +
                             "Screen.ScreenName, " +
-                            "Screen.ScreenInfo, " +
-                            "DepartmentUser.DepartmentId " +
+                            "Screen.ScreenInfo " +
                             "FROM [User] " +
                             "LEFT OUTER JOIN ScreenRights " +
                             "ON [User].UserName = ScreenRights.UserName " +
                             "LEFT OUTER JOIN Screen " +
-                            "ON Screen.Id = ScreenRights.ScreenId AND ScreenRights.UserName = [User].UserName " +
-                            "LEFT OUTER JOIN DepartmentUser ON DepartmentUser.UserName = [User].UserName;");
+                            "ON Screen.Id = ScreenRights.ScreenId AND ScreenRights.UserName = [User].UserName");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
