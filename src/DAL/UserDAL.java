@@ -144,7 +144,7 @@ public class UserDAL {
         if(allUsers.stream().noneMatch(o -> o.getId() == newUser.getId())){
 
             if(screenBit.getName() != null){
-                newUser.addScreenAssignment(screenBit);
+                newUser.getAssignedScreenBits().add(screenBit);
             }
             allUsers.add(newUser);
         } else{

@@ -66,7 +66,7 @@ public class EmployeeCardController {
         //img.setImage(u.getImage());
         name.setText(u.getFirstName() + " " + u.getLastName());
         title.setText(u.getTitle() != null ? u.getTitle() : "None");
-        department.setText(u.getDepartment() != null ? u.getDepartment().name() : "None");
+        //department.setText(u.getDepartment() != null ? u.getDepartment().name() : "None");
         phone.setText(!String.valueOf(u.getPhone()).isEmpty() ? String.valueOf(u.getPhone()) : "None");
         mail.setText(!u.getEmail().isEmpty() ? u.getEmail() : "None");
     }

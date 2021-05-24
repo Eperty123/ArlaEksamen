@@ -25,7 +25,7 @@ public class SettingsController {
     @FXML
     private JFXComboBox<String> cmbTimeFormat;
 
-    private void setData(){        
+    private void setData(){
         //TODO
     }
 
