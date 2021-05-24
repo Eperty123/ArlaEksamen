@@ -1,25 +1,21 @@
-import BE.Department;
-import BE.User;
+import BLL.DepartmentManager;
+import GUI.Controller.DPT.DepartmentStageController;
 import GUI.Controller.DPT.DepartmentViewController;
 import GUI.Controller.StageBuilder;
-import com.jfoenix.controls.JFXTextField;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import java.time.LocalDateTime;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.io.IOException;
 
 public class DPMAINTEST extends Application {
+    DepartmentManager departmentManager = new DepartmentManager();
 
     public static void Main(String[] args) {
         launch(args);
@@ -27,22 +23,23 @@ public class DPMAINTEST extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Department department = new Department(-1,"SuperDepartment");
-        department.getUsers().add(new User("doku","poker","denn062g@easv365.dk",112));
 
-        for(int i = 0 ; i < 2; i++)
-        {
-            department.getSubDepartments().add(new Department(i,"subDepartment"));
-        }
-        department.getSubDepartments().get(0).getUsers().add(new User("Miku","QWERTY","MikuMain@SOMEDomain.com",69));
-        department.getSubDepartments().get(1).getUsers().add(new User("C","Sharp","C_the_man@SOMEDomain.com",69420));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/View/DPT/DepartmentStage.fxml"));
+        AnchorPane node = loader.load();
+        DepartmentStageController con2 = loader.getController();
+        HBox hBox = con2.gethBox();
+        departmentManager.getSuperDepartments().forEach(sd->{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
+            try {
+                hBox.getChildren().add(fxmlLoader.load());
+                DepartmentViewController con = fxmlLoader.getController();
+                con.setDepartment(sd);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
-
-        BorderPane borderPane = new BorderPane(fxmlLoader.load());
-        DepartmentViewController con = fxmlLoader.getController();
-        con.setDepartment(department);
-        stage.setScene(new Scene(borderPane));
+        stage.setScene(new Scene(node));
         stage.show();
 
     }
