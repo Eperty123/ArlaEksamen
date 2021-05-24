@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.DPT.DepartmentViewController">
+<AnchorPane fx:id="superAC" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.DPT.DepartmentViewController">
    <children>
-      <BorderPane fx:id="superBP" minHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="superBP" minHeight="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <JFXTextField fx:id="dptNameField" alignment="CENTER" text="Some DPT Name" BorderPane.alignment="CENTER" />
-         </top>
-         <center>
-            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
-               <children>
-                  <ScrollPane>
+            <BorderPane BorderPane.alignment="TOP_CENTER">
+               <top>
+                  <BorderPane BorderPane.alignment="CENTER">
+                     <center>
+                        <JFXTextField fx:id="dptNameField" alignment="CENTER" text="Some DPT Name" />
+                     </center>
+                     <right>
+                        <BorderPane fx:id="manageIconsBP" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets right="5.0" />
+                           </BorderPane.margin>
+                           <center>
+                              <MaterialDesignIconView fx:id="settingsIcon" />
+                           </center>
+                           <right>
+                              <MaterialDesignIconView fx:id="removeIcon" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </BorderPane.margin>
+                              </MaterialDesignIconView>
+                           </right>
+                           <left>
+                              <MaterialDesignIconView fx:id="hideIcon" BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </BorderPane.margin>
+                              </MaterialDesignIconView>
+                           </left>
+                        </BorderPane>
+                     </right>
+                  </BorderPane>
+               </top>
+               <center>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                      <content>
                         <TableView fx:id="dptUsersTable">
                            <columns>
@@ -31,9 +60,9 @@
                         </TableView>
                      </content>
                   </ScrollPane>
-               </children>
-            </HBox>
-         </center>
+               </center>
+            </BorderPane>
+         </top>
       </BorderPane>
    </children>
 </AnchorPane>
