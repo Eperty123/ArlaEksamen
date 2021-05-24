@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -29,6 +31,8 @@
                   <MaterialDesignIconView glyphName="ACCOUNT_PLUS" layoutX="244.0" layoutY="25.0" onMouseClicked="#handleAddEmployee" size="24" styleClass="addUser" />
                   <MaterialDesignIconView glyphName="ACCOUNT_EDIT" layoutX="274.0" layoutY="25.0" onMouseClicked="#handleEditEmployee" size="24" styleClass="editUser" />
                   <MaterialDesignIconView glyphName="ACCOUNT_MINUS" layoutX="304.0" layoutY="25.0" onMouseClicked="#handleRemoveEmployee" size="24" styleClass="removeUser" />
+                  <JFXTextField fx:id="txtSearch" focusColor="#94bdd3" layoutX="86.0" layoutY="3.0" onKeyPressed="#handleSearchUser" promptText="Search for a user" styleClass="userSeach" unFocusColor="#9f9f9f" />
+                  <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" layoutX="65.0" layoutY="21.0" size="16" />
                </children>
             </Pane>
          </right>

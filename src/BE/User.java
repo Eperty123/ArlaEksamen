@@ -2,6 +2,7 @@ package BE;
 
 
 import javafx.beans.property.*;
+import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,8 +107,21 @@ public class User {
     }
 
 
-    public User(int id, String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title, int departmentId) {
+    public User(int id, String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
         this.id.set(id);
+        this.firstName.set(firstName);
+        this.lastName.set(lastName);
+        this.userName.set(userName);
+        this.email.set(email);
+        this.phone.set(phoneNumber);
+        setUserRole(userRole);
+        this.password.set(password);
+        this.gender = gender;
+        this.photoPath.set(photoPath);
+        this.title.set(title);
+    }
+
+    public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
         this.firstName.set(firstName);
         this.lastName.set(lastName);
         this.userName.set(userName);
@@ -131,6 +145,9 @@ public class User {
                 break;
             case 2:
                 this.userRole = UserType.Manager;
+                break;
+            case 3:
+                this.userRole = UserType.HR;
                 break;
         }
 

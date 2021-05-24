@@ -1,6 +1,7 @@
 package GUI.Controller.AdminControllers;
 
 import BE.SceneMover;
+import BE.Searcher;
 import BE.User;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
@@ -8,6 +9,7 @@ import GUI.Controller.CrudControllers.RemoveEmployeeController;
 import GUI.Controller.EmployeeCardController;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.UserModel;
+import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -45,6 +47,8 @@ public class AdminManagementController implements Initializable {
     private FlowPane flowpane;
     @FXML
     private ScrollPane scrollPane;
+    @FXML
+    private JFXTextField txtSearch;
 
     private ArrayList<User> selectedUser = new ArrayList<>();
     private UserModel userModel = new UserModel();
@@ -274,6 +278,17 @@ public class AdminManagementController implements Initializable {
         viewMoreLabel.setOnMouseClicked(e -> {
             EmployeeCardController.OpenEmployeeCard(u);
         });
+    }
+
+    public void handleSearchUser(){
+        if (!txtSearch.getText().isEmpty() || !txtSearch.getText().isBlank()) {
+            flowpane.getChildren().clear();
+            for (User u : Searcher.searchUsers(UserModel.getInstance().getAllUsers(), txtSearch.getText())){
+                handleNewUser(u);
+            }
+        } else{
+            loadAllUsers();
+        }
     }
 
     /**

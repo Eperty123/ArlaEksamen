@@ -50,7 +50,7 @@ public class ResultSetParser {
         String title = rs.getString("Title");
         int departmentId = rs.getInt("DepartmentId");
 
-        return new User(userId, firstName, lastName, userName, email, password, userRole, phoneNumber, gender, photoPath, title, departmentId);
+        return new User(userId, firstName, lastName, userName, email, password, userRole, phoneNumber, gender, photoPath, title);
     }
 
     /**

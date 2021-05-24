@@ -80,6 +80,10 @@ ADMIN DASHBOARD
     -fx-fill: #97CE68;
 }
 
+.userSeach{
+    -fx-prompt-text-fill: #cacaca;
+    -fx-text-fill: white;
+}
 /*
 POP UP
  */
