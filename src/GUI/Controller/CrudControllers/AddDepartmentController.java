@@ -43,7 +43,7 @@ public class AddDepartmentController implements Initializable {
         txtDepartmentName.setText(department.getName());
         subDpt.setItems(departmentManager.getAllDepartments());
         subDptTable.setItems(department.getAllSubDepartments());
-        if (department.isSubDepartment()) {
+        if (department.getIsSubDepartment()) {
             departmentManager.getAllDepartments().forEach(d -> {
                     if (d.getAllSubDepartments().contains(department)) {
                         if (!dptSuperior.getItems().contains(d))
@@ -54,6 +54,7 @@ public class AddDepartmentController implements Initializable {
         }
         isEdit = true;
     }
+
 
 
     public void addSubDpt() {
@@ -101,7 +102,7 @@ public class AddDepartmentController implements Initializable {
             subDptTable.getItems().remove(newDepartment);
         });
         departmentManager.getAllDepartments().forEach(d->{
-            if(d.isSubDepartment() && !subDptTable.getItems().contains(d))
+            if(d.getIsSubDepartment() && !subDptTable.getItems().contains(d))
                 subDpt.getItems().add(d);
         });
     }

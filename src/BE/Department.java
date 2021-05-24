@@ -86,7 +86,7 @@ public class Department {
         this.users = users;
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         this.users.add(user);
     }
 
@@ -102,7 +102,19 @@ public class Department {
         this.isSubDepartment.set(b);
     }
 
-    public boolean getIsSubDepartment(){
+    public boolean getIsSubDepartment() {
         return this.isSubDepartment.get();
+    }
+
+    public ObservableList<Department> getAllSubDepartments() {
+        ObservableList<Department> tmp = FXCollections.observableArrayList();
+        if (!this.getSubDepartments().isEmpty())
+            subDepartments.forEach(sd -> {
+                tmp.addAll(sd.getAllSubDepartments());
+                tmp.add(sd);
+            });
+        else
+            return getSubDepartments();
+        return tmp;
     }
 }
