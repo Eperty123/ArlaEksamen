@@ -45,7 +45,7 @@ public class AddDepartmentController implements Initializable {
         subDptTable.setItems(department.getAllSubDepartments());
         if (department.getIsSubDepartment()) {
             departmentManager.getAllDepartments().forEach(d -> {
-                    if (d.getAllSubDepartments().contains(department)) {
+                    if (d.getSubDepartments().contains(department)) {
                         if (!dptSuperior.getItems().contains(d))
                             dptSuperior.getItems().add(d);
                         dptSuperior.getSelectionModel().select(d);
