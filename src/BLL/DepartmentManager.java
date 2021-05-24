@@ -2,15 +2,18 @@ package BLL;
 
 import BE.Department;
 import BE.User;
+import DAL.DepartmentDAL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DepartmentManager {
     private Department department = new Department(-1, "SuperDepartment");
     private ObservableList<Department> departmentList = FXCollections.observableArrayList(department);
+    private DepartmentDAL departmentDAL = new DepartmentDAL();
 
     public DepartmentManager() {
         department.getUsers().add(new User("doku", "poker", "denn062g@easv365.dk", 112));
@@ -51,5 +54,9 @@ public class DepartmentManager {
     }
 
     public void editDepartment(Department department){
+    }
+
+    public void exportPhoneNumbers(List<Department> departments) {
+        departmentDAL.exportPhoneNumbers(departments);
     }
 }
