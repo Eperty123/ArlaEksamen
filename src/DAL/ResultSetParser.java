@@ -1,9 +1,6 @@
 package DAL;
 
-import BE.Bug;
-import BE.Gender;
-import BE.ScreenBit;
-import BE.User;
+import BE.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,11 +61,6 @@ public class ResultSetParser {
      * @throws SQLException
      */
     public Bug getBug(ResultSet rs) throws SQLException {
-
-        // Get Bug info from ResultSet
-
-        // TODO
-
         int bugId = rs.getInt("Id");
         String description = rs.getString("Description");
         String fixMessage = rs.getString("FixMessage");
@@ -78,6 +70,13 @@ public class ResultSetParser {
         String screenName = rs.getString("ScreenName");
         String referencedUser = rs.getString("UserName");
 
-        return new Bug(bugId, description, fixMessage,dateRegistered, bugResolved, adminId, screenName,referencedUser);
+        return new Bug(bugId, description, fixMessage, dateRegistered, bugResolved, adminId, screenName, referencedUser);
+    }
+
+    public Settings getSetting(ResultSet rs) throws SQLException {
+        int settingsId = rs.getInt("Id");
+        SettingsType settingsType = SettingsType.valueOf(rs.getInt("Type"));
+        String attribute = rs.getString("Attribute");
+        return new Settings(settingsId, settingsType, attribute);
     }
 }
