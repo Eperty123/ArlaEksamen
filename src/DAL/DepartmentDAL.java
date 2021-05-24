@@ -88,7 +88,7 @@ public class DepartmentDAL {
             User user = resultSetParser.getUser(rs);
 
             Department newDepartment = new Department(rs.getInt("dptId"), rs.getString("dptName"), new User(rs.getString("Manager")));
-            if(department.stream().noneMatch(o -> o.getId().equals(newDepartment.getId()))){
+            if(department.stream().noneMatch(o -> o.getId() == newDepartment.getId())){
                 department.add(newDepartment);
             }
 
