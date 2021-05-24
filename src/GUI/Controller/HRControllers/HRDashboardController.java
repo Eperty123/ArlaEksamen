@@ -62,28 +62,7 @@ public class HRDashboardController implements Initializable {
     }
 
     public void handleOrgDiagramCreator() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
-        Parent root = fxmlLoader.load();
-        ManagerScreenViewController controller = fxmlLoader.getController();
-        controller.setParentStage((Stage)this.root.getScene().getWindow());
-        Scene scene = new Scene(root);
-        BorderPane bp = (BorderPane) root.getScene().getRoot();
-        SceneMover sceneMover = new SceneMover();
-        sceneMover.move(stage,bp.getTop());
-
-        stage.getIcons().addAll(
-                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setScene(scene);
-        stage.setTitle("HR screen view");
-        stage.show();
-        minimize();
+        //TODO DP's ORG DIAGRAM CREATOR
     }
 
     public void handleUserManagement() throws IOException {
