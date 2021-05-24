@@ -80,6 +80,10 @@ ADMIN DASHBOARD
     -fx-fill: #97CE68;
 }
 
+.userSeach{
+    -fx-prompt-text-fill: #cacaca;
+    -fx-text-fill: white;
+}
 /*
 POP UP
  */
@@ -477,4 +481,32 @@ POP UP
 
 .snackbar-bg {
     -fx-background-color: #0d262e;
+}
+
+/*
+    HR Styles
+ */
+
+.importUsers{
+    -fx-image: url("HRUserManagement/ImportUsers.png");
+}
+
+.importUsers:hover{
+    -fx-image: url("HRUserManagement/ImportUsers_hover.png");
+}
+
+.exportUsers{
+    -fx-image: url("HRUserManagement/ExportUsers.png");
+}
+
+.exportUsers:hover{
+    -fx-image: url("HRUserManagement/ExportUsers_hover.png");
+}
+
+.exportPhonelist{
+    -fx-image: url("HRUserManagement/ExportPhone.png");
+}
+
+.exportPhonelist:hover{
+    -fx-image: url("HRUserManagement/ExportPhone_hover.png");
 }

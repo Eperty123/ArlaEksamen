@@ -1,5 +1,6 @@
 package GUI.Controller.CrudControllers;
 
+import BE.Gender;
 import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
@@ -54,11 +55,22 @@ public class EditEmployeeController implements Initializable {
         if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtUsername.getText().isEmpty()
                  && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
                 ) {
+            String firstName = txtFirstname.getText();
+            String lastName = txtLastname.getText();
+            String jobTitle = txtJobTitle.getText();
+            String email = txtEmail.getText();
+            int phone = Integer.parseInt(txtPhoneNumber.getText());
+            Enum<Gender> sex = chsSex.getSelectionModel().getSelectedItem();
+            Enum superior = chsSuperior.getSelectionModel().getSelectedItem();
+            Enum<UserType> userRole = chsRole.getSelectionModel().getSelectedItem();
+            String username = txtUsername.getText();
+            int password = passwordManager.encrypt(txtPassword.getText());
+            String imgPath = image.getImage().getUrl();
 
-            int password = txtPassword.getText().isEmpty() ? oldUser.getPassword() : passwordManager.encrypt(txtPassword.getText());
+            //public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
 
-            User newUser = new User(userModel.getAllUsers().size(), txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
-                    , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), password);
+            User newUser = new User(firstName,lastName,username,email,password,userRole.ordinal(),phone,sex,imgPath,jobTitle);
+
             userModel.updateUser(oldUser, newUser);
 
             Stage stage = (Stage) root.getScene().getWindow();
@@ -77,15 +89,21 @@ public class EditEmployeeController implements Initializable {
 
         chsRole.getItems().addAll(UserType.values());
         chsRole.getSelectionModel().selectFirst();
+
+        chsSex.getItems().addAll(Gender.values());
     }
 
     public void setData(User user) {
         oldUser = user;
         txtFirstname.setText(user.getFirstName());
         txtLastname.setText(user.getLastName());
-        txtUsername.setText(user.getUserName());
+        txtJobTitle.setText(user.getTitle());
         txtEmail.setText(user.getEmail());
+        txtPhoneNumber.setText(String.valueOf(user.getPhone()));
+        chsSex.getSelectionModel().select(user.getGender());
         chsRole.getSelectionModel().select(user.getUserRole());
+
+        txtUsername.setText(user.getUserName());
     }
 
     public void handleSelectImage(){

@@ -1,5 +1,6 @@
 package GUI.Controller.CrudControllers;
 
+import BE.Gender;
 import BE.ScreenBit;
 import BE.User;
 import BE.UserType;
@@ -43,11 +44,9 @@ public class AddEmployeeController implements Initializable {
     @FXML
     private JFXTextField txtJobTitle;
     @FXML
-    private JFXTextField txtDepartment;
+    private JFXComboBox<Enum<UserType>> chsRole;
     @FXML
-    private JFXComboBox<Enum> chsRole;
-    @FXML
-    private JFXComboBox<Enum> chsSex;
+    private JFXComboBox<Enum<Gender>> chsSex;
     @FXML
     private JFXComboBox<Enum> chsSuperior;
     @FXML
@@ -60,10 +59,21 @@ public class AddEmployeeController implements Initializable {
         if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtUsername.getText().isEmpty()
                 && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
                 ) {
+            String firstName = txtFirstname.getText();
+            String lastName = txtLastname.getText();
+            String jobTitle = txtJobTitle.getText();
+            String email = txtEmail.getText();
+            int phone = Integer.parseInt(txtPhoneNumber.getText());
+            Enum<Gender> sex = chsSex.getSelectionModel().getSelectedItem();
+            Enum superior = chsSuperior.getSelectionModel().getSelectedItem();
+            Enum<UserType> userRole = chsRole.getSelectionModel().getSelectedItem();
+            String username = txtUsername.getText();
+            int password = passwordManager.encrypt(txtPassword.getText());
+            String imgPath = image.getImage().getUrl();
 
-            User newUser = new User(txtFirstname.getText(), txtLastname.getText(), txtUsername.getText()
-                    , txtEmail.getText(), chsRole.getSelectionModel().getSelectedItem().ordinal(), passwordManager.encrypt(txtPassword.getText()));
+            //public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
 
+            User newUser = new User(firstName,lastName,username,email,password,userRole.ordinal(),phone,sex,imgPath,jobTitle);
             // Add the new user.
             userModel.addUser(newUser);
 
@@ -97,6 +107,9 @@ public class AddEmployeeController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         chsRole.getItems().addAll(UserType.values());
         chsRole.getSelectionModel().selectFirst();
+
+        chsSex.getItems().addAll(Gender.values());
+        chsSex.getSelectionModel().selectFirst();
 
         for (Enum e : chsRole.getItems()){
             System.out.println(e.name() + " - " + e.ordinal());

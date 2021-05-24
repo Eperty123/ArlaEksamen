@@ -1,21 +1,21 @@
-package GUI.Controller.AdminControllers;
+package GUI.Controller.HRControllers;
 
-import BE.Bug;
 import BE.ClockCalender;
 import BE.SceneMover;
 import BE.User;
 import BLL.LoginManager;
+import GUI.Controller.ManagerControllers.ManagerMessageController;
+import GUI.Controller.ManagerControllers.ManagerScreenViewController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
-import GUI.Controller.PopupControllers.SettingsController;
-import GUI.Controller.PopupControllers.SnackBarPopup;
 import GUI.Controller.PopupControllers.WarningController;
-import GUI.Model.*;
-import com.jfoenix.controls.JFXButton;
-import javafx.collections.ListChangeListener;
+import GUI.Model.ScreenModel;
+import GUI.Model.UserModel;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -29,7 +29,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AdminDashboardController implements Initializable {
+public class HRDashboardController implements Initializable {
     @FXML
     private Label lblWelcome;
     @FXML
@@ -39,84 +39,38 @@ public class AdminDashboardController implements Initializable {
     @FXML
     private BorderPane borderPane;
     @FXML
-    private JFXButton btnSelectAll;
-    @FXML
     private Label dateTimeLabel;
 
     private User currentUser;
     private boolean isMaximized = false;
-    private BugModel bugModel = BugModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initialize();
-    }
-
-    private void initialize() {
         currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(dateTimeLabel);
 
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
-        lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
-        handleBugReportUpdate();
-
+        lblBar.setText("HR Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         try {
             handleUserManagement();
         } catch (IOException e) {
             e.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong trying to load the admins user management view." +
-                    " It might be corrupted or lost.");
+            WarningController.createWarning("Oh no! Something went wrong trying to read the Managers create message view." +
+                    " Please try again. If the problem persists, please contact an IT-Administrator");
+
         }
     }
 
-    /**
-     * Handle any new incoming bug reports.
-     */
-    private void handleBugReportUpdate() {
-        bugModel.getAllUnresolvedBugs().addListener((ListChangeListener<Bug>) c -> {
-
-            if (c.getList().size() > 0) {
-                String properContext = c.getList().size() > 1 ? "reports" : "report";
-                String title = String.format("New bug %s", properContext);
-                String text = String.format("%d new bug %s", c.getList().size(), properContext);
-                while (c.next()) {
-
-                    // If a new bug report is added show a SnackBar at the bottom center.
-                    if (c.wasAdded()) {
-                        SnackBarPopup.createSnackBarPopup(borderPane, title, text, 3.25).showSnackBar();
-                        break;
-                    }
-                }
-            }
-        });
+    public void handleOrgDiagramCreator() throws IOException {
+        //TODO DP's ORG DIAGRAM CREATOR
     }
 
     public void handleUserManagement() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminManagement.fxml"));
-        borderPane.setCenter(fxmlLoader.load());
-    }
-
-    public void handleScreenManagement() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminScreenManagement.fxml"));
-        borderPane.setCenter(fxmlLoader.load());
-    }
-
-    public void handleBugManagement() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminBugReport.fxml"));
-        borderPane.setCenter(fxmlLoader.load());
-    }
-
-    public void handleCreateMessage() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminMessage.fxml"));
-        borderPane.setCenter(fxmlLoader.load());
-    }
-
-    public void handleSettings(){
-        SettingsController.openSettings();
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRUserManagement.fxml"));
+        Parent root = fxmlLoader.load();
+        HRUserManagementController controller = fxmlLoader.getController();
+        borderPane.setCenter(root);
     }
 
     public void minimize() {
@@ -124,7 +78,7 @@ public class AdminDashboardController implements Initializable {
         stage.setIconified(true);
     }
 
-    public void maximize() {
+    public void maximize(){
         isMaximized = !isMaximized;
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.setMaximized(isMaximized);
@@ -142,14 +96,10 @@ public class AdminDashboardController implements Initializable {
         if (result.isPresent()) {
             if (result.get()) {
                 SceneMover sceneMover = new SceneMover();
-
                 // Reset the singleton instance so we don't leave any cache behind.
                 UserModel.getInstance().resetSingleton();
                 ScreenModel.getInstance().resetSingleton();
-                BugModel.getInstance().resetSingleton();
-                MessageModel.getInstance().resetSingleton();
-                SettingsModel.getInstance().resetSingleton();
-
+                
                 Stage root1 = (Stage) root.getScene().getWindow();
 
                 Stage stage = new Stage();

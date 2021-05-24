@@ -13,6 +13,16 @@ public class Department {
     private ObjectProperty<User> manager = new SimpleObjectProperty();
     private ObservableList<User> users = FXCollections.observableArrayList();
     private ObservableList<Department> subDepartments = FXCollections.observableArrayList();
+    private BooleanProperty isSubDepartment = new SimpleBooleanProperty(false);
+    private DepartmentViewController departmentViewController;
+
+    public DepartmentViewController getDepartmentViewController() {
+        return departmentViewController;
+    }
+
+    public void setDepartmentViewController(DepartmentViewController departmentViewController) {
+        this.departmentViewController = departmentViewController;
+    }
 
     public Department(ObjectProperty<Integer> id, StringProperty name, ObservableList<User> users, ObservableList<Department> subDepartments) {
         this.id = id;
@@ -54,6 +64,15 @@ public class Department {
 
     public void setId(Integer id) {
         this.id.set(id);
+
+    }
+
+    public int getId() {
+        return id.get();
+    }
+
+    public ObjectProperty<Integer> idProperty() {
+        return id;
     }
 
     public String getName() {
@@ -62,6 +81,7 @@ public class Department {
 
     public StringProperty nameProperty() {
         return name;
+
     }
 
     public void setName(String name) {

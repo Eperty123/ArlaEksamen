@@ -64,13 +64,17 @@ public class UserDAL {
 
         try (Connection con = dbCon.getConnection()) {
 
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?)");
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)");
             pSql.setString(1, user.getFirstName());
             pSql.setString(2, user.getLastName());
             pSql.setString(3, user.getUserName());
             pSql.setString(4, user.getEmail());
             pSql.setInt(5, user.getPassword());
             pSql.setInt(6, user.getUserRole().ordinal());
+            pSql.setInt(7,user.getPhone());
+            pSql.setInt(8,user.getGender().ordinal());
+            pSql.setString(9, user.getPhotoPath());
+            pSql.setString(10, user.getTitle());
             pSql.execute();
 
         } catch (SQLException throwables) {
@@ -89,14 +93,20 @@ public class UserDAL {
 
         try (Connection con = dbCon.getConnection()) {
 
-            PreparedStatement pSql = con.prepareStatement("UPDATE [User] SET FirstName = ?, LastName = ?, UserName = ?, Email = ?, Password = ?, UserRole = ? WHERE Id = ?");
+            PreparedStatement pSql = con.prepareStatement("UPDATE [User] SET FirstName = ?, LastName = ?, " +
+                    "UserName = ?, Email = ?, Password = ?, UserRole = ?, Phone = ?, Gender = ?, " +
+                    "PhotoPath = ?, Title = ? WHERE Id = ?");
             pSql.setString(1, updatedUser.getFirstName());
             pSql.setString(2, updatedUser.getLastName());
             pSql.setString(3, updatedUser.getUserName());
             pSql.setString(4, updatedUser.getEmail());
             pSql.setInt(5, updatedUser.getPassword());
             pSql.setInt(6, updatedUser.getUserRole().ordinal());
-            pSql.setInt(7, user.getId());
+            pSql.setInt(7,updatedUser.getPhone());
+            pSql.setInt(8,updatedUser.getGender().ordinal());
+            pSql.setString(9, updatedUser.getPhotoPath());
+            pSql.setString(10, updatedUser.getTitle());;
+            pSql.setInt(11, user.getId());
             pSql.execute();
 
         } catch (SQLException throwables) {
@@ -142,7 +152,7 @@ public class UserDAL {
         if(allUsers.stream().noneMatch(o -> o.getId() == newUser.getId())){
 
             if(screenBit.getName() != null){
-                newUser.addScreenAssignment(screenBit);
+                newUser.getAssignedScreenBits().add(screenBit);
             }
             allUsers.add(newUser);
         } else{
