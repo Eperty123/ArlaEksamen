@@ -49,11 +49,11 @@ public class ResultSetParser {
         int userRole = rs.getInt("UserRole");
         int phoneNumber = rs.getInt("Phone");
         Enum gender = rs.getBoolean("Gender") ? Gender.Male : Gender.Female;
+        // TODO update when ready
         String photoPath = "demopath";
         String title = rs.getString("Title");
-        int departmentId = rs.getInt("DepartmentId");
 
-        return new User(userId, firstName, lastName, userName, email, password, userRole, phoneNumber, gender, photoPath, title, departmentId);
+        return new User(userId, firstName, lastName, userName, email, password, userRole, phoneNumber, gender, photoPath, title);
     }
 
     /**

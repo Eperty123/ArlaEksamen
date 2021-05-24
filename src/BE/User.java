@@ -21,6 +21,10 @@ public class User {
     private StringProperty title = new SimpleStringProperty();
     private Enum gender;
 
+    public User(String userName){
+        this.userName.set(userName);
+    }
+
     public User(String fName, String lName, String email, int phone) {
         this.firstName.setValue(fName);
         this.lastName.setValue(lName);
@@ -106,7 +110,7 @@ public class User {
     }
 
 
-    public User(int id, String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title, int departmentId) {
+    public User(int id, String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
         this.id.set(id);
         this.firstName.set(firstName);
         this.lastName.set(lastName);
@@ -296,5 +300,9 @@ public class User {
     @Override
     public String toString() {
         return userName + " - " + firstName + " " + lastName;
+    }
+
+    public void addScreenAssignment(ScreenBit screenBit) {
+        this.assignedScreenBits.add(screenBit);
     }
 }
