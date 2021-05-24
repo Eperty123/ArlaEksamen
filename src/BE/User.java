@@ -19,7 +19,6 @@ public class User {
     private List<ScreenBit> assignedScreenBits = new ArrayList<>();
     private StringProperty photoPath = new SimpleStringProperty();
     private StringProperty title = new SimpleStringProperty();
-    private Enum department;
     private Enum gender;
 
     public User(String fName, String lName, String email, int phone) {
@@ -39,9 +38,8 @@ public class User {
         setUserRole(userRole);
         this.password = new SimpleIntegerProperty(password);
         this.gender = gender;
-        this.photoPath = photoPath;
-        this.departmentId = departmentId;
-        this.title = title;
+        this.photoPath.set(photoPath);
+        this.title.set(title);
         this.assignedScreenBits = assignedScreenBits;
     }
 
@@ -104,23 +102,22 @@ public class User {
         this.email = new SimpleStringProperty(email);
         this.setUserRole(userRole);
         this.password = new SimpleIntegerProperty(password);
-        this.assignedScreenBits = new ArrayList<ScreenBit>();
+        this.assignedScreenBits = new ArrayList<>();
     }
 
 
     public User(int id, String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title, int departmentId) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
+        this.id.set(id);
+        this.firstName.set(firstName);
+        this.lastName.set(lastName);
+        this.userName.set(userName);
+        this.email.set(email);
+        this.phone.set(phoneNumber);
         setUserRole(userRole);
-        this.password = password;
+        this.password.set(password);
         this.gender = gender;
-        this.photoPath = photoPath;
-        this.departmentId = departmentId;
-        this.title = title;
+        this.photoPath.set(photoPath);
+        this.title.set(title);
     }
 
 
@@ -281,13 +278,7 @@ public class User {
         this.title.set(title);
     }
 
-    public Enum getDepartment() {
-        return department;
-    }
 
-    public void setDepartment(Enum department) {
-        this.department = department;
-    }
 
     public Enum getGender() {
         return gender;
@@ -297,9 +288,13 @@ public class User {
         this.gender = gender;
     }
 
+    public String toCSV(){
+        return id + ";" + firstName + ";" + lastName + ";" + userName + ";" + email + ";" + phone + ";" + userRole.ordinal() + ";" + password + ";" + gender.ordinal() + ";" + title;
+    }
+
 
     @Override
     public String toString() {
-        return id + ";" + firstName + ";" + lastName + ";" + userName + ";" + email + ";" + phoneNumber + ";" + userRole.ordinal() + ";" + password + ";" + gender.ordinal() + ";" + departmentId + ";" + title;
+        return userName + " - " + firstName + " " + lastName;
     }
 }
