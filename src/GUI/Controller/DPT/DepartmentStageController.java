@@ -1,20 +1,22 @@
 package GUI.Controller.DPT;
 
+import BE.Department;
 import BE.User;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
-import org.apache.xmlbeans.impl.xb.xmlconfig.Usertypeconfig;
+import java.io.IOException;
+import java.util.List;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class DepartmentStageController implements Initializable {
@@ -34,8 +36,11 @@ public class DepartmentStageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<User> allUsers = UserModel.getInstance().getAllUsers();
+
         userTable.setItems(FXCollections.observableArrayList(UserModel.getInstance().getAllUsers()));
+
         userTableColumn.setCellValueFactory(data -> data.getValue().getFullNameProperty());
+
         searchField.setOnKeyReleased((v) -> {
                     allUsers.forEach(u -> {
                         if (!u.getFullNameProperty().get().toLowerCase().contains(searchField.getText().toLowerCase()))
@@ -45,8 +50,29 @@ public class DepartmentStageController implements Initializable {
                     });
                 }
         );
+
         TableDragMod.setDontDeleteFromTable(userTable);
         TableDragMod.makeTableDraggable(userTable);
+    }
+
+    public void setChildrenNodes(List<Node> childNodes) {
+        hBox.getChildren().clear();
+        hBox.getChildren().addAll(childNodes);
+    }
+
+    public List<Node> getChildrenNodes() {
+        return hBox.getChildren();
+    }
+
+    public void addChildrenNode(Department department) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
+        try {
+            hBox.getChildren().add(fxmlLoader.load());
+            DepartmentViewController con = fxmlLoader.getController();
+            con.setDepartment(department);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
