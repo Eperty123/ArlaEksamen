@@ -32,7 +32,7 @@ public class DepartmentManager {
     public ObservableList<Department> getSuperDepartments() {
         ObservableList<Department> tmp = FXCollections.observableArrayList();
         departmentList.forEach(d -> {
-            if (!d.isSubDepartment())
+            if (!d.getIsSubDepartment())
                 tmp.add(d);
         });
         return tmp;
