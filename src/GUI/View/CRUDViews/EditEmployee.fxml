@@ -11,9 +11,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="540.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CrudControllers.EditEmployeeController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="540.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CrudControllers.EditEmployeeController">
    <children>
-      <Pane layoutX="2.0" layoutY="2.0" prefHeight="500.0" prefWidth="536.0" styleClass="popupForground">
+      <Pane layoutX="2.0" layoutY="2.0" prefHeight="469.0" prefWidth="536.0" styleClass="popupForground">
          <children>
             <Label alignment="TOP_CENTER" layoutX="228.0" layoutY="14.0" text="Edit Employee" textFill="#4c707a">
                <font>
@@ -24,35 +24,33 @@
             <Label layoutX="50.0" layoutY="95.0" text="Last-name" />
             <Label layoutX="297.0" layoutY="297.0" text="Username" />
             <Label layoutX="296.0" layoutY="348.0" text="Password" />
-            <Label layoutX="50.0" layoutY="197.0" text="Department" />
-            <Label layoutX="297.0" layoutY="398.0" text="User Role" />
+            <Label layoutX="49.0" layoutY="399.0" text="User Role" />
             <JFXTextField fx:id="txtFirstname" focusColor="#94bdd3" layoutX="50.0" layoutY="62.0" prefHeight="25.0" prefWidth="190.0" promptText="First-name" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtLastname" focusColor="#94bdd3" layoutX="50.0" layoutY="112.0" prefHeight="25.0" prefWidth="190.0" promptText="Last-name" unFocusColor="#9f9f9f" />
+            <JFXTextField fx:id="txtJobTitle" focusColor="#94bdd3" layoutX="50.0" layoutY="162.0" prefHeight="25.0" prefWidth="190.0" promptText="Job title" unFocusColor="#9f9f9f" />
+            <JFXButton layoutX="408.0" layoutY="243.0" onAction="#handleSelectImage" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Select File" />
+            <JFXTextField fx:id="txtEmail" focusColor="#94bdd3" layoutX="50.0" layoutY="214.0" prefHeight="25.0" prefWidth="190.0" promptText="Email" unFocusColor="#9f9f9f" />
+            <JFXTextField fx:id="txtPhoneNumber" focusColor="#94bdd3" layoutX="50.0" layoutY="264.0" prefHeight="25.0" prefWidth="190.0" promptText="Phone number" unFocusColor="#9f9f9f" />
+            <JFXComboBox fx:id="chsSex" focusColor="#94bdd3" layoutX="50.0" layoutY="315.0" prefHeight="25.0" prefWidth="190.0" promptText="Sex" unFocusColor="#9f9f9f" />
+            <JFXComboBox fx:id="chsSuperior" focusColor="#94bdd3" layoutX="50.0" layoutY="365.0" prefHeight="25.0" prefWidth="190.0" promptText="Superior" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtUsername" focusColor="#94bdd3" layoutX="298.0" layoutY="314.0" prefHeight="25.0" prefWidth="190.0" promptText="Username" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtPassword" focusColor="#94bdd3" layoutX="298.0" layoutY="365.0" prefHeight="25.0" prefWidth="190.0" promptText="Password" unFocusColor="#9f9f9f" />
-            <JFXTextField fx:id="txtDepartment" focusColor="#94bdd3" layoutX="50.0" layoutY="214.0" prefHeight="25.0" prefWidth="190.0" promptText="Department" unFocusColor="#9f9f9f" />
-            <JFXComboBox fx:id="chsRole" focusColor="#94bdd3" layoutX="299.0" layoutY="415.0" prefHeight="25.0" prefWidth="190.0" promptText="User Role" unFocusColor="#9f9f9f" />
-            <JFXButton layoutX="299.0" layoutY="460.0" onAction="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" />
-            <JFXButton layoutX="409.0" layoutY="460.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" />
+            <JFXComboBox fx:id="chsRole" focusColor="#94bdd3" layoutX="51.0" layoutY="416.0" prefHeight="25.0" prefWidth="190.0" promptText="User Role" unFocusColor="#9f9f9f" />
+            <JFXButton layoutX="298.0" layoutY="416.0" onAction="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" />
+            <JFXButton layoutX="408.0" layoutY="416.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" />
             <ImageView fx:id="image" fitHeight="200.0" fitWidth="200.0" layoutX="297.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Resources/defaultPerson.png" />
                </image>
             </ImageView>
-            <Label layoutX="50.0" layoutY="348.0" text="Sex" />
-            <JFXComboBox fx:id="chsSex" focusColor="#94bdd3" layoutX="50.0" layoutY="365.0" prefHeight="25.0" prefWidth="190.0" promptText="Sex" unFocusColor="#9f9f9f" />
+            <Label layoutX="50.0" layoutY="298.0" text="Sex" />
             <Label layoutX="50.0" layoutY="145.0" text="Job title" />
-            <JFXTextField fx:id="txtJobTitle" focusColor="#94bdd3" layoutX="50.0" layoutY="162.0" prefHeight="25.0" prefWidth="190.0" promptText="Job title" unFocusColor="#9f9f9f" />
-            <Label layoutX="50.0" layoutY="247.0" text="Email" />
-            <JFXTextField fx:id="txtEmail" focusColor="#94bdd3" layoutX="50.0" layoutY="264.0" prefHeight="25.0" prefWidth="190.0" promptText="Email" unFocusColor="#9f9f9f" />
-            <Label layoutX="50.0" layoutY="398.0" text="Superior" />
-            <JFXComboBox fx:id="chsSuperior" focusColor="#94bdd3" layoutX="50.0" layoutY="415.0" prefHeight="25.0" prefWidth="190.0" promptText="Superior" unFocusColor="#9f9f9f" />
+            <Label layoutX="50.0" layoutY="197.0" text="Email" />
+            <Label layoutX="50.0" layoutY="348.0" text="Superior" />
             <Label layoutX="297.0" layoutY="247.0" text="Image" />
-            <JFXButton layoutX="408.0" layoutY="243.0" onAction="#handleSelectImage" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Select File" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="50.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="160.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="329.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="160.0" />
-            <Label layoutX="50.0" layoutY="297.0" text="Phone number" />
-            <JFXTextField fx:id="txtPhoneNumber" focusColor="#94bdd3" layoutX="50.0" layoutY="314.0" prefHeight="25.0" prefWidth="190.0" promptText="Phone number" unFocusColor="#9f9f9f" />
+            <Label layoutX="50.0" layoutY="247.0" text="Phone number" />
          </children>
       </Pane>
    </children>
