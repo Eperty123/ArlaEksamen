@@ -1,9 +1,7 @@
 package BE;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import GUI.Controller.DPT.DepartmentViewController;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -54,10 +52,6 @@ public class Department {
         this.manager.set(manager);
     }
 
-    public Integer getId() {
-        return id.get();
-    }
-
     public ObjectProperty<Integer> idProperty() {
         return id;
     }
@@ -69,10 +63,6 @@ public class Department {
 
     public int getId() {
         return id.get();
-    }
-
-    public ObjectProperty<Integer> idProperty() {
-        return id;
     }
 
     public String getName() {
@@ -106,5 +96,13 @@ public class Department {
 
     public void setSubDepartments(ObservableList<Department> subDepartments) {
         this.subDepartments = subDepartments;
+    }
+
+    public void setSubDepartment(boolean b) {
+        this.isSubDepartment.set(b);
+    }
+
+    public boolean getIsSubDepartment(){
+        return this.isSubDepartment.get();
     }
 }
