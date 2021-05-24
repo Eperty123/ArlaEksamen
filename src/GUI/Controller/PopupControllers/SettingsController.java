@@ -1,6 +1,8 @@
 package GUI.Controller.PopupControllers;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +16,18 @@ import java.io.IOException;
 public class SettingsController {
     @FXML
     private AnchorPane root;
+    @FXML
+    private JFXTextField txtMessageUpdate;
+    @FXML
+    private JFXTextField txtEmployeeCard;
+    @FXML
+    private JFXTextField txtPasswordTimeout;
+    @FXML
+    private JFXComboBox<String> cmbTimeFormat;
+
+    private void setData(){
+        //TODO
+    }
 
     public void handleSave() {
         //TODO: Save settings
@@ -41,10 +55,11 @@ public class SettingsController {
             ioException.printStackTrace();
         }
 
-        SettingsController warningController = fxmlLoader.getController();
+        SettingsController settingsController = fxmlLoader.getController();
+        settingsController.setData();
         stage1.initStyle(StageStyle.TRANSPARENT);
         stage1.show();
         stage1.setAlwaysOnTop(true);
-        return warningController;
+        return settingsController;
     }
 }

@@ -1,0 +1,9 @@
+id;FirstName;LastName;UserName;Email;PhoneNumber;UserRole;Password;Gender;DepartmentId;Title
+1;AdmTest;Test;admtest;adm@test.dk;0;0;110251535;1;555;ceo
+36;bar;bar;bar;bar;0;1;97299;1;555;worker
+41;Miker;Hovedskov;Franno;Mikehovedskov@gmail.com;0;0;-1422438099;0;555;worker
+1046;m;m;m;m;0;2;109;0;555;worker
+46;Mike;Hovedskov;mgrtest;testm@test.dk;0;2;110251547;1;555;worker
+37;pie;pie;pie;pie;0;1;110988;1;555;worker
+43;Roberto;Harleysons;rharl;r@h.dk;0;0;3406680;0;555;worker
+2;User;Test;usrtest;usr@test.dk;0;1;110251555;1;555;worker

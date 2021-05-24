@@ -15,6 +15,7 @@ public class UserDAL {
     private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
     private ResultSetParser resultSetParser = new ResultSetParser();
 
+
     /**
      * Creates a list of all users in the database. The query join the User and Screen tables through
      * the ScreenRights junction table. Users who
@@ -25,29 +26,26 @@ public class UserDAL {
 
         try(Connection con = dbCon.getConnection()){
             PreparedStatement pSql = con.prepareStatement(
-                    "SELECT" +
-                    "[User].Id AS UserId," +
-                    "[User].FirstName," +
-                    "[User].LastName," +
-                    "[User].Email," +
-                    "[User].Password," +
-                    "[User].UserName," +
-                    "[User].UserRole ," +
-                    "Screen.Id AS ScreenId," +
-                    "Screen.ScreenName," +
-                    "Screen.ScreenInfo " +
-                    "FROM [User]" +
-                    "LEFT OUTER JOIN ScreenRights " +
-                    "ON [User].UserName = ScreenRights.UserName " +
-                    "LEFT OUTER JOIN Screen " +
-                    "ON Screen.Id = ScreenRights.ScreenId AND ScreenRights.UserName = [User].UserName;");
+                    "SELECT " +
+                            "[User].*, " +
+                            "Screen.Id AS ScreenId, " +
+                            "Screen.ScreenName, " +
+                            "Screen.ScreenInfo, " +
+                            "DepartmentUser.DepartmentId " +
+                            "FROM [User] " +
+                            "LEFT OUTER JOIN ScreenRights " +
+                            "ON [User].UserName = ScreenRights.UserName " +
+                            "LEFT OUTER JOIN Screen " +
+                            "ON Screen.Id = ScreenRights.ScreenId AND ScreenRights.UserName = [User].UserName " +
+                            "LEFT OUTER JOIN DepartmentUser ON DepartmentUser.UserName = [User].UserName;");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
             while(rs.next()) {
-                    User newUser = resultSetParser.getUser(rs);
-                    ScreenBit screenBit = resultSetParser.getScreenBit(rs);
-                    addUsersAndScreenBits(allUsers, newUser, screenBit);
+
+                User newUser = resultSetParser.getUser(rs);
+                ScreenBit screenBit = resultSetParser.getScreenBit(rs);
+                addUsersAndScreenBits(allUsers, newUser, screenBit);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -57,6 +55,9 @@ public class UserDAL {
         return allUsers;
     }
 
+
+
+
     /**
      * Method performs an INSERT query to create a new user/row in the User table.
      * @param user object containing information on the new user.
@@ -65,13 +66,17 @@ public class UserDAL {
 
         try (Connection con = dbCon.getConnection()) {
 
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?)");
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)");
             pSql.setString(1, user.getFirstName());
             pSql.setString(2, user.getLastName());
             pSql.setString(3, user.getUserName());
             pSql.setString(4, user.getEmail());
             pSql.setInt(5, user.getPassword());
             pSql.setInt(6, user.getUserRole().ordinal());
+            pSql.setInt(7,user.getPhone());
+            pSql.setInt(8,user.getGender().ordinal());
+            pSql.setString(9, user.getPhotoPath());
+            pSql.setString(10, user.getTitle());
             pSql.execute();
 
         } catch (SQLException throwables) {
@@ -90,14 +95,20 @@ public class UserDAL {
 
         try (Connection con = dbCon.getConnection()) {
 
-            PreparedStatement pSql = con.prepareStatement("UPDATE [User] SET FirstName = ?, LastName = ?, UserName = ?, Email = ?, Password = ?, UserRole = ? WHERE Id = ?");
+            PreparedStatement pSql = con.prepareStatement("UPDATE [User] SET FirstName = ?, LastName = ?, " +
+                    "UserName = ?, Email = ?, Password = ?, UserRole = ?, Phone = ?, Gender = ?, " +
+                    "PhotoPath = ?, Title = ? WHERE Id = ?");
             pSql.setString(1, updatedUser.getFirstName());
             pSql.setString(2, updatedUser.getLastName());
             pSql.setString(3, updatedUser.getUserName());
             pSql.setString(4, updatedUser.getEmail());
             pSql.setInt(5, updatedUser.getPassword());
             pSql.setInt(6, updatedUser.getUserRole().ordinal());
-            pSql.setInt(7, user.getId());
+            pSql.setInt(7,updatedUser.getPhone());
+            pSql.setInt(8,updatedUser.getGender().ordinal());
+            pSql.setString(9, updatedUser.getPhotoPath());
+            pSql.setString(10, updatedUser.getTitle());;
+            pSql.setInt(11, user.getId());
             pSql.execute();
 
         } catch (SQLException throwables) {
@@ -142,7 +153,9 @@ public class UserDAL {
     private void addUsersAndScreenBits(List<User> allUsers, User newUser, ScreenBit screenBit) {
         if(allUsers.stream().noneMatch(o -> o.getId() == newUser.getId())){
 
-            if(screenBit.getName() != null) newUser.getAssignedScreenBits().add(screenBit);
+            if(screenBit.getName() != null){
+                newUser.getAssignedScreenBits().add(screenBit);
+            }
             allUsers.add(newUser);
         } else{
 

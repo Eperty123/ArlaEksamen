@@ -2,6 +2,7 @@ package BE;
 
 
 import javafx.beans.property.*;
+import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ public class User {
     private List<ScreenBit> assignedScreenBits = new ArrayList<>();
     private StringProperty photoPath = new SimpleStringProperty();
     private StringProperty title = new SimpleStringProperty();
-    private Enum department;
     private Enum gender;
 
     public User(String fName, String lName, String email, int phone) {
@@ -30,7 +30,7 @@ public class User {
     }
 
     public User(int id, String firstName, String lastName, String userName, String email, String phoneNumber, int userRole, int password, Enum gender, String photoPath, Enum department, String title, List<ScreenBit> assignedScreenBits) {
-
+        this.id = new SimpleObjectProperty<>(id);
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.userName = new SimpleStringProperty(userName);
@@ -40,7 +40,6 @@ public class User {
         this.password = new SimpleIntegerProperty(password);
         this.gender = gender;
         this.photoPath.set(photoPath);
-        this.department = department;
         this.title.set(title);
         this.assignedScreenBits = assignedScreenBits;
     }
@@ -104,8 +103,37 @@ public class User {
         this.email = new SimpleStringProperty(email);
         this.setUserRole(userRole);
         this.password = new SimpleIntegerProperty(password);
-        this.assignedScreenBits = new ArrayList<ScreenBit>();
+        this.assignedScreenBits = new ArrayList<>();
     }
+
+
+    public User(int id, String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
+        this.id.set(id);
+        this.firstName.set(firstName);
+        this.lastName.set(lastName);
+        this.userName.set(userName);
+        this.email.set(email);
+        this.phone.set(phoneNumber);
+        setUserRole(userRole);
+        this.password.set(password);
+        this.gender = gender;
+        this.photoPath.set(photoPath);
+        this.title.set(title);
+    }
+
+    public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
+        this.firstName.set(firstName);
+        this.lastName.set(lastName);
+        this.userName.set(userName);
+        this.email.set(email);
+        this.phone.set(phoneNumber);
+        setUserRole(userRole);
+        this.password.set(password);
+        this.gender = gender;
+        this.photoPath.set(photoPath);
+        this.title.set(title);
+    }
+
 
     public void setUserRole(int userRole) {
         switch (userRole) {
@@ -118,10 +146,14 @@ public class User {
             case 2:
                 this.userRole = UserType.Manager;
                 break;
+            case 3:
+                this.userRole = UserType.HR;
+                break;
         }
 
 
     }
+
 
     public int getId() {
         return id.get();
@@ -263,13 +295,7 @@ public class User {
         this.title.set(title);
     }
 
-    public Enum getDepartment() {
-        return department;
-    }
 
-    public void setDepartment(Enum department) {
-        this.department = department;
-    }
 
     public Enum getGender() {
         return gender;
@@ -279,8 +305,13 @@ public class User {
         this.gender = gender;
     }
 
+    public String toCSV(){
+        return id + ";" + firstName + ";" + lastName + ";" + userName + ";" + email + ";" + phone + ";" + userRole.ordinal() + ";" + password + ";" + gender.ordinal() + ";" + title;
+    }
+
+
     @Override
     public String toString() {
-        return String.format("%s %s", getFirstName(), getLastName());
+        return userName + " - " + firstName + " " + lastName;
     }
 }
