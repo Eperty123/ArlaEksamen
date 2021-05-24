@@ -7,8 +7,10 @@ import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
 import GUI.Controller.CrudControllers.RemoveEmployeeController;
 import GUI.Controller.EmployeeCardController;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
+import com.mysql.cj.xdevapi.Warning;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
@@ -48,7 +50,7 @@ public class HRUserManagementController implements Initializable {
     @FXML
     private JFXTextField txtSearch;
 
-    private ArrayList<User> selectedUser = new ArrayList<>();
+    private ArrayList<User> selectedUsers = new ArrayList<>();
     private UserModel userModel = new UserModel();
     private SceneMover sceneMover = new SceneMover();
 
@@ -199,73 +201,73 @@ public class HRUserManagementController implements Initializable {
         flowpane.setMargin(newPane, new Insets(25, 25, 0, 25));
 
         check.setOnMouseClicked(mouseEvent -> {
-            if (!selectedUser.contains(u)) {
-                selectedUser.add(u);
+            if (!selectedUsers.contains(u)) {
+                selectedUsers.add(u);
             } else {
-                selectedUser.remove(u);
+                selectedUsers.remove(u);
             }
             check.setVisible(!check.isVisible());
         });
 
         newRectangle.setOnMouseClicked(mouseEvent -> {
-            if (!selectedUser.contains(u)) {
-                selectedUser.add(u);
+            if (!selectedUsers.contains(u)) {
+                selectedUsers.add(u);
             } else {
-                selectedUser.remove(u);
+                selectedUsers.remove(u);
             }
             check.setVisible(!check.isVisible());
         });
 
         newCircle.setOnMouseClicked(mouseEvent -> {
-            if (!selectedUser.contains(u)) {
-                selectedUser.add(u);
+            if (!selectedUsers.contains(u)) {
+                selectedUsers.add(u);
             } else {
-                selectedUser.remove(u);
+                selectedUsers.remove(u);
             }
             check.setVisible(!check.isVisible());
         });
 
         image.setOnMouseClicked(mouseEvent -> {
-            if (!selectedUser.contains(u)) {
-                selectedUser.add(u);
+            if (!selectedUsers.contains(u)) {
+                selectedUsers.add(u);
             } else {
-                selectedUser.remove(u);
+                selectedUsers.remove(u);
             }
             check.setVisible(!check.isVisible());
         });
 
         underBar.setOnMouseClicked(mouseEvent -> {
-            if (!selectedUser.contains(u)) {
-                selectedUser.add(u);
+            if (!selectedUsers.contains(u)) {
+                selectedUsers.add(u);
             } else {
-                selectedUser.remove(u);
+                selectedUsers.remove(u);
             }
             check.setVisible(!check.isVisible());
         });
 
         name.setOnMouseClicked(mouseEvent -> {
-            if (!selectedUser.contains(u)) {
-                selectedUser.add(u);
+            if (!selectedUsers.contains(u)) {
+                selectedUsers.add(u);
             } else {
-                selectedUser.remove(u);
+                selectedUsers.remove(u);
             }
             check.setVisible(!check.isVisible());
         });
 
         title.setOnMouseClicked(mouseEvent -> {
-            if (!selectedUser.contains(u)) {
-                selectedUser.add(u);
+            if (!selectedUsers.contains(u)) {
+                selectedUsers.add(u);
             } else {
-                selectedUser.remove(u);
+                selectedUsers.remove(u);
             }
             check.setVisible(!check.isVisible());
         });
 
         department.setOnMouseClicked(mouseEvent -> {
-            if (!selectedUser.contains(u)) {
-                selectedUser.add(u);
+            if (!selectedUsers.contains(u)) {
+                selectedUsers.add(u);
             } else {
-                selectedUser.remove(u);
+                selectedUsers.remove(u);
             }
             check.setVisible(!check.isVisible());
         });
@@ -304,80 +306,28 @@ public class HRUserManagementController implements Initializable {
      *
      * @throws IOException if it cannot find the FXML file.
      */
-    public void handleAddEmployee() throws IOException {
-        Stage addEmployee = new Stage();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/AddEmployee.fxml"));
-        addEmployee.setTitle("Add Employee");
-        Parent root = (Parent) loader.load();
-        AddEmployeeController addEmployeeController = loader.getController();
-
-        Scene addEmployeeScene = new Scene(root);
-        sceneMover.move(addEmployee, addEmployeeScene.getRoot());
-
-        addEmployee.getIcons().addAll(
-                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-        addEmployee.initStyle(StageStyle.UNDECORATED);
-        addEmployee.setScene(addEmployeeScene);
-        addEmployee.show();
+    public void handleImportUsers() throws IOException {
+        System.out.println("IMPORT");
+        loadAllUsers();
     }
 
 
-    public void handleEditEmployee() throws IOException {
-        if (selectedUser.get(0) != null) {
-            Stage editEmployee = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/EditEmployee.fxml"));
-            editEmployee.setTitle("Edit Employee");
-            Parent root = (Parent) loader.load();
-            EditEmployeeController editEmployeeController = loader.getController();
-
-            Scene editEmployeeScene = new Scene(root);
-            sceneMover.move(editEmployee, editEmployeeScene.getRoot());
-
-            editEmployeeController.setData(selectedUser.get(0));
-            editEmployee.getIcons().addAll(
-                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-            editEmployee.initStyle(StageStyle.UNDECORATED);
-            editEmployee.setScene(editEmployeeScene);
-            editEmployee.show();
+    public void handleExportUsers() throws IOException {
+        if (!selectedUsers.isEmpty()) {
+            System.out.println("EXPORT");
+            loadAllUsers();
+        } else {
+            WarningController.createWarning("No users selected! Please select the users you want to export");
         }
     }
 
 
-    public void handleRemoveEmployee() throws IOException {
-        if (selectedUser.get(0) != null) {
-
-            Stage removeEmployeeStage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/GUI/VIEW/CrudViews/RemoveEmployee.fxml"));
-
-            Parent root = (Parent) loader.load();
-            RemoveEmployeeController removeEmployeeController = loader.getController();
-            removeEmployeeStage.setTitle("Remove Employee");
-
-            Scene removeEmployeeScene = new Scene(root);
-            sceneMover.move(removeEmployeeStage, removeEmployeeScene.getRoot());
-
-            removeEmployeeController.setData(selectedUser.get(0));
-
-            removeEmployeeStage.getIcons().addAll(
-                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-            removeEmployeeStage.initStyle(StageStyle.UNDECORATED);
-            removeEmployeeStage.setScene(removeEmployeeScene);
-            removeEmployeeStage.show();
+    public void handleExportPhonelist() throws IOException {
+        if (!selectedUsers.isEmpty()) {
+            System.out.println("EXPORT PHONE");
+            loadAllUsers();
+        } else {
+            WarningController.createWarning("No users selected! Please select the users you want to export");
         }
     }
 }

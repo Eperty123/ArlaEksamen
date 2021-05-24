@@ -30,9 +30,9 @@
                <children>
                   <JFXTextField fx:id="txtSearch" focusColor="#94bdd3" layoutX="86.0" layoutY="3.0" onKeyPressed="#handleSearchUser" promptText="Search for a user" styleClass="userSeach" unFocusColor="#9f9f9f" />
                   <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" layoutX="65.0" layoutY="21.0" size="16" />
-                  <ImageView fx:id="imgImportUsers" fitHeight="24.0" fitWidth="24.0" layoutX="244.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" styleClass="importUsers" />
-                  <ImageView fx:id="imgExportUsers" fitHeight="24.0" fitWidth="24.0" layoutX="274.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" styleClass="exportUsers" />
-                  <ImageView fx:id="imgPhoneList" fitHeight="24.0" fitWidth="24.0" layoutX="304.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" styleClass="exportPhonelist" />
+                  <ImageView fx:id="imgImportUsers" fitHeight="24.0" fitWidth="24.0" layoutX="244.0" layoutY="4.0" onMouseClicked="#handleImportUsers" pickOnBounds="true" preserveRatio="true" styleClass="importUsers" />
+                  <ImageView fx:id="imgExportUsers" fitHeight="24.0" fitWidth="24.0" layoutX="274.0" layoutY="4.0" onMouseClicked="#handleExportUsers" pickOnBounds="true" preserveRatio="true" styleClass="exportUsers" />
+                  <ImageView fx:id="imgPhoneList" fitHeight="24.0" fitWidth="24.0" layoutX="304.0" layoutY="4.0" onMouseClicked="#handleExportPhonelist" pickOnBounds="true" preserveRatio="true" styleClass="exportPhonelist" />
                </children>
             </Pane>
          </right>
