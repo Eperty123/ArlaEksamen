@@ -1,24 +1,30 @@
 package BE;
 
-import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Department {
-    int id;
-    String name;
-    List<User> workers;
+    private int id;
+    private String name;
+    private ObservableList<User> users = FXCollections.observableArrayList();
+    private ObservableList<Department> subDepartments = FXCollections.observableArrayList();
 
-    public Department(int id, String name, List<User> workers) {
+    public Department(int id, String name) {
         this.id = id;
         this.name = name;
-        this.workers = workers;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public Department(int id, String name, ObservableList<User> users) {
         this.id = id;
+        this.name = name;
+        this.users = users;
+    }
+
+    public Department(int id, String name, ObservableList<User> users, ObservableList<Department> subDepartments) {
+        this.id = id;
+        this.name = name;
+        this.users = users;
+        this.subDepartments = subDepartments;
     }
 
     public String getName() {
@@ -29,11 +35,11 @@ public class Department {
         this.name = name;
     }
 
-    public List<User> getWorkers() {
-        return workers;
+    public ObservableList<User> getUsers() {
+        return users;
     }
 
-    public void setWorkers(List<User> workers) {
-        this.workers = workers;
+    public ObservableList<Department> getSubDepartments() {
+        return subDepartments;
     }
 }

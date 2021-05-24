@@ -48,9 +48,10 @@ public class AdminScreenManagementController implements Initializable {
 
     private final SceneMover sceneMover = new SceneMover();
     private final ScreenModel screenModel = ScreenModel.getInstance();
+    private final UserModel userModel = UserModel.getInstance();
     private Node createBtnNode;
 
-    private List<User> userList = UserModel.getInstance().getAllUsers();
+    private List<User> userList = userModel.getAllUsers();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -130,6 +131,7 @@ public class AdminScreenManagementController implements Initializable {
         remover.setSize(String.valueOf(22));
 
         MaterialDesignIconView desktop = new MaterialDesignIconView();
+        desktop.setMouseTransparent(true);
         desktop.setIcon(MaterialDesignIcon.MONITOR);
         desktop.setFill(Paint.valueOf("#0d262e"));
         desktop.getStyleClass().add("SMButtons");
@@ -138,6 +140,7 @@ public class AdminScreenManagementController implements Initializable {
         desktop.setSize(String.valueOf(72));
 
         Label label = new Label();
+        label.setMouseTransparent(true);
         label.setText(screenBit.getName());
         label.setTextFill(Paint.valueOf("#FFFFFF"));
         label.setStyle("-fx-font-size: 16px;-fx-font-weight: bold; -fx-font-style: italic");

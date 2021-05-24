@@ -151,7 +151,7 @@ public class UserDAL {
 
             for(User u : allUsers){
                 if(u.getId() == newUser.getId() && screenBit.getName() != null){
-                    u.addScreenAssignment(screenBit);
+                    u.getAssignedScreenBits().add(screenBit);
                 }
             }
         }

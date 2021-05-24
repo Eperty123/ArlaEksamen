@@ -64,18 +64,18 @@ public class EmployeeScreenController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(lblTime);
 
-        comboScreens.getItems().addAll(currentUser.getAssignedScreen());
+        comboScreens.getItems().addAll(currentUser.getAssignedScreenBits());
 
-        if (!currentUser.getAssignedScreen().isEmpty()) {
-            if (currentUser.getAssignedScreen().size() == 1) {
+        if (!currentUser.getAssignedScreenBits().isEmpty()) {
+            if (currentUser.getAssignedScreenBits().size() == 1) {
                 try {
-                    setScreen(currentUser.getAssignedScreen().get(0));
+                    setScreen(currentUser.getAssignedScreenBits().get(0));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 try {
-                    EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreen());
+                    EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreenBits());
 
                     Optional<ScreenBit> results = selectDialog.showAndWait();
 
@@ -116,7 +116,7 @@ public class EmployeeScreenController implements Initializable {
 
     private void autoUpdateMessageBox() {
         service.scheduleAtFixedRate(new Thread(() -> {
-            userMessages = new ArrayList<>(MessageModel.getInstance().getUsersMessages(currentUser));
+            userMessages = new ArrayList<>(MessageModel.getInstance().getAllMessages());
             userMessages.sort(Comparator.comparing(Message::getMessageStartTime));
             AtomicReference<Message> messageAtomicReference = new AtomicReference<>();
             userMessages.forEach(message -> {

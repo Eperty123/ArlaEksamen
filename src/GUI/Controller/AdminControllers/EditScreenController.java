@@ -36,7 +36,6 @@ public class EditScreenController implements Initializable {
     private ScreenBit screenBit;
     private List<User> users;
     private List<User> usersToAdd = new ArrayList<>();
-
     private List<User> usersToDelete = new ArrayList<>();
 
     @Override
@@ -72,7 +71,7 @@ public class EditScreenController implements Initializable {
     public void handleSave(ActionEvent actionEvent) {
 
         usersToAdd.forEach(user -> {
-            user.addScreenAssignment(screenBit);
+            user.getAssignedScreenBits().add(screenBit);
             ScreenModel.getInstance().assignScreenBitRights(user,screenBit);
             screenBit.getAssignedUsers().add(user);
         });
@@ -80,7 +79,7 @@ public class EditScreenController implements Initializable {
 
         List<User> usersToDeleteAssociations = new ArrayList<>();
         usersToDelete.forEach(user -> {
-            user.removeScreenAssignment(screenBit);
+            user.getAssignedScreenBits().remove(screenBit);
             ScreenModel.getInstance().removeScreenBitRights(user,screenBit);
             screenBit.removeUser(user);
         });
