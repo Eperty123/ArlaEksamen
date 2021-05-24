@@ -30,7 +30,7 @@ public class User {
     }
 
     public User(int id, String firstName, String lastName, String userName, String email, String phoneNumber, int userRole, int password, Enum gender, String photoPath, Enum department, String title, List<ScreenBit> assignedScreenBits) {
-
+        this.id = new SimpleObjectProperty<>(id);
         this.firstName = new SimpleStringProperty(firstName);
         this.lastName = new SimpleStringProperty(lastName);
         this.userName = new SimpleStringProperty(userName);
@@ -39,9 +39,9 @@ public class User {
         setUserRole(userRole);
         this.password = new SimpleIntegerProperty(password);
         this.gender = gender;
-        this.photoPath.set(photoPath);
-        this.department = department;
-        this.title.set(title);
+        this.photoPath = photoPath;
+        this.departmentId = departmentId;
+        this.title = title;
         this.assignedScreenBits = assignedScreenBits;
     }
 
@@ -107,6 +107,23 @@ public class User {
         this.assignedScreenBits = new ArrayList<ScreenBit>();
     }
 
+
+    public User(int id, String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title, int departmentId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        setUserRole(userRole);
+        this.password = password;
+        this.gender = gender;
+        this.photoPath = photoPath;
+        this.departmentId = departmentId;
+        this.title = title;
+    }
+
+
     public void setUserRole(int userRole) {
         switch (userRole) {
             case 0:
@@ -122,6 +139,7 @@ public class User {
 
 
     }
+
 
     public int getId() {
         return id.get();
@@ -279,8 +297,9 @@ public class User {
         this.gender = gender;
     }
 
+
     @Override
     public String toString() {
-        return String.format("%s %s", getFirstName(), getLastName());
+        return id + ";" + firstName + ";" + lastName + ";" + userName + ";" + email + ";" + phoneNumber + ";" + userRole.ordinal() + ";" + password + ";" + gender.ordinal() + ";" + departmentId + ";" + title;
     }
 }

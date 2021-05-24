@@ -184,18 +184,14 @@ public class ScreenDAL {
                     "Screen.Id AS ScreenId," +
                     "Screen.ScreenInfo," +
                     "Screen.ScreenName," +
-                    "[User].Id AS UserId," +
-                    "[User].FirstName," +
-                    "[User].LastName," +
-                    "[User].UserName," +
-                    "[User].Email," +
-                    "[User].Password," +
-                    "[User].UserRole " +
+                    "[User].*," +
+                    "DepartmentUser.DepartmentId " +
                     "FROM Screen " +
                     "LEFT OUTER JOIN ScreenRights" +
                     "    ON Screen.Id = ScreenRights.ScreenId " +
                     "LEFT OUTER JOIN [User]" +
-                    "    ON  ScreenId = ScreenRights.ScreenId AND [User].[UserName] = ScreenRights.UserName;");
+                    "    ON  ScreenId = ScreenRights.ScreenId AND [User].[UserName] = ScreenRights.UserName " +
+                    "LEFT OUTER JOIN DepartmentUser ON DepartmentUser.UserName = [User].UserName;");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();

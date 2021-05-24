@@ -3,9 +3,11 @@ package GUI.Model;
 import BE.User;
 import BE.UserType;
 import BLL.UserManager;
+import DAL.Parser.CSVParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -145,5 +147,11 @@ public class UserModel {
             instance = null;
             System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
+    }
+
+    public void addUsersFromCSV(File csvFile){
+        List<String[]> rows = CSVParser.parseFile(csvFile.getAbsolutePath()).getParsedData();
+        List<User> users = new ArrayList<>();
+
     }
 }
