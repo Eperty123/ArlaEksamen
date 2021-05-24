@@ -40,7 +40,11 @@ ADMIN DASHBOARD
  */
 
 .adminDashboardButtons {
-    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-background-color: #c8f0fc;
+}
+
+.adminDashboardButtons:hover{
+    -fx-background-color: rgba(255, 255, 255, 0.50);;
 }
 
 .headerPanel {
@@ -66,6 +70,14 @@ ADMIN DASHBOARD
 
 .adminDashboardBar {
     -fx-background-color: #c8f0fc;
+}
+
+.employeeButton{
+    -fx-fill: #add8e5;
+}
+
+.employeeButton:hover{
+    -fx-fill: #97CE68;
 }
 
 /*
@@ -448,4 +460,21 @@ POP UP
 .bugSearch{
     -fx-prompt-text-fill: white;
     -fx-text-fill: white;
+}
+
+/*
+    SNACKBAR STYLES
+*/
+
+.snackbar-text-title {
+    -fx-fill: #ff0000;
+    -fx-font-weight: bold;
+}
+
+.snackbar-text {
+    -fx-fill: #fff;
+}
+
+.snackbar-bg {
+    -fx-background-color: #0d262e;
 }
