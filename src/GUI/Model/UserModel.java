@@ -20,7 +20,7 @@ public class UserModel {
     private ObservableList<User> allUsers;
     private UserManager userManager;
 
-    public UserModel() {
+    private UserModel() {
         userManager = new UserManager();
         allUsers = FXCollections.observableArrayList();
         try {
