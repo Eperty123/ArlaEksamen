@@ -14,7 +14,7 @@
          <content>
             <FlowPane fx:id="root" style="-fx-background-color: #0d262e;" stylesheets="@../../Resources/Styles.css">
                <children>
-                  <Pane onMouseClicked="#handleCreateScreen" onTouchPressed="#handleCreateScreen" prefHeight="150.0" prefWidth="150.0" styleClass="SMButtons">
+                  <Pane onMouseClicked="#handleCreateScreen" prefHeight="150.0" prefWidth="150.0" styleClass="SMButtons">
                      <children>
                         <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#154c5d" height="150.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="SMButtons" width="150.0" />
                         <MaterialDesignIconView fill="#0d262e" glyphName="PLUS" layoutX="39.0" layoutY="102.0" size="72" />

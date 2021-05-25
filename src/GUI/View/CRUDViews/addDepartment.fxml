@@ -29,7 +29,7 @@
                   <JFXComboBox fx:id="dptSuperior" focusColor="#94bdd3" prefHeight="25.0" promptText="Super Department(Not needed))" unFocusColor="#9f9f9f" VBox.vgrow="ALWAYS" />
                   <BorderPane>
                      <bottom>
-                        <JFXButton fx:id="Remove" onAction="#RemoveSubDpt" onTouchPressed="#RemoveSubDpt" text="Remove" BorderPane.alignment="CENTER" />
+                        <JFXButton fx:id="Remove" onAction="#RemoveSubDpt" text="Remove" BorderPane.alignment="CENTER" />
                      </bottom>
                      <center>
                         <TableView fx:id="subDptTable" prefHeight="150.0" prefWidth="207.0" BorderPane.alignment="CENTER">
@@ -44,7 +44,7 @@
                      <top>
                         <BorderPane BorderPane.alignment="CENTER">
                            <right>
-                              <JFXButton onAction="#addSubDpt" onTouchPressed="#addSubDpt" text="Add" BorderPane.alignment="CENTER" />
+                              <JFXButton onAction="#addSubDpt" text="Add" BorderPane.alignment="CENTER" />
                            </right>
                            <left>
                               <JFXComboBox fx:id="subDpt" focusColor="#94bdd3" prefHeight="25.0" prefWidth="190.0" promptText="Sub Department(Not needed))" unFocusColor="#9f9f9f" BorderPane.alignment="CENTER" />
@@ -54,10 +54,10 @@
                   </BorderPane>
                   <BorderPane>
                      <right>
-                        <JFXButton onAction="#handleCancel" onTouchPressed="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" BorderPane.alignment="CENTER" />
+                        <JFXButton onAction="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" BorderPane.alignment="CENTER" />
                      </right>
                      <left>
-                        <JFXButton onAction="#handleSave" onTouchPressed="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" BorderPane.alignment="CENTER" />
+                        <JFXButton onAction="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" BorderPane.alignment="CENTER" />
                      </left>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" />

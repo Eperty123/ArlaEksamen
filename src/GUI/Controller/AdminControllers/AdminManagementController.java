@@ -197,7 +197,7 @@ public class AdminManagementController implements Initializable {
 
         flowpane.getChildren().add(0, newPane);
 
-        FlowPane.setMargin(newPane, new Insets(25, 25, 0, 25));
+        flowpane.setMargin(newPane, new Insets(25, 25, 0, 25));
 
         check.setOnMouseClicked(mouseEvent -> {
             if (!selectedUser.contains(u)) {

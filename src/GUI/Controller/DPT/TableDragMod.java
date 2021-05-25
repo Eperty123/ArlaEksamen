@@ -26,23 +26,14 @@ public class TableDragMod {
         TableDragMod.dontDeleteFromTable = dontDeleteFromTable;
     }
 
-    /**
-     * Does a lot of stuff to make items in a table be draggable
-     *
-     * @param tableView the tableView you want to be draggable
-     */
     public static void makeTableDraggable(TableView<User> tableView) {
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        //If the table is empty we add a user place holder, no users in a tables makes problems
         if (tableView.getItems().isEmpty())
             tableView.getItems().add(userPlaceHolder);
-
-        //Modifies the row factory, a lot of this is the functionality of the actual drag and drop
         tableView.setRowFactory(tv -> {
 
             TableRow<User> row = new TableRow<>();
 
-            //Gathers selected items in a list and copies them to the clipboard
             row.setOnDragDetected(event -> {
                 if (!row.isEmpty() && row.getItem().getPhone() != -1) {
                     initialTableView = tableView;
@@ -52,9 +43,9 @@ public class TableDragMod {
 
                     ObservableList<User> items = tableView.getSelectionModel().getSelectedItems();
 
-                    selections.addAll(items);
+                    for (User u : items)
+                        selections.add(u);
 
-                    //Adds animation, initializes drag and drop
                     Dragboard db = row.startDragAndDrop(TransferMode.MOVE);
                     db.setDragView(row.snapshot(null, null));
                     ClipboardContent cc = new ClipboardContent();
@@ -79,19 +70,16 @@ public class TableDragMod {
                 Dragboard db = event.getDragboard();
                 if (db.hasContent(SERIALIZED_MIME_TYPE)) {
                     int dropIndex;
-
-                    //deltaI ~ current User
                     User dI = null;
 
-                    //Gets the index of the row where we insert our Users
+                    int draggedIndex = (Integer) db.getContent(SERIALIZED_MIME_TYPE);
+
                     if (row.isEmpty()) {
                         dropIndex = finalTableView.getItems().size();
                     } else {
                         dropIndex = row.getIndex();
-                        dI = tableView.getItems().get(dropIndex);
+                        dI = tableView.getItems().get(draggedIndex);
                     }
-
-                    //More work to get the proper index
                     int delta = 0;
                     if (dI != null)
                         while (selections.contains(dI)) {
@@ -102,7 +90,7 @@ public class TableDragMod {
                                 dropIndex = 0;
                                 break;
                             }
-                            dI = finalTableView.getItems().get(dropIndex);
+                            dI = tableView.getItems().get(draggedIndex);
                         }
 
                     if (!initialTableView.equals(dontDeleteFromTable)) {
@@ -110,32 +98,28 @@ public class TableDragMod {
                             initialTableView.getItems().remove(u);
                     }
 
-                    if (dI != null)
-                        dropIndex = finalTableView.getItems().indexOf(dI) + delta;
-                    else if (dropIndex != 0)
-                        dropIndex = finalTableView.getItems().size();
+                    if(dI!=null)
+                        dropIndex=tableView.getItems().indexOf(dI)+delta;
+                    else if(dropIndex!=0)
+                        dropIndex=tableView.getItems().size();
 
-                    finalTableView.getSelectionModel().clearSelection();
+                    tableView.getSelectionModel().clearSelection();
 
-                    //Actually adds the selected items
-                    for (User sI : selections) {
-                        if (!finalTableView.getItems().contains(sI)) {
-                            finalTableView.getItems().add(dropIndex, sI);
-                        }
-                        finalTableView.getSelectionModel().select(dropIndex);
+                    for(User sI:selections){
+                        if(!finalTableView.getItems().contains(sI))
+                        tableView.getItems().add(dropIndex,sI);
+                        tableView.getSelectionModel().select(dropIndex);
                         dropIndex++;
                     }
-                    if(finalTableView.getItems().contains(userPlaceHolder))
-                        finalTableView.getSelectionModel().selectAll();
-
-                    //Some more placeholders to make this work
                     finalTableView.getItems().remove(userPlaceHolder);
+
                     if (initialTableView.getItems().size() == 0)
                         initialTableView.getItems().add(userPlaceHolder);
 
                     selections.clear();
                     event.setDropCompleted(true);
                     event.consume();
+
                 }
 
             });

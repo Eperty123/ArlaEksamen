@@ -51,17 +51,17 @@
                            <children>
                               <BorderPane>
                                  <center>
-                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleMinimize" onTouchPressed="#handleMaximize" styleClass="minimize" />
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleMinimize" styleClass="minimize" />
                                  </center>
                               </BorderPane>
                               <BorderPane GridPane.columnIndex="1">
                                  <center>
-                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" onTouchPressed="#handleMaximize" styleClass="maximize" />
+                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" styleClass="maximize" />
                                  </center>
                               </BorderPane>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                  <center>
-                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleClose" onTouchPressed="#handleClose" styleClass="close" BorderPane.alignment="CENTER" />
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleClose" styleClass="close" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
                            </children>
@@ -71,7 +71,7 @@
                         <Pane prefHeight="25.0" prefWidth="381.0" BorderPane.alignment="CENTER">
                            <children>
                               <JFXComboBox fx:id="comboScreens" focusColor="#94bdd3" layoutX="120.0" prefHeight="25.0" prefWidth="150.0" promptText="Screen" unFocusColor="#9f9f9f" />
-                              <JFXButton layoutX="280.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleLogout" onTouchPressed="#handleLogout" prefHeight="25.0" prefWidth="90.0" styleClass="employeeLogout" text="Logout" />
+                              <JFXButton layoutX="280.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleLogout" prefHeight="25.0" prefWidth="90.0" styleClass="employeeLogout" text="Logout" />
                               <Label layoutX="41.0" layoutY="4.0" text="Select Screen">
                                  <font>
                                     <Font name="System Italic" size="12.0" />
@@ -88,7 +88,7 @@
                <left>
                   <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="242.0" BorderPane.alignment="CENTER">
                      <children>
-                        <JFXButton layoutX="152.0" onAction="#handleReportIssue" onTouchPressed="#handleReportIssue" prefHeight="25.0" prefWidth="90.0" styleClass="SMButtons" text="Repport issue" />
+                        <JFXButton layoutX="152.0" onAction="#handleReportIssue" prefHeight="25.0" prefWidth="90.0" styleClass="SMButtons" text="Repport issue" />
                         <Label fx:id="lblTime" layoutX="18.0" layoutY="4.0" text="Label" />
                      </children>
                   </Pane>
