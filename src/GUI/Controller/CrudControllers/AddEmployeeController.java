@@ -5,6 +5,7 @@ import BLL.PasswordManager;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
 import GUI.Model.ScreenModel;
+import GUI.Model.TitleModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -55,6 +56,8 @@ public class AddEmployeeController implements Initializable {
     private JFXCheckBox hidePhoneCheck;
     @FXML
     private JFXCheckBox hideEmailCheck;
+    @FXML
+    private JFXComboBox<String> chsTitle;
 
     private UserModel userModel = UserModel.getInstance();
     private PasswordManager passwordManager = new PasswordManager();
@@ -65,7 +68,7 @@ public class AddEmployeeController implements Initializable {
                 ) {
             String firstName = txtFirstname.getText();
             String lastName = txtLastname.getText();
-            String jobTitle = txtJobTitle.getText();
+            String jobTitle = chsTitle.getValue();
             String email = getEmail();
             int phone = getPhone();
             Enum<Gender> sex = chsSex.getSelectionModel().getSelectedItem();
@@ -133,10 +136,15 @@ public class AddEmployeeController implements Initializable {
         chsSex.getItems().addAll(Gender.values());
         chsSex.getSelectionModel().selectFirst();
         setDepartments();
+        setTitles();
 
         for (Enum e : chsRole.getItems()){
             System.out.println(e.name() + " - " + e.ordinal());
         }
+    }
+
+    private void setTitles() {
+        chsTitle.setItems(FXCollections.observableArrayList(TitleModel.getInstance().getTitles()));
     }
 
     private void setDepartments() {
