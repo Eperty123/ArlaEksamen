@@ -121,4 +121,9 @@ public class Department {
             return getSubDepartments();
         return tmp;
     }
+
+    @Override
+    public String toString() {
+        return name.get();
+    }
 }

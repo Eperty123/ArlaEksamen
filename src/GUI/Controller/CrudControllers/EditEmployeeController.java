@@ -45,7 +45,7 @@ public class EditEmployeeController implements Initializable {
     @FXML
     private JFXComboBox<Enum> chsSex;
     @FXML
-    private JFXComboBox<Enum> chsDepartment;
+    private JFXComboBox<Department> chsDepartment;
     @FXML
     private ImageView image;
     @FXML
@@ -122,7 +122,7 @@ public class EditEmployeeController implements Initializable {
     }
 
     private void setDepartments() {
-        
+        chsDepartment.setItems();
     }
 
     public void setData(User user) {

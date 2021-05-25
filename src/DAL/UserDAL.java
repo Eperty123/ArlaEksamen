@@ -55,8 +55,6 @@ public class UserDAL {
     }
 
 
-
-
     /**
      * Method performs an INSERT query to create a new user/row in the User table.
      * @param user object containing information on the new user.
@@ -66,6 +64,7 @@ public class UserDAL {
         try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)");
+
             pSql.setString(1, user.getFirstName());
             pSql.setString(2, user.getLastName());
             pSql.setString(3, user.getUserName());
@@ -90,34 +89,6 @@ public class UserDAL {
         }
     }
 
-    public void addUser(List<>){
-
-        try (Connection con = dbCon.getConnection()) {
-
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)");
-            pSql.setString(1, user.getFirstName());
-            pSql.setString(2, user.getLastName());
-            pSql.setString(3, user.getUserName());
-            pSql.setString(4, user.getEmail());
-            pSql.setInt(5, user.getPassword());
-            pSql.setInt(6, user.getUserRole().ordinal());
-            pSql.setInt(7,user.getPhone());
-            pSql.setInt(8,user.getGender().ordinal());
-            pSql.setString(9, user.getPhotoPath());
-            pSql.setString(10, user.getTitle());
-            pSql.execute();
-
-            if(department != null){
-                addUserDepartmentRelation(con, user, department);
-            }
-
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
-                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
-        }
-    }
 
     private void addUserDepartmentRelation(Connection con, User user, Department department) throws SQLException {
 
