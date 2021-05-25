@@ -59,6 +59,27 @@ public class DepartmentModel {
         return null;
     }
 
+    public Department getDepartment(int departmentId) {
+        var departments = getAllDepartments();
+        for (int i = 0; i < departments.size(); i++) {
+            var department = departments.get(i);
+            if (department.getId() == departmentId)
+                return department;
+        }
+        return null;
+    }
+
+
+    public Department getDepartment(String departmentName) {
+        var departments = getAllDepartments();
+        for (int i = 0; i < departments.size(); i++) {
+            var department = departments.get(i);
+            if (department.getName().equals(departmentName))
+                return department;
+        }
+        return null;
+    }
+
     public ObservableList<Department> getAllDepartments() {
         return departmentManager.getAllDepartments();
     }

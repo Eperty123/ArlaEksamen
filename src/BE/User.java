@@ -2,7 +2,6 @@ package BE;
 
 
 import javafx.beans.property.*;
-import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,10 @@ public class User {
     private StringProperty title = new SimpleStringProperty();
     private Enum gender;
 
-    public User(String userName){
+    public User() {
+    }
+
+    public User(String userName) {
         this.userName.set(userName);
     }
 
@@ -135,6 +137,19 @@ public class User {
         this.password.set(password);
         this.gender = gender;
         this.photoPath.set(photoPath);
+        this.title.set(title);
+    }
+
+    public User(int id, String firstName, String lastName, String userName, String email, int phoneNumber, int userRole, int password, int gender, int department, String title) {
+        this.id.set(id);
+        this.firstName.set(firstName);
+        this.lastName.set(lastName);
+        this.userName.set(userName);
+        this.email.set(email);
+        this.phone.set(phoneNumber);
+        setUserRole(userRole);
+        this.password.set(password);
+        this.gender = Gender.valueOf(gender);
         this.title.set(title);
     }
 
@@ -300,7 +315,6 @@ public class User {
     }
 
 
-
     public Enum getGender() {
         return gender;
     }
@@ -309,8 +323,8 @@ public class User {
         this.gender = gender;
     }
 
-    public String toCSV(){
-        return id + ";" + firstName + ";" + lastName + ";" + userName + ";" + email + ";" + phone + ";" + userRole.ordinal() + ";" + password + ";" + gender.ordinal() + ";" + title;
+    public String toCSV() {
+        return id.getValue() + ";" + firstName.get() + ";" + lastName.get() + ";" + userName.get() + ";" + email.get() + ";" + phone.get() + ";" + userRole.ordinal() + ";" + password.get() + ";" + gender.ordinal() + ";" + title.get();
     }
 
 

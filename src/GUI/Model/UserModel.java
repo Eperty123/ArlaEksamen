@@ -1,5 +1,6 @@
 package GUI.Model;
 
+import BE.Department;
 import BE.User;
 import BE.UserType;
 import BLL.UserManager;
@@ -125,7 +126,24 @@ public class UserModel {
     }
 
     /**
+     * Get the User specified by a name.
+     *
+     * @param firstName The first name of the user.
+     * @param lastName  The last name of the user.
+     * @return Returns the found ScreenBit.
+     */
+    public User getUser(String firstName, String lastName) {
+        for (int i = 0; i < allUsers.size(); i++) {
+            User user = allUsers.get(i);
+            if (user.getUserName().equals(firstName) && user.getLastName().equals(lastName))
+                return user;
+        }
+        return null;
+    }
+
+    /**
      * Get all users by the specified role.
+     *
      * @param role The role of the users to get.
      * @return Returns a List of Users filtered by the specified role.
      */
@@ -149,9 +167,8 @@ public class UserModel {
         }
     }
 
-    public void addUsersFromCSV(File csvFile){
+    public void addUsersFromCSV(File csvFile) {
         List<String[]> rows = CSVParser.parseFile(csvFile.getAbsolutePath()).getParsedData();
         List<User> users = new ArrayList<>();
-
     }
 }
