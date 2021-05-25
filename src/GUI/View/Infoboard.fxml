@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,9 +12,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="pickerStageBackground" stylesheets="@../Resources/Styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.InfoboardController">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="pickerStageBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <ScrollPane fitToWidth="true" styleClass="MScroll-pane" BorderPane.alignment="CENTER">
+            <ScrollPane styleClass="MScroll-pane">
                <content>
                   <VBox fx:id="vbox" styleClass="pickerStageBackground" />
                </content>
@@ -23,7 +23,7 @@
          <top>
             <BorderPane prefHeight="30.0" style="-fx-background-color: #0d262e;" BorderPane.alignment="CENTER">
                <left>
-                  <ScrollPane fx:id="scroll" fitToHeight="true" fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1000.0" styleClass="MScroll-pane" BorderPane.alignment="CENTER">
+                  <ScrollPane fx:id="scroll" fitToHeight="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" styleClass="MScroll-pane">
                      <content>
                         <HBox fx:id="hbox" prefHeight="30.0" spacing="20.0" styleClass="pickerStageBackground">
                            <padding>
@@ -31,20 +31,13 @@
                            </padding>
                         </HBox>
                      </content>
-                     <BorderPane.margin>
-                        <Insets />
-                     </BorderPane.margin>
                   </ScrollPane>
                </left>
                <right>
                   <Pane minHeight="30.0" minWidth="150.0" prefHeight="50.0" prefWidth="256.0" styleClass="usrBar" BorderPane.alignment="CENTER">
                      <children>
-                        <JFXComboBox fx:id="cmbAddDepartment" focusColor="#94bdd3" layoutX="103.0" layoutY="13.0" onAction="#handleAddDepartment" prefHeight="25.0" prefWidth="139.0" style="-fx-background-color: rgba(255,255,255,0.25);" unFocusColor="#9f9f9f">
-                           <padding>
-                              <Insets right="10.0" />
-                           </padding>
-                        </JFXComboBox>
                         <Label layoutX="6.0" layoutY="8.0" prefHeight="35.0" prefWidth="94.0" text="Add deptartment to show" textAlignment="CENTER" textFill="WHITE" wrapText="true" />
+                        <ChoiceBox fx:id="cmbAddDepartment" layoutX="100.0" layoutY="13.0" onMouseClicked="#handleAddDepartment" prefWidth="150.0" styleClass="choice" />
                      </children>
                   </Pane>
                </right>
