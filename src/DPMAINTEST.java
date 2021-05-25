@@ -1,5 +1,6 @@
 import BLL.DepartmentManager;
 import GUI.Controller.DPT.DepartmentStageController;
+import GUI.Controller.DPT.DepartmentViewController;
 import GUI.Controller.StageBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class DPMAINTEST extends Application {
     DepartmentManager departmentManager = new DepartmentManager();
@@ -23,7 +27,17 @@ public class DPMAINTEST extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
-        departmentManager.getSuperDepartments().forEach(con2::addChildrenNode);
+        HBox hBox = con2.gethBox();
+        departmentManager.getSuperDepartments().forEach(sd->{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
+            try {
+                hBox.getChildren().add(fxmlLoader.load());
+                DepartmentViewController con = fxmlLoader.getController();
+                con.setDepartment(sd);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         stage.setScene(new Scene(node));
         stage.show();
