@@ -51,7 +51,7 @@ public class HRUserManagementController implements Initializable {
     private JFXTextField txtSearch;
 
     private ArrayList<User> selectedUsers = new ArrayList<>();
-    private UserModel userModel = new UserModel();
+    private UserModel userModel = UserModel.getInstance();
     private SceneMover sceneMover = new SceneMover();
 
     @Override
