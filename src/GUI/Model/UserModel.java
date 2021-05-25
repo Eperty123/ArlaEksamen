@@ -1,5 +1,7 @@
 package GUI.Model;
 
+import BE.CSVUser;
+import BE.Department;
 import BE.User;
 import BE.UserType;
 import BLL.UserManager;
@@ -42,10 +44,22 @@ public class UserModel {
      *
      * @param newUser object to be written to the database.
      */
-    public void addUser(User newUser) {
+    public void addUser(User newUser, Department department) {
         if (allUsers.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
-            userManager.addUser(newUser);
+            userManager.addUser(newUser, department);
             updateUsers();
+        }
+    }
+
+    /**
+     * Import a list of users.
+     */
+    public void addUsers(List<CSVUser> users) {
+        if (users != null && users.size() > 0) {
+            for (int i = 0; i < users.size(); i++) {
+                var user = users.get(i);
+                // addUser(user);
+            }
         }
     }
 
@@ -65,8 +79,8 @@ public class UserModel {
      * @param oldUser object used to identify the row that is to be updated.
      * @param newUser object containing the updated User information.
      */
-    public void updateUser(User oldUser, User newUser) {
-        userManager.updateUser(oldUser, newUser);
+    public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
+        userManager.updateUser(oldUser, newUser, oldDepartment, newDepartment);
         updateUsers();
     }
 
@@ -125,7 +139,24 @@ public class UserModel {
     }
 
     /**
+     * Get the User specified by a name.
+     *
+     * @param firstName The first name of the user.
+     * @param lastName  The last name of the user.
+     * @return Returns the found ScreenBit.
+     */
+    public User getUser(String firstName, String lastName) {
+        for (int i = 0; i < allUsers.size(); i++) {
+            User user = allUsers.get(i);
+            if (user.getUserName().equals(firstName) && user.getLastName().equals(lastName))
+                return user;
+        }
+        return null;
+    }
+
+    /**
      * Get all users by the specified role.
+     *
      * @param role The role of the users to get.
      * @return Returns a List of Users filtered by the specified role.
      */
@@ -147,11 +178,5 @@ public class UserModel {
             instance = null;
             System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
-    }
-
-    public void addUsersFromCSV(File csvFile){
-        List<String[]> rows = CSVParser.parseFile(csvFile.getAbsolutePath()).getParsedData();
-        List<User> users = new ArrayList<>();
-
     }
 }

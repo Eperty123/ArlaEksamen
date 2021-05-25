@@ -52,7 +52,7 @@ public class HRDashboardController implements Initializable {
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("HR Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         try {
-            handleUserManagement();
+            handleDeptManagement();
         } catch (IOException e) {
             e.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to read the Managers create message view." +
@@ -65,12 +65,30 @@ public class HRDashboardController implements Initializable {
         //TODO DP's ORG DIAGRAM CREATOR
     }
 
-    public void handleUserManagement() throws IOException {
+    public void handleDeptManagement() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRUserManagement.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRDepartment.fxml"));
         Parent root = fxmlLoader.load();
-        HRUserManagementController controller = fxmlLoader.getController();
+        HRDepartmentController
+                controller = fxmlLoader.getController();
         borderPane.setCenter(root);
+    }
+
+    public void handleShowInfoboard() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/Infoboard.fxml"));
+
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Infoboard");
+        stage.getIcons().addAll(
+                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void minimize() {

@@ -21,8 +21,8 @@
             </Label>
             <JFXTextArea fx:id="textArea" focusColor="#add8e5" layoutX="20.0" layoutY="58.0" prefHeight="103.0" prefWidth="264.0" promptText="What did you do to fix the bug" styleClass="textarea" unFocusColor="#add8e5" wrapText="true" />
             <Label layoutX="20.0" layoutY="41.0" text="Please describe what you did to fix the bug" />
-            <JFXButton layoutX="50.0" layoutY="176.0" onAction="#handleSave" prefWidth="75.0" styleClass="addUser" text="Save" />
-            <JFXButton layoutX="175.0" layoutY="176.0" onAction="#handleCancel" prefWidth="75.0" styleClass="removeUser" text="Cancel" />
+            <JFXButton layoutX="50.0" layoutY="176.0" onAction="#handleSave" onTouchPressed="#handleSave" prefWidth="75.0" styleClass="addUser" text="Save" />
+            <JFXButton layoutX="175.0" layoutY="176.0" onAction="#handleCancel" onTouchPressed="#handleCancel" prefWidth="75.0" styleClass="removeUser" text="Cancel" />
          </children></Pane>
    </children>
 </AnchorPane>

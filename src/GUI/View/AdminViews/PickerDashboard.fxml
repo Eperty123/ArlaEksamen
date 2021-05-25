@@ -20,8 +20,8 @@
                      <right>
                         <Pane prefHeight="35.0" styleClass="adminDashboardBar" BorderPane.alignment="CENTER">
                            <children>
-                              <JFXButton layoutX="514.0" layoutY="5.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Cancel" />
-                              <JFXButton layoutX="444.0" layoutY="5.0" onAction="#handleSave" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Save" />
+                              <JFXButton layoutX="514.0" layoutY="5.0" onAction="#handleCancel" onTouchPressed="#handleCancel" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Cancel" />
+                              <JFXButton layoutX="444.0" layoutY="5.0" onAction="#handleSave" onTouchPressed="#handleSave" prefHeight="25.0" prefWidth="55.0" styleClass="adminDashboardButtons" text="Save" />
                            </children>
                         </Pane>
                      </right>
@@ -54,12 +54,12 @@
                               </BorderPane>
                               <BorderPane GridPane.columnIndex="1">
                                  <center>
-                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" styleClass="maximize" />
+                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" onTouchPressed="#handleMaximize" styleClass="maximize" />
                                  </center>
                               </BorderPane>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                  <center>
-                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleCancel" styleClass="close" BorderPane.alignment="CENTER" />
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleCancel" onTouchPressed="#handleCancel" styleClass="close" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
                            </children>

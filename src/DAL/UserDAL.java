@@ -1,5 +1,6 @@
 package DAL;
 
+import BE.Department;
 import BE.ScreenBit;
 import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
@@ -54,17 +55,16 @@ public class UserDAL {
     }
 
 
-
-
     /**
      * Method performs an INSERT query to create a new user/row in the User table.
      * @param user object containing information on the new user.
      */
-    public void addUser(User user){
+    public void addUser(User user, Department department){
 
         try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)");
+
             pSql.setString(1, user.getFirstName());
             pSql.setString(2, user.getLastName());
             pSql.setString(3, user.getUserName());
@@ -77,6 +77,11 @@ public class UserDAL {
             pSql.setString(10, user.getTitle());
             pSql.execute();
 
+            if(department != null){
+                addUserDepartmentRelation(con, user, department);
+            }
+
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
@@ -84,12 +89,31 @@ public class UserDAL {
         }
     }
 
+
+    private void addUserDepartmentRelation(Connection con, User user, Department department) throws SQLException {
+
+        PreparedStatement pSql = con.prepareStatement("INSERT INTO DepartmentUser VALUES(?,?)");
+        pSql.setInt(1, department.getId());
+        pSql.setString(2, user.getUserName());
+        pSql.execute();
+
+    }
+
+    private void addUserDepartmentRelation(Connection con, User user, int departmentId) throws SQLException {
+
+        PreparedStatement pSql = con.prepareStatement("INSERT INTO DepartmentUser VALUES(?,?)");
+        pSql.setInt(1, departmentId);
+        pSql.setString(2, user.getUserName());
+        pSql.execute();
+
+    }
+
     /**
      * Updates an existing user in the database's User table.
      * @param user object used to identify the row to be updated.
      * @param updatedUser object containing the new user information.
      */
-    public void updateUser(User user, User updatedUser){
+    public void updateUser(User user, User updatedUser, Department oldDepartment, Department newDepartment){
 
         try (Connection con = dbCon.getConnection()) {
 
@@ -109,10 +133,30 @@ public class UserDAL {
             pSql.setInt(11, user.getId());
             pSql.execute();
 
+            if(!oldDepartment.getName().equals(newDepartment.getName())){
+                updateDepartmentUser(con,user, updatedUser, oldDepartment, newDepartment);
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to update a user " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+        }
+    }
+
+    private void updateDepartmentUser(Connection con, User user, User updatedUser, Department oldDepartment, Department newDepartment) throws SQLException {
+
+        if(!user.getUserName().equals(updatedUser.getUserName())){
+            PreparedStatement pSql = con.prepareStatement("UPDATE DepartmentUser SET DepartmentId=?, UserName=? WHERE UserName=?");
+            pSql.setInt(1,newDepartment.getId());
+            pSql.setString(2, updatedUser.getUserName());
+            pSql.setString(3, user.getUserName());
+            pSql.execute();
+        } else{
+            PreparedStatement pSql = con.prepareStatement("UPDATE DepartmentUser SET DepartmentId=? WHERE UserName=?");
+            pSql.setInt(1,newDepartment.getId());
+            pSql.setString(2, user.getUserName());
+            pSql.execute();
         }
     }
 
@@ -123,9 +167,11 @@ public class UserDAL {
      */
     public void deleteUser(User user) {
         // Deletes all User-Screen associations in the ScreenRights junction table.
-        deleteUserScreenAssociation(user);
+
 
         try(Connection con = dbCon.getConnection()){
+            deleteUserScreenAssociation(con, user);
+            deleteUserDepartmentAssociation(con, user);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM [User] WHERE Id=?");
             pSql.setInt(1, user.getId());
             pSql.execute();
@@ -136,6 +182,13 @@ public class UserDAL {
                     "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
+    }
+
+    private void deleteUserDepartmentAssociation(Connection con, User user) throws SQLException {
+
+        PreparedStatement pSql = con.prepareStatement("DELETE FROM DepartmentUser WHERE UserName=?");
+        pSql.setString(1, user.getUserName());
+        pSql.execute();
     }
 
     /**
@@ -170,10 +223,10 @@ public class UserDAL {
      * the user can be deleted due to foreign key constraints in the ScreenRights table.
      * @param user used to identify which rows to delete.
      */
-    private void deleteUserScreenAssociation(User user){
+    private void deleteUserScreenAssociation(Connection con, User user){
 
-        try(Connection con = dbCon.getConnection()){
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=?");
+        try(PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=?")){
+
             pSql.setString(1, user.getUserName());
             pSql.execute();
 

@@ -94,6 +94,10 @@ public class Department {
         return subDepartments;
     }
 
+    public void addSubDepartment(Department subDepartment){
+        subDepartments.add(subDepartment);
+    }
+
     public void setSubDepartments(ObservableList<Department> subDepartments) {
         this.subDepartments = subDepartments;
     }
@@ -116,5 +120,10 @@ public class Department {
         else
             return getSubDepartments();
         return tmp;
+    }
+
+    @Override
+    public String toString() {
+        return name.get();
     }
 }

@@ -19,8 +19,8 @@
             </Label>
             <Label layoutX="65.0" layoutY="57.0" text="Admin to take responsibility of this bug" />
             <JFXComboBox fx:id="chsAdmin" focusColor="#94bdd3" layoutX="67.0" layoutY="74.0" prefHeight="25.0" prefWidth="203.0" promptText="Admin" unFocusColor="#9f9f9f" />
-            <JFXButton layoutX="58.0" layoutY="132.0" onAction="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" />
-            <JFXButton layoutX="198.0" layoutY="132.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" />
+            <JFXButton layoutX="58.0" layoutY="132.0" onAction="#handleSave" onTouchPressed="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" />
+            <JFXButton layoutX="198.0" layoutY="132.0" onAction="#handleCancel" onTouchPressed="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" />
          </children>
       </Pane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="20.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="80.0" />

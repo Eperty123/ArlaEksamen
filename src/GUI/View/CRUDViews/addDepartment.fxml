@@ -29,10 +29,10 @@
                   </BorderPane>
                   <BorderPane>
                      <right>
-                        <JFXButton onAction="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" BorderPane.alignment="CENTER" />
+                        <JFXButton onAction="#handleCancel" onTouchPressed="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" BorderPane.alignment="CENTER" />
                      </right>
                      <left>
-                        <JFXButton onAction="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" BorderPane.alignment="CENTER" />
+                        <JFXButton onAction="#handleSave" onTouchPressed="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" BorderPane.alignment="CENTER" />
                      </left>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
