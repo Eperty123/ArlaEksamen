@@ -26,6 +26,20 @@ public class CSVUser extends User {
         setTitle(user.getTitle());
     }
 
+    public CSVUser(User user, int departmentId) {
+        setId(user.getId());
+        setFirstName(user.getFirstName());
+        setLastName(user.getLastName());
+        setUserName(user.getUserName());
+        setEmail(user.getEmail());
+        setPhone(user.getPhone());
+        setUserRole(user.getUserRole());
+        setPassword(user.getPassword());
+        setGender(user.getGender());
+        setTitle(user.getTitle());
+        setDepartmentId(departmentId);
+    }
+
     public CSVUser(String fName, String lName, String email, int phone) {
         super(fName, lName, email, phone);
     }

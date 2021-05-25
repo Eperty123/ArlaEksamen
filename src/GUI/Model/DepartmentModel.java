@@ -27,7 +27,7 @@ public class DepartmentModel {
         return instance == null ? instance = new DepartmentModel() : instance;
     }
 
-    public void deleteDeparment(Department d) {
+    public void deleteDepartment(Department d) {
         departmentManager.deleteDepartment(d);
     }
 
@@ -39,6 +39,20 @@ public class DepartmentModel {
             for (int u = 0; u < associatedUsers.size(); u++) {
                 var associatedUser = associatedUsers.get(u);
                 if (associatedUser.getUserName().equals(username))
+                    return associatedUser;
+            }
+        }
+        return null;
+    }
+
+    public User getUser(String firstName, String lastName) {
+        var departments = getAllDepartments();
+        for (int i = 0; i < departments.size(); i++) {
+            var department = departments.get(i);
+            var associatedUsers = department.getUsers();
+            for (int u = 0; u < associatedUsers.size(); u++) {
+                var associatedUser = associatedUsers.get(u);
+                if (associatedUser.getFirstName().equals(firstName) && associatedUser.getLastName().equals(lastName))
                     return associatedUser;
             }
         }

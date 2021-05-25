@@ -54,12 +54,16 @@ public class UserBackUp {
                 var existing = userModel.getUser(id);
                 if (existing == null) {
                     // No existing found, check some other criteria in case a user is found with the same name.
-                    if (userModel.getUser(parsedUser.getFirstName(), parsedUser.getLastName()) == null || departmentModel.getUser(parsedUser.getUserName()) == null)
+                    if (userModel.getUser(parsedUser.getFirstName(), parsedUser.getLastName()) == null && departmentModel.getUser(parsedUser.getUserName()) == null && departmentModel.getUser(parsedUser.getFirstName(), parsedUser.getLastName()) == null) {
                         importedUsers.add(parsedUser);
+                        System.out.println(String.format("User: %s %s (%d) imported.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
+                    }
                 } else
-                    System.out.println(String.format("User: %s %s (%d) already exists! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getPhone()));
+                    System.out.println(String.format("User: %s %s (%d) already exists! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
+
+                //System.out.println(String.format("User: %s %s (%d).", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getPhone()));
             }
-        }
+        } else System.out.println(String.format("The backup file: %s doesn't exist!", filePath));
 
         return importedUsers;
     }
@@ -72,7 +76,7 @@ public class UserBackUp {
             csvWriter.append(HEADER_INFO_FORMAT);
 
             for (User u : department.getUsers()) {
-                var csvUser = new CSVUser(u);
+                var csvUser = new CSVUser(u, department.getId());
                 csvWriter.append(csvUser.toCSV() + "\n");
             }
 

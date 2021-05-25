@@ -1,0 +1,5 @@
+Id;FirstName;LastName;UserName;Email;PhoneNumber;UserRole;Password;Gender;DepartmentId;Title
+36;bar;bar;bar;bar;0;1;97299;1;555;worker
+37;pie;pie;pie;pie;0;1;110988;1;555;worker
+43;Roberto;Harleysons;rharl;r@h.dk;0;0;3406680;0;555;worker
+44;Roberto;Harleysons;rharl1;r@h1.dk;0;0;3406681;0;555;worker

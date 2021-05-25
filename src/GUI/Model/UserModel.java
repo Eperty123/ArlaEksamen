@@ -1,5 +1,6 @@
 package GUI.Model;
 
+import BE.CSVUser;
 import BE.Department;
 import BE.User;
 import BE.UserType;
@@ -47,6 +48,18 @@ public class UserModel {
         if (allUsers.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
             userManager.addUser(newUser);
             updateUsers();
+        }
+    }
+
+    /**
+     * Import a list of users.
+     */
+    public void addUsers(List<CSVUser> users) {
+        if (users != null && users.size() > 0) {
+            for (int i = 0; i < users.size(); i++) {
+                var user = users.get(i);
+                addUser(user);
+            }
         }
     }
 
@@ -165,10 +178,5 @@ public class UserModel {
             instance = null;
             System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
-    }
-
-    public void addUsersFromCSV(File csvFile) {
-        List<String[]> rows = CSVParser.parseFile(csvFile.getAbsolutePath()).getParsedData();
-        List<User> users = new ArrayList<>();
     }
 }
