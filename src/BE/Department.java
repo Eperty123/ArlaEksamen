@@ -55,7 +55,6 @@ public class Department {
 
     public void setManager(User manager) {
         this.manager.set(manager);
-        DepartmentModel.getInstance().addDepartment(this);
     }
 
     public ObjectProperty<Integer> idProperty() {
