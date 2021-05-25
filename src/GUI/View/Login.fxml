@@ -13,12 +13,12 @@
          <children>
             <JFXTextField fx:id="txtUsername" focusColor="#94bdd3" layoutX="290.0" layoutY="249.0" onKeyPressed="#loginWithEnter" prefHeight="25.0" prefWidth="220.0" promptText="Username" unFocusColor="#9f9f9f" />
             <JFXPasswordField fx:id="txtPassword" focusColor="#94bdd3" layoutX="290.0" layoutY="292.0" onKeyPressed="#loginWithEnter" prefHeight="25.0" prefWidth="220.0" promptText="Password" unFocusColor="#9f9f9f" />
-            <JFXButton fx:id="btnLogin" layoutX="350.0" layoutY="384.0" onAction="#login" prefHeight="25.0" prefWidth="100.0" ripplerFill="TRANSPARENT" styleClass="loginButtons" text="Login" textAlignment="CENTER" textFill="#d69145">
+            <JFXButton fx:id="btnLogin" layoutX="350.0" layoutY="384.0" onAction="#login" onTouchPressed="#login" prefHeight="25.0" prefWidth="100.0" ripplerFill="TRANSPARENT" styleClass="loginButtons" text="Login" textAlignment="CENTER" textFill="#d69145">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="350.0" layoutY="424.0" onAction="#exit" prefHeight="25.0" prefWidth="100.0" styleClass="loginButtons" text="Cancel" textAlignment="CENTER" textFill="#d69145" />
+            <JFXButton layoutX="350.0" layoutY="424.0" onAction="#exit" onTouchPressed="#exit" prefHeight="25.0" prefWidth="100.0" styleClass="loginButtons" text="Cancel" textAlignment="CENTER" textFill="#d69145" />
             <ImageView fitHeight="127.0" fitWidth="181.0" layoutX="309.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Resources/ArlaLogo.png" />

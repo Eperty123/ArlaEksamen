@@ -26,8 +26,8 @@
          <right>
             <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="360.0" BorderPane.alignment="CENTER">
                <children>
-                  <MaterialDesignIconView glyphName="PENCIL" layoutX="274.0" layoutY="25.0" onMouseClicked="#handleEditBug" size="24" styleClass="editUser" />
-                  <MaterialDesignIconView glyphName="CHECK_CIRCLE" layoutX="304.0" layoutY="25.0" onMouseClicked="#handleBugFixed" size="24" styleClass="addUser" />
+                  <MaterialDesignIconView glyphName="PENCIL" layoutX="274.0" layoutY="25.0" onMouseClicked="#handleEditBug" onTouchPressed="#handleEditBug" size="24" styleClass="editUser" />
+                  <MaterialDesignIconView glyphName="CHECK_CIRCLE" layoutX="304.0" layoutY="25.0" onMouseClicked="#handleBugFixed" onTouchPressed="#handleBugFixed" size="24" styleClass="addUser" />
                </children>
             </Pane>
          </right>

@@ -24,9 +24,9 @@ public class DepartmentDAL {
     private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
     private final ResultSetParser resultSetParser = new ResultSetParser();
 
-    public void addDepartment(String newDepartment){
+    public void addDepartment(String newDepartment) {
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Department VALUES(?)");
             pSql.setString(1, newDepartment);
             pSql.execute();
@@ -37,9 +37,9 @@ public class DepartmentDAL {
         }
     }
 
-    public void deleteDepartment(Department department){
+    public void deleteDepartment(Department department) {
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
             deleteDepartmentUserAssociations(con, department);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Department WHERE Id=?");
             pSql.setInt(1, department.getId());
@@ -59,10 +59,10 @@ public class DepartmentDAL {
     }
 
     // TODO join with users.
-    public List<Department> getDepartments(){
+    public List<Department> getDepartments() {
         List<Department> departments = new ArrayList<>();
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement(
                     "SELECT " +
                             "Department.Id AS dptId, " +
@@ -93,25 +93,25 @@ public class DepartmentDAL {
 
     private void addDepartmentsAndUsers(List<Department> departments, ResultSet rs) throws SQLException {
 
-        while(rs.next()){
+        while (rs.next()) {
             User user = resultSetParser.getUser(rs);
 
             Department newDepartment = new Department(rs.getInt("dptId"), rs.getString("dptName"), new User(rs.getString("Manager")));
-            if(departments.stream().noneMatch(o -> o.getId() == newDepartment.getId())){
+            if (departments.stream().noneMatch(o -> o.getId() == newDepartment.getId())) {
                 departments.add(newDepartment);
             }
 
         }
         rs.beforeFirst();
 
-        while(rs.next()){
+        while (rs.next()) {
 
             User user = resultSetParser.getUser(rs);
-            for(Department d : departments){
-                if(d.getManager().getUserName().equals(user.getUserName())){
+            for (Department d : departments) {
+                if (d.getManager().getUserName().equals(user.getUserName())) {
                     d.setManager(user);
                 }
-                if(rs.getString("dptName").equals(d.getName()) && d.getUsers().stream().noneMatch(o -> o.getUserName().equals(user.getUserName()))){
+                if (rs.getString("dptName").equals(d.getName()) && d.getUsers().stream().noneMatch(o -> o.getUserName().equals(user.getUserName()))) {
                     d.addUser(user);
                 }
             }
@@ -119,13 +119,13 @@ public class DepartmentDAL {
 
         rs.beforeFirst();
 
-        while(rs.next()){
+        while (rs.next()) {
 
-            for(Department dpt : departments){
-                if(dpt.getName().equals(rs.getString("dptName"))){
-                    for(Department subDpt : departments){
-                        if(subDpt.getName().equals(rs.getString("subDpt"))){
-                            if(!dpt.getSubDepartments().contains(subDpt)){
+            for (Department dpt : departments) {
+                if (dpt.getName().equals(rs.getString("dptName"))) {
+                    for (Department subDpt : departments) {
+                        if (subDpt.getName().equals(rs.getString("subDpt"))) {
+                            if (!dpt.getSubDepartments().contains(subDpt)) {
                                 dpt.addSubDepartment(subDpt);
                             }
                         }
@@ -136,12 +136,12 @@ public class DepartmentDAL {
         }
     }
 
-    public void updateDepartment(Department oldDepartment, Department department){
+    public void updateDepartment(Department oldDepartment, Department department) {
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("UPDATE Title SET Title=?, Manager=? WHERE Id=?");
             pSql.setString(1, department.getName());
-            pSql.setString(2,department.getManager().getUserName());
+            pSql.setString(2, department.getManager().getUserName());
             pSql.setInt(3, oldDepartment.getId());
             pSql.execute();
         } catch (SQLException throwables) {
@@ -164,10 +164,10 @@ public class DepartmentDAL {
                 for (int u = 0; u < users.size(); u++) {
                     userCount++;
                     var user = users.get(u);
-                    sb.append(String.format("%d,%s %s,%d", userCount, user.getFirstName(), user.getLastName(), user.getPhone()));
+                    sb.append(String.format("%s     %s      %d", user.getFirstName(), user.getLastName(), user.getPhone()));
                 }
 
-                sb.append("\n");
+                sb.append("\n\n");
             }
 
             DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
