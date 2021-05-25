@@ -1,7 +1,6 @@
 package DAL;
 
 import BE.Department;
-import BE.Title;
 import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
 import GUI.Controller.PopupControllers.WarningController;
@@ -10,10 +9,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,17 +20,22 @@ public class DepartmentDAL {
     private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
     private final ResultSetParser resultSetParser = new ResultSetParser();
 
-    public void addDepartment(String newDepartment) {
-
+    public Department addDepartment(Department department) {
         try (Connection con = dbCon.getConnection()) {
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO Department VALUES(?)");
-            pSql.setString(1, newDepartment);
-            pSql.execute();
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO Department VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
+            pSql.setString(1, department.getName());
+            pSql.setString(2,department.getManager().getUserName());
+            pSql.executeUpdate();
+            var generatedKeys = pSql.getGeneratedKeys();
+            generatedKeys.next();
+            department.setId(generatedKeys.getInt(1));
+            System.out.println(department.getId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a new department " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
+        return department;
     }
 
     public void deleteDepartment(Department department) {
@@ -111,6 +112,7 @@ public class DepartmentDAL {
                 if (d.getManager().getUserName().equals(user.getUserName())) {
                     d.setManager(user);
                 }
+                if(user.getUserName()!=null)
                 if (rs.getString("dptName").equals(d.getName()) && d.getUsers().stream().noneMatch(o -> o.getUserName().equals(user.getUserName()))) {
                     d.addUser(user);
                 }

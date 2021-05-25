@@ -27,6 +27,10 @@ public class DepartmentModel {
         return instance == null ? instance = new DepartmentModel() : instance;
     }
 
+    public Department addDepartment(String newDepartment){
+        return departmentManager.addDepartment(new Department(newDepartment));
+    }
+
     public void deleteDepartment(Department d) {
         departmentManager.deleteDepartment(d);
     }

@@ -1,6 +1,7 @@
 package BE;
 
 import GUI.Controller.DPT.DepartmentViewController;
+import GUI.Model.DepartmentModel;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,6 +41,10 @@ public class Department {
         this.name.set(name);
     }
 
+    public Department(String name) {
+        this.name.set(name);
+    }
+
     public User getManager() {
         return manager.get();
     }
@@ -50,6 +55,7 @@ public class Department {
 
     public void setManager(User manager) {
         this.manager.set(manager);
+        DepartmentModel.getInstance().addDepartment(this);
     }
 
     public ObjectProperty<Integer> idProperty() {

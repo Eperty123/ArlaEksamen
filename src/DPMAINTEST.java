@@ -1,6 +1,8 @@
 import BLL.DepartmentManager;
+import DAL.DepartmentDAL;
 import GUI.Controller.DPT.DepartmentStageController;
 import GUI.Controller.StageBuilder;
+import GUI.Model.DepartmentModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,11 +21,10 @@ public class DPMAINTEST extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
-        con2.addChildrenNode(departmentManager.getAllDepartments().get(0));
+        con2.addChildrenNode(departmentManager.getSuperDepartment());
 
         stage.setScene(new Scene(node));
         stage.show();
