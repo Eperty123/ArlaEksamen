@@ -36,7 +36,6 @@ public class InfoboardController implements Initializable {
             }
         }
 
-
         hbox.getChildren().addListener((ListChangeListener<Node>) c -> {
             if (c.next()) {
                 if (c.wasRemoved()) {
