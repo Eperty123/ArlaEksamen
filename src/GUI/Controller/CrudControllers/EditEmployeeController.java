@@ -1,12 +1,15 @@
 package GUI.Controller.CrudControllers;
 
+import BE.Department;
 import BE.Gender;
 import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
 import GUI.Model.UserModel;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,9 +45,13 @@ public class EditEmployeeController implements Initializable {
     @FXML
     private JFXComboBox<Enum> chsSex;
     @FXML
-    private JFXComboBox<Enum> chsSuperior;
+    private JFXComboBox<Enum> chsDepartment;
     @FXML
     private ImageView image;
+    @FXML
+    private JFXCheckBox hideEmailCheck;
+    @FXML
+    private JFXCheckBox hidePhoneCheck;
 
 
     private User oldUser;
@@ -58,10 +65,10 @@ public class EditEmployeeController implements Initializable {
             String firstName = txtFirstname.getText();
             String lastName = txtLastname.getText();
             String jobTitle = txtJobTitle.getText();
-            String email = txtEmail.getText();
-            int phone = Integer.parseInt(txtPhoneNumber.getText());
+            String email = getEmail();
+            int phone = getPhone();
             Enum<Gender> sex = chsSex.getSelectionModel().getSelectedItem();
-            Enum superior = chsSuperior.getSelectionModel().getSelectedItem();
+
             Enum<UserType> userRole = chsRole.getSelectionModel().getSelectedItem();
             String username = txtUsername.getText();
             int password = passwordManager.encrypt(txtPassword.getText());
@@ -71,12 +78,32 @@ public class EditEmployeeController implements Initializable {
 
             User newUser = new User(firstName,lastName,username,email,password,userRole.ordinal(),phone,sex,imgPath,jobTitle);
 
-            userModel.updateUser(oldUser, newUser);
+
+            Department oldDepartment = new Department(234, "Mock", newUser);
+            Department newDepartment = new Department(234, "Mock", newUser);
+
+            userModel.updateUser(oldUser, newUser, oldDepartment, newDepartment);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
             System.out.println("Edit saved!");
         } else System.out.println("Edit got wrecked! Not saved. Check all fields please.");
+    }
+
+    private int getPhone() {
+        if(hidePhoneCheck.isSelected()){
+            return Integer.parseInt(txtPhoneNumber.getText()) * -1;
+        } else{
+            return Integer.parseInt(txtPhoneNumber.getText());
+        }
+    }
+
+    private String getEmail() {
+        if(hideEmailCheck.isSelected()){
+            return "@" + txtEmail.getText();
+        } else{
+            return txtEmail.getText();
+        }
     }
 
     public void handleCancel(ActionEvent actionEvent) {
@@ -86,6 +113,7 @@ public class EditEmployeeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setDepartments();
 
         chsRole.getItems().addAll(UserType.values());
         chsRole.getSelectionModel().selectFirst();
@@ -93,18 +121,46 @@ public class EditEmployeeController implements Initializable {
         chsSex.getItems().addAll(Gender.values());
     }
 
+    private void setDepartments() {
+        
+    }
+
     public void setData(User user) {
         oldUser = user;
         txtFirstname.setText(user.getFirstName());
         txtLastname.setText(user.getLastName());
         txtJobTitle.setText(user.getTitle());
-        txtEmail.setText(user.getEmail());
-        txtPhoneNumber.setText(String.valueOf(user.getPhone()));
+        txtEmail.setText(setEmail(user));
+        txtPhoneNumber.setText(setPhone(user));
         chsSex.getSelectionModel().select(user.getGender());
         chsRole.getSelectionModel().select(user.getUserRole());
 
         txtUsername.setText(user.getUserName());
     }
+
+    private String setPhone(User user) {
+        if(user.getPhone() < 0){
+            hidePhoneCheck.setSelected(true);
+            return String.valueOf((user.getPhone() * -1));
+        } else{
+            hidePhoneCheck.setSelected(false);
+            return String.valueOf(user.getPhone());
+        }
+
+    }
+
+    private String setEmail(User user) {
+
+        if(user.getEmail().charAt(0) == '@'){
+            hideEmailCheck.setSelected(true);
+            return user.getEmail().substring(1);
+        } else{
+            hideEmailCheck.setSelected(false);
+            return user.getEmail();
+        }
+    }
+
+
 
     public void handleSelectImage(){
         //TODO

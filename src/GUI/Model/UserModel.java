@@ -1,5 +1,6 @@
 package GUI.Model;
 
+import BE.Department;
 import BE.User;
 import BE.UserType;
 import BLL.UserManager;
@@ -42,9 +43,9 @@ public class UserModel {
      *
      * @param newUser object to be written to the database.
      */
-    public void addUser(User newUser) {
+    public void addUser(User newUser, Department department) {
         if (allUsers.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
-            userManager.addUser(newUser);
+            userManager.addUser(newUser, department);
             updateUsers();
         }
     }
@@ -65,8 +66,8 @@ public class UserModel {
      * @param oldUser object used to identify the row that is to be updated.
      * @param newUser object containing the updated User information.
      */
-    public void updateUser(User oldUser, User newUser) {
-        userManager.updateUser(oldUser, newUser);
+    public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
+        userManager.updateUser(oldUser, newUser, oldDepartment, newDepartment);
         updateUsers();
     }
 
