@@ -3,16 +3,11 @@ package GUI.Controller.HRControllers;
 import BE.Department;
 import BE.SceneMover;
 import BE.Searcher;
-import BE.User;
-import GUI.Controller.EmployeeCardController;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
-import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,12 +16,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
@@ -170,7 +162,7 @@ public class HRDepartmentController implements Initializable {
     }
 
     private void handleRemove(Department d) {
-        DepartmentModel.getInstance().deleteDeparment(d);
+        DepartmentModel.getInstance().deleteDepartment(d);
     }
 
     public void handleSearchUser(){
