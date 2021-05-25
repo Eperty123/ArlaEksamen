@@ -7,7 +7,6 @@ import org.junit.jupiter.api.function.Executable;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 public class PhoneListExportTest {
     @DisplayName("Phone Number Export Test")
     @org.junit.jupiter.api.Test
