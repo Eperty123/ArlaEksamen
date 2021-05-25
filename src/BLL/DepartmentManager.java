@@ -15,7 +15,7 @@ public class DepartmentManager {
     public DepartmentManager() {
         departmentList.setAll(departmentDAL.getDepartments());
     }
-    
+
     public ObservableList<Department> getSuperDepartments() {
         ObservableList<Department> tmp = FXCollections.observableArrayList();
         departmentList.forEach(d -> {

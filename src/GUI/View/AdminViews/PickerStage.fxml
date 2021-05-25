@@ -24,7 +24,7 @@
                   <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#changeContent" pickOnBounds="true" preserveRatio="true" styleClass="addChart">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#changeContent" onTouchPressed="#changeContent" pickOnBounds="true" preserveRatio="true" styleClass="addChart">
                      <image>
                         <Image url="@/GUI/Resources/addChart.png" />
                      </image>
@@ -35,7 +35,7 @@
                         <Insets />
                      </GridPane.margin>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneHorizontally" pickOnBounds="true" preserveRatio="true" styleClass="addVertical" GridPane.columnIndex="1">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneHorizontally" onTouchPressed="#splitSceneHorizontally" pickOnBounds="true" preserveRatio="true" styleClass="addVertical" GridPane.columnIndex="1">
                      <image>
                         <Image url="@/GUI/Resources/vertical.png" />
                      </image>
@@ -46,7 +46,7 @@
                         <Insets />
                      </GridPane.margin>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneVertically" pickOnBounds="true" preserveRatio="true" styleClass="addHorizontal" GridPane.columnIndex="2">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#splitSceneVertically" onTouchPressed="#splitSceneVertically" pickOnBounds="true" preserveRatio="true" styleClass="addHorizontal" GridPane.columnIndex="2">
                      <image>
                         <Image url="@/GUI/Resources/horizontal.png" />
                      </image>
