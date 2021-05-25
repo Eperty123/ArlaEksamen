@@ -9,15 +9,13 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 public class DepartmentManager {
-    private Department department = new Department(-1, "SuperDepartment");
-    private ObservableList<Department> departmentList = FXCollections.observableArrayList(department);
+    private ObservableList<Department> departmentList = FXCollections.observableArrayList();
     private DepartmentDAL departmentDAL = new DepartmentDAL();
 
     public DepartmentManager() {
         departmentList.setAll(departmentDAL.getDepartments());
     }
-
-
+    
     public ObservableList<Department> getSuperDepartments() {
         ObservableList<Department> tmp = FXCollections.observableArrayList();
         departmentList.forEach(d -> {
