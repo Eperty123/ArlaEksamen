@@ -67,9 +67,10 @@ public class HRDashboardController implements Initializable {
 
     public void handleUserManagement() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRUserManagement.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRDepartment.fxml"));
         Parent root = fxmlLoader.load();
-        HRUserManagementController controller = fxmlLoader.getController();
+        HRDepartmentController
+                controller = fxmlLoader.getController();
         borderPane.setCenter(root);
     }
 

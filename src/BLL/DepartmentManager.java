@@ -59,4 +59,8 @@ public class DepartmentManager {
     public void exportPhoneNumbers(List<Department> departments) {
         departmentDAL.exportPhoneNumbers(departments);
     }
+
+    public void deleteDepartment(Department d) {
+        departmentDAL.deleteDepartment(d);
+    }
 }

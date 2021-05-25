@@ -2,7 +2,9 @@ package GUI.Model;
 
 import BE.Department;
 import BLL.DepartmentManager;
+import javafx.collections.ObservableList;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,5 +25,13 @@ public class DepartmentModel {
 
     public static DepartmentModel getInstance() {
         return instance == null ? instance = new DepartmentModel() : instance;
+    }
+
+    public void deleteDeparment(Department d) {
+        departmentManager.deleteDepartment(d);
+    }
+
+    public ObservableList<Department> getAllDepartments() {
+        return departmentManager.getAllDepartments();
     }
 }
