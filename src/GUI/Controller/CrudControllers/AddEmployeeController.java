@@ -1,11 +1,13 @@
 package GUI.Controller.CrudControllers;
 
-import BE.*;
+import BE.Gender;
+import BE.ScreenBit;
+import BE.User;
+import BE.UserType;
 import BLL.PasswordManager;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
-import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -46,13 +48,9 @@ public class AddEmployeeController implements Initializable {
     @FXML
     private JFXComboBox<Enum<Gender>> chsSex;
     @FXML
-    private JFXComboBox<Enum> chsDepartment;
+    private JFXComboBox<Enum> chsSuperior;
     @FXML
     private ImageView image;
-    @FXML
-    private JFXCheckBox hideEmailCheck;
-    @FXML
-    private JFXCheckBox hidePhoneCheck;
 
     private UserModel userModel = UserModel.getInstance();
     private PasswordManager passwordManager = new PasswordManager();
@@ -65,8 +63,9 @@ public class AddEmployeeController implements Initializable {
             String lastName = txtLastname.getText();
             String jobTitle = txtJobTitle.getText();
             String email = txtEmail.getText();
-            int phone = getPhone();
+            int phone = Integer.parseInt(txtPhoneNumber.getText());
             Enum<Gender> sex = chsSex.getSelectionModel().getSelectedItem();
+            Enum superior = chsSuperior.getSelectionModel().getSelectedItem();
             Enum<UserType> userRole = chsRole.getSelectionModel().getSelectedItem();
             String username = txtUsername.getText();
             int password = passwordManager.encrypt(txtPassword.getText());
@@ -74,12 +73,9 @@ public class AddEmployeeController implements Initializable {
 
             //public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
 
-
             User newUser = new User(firstName,lastName,username,email,password,userRole.ordinal(),phone,sex,imgPath,jobTitle);
             // Add the new user.
-            // TODO fix department
-            Department department = new Department(555, "mock", newUser);
-                    userModel.addUser(newUser, department);
+            userModel.addUser(newUser);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
@@ -100,16 +96,6 @@ public class AddEmployeeController implements Initializable {
             warning.setScene(warningScene);
             warning.show();
         }
-    }
-
-    private int getPhone() {
-
-        return hidePhoneCheck.isSelected() ? -1* Integer.parseInt(txtPhoneNumber.getText()) : Integer.parseInt(txtPhoneNumber.getText());
-    }
-
-    private String getEmail(){
-
-        return hideEmailCheck.isSelected() ? "@" + txtEmail.getText() : txtEmail.getText();
     }
 
     public void handleCancel(ActionEvent actionEvent) {

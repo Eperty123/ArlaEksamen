@@ -1,6 +1,6 @@
 package DAL;
 
-
+import BE.Title;
 import DAL.DbConnector.DbConnectionHandler;
 import GUI.Controller.PopupControllers.WarningController;
 
@@ -16,6 +16,7 @@ public class TitleDAL {
     private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
 
     public void addTitle(String newTitle){
+
         try(Connection con = dbCon.getConnection()){
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Title VALUES(?)");
             pSql.setString(1, newTitle);
@@ -27,11 +28,12 @@ public class TitleDAL {
         }
     }
 
-    public void deleteTitle(String title){
+    public void deleteTitle(Title title){
 
         try(Connection con = dbCon.getConnection()){
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM Title WHERE Title=?");
-            pSql.setString(1, title);
+            deleteUserTitleAssociations(con, title);
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM Title WHERE Id=?");
+            pSql.setInt(1, title.getId());
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -40,10 +42,15 @@ public class TitleDAL {
         }
     }
 
+    private void deleteUserTitleAssociations(Connection con, Title title) throws SQLException {
 
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM UserTitle WHERE TitleId=?");
+            pSql.setInt(1, title.getId());
+            pSql.execute();
+    }
 
-    public List<String> getTitles(){
-        List<String> titles = new ArrayList<>();
+    public List<Title> getTitles(){
+        List<Title> titles = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
             PreparedStatement pSql = con.prepareStatement("SELECT * FROM Title");
@@ -51,7 +58,7 @@ public class TitleDAL {
 
             ResultSet rs = pSql.getResultSet();
             while(rs.next()){
-                titles.add(rs.getString("Title"));
+                titles.add(new Title(rs.getInt("Id"), rs.getString("Title")));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -61,27 +68,18 @@ public class TitleDAL {
         return titles;
     }
 
-    public void updateTitle(String oldTitle, String title){
+    public void updateTitle(Title oldTitle, Title title){
 
         try(Connection con = dbCon.getConnection()){
-            updateUserTitles(con, oldTitle, title);
-            PreparedStatement pSql = con.prepareStatement("UPDATE Title SET Title=? WHERE Title=?");
-            pSql.setString(1, title);
-            pSql.setString(2, oldTitle);
+            PreparedStatement pSql = con.prepareStatement("UPDATE Title SET Title=? WHERE Id=?");
+            pSql.setString(1, title.getTitle());
+            pSql.setInt(2, oldTitle.getId());
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to update a title " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-    }
-
-    private void updateUserTitles(Connection con, String oldTitle, String title) throws SQLException {
-
-        PreparedStatement pSql = con.prepareStatement("UPDATE [User] SET Title=? WHERE Title=?");
-        pSql.setString(1, title);
-        pSql.execute();
-
     }
 
 }
