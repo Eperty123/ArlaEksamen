@@ -50,6 +50,8 @@ public class JonasTest {
                 System.out.println("Manager: " + d.getManager().getUserName());
                 System.out.println("ManagerID: " + d.getManager().getId());
             }
+            System.out.println();
+            System.out.println("Sub Departments: " + d.getSubDepartments().size());
             System.out.println("------------------------------");
             System.out.println();
 
