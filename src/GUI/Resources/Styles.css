@@ -43,7 +43,7 @@ ADMIN DASHBOARD
     -fx-background-color: #c8f0fc;
 }
 
-.adminDashboardButtons:hover{
+.adminDashboardButtons:hover {
     -fx-background-color: rgba(255, 255, 255, 0.50);;
 }
 
@@ -72,18 +72,19 @@ ADMIN DASHBOARD
     -fx-background-color: #c8f0fc;
 }
 
-.employeeButton{
+.employeeButton {
     -fx-fill: #add8e5;
 }
 
-.employeeButton:hover{
+.employeeButton:hover {
     -fx-fill: #97CE68;
 }
 
-.userSeach{
+.userSeach {
     -fx-prompt-text-fill: #cacaca;
     -fx-text-fill: white;
 }
+
 /*
 POP UP
  */
@@ -250,7 +251,7 @@ POP UP
     -fx-text-fill: white;
 }
 
-.message *.text{
+.message *.text {
 
     -fx-text-alignment: CENTER;
 }
@@ -259,14 +260,15 @@ POP UP
     -fx-background-color: transparent;
 }
 
-.message .scroll-pane .viewport{
+.message .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
 
 
-.message .scroll-pane .content{
+.message .scroll-pane .content {
     -fx-background-color: transparent;
 }
+
 .employeeLogout:hover {
     -fx-background-color: #E01931;
     -fx-text-fill: white;
@@ -410,7 +412,7 @@ POP UP
     CHART STYLES
  */
 
-.chart{
+.chart {
     -fx-background-color: #0d262e;
 }
 
@@ -461,7 +463,7 @@ POP UP
     BUG STYLES
 */
 
-.bugSearch{
+.bugSearch {
     -fx-prompt-text-fill: white;
     -fx-text-fill: white;
 }
@@ -487,26 +489,51 @@ POP UP
     HR Styles
  */
 
-.importUsers{
+.importUsers {
     -fx-image: url("HRUserManagement/ImportUsers.png");
 }
 
-.importUsers:hover{
+.importUsers:hover {
     -fx-image: url("HRUserManagement/ImportUsers_hover.png");
 }
 
-.exportUsers{
+.exportUsers {
     -fx-image: url("HRUserManagement/ExportUsers.png");
 }
 
-.exportUsers:hover{
+.exportUsers:hover {
     -fx-image: url("HRUserManagement/ExportUsers_hover.png");
 }
 
-.exportPhonelist{
+.exportPhonelist {
     -fx-image: url("HRUserManagement/ExportPhone.png");
 }
 
-.exportPhonelist:hover{
+.exportPhonelist:hover {
     -fx-image: url("HRUserManagement/ExportPhone_hover.png");
+}
+
+.choice {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: white;
+    -fx-mark-color: white;
+}
+
+.choice .context-menu {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: white;
+}
+
+.choice .menu-item:focused {
+    -fx-background-color: rgba(255, 255, 255, 0.50);
+}
+
+.choice .menu-item > .label {
+    -fx-text-fill: white;
+}
+
+.choice .menu-item:focused > .label {
+    -fx-text-fill: white;
 }

@@ -10,12 +10,14 @@ import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,7 +27,9 @@ public class InfoboardController implements Initializable {
     @FXML
     private HBox hbox;
     @FXML
-    private JFXComboBox<Department> cmbAddDepartment;
+    private ScrollPane scroll;
+    @FXML
+    private ChoiceBox<Department> cmbAddDepartment;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -35,6 +39,11 @@ public class InfoboardController implements Initializable {
                 vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(d));
             }
         }
+
+        cmbAddDepartment.setOnAction(e -> {
+            handleAddDepartment();
+        });
+
 
         hbox.getChildren().addListener((ListChangeListener<Node>) c -> {
             if (c.next()) {
@@ -47,6 +56,10 @@ public class InfoboardController implements Initializable {
                         vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(department));
                     }
                 }
+
+                if (c.wasAdded()){
+                    cmbAddDepartment.getSelectionModel().clearSelection();
+                }
             }
 
         });
@@ -54,12 +67,21 @@ public class InfoboardController implements Initializable {
 
     }
 
+    private void autoFitSize(){
+        scroll.widthProperty().addListener((observable, t, t1) -> {
+            hbox.setPrefWidth(t1.doubleValue());
+            hbox.setMaxWidth(t1.doubleValue());
+            hbox.setMinWidth(t1.doubleValue());
+        });
+    }
+
 
     public void handleAddDepartment() {
-        vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(cmbAddDepartment.getValue()));
-        hbox.getChildren().add(InfoboardPaneFactory.createDepartmentLabel(cmbAddDepartment.getValue(), hbox));
-        cmbAddDepartment.getItems().remove(cmbAddDepartment.getValue());
-
+        if (cmbAddDepartment.getValue() != null) {
+            vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(cmbAddDepartment.getValue()));
+            hbox.getChildren().add(InfoboardPaneFactory.createDepartmentLabel(cmbAddDepartment.getValue(), hbox));
+            cmbAddDepartment.getItems().remove(cmbAddDepartment.getValue());
+        }
     }
 
     public void addToCombo(String departmentName) {
