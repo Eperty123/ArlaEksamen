@@ -1,8 +1,11 @@
 package BE;
 
 import GUI.Controller.EmployeeCardController;
+import GUI.Controller.InfoboardController;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -12,26 +15,23 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
 import javax.swing.border.Border;
 
 public class InfoboardPaneFactory {
     private static Department currentDepartment;
 
-    public static BorderPane createInfoBoard(Department department, VBox root) {
+    public static BorderPane createInfoBoard(Department department) {
         currentDepartment = department;
 
         BorderPane bp = new BorderPane();
-        bp.setMinHeight(root.getHeight());
-        bp.setMinWidth(root.getWidth());
 
         bp.setTop(createBar(currentDepartment));
         bp.setCenter(createFlowPane());
@@ -185,5 +185,49 @@ public class InfoboardPaneFactory {
 
         FlowPane.setMargin(newPane, new Insets(25, 25, 25, 25));
         return newPane;
+    }
+
+    public static Pane createDepartmentLabel(Department d, HBox hbox){
+        Pane pane = new Pane();
+        pane.setPrefWidth(-1);
+        pane.setPrefHeight(30);
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setArcHeight(25);
+        rectangle.setArcWidth(25);
+        rectangle.setHeight(25);
+        rectangle.setWidth(150);
+        rectangle.setLayoutY(3);
+        rectangle.setFill(Paint.valueOf("#154c5d"));
+        rectangle.setStroke(Paint.valueOf("#ffffff"));
+        rectangle.setStrokeWidth(1);
+        rectangle.setStrokeType(StrokeType.OUTSIDE);
+
+        Label deptname = new Label();
+        deptname.setId("ID");
+        deptname.setText(d.getName());
+        deptname.setTextFill(Paint.valueOf("#ffffff"));
+        deptname.setStyle("-fx-font-size: 12px;-fx-font-weight: bold; -fx-font-style: italic");
+        deptname.setPrefSize(110,17);
+        deptname.setLayoutX(14);
+        deptname.setLayoutY(7);
+
+        MaterialDesignIconView close = new MaterialDesignIconView();
+        close.getStyleClass().add("removeUser");
+        close.setFill(Paint.valueOf("#ffffff"));
+        close.setLayoutX(128);
+        close.setLayoutY(22);
+        close.setGlyphName("CLOSE_CIRCLE_OUTLINE");
+        close.setSize("16");
+
+        close.setOnMouseClicked(e -> {
+            hbox.getChildren().remove(pane);
+        });
+
+        pane.getChildren().addAll(rectangle,deptname,close);
+
+        FlowPane.setMargin(pane,new Insets(0,0,0,20));
+
+        return pane;
     }
 }
