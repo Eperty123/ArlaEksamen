@@ -133,7 +133,7 @@ public class UserDAL {
             pSql.setInt(11, user.getId());
             pSql.execute();
 
-            if(oldDepartment.getId() != newDepartment.getId()){
+            if(!oldDepartment.getName().equals(newDepartment.getName())){
                 updateDepartmentUser(con,user, updatedUser, oldDepartment, newDepartment);
             }
 
@@ -151,6 +151,11 @@ public class UserDAL {
             pSql.setInt(1,newDepartment.getId());
             pSql.setString(2, updatedUser.getUserName());
             pSql.setString(3, user.getUserName());
+            pSql.execute();
+        } else{
+            PreparedStatement pSql = con.prepareStatement("UPDATE DepartmentUser SET DepartmentId=? WHERE UserName=?");
+            pSql.setInt(1,newDepartment.getId());
+            pSql.setString(2, user.getUserName());
             pSql.execute();
         }
     }
