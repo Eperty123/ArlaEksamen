@@ -63,7 +63,7 @@ public class DepartmentDAL {
                             "Department.Name AS dptName, " +
                             "Department.Manager, " +
                             "[User].*, " +
-                            "SubDepartment.DptName AS subDptName " +
+                            "SubDepartment.SubDpt AS subDpt " +
                             "FROM Department " +
                             "LEFT OUTER JOIN DepartmentUser " +
                             "ON Department.Id = DepartmentUser.DepartmentId " +
@@ -96,7 +96,7 @@ public class DepartmentDAL {
             }
 
         }
-        rs.first();
+        rs.beforeFirst();
 
         while(rs.next()){
 
@@ -104,23 +104,29 @@ public class DepartmentDAL {
             for(Department d : departments){
                 if(d.getManager().getUserName().equals(user.getUserName())){
                     d.setManager(user);
-                } else if(rs.getString("dptName").equals(d.getName())){
+                }
+                if(rs.getString("dptName").equals(d.getName()) && d.getUsers().stream().noneMatch(o -> o.getUserName().equals(user.getUserName()))){
                     d.addUser(user);
                 }
             }
         }
-        rs.first();
+
+        rs.beforeFirst();
 
         while(rs.next()){
-            for(Department dpt: departments){
+
+            for(Department dpt : departments){
                 if(dpt.getName().equals(rs.getString("dptName"))){
-                    for(Department subDpt: departments){
-                        if(subDpt.getName().equals(rs.getString("subDptName"))){
-                            dpt.addSubDepartment(subDpt);
+                    for(Department subDpt : departments){
+                        if(subDpt.getName().equals(rs.getString("subDpt"))){
+                            if(!dpt.getSubDepartments().contains(subDpt)){
+                                dpt.addSubDepartment(subDpt);
+                            }
                         }
                     }
                 }
             }
+
         }
     }
 

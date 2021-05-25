@@ -52,6 +52,10 @@ public class JonasTest {
             }
             System.out.println();
             System.out.println("Sub Departments: " + d.getSubDepartments().size());
+            for(Department subDpt : d.getSubDepartments()){
+                System.out.println("Subdpt: " + subDpt.getName());
+            }
+            System.out.println();
             System.out.println("------------------------------");
             System.out.println();
 
