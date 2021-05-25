@@ -4,7 +4,7 @@ import BE.Department;
 import BE.SceneMover;
 import BE.User;
 import BLL.DepartmentManager;
-import GUI.Controller.CrudControllers.AddDepartmentController;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
@@ -136,7 +136,7 @@ public class DepartmentViewController implements Initializable {
             }
 
         });
-        Button addSubDepartmentButton = new Button("Add sub department");
+        JFXButton addSubDepartmentButton = new JFXButton("Add sub department");
         hBox.getChildren().add(addSubDepartmentButton);
         addSubDepartmentButton.setOnMouseClicked((v) -> addSubDepartment());
         hBox.setAlignment(Pos.TOP_CENTER);
