@@ -179,4 +179,8 @@ public class UserModel {
             System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
+
+    public void updateUserDepartment(List<Department> departments){
+        userManager.updateUserDepartment(departments);
+    }
 }
