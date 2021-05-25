@@ -4,11 +4,13 @@ import BE.Department;
 import BE.SceneMover;
 import BE.User;
 import BLL.DepartmentManager;
+import GUI.Model.DepartmentModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -148,7 +150,8 @@ public class DepartmentViewController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
             AnchorPane pane = loader.load();
             DepartmentViewController con = loader.getController();
-            con.setDepartment(new Department(-1, "Department name"));
+            Department dpt = new Department("New Department");
+            con.setDepartment(dpt);
             hBox.getChildren().add(hBox.getChildren().size() - 1, pane);
 
         } catch (Exception e) {
