@@ -27,8 +27,8 @@ public class UserManager {
      *
      * @param user the desired user to be added.
      */
-    public void addUser(User user) {
-        userDAL.addUser(user);
+    public void addUser(User user, Department department) {
+        userDAL.addUser(user, department);
     }
 
     /**
@@ -37,8 +37,8 @@ public class UserManager {
      * @param user        the old user to be updated.
      * @param updatedUser the updated user.
      */
-    public void updateUser(User user, User updatedUser) {
-        userDAL.updateUser(user, updatedUser);
+    public void updateUser(User user, User updatedUser, Department oldDepartment, Department newDepartment) {
+        userDAL.updateUser(user, updatedUser, oldDepartment, newDepartment);
     }
 
     /**

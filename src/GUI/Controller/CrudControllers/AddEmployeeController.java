@@ -1,9 +1,6 @@
 package GUI.Controller.CrudControllers;
 
-import BE.Gender;
-import BE.ScreenBit;
-import BE.User;
-import BE.UserType;
+import BE.*;
 import BLL.PasswordManager;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.ScreenModel;
@@ -74,8 +71,11 @@ public class AddEmployeeController implements Initializable {
             //public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
 
             User newUser = new User(firstName,lastName,username,email,password,userRole.ordinal(),phone,sex,imgPath,jobTitle);
+
+            // TODO Update
+            Department department = new Department(444444, "Mock", newUser);
             // Add the new user.
-            userModel.addUser(newUser);
+            userModel.addUser(newUser, department);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
