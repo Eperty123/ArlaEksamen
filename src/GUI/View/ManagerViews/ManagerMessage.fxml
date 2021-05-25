@@ -68,7 +68,7 @@
                   </Pane>
                   <Pane>
                      <children>
-                        <TableView fx:id="comingMessages" layoutX="30.0" layoutY="35.0" onMouseClicked="#showSelectedMessage" onTouchPressed="#showSelectedMessage" prefHeight="230.0" prefWidth="550.0" styleClass="tblUsers">
+                        <TableView fx:id="comingMessages" layoutX="30.0" layoutY="35.0" onMouseClicked="#showSelectedMessage" prefHeight="230.0" prefWidth="550.0" styleClass="tblUsers">
                           <columns>
                             <TableColumn fx:id="msgColumn" prefWidth="410.0" text="Message" />
                             <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="70.0" text="Date" />
@@ -80,13 +80,13 @@
                               <Font name="System Bold Italic" size="14.0" />
                            </font>
                         </Label>
-                        <MaterialDesignIconView fill="WHITE" glyphName="MINUS" layoutX="547.0" layoutY="31.0" onMouseClicked="#handleDeleteMessage" onTouchPressed="#handleDeleteMessage" size="24" styleClass="removeUser" />
+                        <MaterialDesignIconView fill="WHITE" glyphName="MINUS" layoutX="547.0" layoutY="31.0" onMouseClicked="#handleDeleteMessage" size="24" styleClass="removeUser" />
                      </children>
                   </Pane>
                   <Pane>
                      <children>
-                        <JFXButton layoutX="515.0" layoutY="13.0" onAction="#handleCancel" onTouchPressed="#handleCancel" prefWidth="65.0" styleClass="MCancel" text="Cancel" textFill="WHITE" />
-                        <JFXButton layoutX="415.0" layoutY="13.0" onAction="#handleSave" onTouchPressed="#handleSave" prefWidth="65.0" styleClass="MSave" text="Save" textFill="WHITE" />
+                        <JFXButton layoutX="515.0" layoutY="13.0" onAction="#handleCancel" prefWidth="65.0" styleClass="MCancel" text="Cancel" textFill="WHITE" />
+                        <JFXButton layoutX="415.0" layoutY="13.0" onAction="#handleSave" prefWidth="65.0" styleClass="MSave" text="Save" textFill="WHITE" />
                      </children>
                      <VBox.margin>
                         <Insets top="20.0" />

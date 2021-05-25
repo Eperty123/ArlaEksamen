@@ -37,8 +37,8 @@
    <center>
       <Pane prefHeight="340.0" prefWidth="17.0" styleClass="midPanel" BorderPane.alignment="CENTER">
          <children>
-            <FontAwesomeIconView fill="#ddf3f9" glyphName="ARROW_RIGHT" layoutX="27.0" layoutY="131.0" onMouseClicked="#handleAddUser" onTouchPressed="#handleAddUser" size="32" />
-            <FontAwesomeIconView fill="#ddf3f9" glyphName="ARROW_LEFT" layoutX="27.0" layoutY="241.0" onMouseClicked="#handleRemoveUser" onTouchPressed="#handleRemoveUser" size="32" />
+            <FontAwesomeIconView fill="#ddf3f9" glyphName="ARROW_RIGHT" layoutX="27.0" layoutY="131.0" onMouseClicked="#handleAddUser" size="32" />
+            <FontAwesomeIconView fill="#ddf3f9" glyphName="ARROW_LEFT" layoutX="27.0" layoutY="241.0" onMouseClicked="#handleRemoveUser" size="32" />
          </children>
       </Pane>
    </center>

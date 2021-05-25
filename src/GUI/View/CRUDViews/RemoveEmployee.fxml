@@ -20,8 +20,8 @@
                </font>
             </Label>
             <JFXTextArea fx:id="textArea" editable="false" focusColor="#add8e5" layoutX="20.0" layoutY="39.0" prefHeight="122.0" prefWidth="264.0" styleClass="textarea" text="Pellentesque nec semper nulla. Vestibulum ac imperdiet nisl. Integer a risus id lorem laoreet efficitur eu eget risus. Integer ac condimentum augue. Donec at iaculis elit. Nullam euismod, lacus id mollis imperdiet, odio leo condimentum risus, sollicitudin maximus magna ex vitae diam. Mauris lacus nisi, lobortis non dapibus non, porttitor nec magna. Morbi at cursus lacus." unFocusColor="#add8e5" />
-            <JFXButton layoutX="42.0" layoutY="168.0" onAction="#handleJa" onTouchPressed="#handleJa" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Yes" />
-            <JFXButton layoutX="182.0" layoutY="168.0" onAction="#handleNej"  onTouchPressed="#handleNej" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="No" />
+            <JFXButton layoutX="42.0" layoutY="168.0" onAction="#handleJa" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Yes" />
+            <JFXButton layoutX="182.0" layoutY="168.0" onAction="#handleNej" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="No" />
          </children></Pane>
    </children>
 </AnchorPane>

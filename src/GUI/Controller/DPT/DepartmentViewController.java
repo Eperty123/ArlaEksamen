@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -20,7 +21,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -31,7 +37,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class DepartmentViewController implements Initializable {
     @FXML
@@ -133,6 +141,7 @@ public class DepartmentViewController implements Initializable {
             return null;
         }
     }
+
 
     private void initUserChangeListener() {
         users.addListener((ListChangeListener<? super User>) change -> {

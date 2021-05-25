@@ -10,8 +10,6 @@ import java.util.Locale;
 public class Searcher {
     private static ObservableList<User> OLUsersReturn = FXCollections.observableArrayList();
     private static ObservableList<Bug> OLBugReturn = FXCollections.observableArrayList();
-    private static ObservableList<Department> OLDepartmentReturn = FXCollections.observableArrayList();
-
 
     public static ObservableList<User> searchUsers(List<User> currentList, String query) {
         OLUsersReturn.clear();
@@ -34,16 +32,6 @@ public class Searcher {
 
         OLBugReturn.addAll(results);
         return OLBugReturn;
-    }
-
-    public static ObservableList<Department> searchDepartments(ObservableList<Department> currentList, String query) {
-        OLDepartmentReturn.clear();
-        List<Department> results = new ArrayList<>(currentList);
-        results.removeIf(department -> !(department.getName().toLowerCase().contains(query.toLowerCase())));
-
-
-        OLDepartmentReturn.addAll(results);
-        return OLDepartmentReturn;
     }
 }
 
