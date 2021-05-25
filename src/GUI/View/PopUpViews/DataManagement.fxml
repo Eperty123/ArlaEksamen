@@ -23,10 +23,10 @@
             <Label layoutX="20.0" layoutY="30.0" text="Content" />
             <JFXComboBox fx:id="comboBox" focusColor="#94bdd3" layoutX="20.0" layoutY="47.0" prefHeight="25.0" prefWidth="260.0" promptText="Content Type" unFocusColor="#9f9f9f" />
             <JFXButton fx:id="pickFile" layoutX="223.0" layoutY="111.0" styleClass="ja" text="Pick file" />
-            <JFXButton defaultButton="true" layoutX="50.0" layoutY="167.0" onAction="#confirm" prefHeight="25.0" prefWidth="80.0" styleClass="adminDashboardButtons" text="Confirm" />
+            <JFXButton defaultButton="true" layoutX="50.0" layoutY="167.0" onAction="#confirm" onTouchPressed="#confirm" prefHeight="25.0" prefWidth="80.0" styleClass="adminDashboardButtons" text="Confirm" />
             <JFXTextField fx:id="textField" focusColor="#94bdd3" layoutX="20.0" layoutY="111.0" prefHeight="25.0" prefWidth="200.0" promptText="File path / URL" unFocusColor="#9f9f9f" />
             <Label layoutX="20.0" layoutY="92.0" text="Pick File" />
-            <JFXButton cancelButton="true" layoutX="173.0" layoutY="167.0" onAction="#cancel" prefHeight="25.0" prefWidth="80.0" styleClass="adminDashboardButtons" text="Cancel" />
+            <JFXButton cancelButton="true" layoutX="173.0" layoutY="167.0" onAction="#cancel" onTouchPressed="#cancel" prefHeight="25.0" prefWidth="80.0" styleClass="adminDashboardButtons" text="Cancel" />
          </children></Pane>
    </children>
 </AnchorPane>

@@ -48,17 +48,17 @@
                            <children>
                               <BorderPane>
                                  <center>
-                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleMinimize" styleClass="minimize" />
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleMinimize" onTouchPressed="#handleMinimize" styleClass="minimize" />
                                  </center>
                               </BorderPane>
                               <BorderPane GridPane.columnIndex="1">
                                  <center>
-                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" styleClass="maximize" />
+                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" onTouchPressed="#handleMaximize" styleClass="maximize" />
                                  </center>
                               </BorderPane>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                  <center>
-                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleClose" styleClass="close" BorderPane.alignment="CENTER" />
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleClose" onTouchPressed="#handleClose" styleClass="close" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
                            </children>
@@ -74,7 +74,7 @@
                               </Label>
                            </left>
                            <right>
-                              <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleBack" prefHeight="25.0" prefWidth="90.0" styleClass="employeeLogout" text="Back" BorderPane.alignment="CENTER" />
+                              <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleBack" onTouchPressed="#handleBack" prefHeight="25.0" prefWidth="90.0" styleClass="employeeLogout" text="Back" BorderPane.alignment="CENTER" />
                            </right>
                            <center>
                               <JFXComboBox fx:id="comboScreens" focusColor="#94bdd3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="Screen" unFocusColor="#9f9f9f" BorderPane.alignment="CENTER" />

@@ -75,7 +75,6 @@ public class AdminManagementController implements Initializable {
         }
     }
 
-
     public void handleSearchUser() {
         if (!txtSearch.getText().isEmpty() || !txtSearch.getText().isBlank()) {
             vbox.getChildren().clear();
