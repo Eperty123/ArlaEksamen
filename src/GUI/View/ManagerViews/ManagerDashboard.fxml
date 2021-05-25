@@ -37,12 +37,12 @@
                            <children>
                               <Pane fx:id="midPanel" styleClass="midPanel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <JFXButton layoutX="33.0" layoutY="138.0" onAction="#handleViewScreens" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="View Screens">
+                                    <JFXButton layoutX="33.0" layoutY="138.0" onAction="#handleViewScreens" onTouchPressed="#handleViewScreens" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="View Screens">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </JFXButton>
-                                    <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleCreateMessage" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Create Message">
+                                    <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleCreateMessage"  onTouchPressed="#handleCreateMessage" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Create Message">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -60,7 +60,7 @@
                      <bottom>
                         <Pane fx:id="logoutPanel" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" prefHeight="45.0" prefWidth="235.0" BorderPane.alignment="CENTER">
                            <children>
-                              <JFXButton layoutY="-1.0" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" onAction="#Logout" prefHeight="45.0" prefWidth="235.0" styleClass="logout" text="Logout">
+                              <JFXButton layoutY="-1.0" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" onAction="#Logout" onTouchPressed="#Logout" prefHeight="45.0" prefWidth="235.0" styleClass="logout" text="Logout">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -89,17 +89,17 @@
                            <children>
                               <BorderPane>
                                  <center>
-                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#minimize" styleClass="minimize" />
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#minimize" onTouchPressed="#minimize" styleClass="minimize" />
                                  </center>
                               </BorderPane>
                               <BorderPane GridPane.columnIndex="1">
                                  <center>
-                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#maximize" styleClass="maximize" />
+                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#maximize" onTouchPressed="#maximize" styleClass="maximize" />
                                  </center>
                               </BorderPane>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                  <center>
-                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#exit" styleClass="close" BorderPane.alignment="CENTER" />
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#exit" onTouchPressed="#exit" styleClass="close" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
                            </children>

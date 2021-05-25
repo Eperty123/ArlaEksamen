@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.HRControllers.HRUserManagementController">
+<AnchorPane stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.HRControllers.HRDepartmentController">
    <children>
       <BorderPane maxHeight="30.0" minWidth="200.0" prefHeight="30.0" styleClass="usrBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <Label text="Arla User Management Center" textFill="WHITE" BorderPane.alignment="CENTER">
+            <Label text="Arla Department Management Center" textFill="WHITE" BorderPane.alignment="CENTER">
                <font>
                   <Font name="System Bold Italic" size="16.0" />
                </font>

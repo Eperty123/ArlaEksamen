@@ -29,7 +29,7 @@
             <JFXTextField fx:id="txtFirstname" focusColor="#94bdd3" layoutX="50.0" layoutY="62.0" prefHeight="25.0" prefWidth="190.0" promptText="First-name" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtLastname" focusColor="#94bdd3" layoutX="50.0" layoutY="112.0" prefHeight="25.0" prefWidth="190.0" promptText="Last-name" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtJobTitle" focusColor="#94bdd3" layoutX="50.0" layoutY="162.0" prefHeight="25.0" prefWidth="190.0" promptText="Job title" unFocusColor="#9f9f9f" />
-            <JFXButton layoutX="408.0" layoutY="243.0" onAction="#handleSelectImage" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Select File" />
+            <JFXButton layoutX="408.0" layoutY="243.0" onAction="#handleSelectImage" onTouchPressed="#handleSelectImage" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Select File" />
             <JFXTextField fx:id="txtEmail" focusColor="#94bdd3" layoutX="50.0" layoutY="214.0" prefHeight="25.0" prefWidth="190.0" promptText="Email" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtPhoneNumber" focusColor="#94bdd3" layoutX="50.0" layoutY="264.0" prefHeight="25.0" prefWidth="190.0" promptText="Phone number" unFocusColor="#9f9f9f" />
             <JFXComboBox fx:id="chsSex" focusColor="#94bdd3" layoutX="50.0" layoutY="315.0" prefHeight="25.0" prefWidth="190.0" promptText="Sex" unFocusColor="#9f9f9f" />
@@ -37,8 +37,8 @@
             <JFXTextField fx:id="txtUsername" focusColor="#94bdd3" layoutX="298.0" layoutY="314.0" prefHeight="25.0" prefWidth="190.0" promptText="Username" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtPassword" focusColor="#94bdd3" layoutX="298.0" layoutY="365.0" prefHeight="25.0" prefWidth="190.0" promptText="Password" unFocusColor="#9f9f9f" />
             <JFXComboBox fx:id="chsRole" focusColor="#94bdd3" layoutX="51.0" layoutY="416.0" prefHeight="25.0" prefWidth="190.0" promptText="User Role" unFocusColor="#9f9f9f" />
-            <JFXButton layoutX="298.0" layoutY="416.0" onAction="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" />
-            <JFXButton layoutX="408.0" layoutY="416.0" onAction="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" />
+            <JFXButton layoutX="298.0" layoutY="416.0" onAction="#handleSave" onTouchPressed="#handleSave" prefHeight="25.0" prefWidth="80.0" styleClass="ja" text="Save" />
+            <JFXButton layoutX="408.0" layoutY="416.0" onAction="#handleCancel" onTouchPressed="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" />
             <ImageView fx:id="image" fitHeight="200.0" fitWidth="200.0" layoutX="297.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../Resources/defaultPerson.png" />

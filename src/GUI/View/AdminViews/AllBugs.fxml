@@ -93,17 +93,17 @@
                            <children>
                               <BorderPane>
                                  <center>
-                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleMinimize" styleClass="minimize" />
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleMinimize" onTouchPressed="#handleMinimize" styleClass="minimize" />
                                  </center>
                               </BorderPane>
                               <BorderPane GridPane.columnIndex="1">
                                  <center>
-                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" styleClass="maximize" />
+                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" onTouchPressed="#handleMaximize" styleClass="maximize" />
                                  </center>
                               </BorderPane>
                               <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                                  <center>
-                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleExit" styleClass="close" BorderPane.alignment="CENTER" />
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleExit" onTouchPressed="#handleExit" styleClass="close" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
                            </children>

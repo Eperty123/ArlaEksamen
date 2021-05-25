@@ -17,13 +17,13 @@ public enum SettingsType {
     }
 
     static {
-        for (SettingsType pageType : SettingsType.values()) {
-            map.put(pageType.value, pageType);
+        for (SettingsType settingsType : SettingsType.values()) {
+            map.put(settingsType.value, settingsType);
         }
     }
 
-    public static SettingsType valueOf(int pageType) {
-        return (SettingsType) map.get(pageType);
+    public static SettingsType valueOf(int settingsType) {
+        return (SettingsType) map.get(settingsType);
     }
 
     public int getValue() {

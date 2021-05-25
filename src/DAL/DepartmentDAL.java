@@ -5,10 +5,16 @@ import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
 import GUI.Controller.PopupControllers.WarningController;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,6 +147,36 @@ public class DepartmentDAL {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to update a title " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+        }
+    }
+
+    public void exportPhoneNumbers(List<Department> departments) {
+        try {
+            var sb = new StringBuilder();
+            for (int i = 0; i < departments.size(); i++) {
+                var department = departments.get(i);
+                var users = department.getUsers();
+
+                sb.append(String.format("====== %s ======\n", department.getName()));
+
+                int userCount = 0;
+                for (int u = 0; u < users.size(); u++) {
+                    userCount++;
+                    var user = users.get(u);
+                    sb.append(String.format("%d,%s %s,%d", userCount, user.getFirstName(), user.getLastName(), user.getPhone()));
+                }
+
+                sb.append("\n");
+            }
+
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            var file = new File(String.format("src/Resources/phonelist_%s.txt", LocalDateTime.now().format(format)));
+            var writer = new BufferedWriter(new FileWriter(file));
+            writer.write(sb.toString());
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
