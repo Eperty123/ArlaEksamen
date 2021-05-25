@@ -1,10 +1,10 @@
 package GUI.Model;
 
 import BE.Department;
+import BE.User;
 import BLL.DepartmentManager;
 import javafx.collections.ObservableList;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +27,71 @@ public class DepartmentModel {
         return instance == null ? instance = new DepartmentModel() : instance;
     }
 
-    public void deleteDeparment(Department d) {
+    public void deleteDepartment(Department d) {
         departmentManager.deleteDepartment(d);
+    }
+
+    public User getUser(String username) {
+        var departments = getAllDepartments();
+        for (int i = 0; i < departments.size(); i++) {
+            var department = departments.get(i);
+            var associatedUsers = department.getUsers();
+            for (int u = 0; u < associatedUsers.size(); u++) {
+                var associatedUser = associatedUsers.get(u);
+                if (associatedUser.getUserName().equals(username))
+                    return associatedUser;
+            }
+        }
+        return null;
+    }
+
+    public User getUser(String firstName, String lastName) {
+        var departments = getAllDepartments();
+        for (int i = 0; i < departments.size(); i++) {
+            var department = departments.get(i);
+            var associatedUsers = department.getUsers();
+            for (int u = 0; u < associatedUsers.size(); u++) {
+                var associatedUser = associatedUsers.get(u);
+                if (associatedUser.getFirstName().equals(firstName) && associatedUser.getLastName().equals(lastName))
+                    return associatedUser;
+            }
+        }
+        return null;
+    }
+
+    public User getUser(int userId) {
+        var departments = getAllDepartments();
+        for (int i = 0; i < departments.size(); i++) {
+            var department = departments.get(i);
+            var associatedUsers = department.getUsers();
+            for (int u = 0; u < associatedUsers.size(); u++) {
+                var associatedUser = associatedUsers.get(u);
+                if (associatedUser.getId() == userId)
+                    return associatedUser;
+            }
+        }
+        return null;
+    }
+
+    public Department getDepartment(int departmentId) {
+        var departments = getAllDepartments();
+        for (int i = 0; i < departments.size(); i++) {
+            var department = departments.get(i);
+            if (department.getId() == departmentId)
+                return department;
+        }
+        return null;
+    }
+
+
+    public Department getDepartment(String departmentName) {
+        var departments = getAllDepartments();
+        for (int i = 0; i < departments.size(); i++) {
+            var department = departments.get(i);
+            if (department.getName().equals(departmentName))
+                return department;
+        }
+        return null;
     }
 
     public ObservableList<Department> getAllDepartments() {
