@@ -36,8 +36,6 @@ public class UserBackUp {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void writeHeaderData(FileWriter csvWriter) {
