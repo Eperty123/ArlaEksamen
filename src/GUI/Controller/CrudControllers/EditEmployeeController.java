@@ -5,11 +5,13 @@ import BE.Gender;
 import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
+import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -79,8 +81,9 @@ public class EditEmployeeController implements Initializable {
             User newUser = new User(firstName,lastName,username,email,password,userRole.ordinal(),phone,sex,imgPath,jobTitle);
 
 
-            Department oldDepartment = new Department(234, "Mock", newUser);
-            Department newDepartment = new Department(234, "Mock", newUser);
+            Department oldDepartment = getUsersDepartment();
+            Department newDepartment = chsDepartment.getValue();
+            System.out.println(newDepartment.getName());
 
             userModel.updateUser(oldUser, newUser, oldDepartment, newDepartment);
 
@@ -122,7 +125,7 @@ public class EditEmployeeController implements Initializable {
     }
 
     private void setDepartments() {
-        chsDepartment.setItems(FXCollections.observableArrayList());
+        chsDepartment.setItems(FXCollections.observableArrayList(DepartmentModel.getInstance().getAllDepartments()));
     }
 
     public void setData(User user) {
@@ -132,10 +135,25 @@ public class EditEmployeeController implements Initializable {
         txtJobTitle.setText(user.getTitle());
         txtEmail.setText(setEmail(user));
         txtPhoneNumber.setText(setPhone(user));
+        if(getUsersDepartment() == null){
+            chsDepartment.setPromptText("Choose department");
+        } else{
+            chsDepartment.setValue(getUsersDepartment());
+        }
+
         chsSex.getSelectionModel().select(user.getGender());
         chsRole.getSelectionModel().select(user.getUserRole());
 
         txtUsername.setText(user.getUserName());
+    }
+
+    private Department getUsersDepartment() {
+        for(Department d : DepartmentModel.getInstance().getAllDepartments()) {
+            if (d.getUsers().stream().anyMatch(o -> o.getUserName().equals(oldUser.getUserName()))) {
+                return d;
+            }
+        }
+        return null;
     }
 
     private String setPhone(User user) {

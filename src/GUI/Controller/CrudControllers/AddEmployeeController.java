@@ -3,10 +3,13 @@ package GUI.Controller.CrudControllers;
 import BE.*;
 import BLL.PasswordManager;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.DepartmentModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,9 +48,13 @@ public class AddEmployeeController implements Initializable {
     @FXML
     private JFXComboBox<Enum<Gender>> chsSex;
     @FXML
-    private JFXComboBox<Enum> chsSuperior;
+    private JFXComboBox<Department> chsDepartment;
     @FXML
     private ImageView image;
+    @FXML
+    private JFXCheckBox hidePhoneCheck;
+    @FXML
+    private JFXCheckBox hideEmailCheck;
 
     private UserModel userModel = UserModel.getInstance();
     private PasswordManager passwordManager = new PasswordManager();
@@ -59,10 +66,10 @@ public class AddEmployeeController implements Initializable {
             String firstName = txtFirstname.getText();
             String lastName = txtLastname.getText();
             String jobTitle = txtJobTitle.getText();
-            String email = txtEmail.getText();
-            int phone = Integer.parseInt(txtPhoneNumber.getText());
+            String email = getEmail();
+            int phone = getPhone();
             Enum<Gender> sex = chsSex.getSelectionModel().getSelectedItem();
-            Enum superior = chsSuperior.getSelectionModel().getSelectedItem();
+            Department department = chsDepartment.getSelectionModel().getSelectedItem();
             Enum<UserType> userRole = chsRole.getSelectionModel().getSelectedItem();
             String username = txtUsername.getText();
             int password = passwordManager.encrypt(txtPassword.getText());
@@ -72,8 +79,6 @@ public class AddEmployeeController implements Initializable {
 
             User newUser = new User(firstName,lastName,username,email,password,userRole.ordinal(),phone,sex,imgPath,jobTitle);
 
-            // TODO Update
-            Department department = new Department(444444, "Mock", newUser);
             // Add the new user.
             userModel.addUser(newUser, department);
 
@@ -98,6 +103,23 @@ public class AddEmployeeController implements Initializable {
         }
     }
 
+    private int getPhone() {
+        if(hidePhoneCheck.isSelected()){
+            return Integer.parseInt(txtPhoneNumber.getText()) * -1;
+        } else{
+            return Integer.parseInt(txtPhoneNumber.getText());
+        }
+
+    }
+
+    private String getEmail() {
+        if(hideEmailCheck.isSelected()){
+            return "@" + txtEmail.getText();
+        } else{
+            return txtEmail.getText();
+        }
+    }
+
     public void handleCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) root.getScene().getWindow();
         stage.close();
@@ -110,10 +132,15 @@ public class AddEmployeeController implements Initializable {
 
         chsSex.getItems().addAll(Gender.values());
         chsSex.getSelectionModel().selectFirst();
+        setDepartments();
 
         for (Enum e : chsRole.getItems()){
             System.out.println(e.name() + " - " + e.ordinal());
         }
+    }
+
+    private void setDepartments() {
+        chsDepartment.setItems(FXCollections.observableArrayList(DepartmentModel.getInstance().getAllDepartments()));
     }
 
     public void handleSelectImage(){

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
@@ -11,9 +12,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="540.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CrudControllers.EditEmployeeController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="540.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CrudControllers.EditEmployeeController">
    <children>
-      <Pane layoutX="2.0" layoutY="2.0" prefHeight="469.0" prefWidth="536.0" styleClass="popupForground">
+      <Pane layoutX="14.0" prefHeight="469.0" prefWidth="536.0" styleClass="popupForground">
          <children>
             <Label alignment="TOP_CENTER" layoutX="228.0" layoutY="14.0" text="Edit Employee" textFill="#4c707a">
                <font>
@@ -32,7 +33,7 @@
             <JFXTextField fx:id="txtEmail" focusColor="#94bdd3" layoutX="50.0" layoutY="214.0" prefHeight="25.0" prefWidth="190.0" promptText="Email" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtPhoneNumber" focusColor="#94bdd3" layoutX="50.0" layoutY="264.0" prefHeight="25.0" prefWidth="190.0" promptText="Phone number" unFocusColor="#9f9f9f" />
             <JFXComboBox fx:id="chsSex" focusColor="#94bdd3" layoutX="50.0" layoutY="315.0" prefHeight="25.0" prefWidth="190.0" promptText="Sex" unFocusColor="#9f9f9f" />
-            <JFXComboBox fx:id="chsSuperior" focusColor="#94bdd3" layoutX="50.0" layoutY="365.0" prefHeight="25.0" prefWidth="190.0" promptText="Superior" unFocusColor="#9f9f9f" />
+            <JFXComboBox fx:id="chsDepartment" focusColor="#94bdd3" layoutX="50.0" layoutY="365.0" prefHeight="25.0" prefWidth="190.0" promptText="Choose department" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtUsername" focusColor="#94bdd3" layoutX="298.0" layoutY="314.0" prefHeight="25.0" prefWidth="190.0" promptText="Username" unFocusColor="#9f9f9f" />
             <JFXTextField fx:id="txtPassword" focusColor="#94bdd3" layoutX="298.0" layoutY="365.0" prefHeight="25.0" prefWidth="190.0" promptText="Password" unFocusColor="#9f9f9f" />
             <JFXComboBox fx:id="chsRole" focusColor="#94bdd3" layoutX="51.0" layoutY="416.0" prefHeight="25.0" prefWidth="190.0" promptText="User Role" unFocusColor="#9f9f9f" />
@@ -46,11 +47,21 @@
             <Label layoutX="50.0" layoutY="298.0" text="Sex" />
             <Label layoutX="50.0" layoutY="145.0" text="Job title" />
             <Label layoutX="50.0" layoutY="197.0" text="Email" />
-            <Label layoutX="50.0" layoutY="348.0" text="Superior" />
+            <Label layoutX="50.0" layoutY="348.0" text="Department" />
             <Label layoutX="297.0" layoutY="247.0" text="Image" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="50.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="160.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#add8e5" height="4.0" layoutX="329.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="160.0" />
             <Label layoutX="50.0" layoutY="247.0" text="Phone number" />
+            <JFXCheckBox fx:id="hidePhoneCheck" layoutX="186.0" layoutY="247.0" text="Hide?">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </JFXCheckBox>
+            <JFXCheckBox fx:id="hideEmailCheck" layoutX="186.0" layoutY="197.0" text="Hide?">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </JFXCheckBox>
          </children>
       </Pane>
    </children>
