@@ -37,12 +37,12 @@
                            <children>
                               <Pane fx:id="midPanel" styleClass="midPanel" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <JFXButton layoutX="33.0" layoutY="163.0" onAction="#handleUserManagement" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="User Management">
+                                    <JFXButton layoutX="33.0" layoutY="163.0" onAction="#handleUserManagement" onTouchPressed="#handleUserManagement" prefHeight="37.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="User Management">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </JFXButton>
-                                    <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleOrgDiagramCreator" prefHeight="66.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Orginization Diagram Creator" textAlignment="CENTER" wrapText="true">
+                                    <JFXButton layoutX="33.0" layoutY="72.0" onAction="#handleOrgDiagramCreator" onTouchPressed="#handleOrgDiagramCreator" prefHeight="66.0" prefWidth="170.0" styleClass="adminDashboardButtons" text="Orginization Diagram Creator" textAlignment="CENTER" wrapText="true">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -65,7 +65,7 @@
                      <bottom>
                         <Pane fx:id="logoutPanel" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" prefHeight="45.0" prefWidth="235.0" BorderPane.alignment="CENTER">
                            <children>
-                              <JFXButton layoutY="-1.0" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" onAction="#Logout" prefHeight="45.0" prefWidth="235.0" styleClass="logout" text="Logout">
+                              <JFXButton layoutY="-1.0" maxHeight="45.0" maxWidth="235.0" minHeight="45.0" minWidth="235.0" onAction="#Logout" onTouchPressed="#Logout" prefHeight="45.0" prefWidth="235.0" styleClass="logout" text="Logout">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
