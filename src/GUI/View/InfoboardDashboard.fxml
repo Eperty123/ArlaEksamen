@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane fx:id="root" stylesheets="@../Resources/Styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.InfoboardDashboardController">
+   <center>
+      <AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../Resources/Styles.css">
+         <children>
+            <BorderPane fx:id="borderPane" style="-fx-background-color: #0d262e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <AnchorPane fx:id="bar" BorderPane.alignment="CENTER">
+         <children>
+            <BorderPane maxHeight="25.0" minHeight="25.0" prefHeight="25.0" styleClass="adminDashboardBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <right>
+                  <BorderPane BorderPane.alignment="CENTER">
+                     <center>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="25.0" prefWidth="25.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="25.0" prefWidth="25.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="10.0" prefWidth="25.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="25.0" minHeight="25.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <BorderPane>
+                                 <center>
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleMinimize" onTouchPressed="#handleMaximize" styleClass="minimize" />
+                                 </center>
+                              </BorderPane>
+                              <BorderPane GridPane.columnIndex="1">
+                                 <center>
+                                    <FontAwesomeIconView fx:id="maximize" glyphName="CIRCLE" onMouseClicked="#handleMaximize" onTouchPressed="#handleMaximize" styleClass="maximize" />
+                                 </center>
+                              </BorderPane>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                 <center>
+                                    <FontAwesomeIconView glyphName="CIRCLE" onMouseClicked="#handleClose" onTouchPressed="#handleClose" styleClass="close" BorderPane.alignment="CENTER" />
+                                 </center>
+                              </BorderPane>
+                           </children>
+                        </GridPane>
+                     </center>
+                     <left>
+                        <Pane BorderPane.alignment="CENTER" />
+                     </left>
+                  </BorderPane>
+               </right>
+               <center>
+                  <Pane BorderPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="lblBar" contentDisplay="CENTER" layoutX="487.0" layoutY="4.0" text="Admin Dashboard - Henrik Hansen" textAlignment="CENTER" />
+                     </children>
+                  </Pane>
+               </center>
+               <left>
+                  <Pane BorderPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="lblTime" layoutX="18.0" layoutY="4.0" text="Label" />
+                     </children>
+                  </Pane>
+               </left>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>
