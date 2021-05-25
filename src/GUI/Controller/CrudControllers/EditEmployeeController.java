@@ -122,7 +122,7 @@ public class EditEmployeeController implements Initializable {
     }
 
     private void setDepartments() {
-        chsDepartment.setItems();
+        chsDepartment.setItems(FXCollections.observableArrayList());
     }
 
     public void setData(User user) {
