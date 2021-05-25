@@ -4,13 +4,12 @@ import BE.Department;
 import BE.SceneMover;
 import BE.User;
 import BLL.DepartmentManager;
-import GUI.Controller.CrudControllers.AddDepartmentController;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -61,29 +60,38 @@ public class DepartmentViewController implements Initializable {
     private ObservableList<Department> subDepartments = FXCollections.observableArrayList();
     private HBox hBox = new HBox();
     private boolean isHidden = false;
-    private List<Node> deadChildren = new ArrayList<>();
+    private List<Node> hiddenChildren = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initIcons();
+        initTables();
+        initChangeName();
+    }
+
+    private void initChangeName() {
+        dptNameField.setOnAction((v) -> {
+            //TODO add some confirmation
+            department.setName(dptNameField.getText());
+        });
+    }
+
+    private void initIcons() {
         hideIcon.setIcon(MaterialDesignIcon.MINUS_BOX);
         settingsIcon.setIcon(MaterialDesignIcon.SETTINGS);
         removeIcon.setIcon(MaterialDesignIcon.CLOSE_BOX);
-        settingsIcon.setOnMouseClicked(v -> openDepartmentModifyWindow());
-        nameField.setCellValueFactory(data -> data.getValue().getFullNameProperty());
-        emailField.setCellValueFactory(data -> data.getValue().emailProperty());
-        phoneField.setCellValueFactory(data -> data.getValue().phoneProperty().get()<0?new SimpleObjectProperty<>():data.getValue().phoneProperty());
-        initUserChangeListener();
+
         hideIcon.setOnMouseClicked((v) -> {
             if (!isHidden) {
-                deadChildren.addAll(superAC.getChildren());
+                hiddenChildren.addAll(superAC.getChildren());
                 superAC.getChildren().clear();
                 hideIcon.setIcon(MaterialDesignIcon.PLUS_BOX);
                 superAC.getChildren().add(hideIcon);
                 isHidden = true;
             } else {
                 superAC.getChildren().clear();
-                superAC.getChildren().addAll(deadChildren);
-                deadChildren.clear();
+                superAC.getChildren().addAll(hiddenChildren);
+                hiddenChildren.clear();
                 manageIconsBP.setLeft(hideIcon);
                 isHidden = false;
             }
@@ -94,54 +102,16 @@ public class DepartmentViewController implements Initializable {
             departmentManager.removeDepartment(department);
             superAC.getChildren().clear();
         });
-
     }
 
-    private void openDepartmentModifyWindow() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/CRUDViews/AddDepartment.fxml"));
-            AnchorPane pane = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(pane));
-            AddDepartmentController con = loader.getController();
-            con.setDepartment(department);
-            SceneMover sceneMover = new SceneMover();
-            sceneMover.move(stage, pane);
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void initTables() {
+        nameField.setCellValueFactory(data -> data.getValue().getFullNameProperty());
+        emailField.setCellValueFactory(data -> data.getValue().emailProperty());
+        phoneField.setCellValueFactory(data -> data.getValue().phoneProperty().get() < 0 ? new SimpleObjectProperty<>() : data.getValue().phoneProperty());
     }
 
-    private AddDepartmentController openDepartmentAddWindow() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/CRUDViews/AddDepartment.fxml"));
-            AnchorPane pane = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(pane));
-            AddDepartmentController con = loader.getController();
-            SceneMover sceneMover = new SceneMover();
-            sceneMover.move(stage, pane);
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.show();
-            return con;
+    private void openDepartmentAddWindow() {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private void initUserChangeListener() {
-        users.addListener((ListChangeListener<? super User>) change -> {
-            change.next();
-            if (change.getAddedSize() > 0)
-                change.getAddedSubList().forEach(u -> dptUsersTable.getItems().add(u));
-            if (change.getRemovedSize() > 0)
-                change.getRemoved().forEach(u -> dptUsersTable.getItems().remove(u));
-        });
     }
 
     public void setDepartment(Department department) {
@@ -166,11 +136,24 @@ public class DepartmentViewController implements Initializable {
             }
 
         });
-        Button addSubDepartmentButton = new Button("Add sub department");
+        JFXButton addSubDepartmentButton = new JFXButton("Add sub department");
         hBox.getChildren().add(addSubDepartmentButton);
         addSubDepartmentButton.setOnMouseClicked((v) -> addSubDepartment());
         hBox.setAlignment(Pos.TOP_CENTER);
         superBP.setCenter(hBox);
+    }
+
+    private void addSubDepartment() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
+            AnchorPane pane = loader.load();
+            DepartmentViewController con = loader.getController();
+            con.setDepartment(new Department(-1, "Department name"));
+            hBox.getChildren().add(hBox.getChildren().size() - 1, pane);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void addSubDepartment(Department subDepartment) {
@@ -180,14 +163,9 @@ public class DepartmentViewController implements Initializable {
             Node node = loader.load();
             DepartmentViewController con = loader.getController();
             con.setDepartment(subDepartment);
-            hBox.getChildren().add(hBox.getChildren().size() - 1, node);
+            hBox.getChildren().set(hBox.getChildren().size() - 1, node);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void addSubDepartment() {
-        AddDepartmentController addDepartmentController = openDepartmentAddWindow();
-        addDepartmentController.setDepartmentViewController(this);
     }
 }

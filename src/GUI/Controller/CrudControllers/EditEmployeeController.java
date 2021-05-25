@@ -6,6 +6,7 @@ import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
 import GUI.Model.DepartmentModel;
+import GUI.Model.TitleModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -39,10 +40,6 @@ public class EditEmployeeController implements Initializable {
     @FXML
     private JFXTextField txtPhoneNumber;
     @FXML
-    private JFXTextField txtJobTitle;
-    @FXML
-    private JFXTextField txtDepartment;
-    @FXML
     private JFXComboBox<Enum> chsRole;
     @FXML
     private JFXComboBox<Enum> chsSex;
@@ -54,6 +51,8 @@ public class EditEmployeeController implements Initializable {
     private JFXCheckBox hideEmailCheck;
     @FXML
     private JFXCheckBox hidePhoneCheck;
+    @FXML
+    private JFXComboBox<String> chsTitle;
 
 
     private User oldUser;
@@ -66,7 +65,7 @@ public class EditEmployeeController implements Initializable {
                 ) {
             String firstName = txtFirstname.getText();
             String lastName = txtLastname.getText();
-            String jobTitle = txtJobTitle.getText();
+            String jobTitle = chsTitle.getValue();
             String email = getEmail();
             int phone = getPhone();
             Enum<Gender> sex = chsSex.getSelectionModel().getSelectedItem();
@@ -117,11 +116,16 @@ public class EditEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setDepartments();
+        setTitles();
 
         chsRole.getItems().addAll(UserType.values());
         chsRole.getSelectionModel().selectFirst();
 
         chsSex.getItems().addAll(Gender.values());
+    }
+
+    private void setTitles() {
+        chsTitle.setItems(FXCollections.observableArrayList(TitleModel.getInstance().getTitles()));
     }
 
     private void setDepartments() {
@@ -132,7 +136,7 @@ public class EditEmployeeController implements Initializable {
         oldUser = user;
         txtFirstname.setText(user.getFirstName());
         txtLastname.setText(user.getLastName());
-        txtJobTitle.setText(user.getTitle());
+        chsTitle.setValue(oldUser.getTitle());
         txtEmail.setText(setEmail(user));
         txtPhoneNumber.setText(setPhone(user));
         if(getUsersDepartment() == null){

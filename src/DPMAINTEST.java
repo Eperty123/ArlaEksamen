@@ -23,7 +23,7 @@ public class DPMAINTEST extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
-        departmentManager.getSuperDepartments().forEach(con2::addChildrenNode);
+        con2.addChildrenNode(departmentManager.getAllDepartments().get(0));
 
         stage.setScene(new Scene(node));
         stage.show();

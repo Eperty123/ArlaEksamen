@@ -28,12 +28,12 @@ public class TitleDAL {
         }
     }
 
-    public void deleteTitle(Title title){
+    public void deleteTitle(String title){
 
         try(Connection con = dbCon.getConnection()){
             deleteUserTitleAssociations(con, title);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Title WHERE Id=?");
-            pSql.setInt(1, title.getId());
+            pSql.setString(1, title);
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -42,15 +42,15 @@ public class TitleDAL {
         }
     }
 
-    private void deleteUserTitleAssociations(Connection con, Title title) throws SQLException {
+    private void deleteUserTitleAssociations(Connection con, String title) throws SQLException {
 
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM UserTitle WHERE TitleId=?");
-            pSql.setInt(1, title.getId());
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM UserTitle WHERE Title=?");
+            pSql.setString(1, title);
             pSql.execute();
     }
 
-    public List<Title> getTitles(){
-        List<Title> titles = new ArrayList<>();
+    public List<String> getTitles(){
+        List<String> titles = new ArrayList<>();
 
         try(Connection con = dbCon.getConnection()){
             PreparedStatement pSql = con.prepareStatement("SELECT * FROM Title");
@@ -58,7 +58,7 @@ public class TitleDAL {
 
             ResultSet rs = pSql.getResultSet();
             while(rs.next()){
-                titles.add(new Title(rs.getInt("Id"), rs.getString("Title")));
+                titles.add(rs.getString("Title"));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -68,12 +68,12 @@ public class TitleDAL {
         return titles;
     }
 
-    public void updateTitle(Title oldTitle, Title title){
+    public void updateTitle(String oldTitle, String title){
 
         try(Connection con = dbCon.getConnection()){
-            PreparedStatement pSql = con.prepareStatement("UPDATE Title SET Title=? WHERE Id=?");
-            pSql.setString(1, title.getTitle());
-            pSql.setInt(2, oldTitle.getId());
+            PreparedStatement pSql = con.prepareStatement("UPDATE Title SET Title=? WHERE Title=?");
+            pSql.setString(1, title);
+            pSql.setString(2, oldTitle);
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

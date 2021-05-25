@@ -14,7 +14,7 @@
                <top>
                   <BorderPane BorderPane.alignment="CENTER">
                      <center>
-                        <JFXTextField fx:id="dptNameField" alignment="CENTER" editable="false" text="Some DPT Name" />
+                        <JFXTextField fx:id="dptNameField" alignment="CENTER" text="Some DPT Name" />
                      </center>
                      <right>
                         <BorderPane fx:id="manageIconsBP" BorderPane.alignment="CENTER">

@@ -49,4 +49,8 @@ public class UserManager {
     public void deleteUser(User user) {
         userDAL.deleteUser(user);
     }
+
+    public void updateUserDepartment(List<Department> departments){
+        userDAL.updateUserDepartment(departments);
+    }
 }

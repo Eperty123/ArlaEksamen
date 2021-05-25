@@ -144,6 +144,33 @@ public class UserDAL {
         }
     }
 
+
+
+    public void updateUserDepartment(List<Department> departments){
+
+        try(Connection con = dbCon.getConnection()){
+            deleteAllUserDepartmentAssociation(con);
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO DepartmentUser VALUES(?,?)");
+            for(Department d : departments){
+                for(User u : d.getUsers()){
+                    pSql.setInt(1, d.getId());
+                    pSql.setString(2, u.getUserName());
+                    pSql.addBatch();
+                }
+            }
+            pSql.executeBatch();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    private void deleteAllUserDepartmentAssociation(Connection con) throws SQLException {
+        PreparedStatement pSql = con.prepareStatement("DELETE FROM DepartmentUser");
+        pSql.execute();
+    }
+
     private void updateDepartmentUser(Connection con, User user, User updatedUser, Department oldDepartment, Department newDepartment) throws SQLException {
 
         if(!user.getUserName().equals(updatedUser.getUserName())){
