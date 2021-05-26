@@ -82,6 +82,7 @@ public class HRDashboardController implements Initializable {
 
         b.setOnAction((save) -> {
             con2.getDepartmentViewControllers().forEach(vc -> {
+                vc.getRemoveIcon().setDisable(true);
                 vc.getAllSubDepartments().forEach(item -> {
                     List<User> users = new ArrayList<>(item.getUsers());
                     users.removeIf(u->u.getUserName().isEmpty() || u.getUserRole()!= UserType.Admin);
