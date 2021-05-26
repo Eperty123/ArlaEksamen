@@ -12,6 +12,7 @@ import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
+import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -77,7 +78,7 @@ public class HRDashboardController implements Initializable {
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
         con2.addChildrenNode(DepartmentModel.getInstance().getSuperDepartment());
-        Button b = new Button("Save");
+        JFXButton b = new JFXButton("Save");
         con2.getChildrenNodes().add(b);
 
         b.setOnAction((save) -> {
@@ -106,7 +107,7 @@ public class HRDashboardController implements Initializable {
             });
         });
 
-        borderPane.setCenter(new ScrollPane(node));
+        borderPane.setCenter(node);
     }
 
     public void handleDeptManagement() throws IOException {
