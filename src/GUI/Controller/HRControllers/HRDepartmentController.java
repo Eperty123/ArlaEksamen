@@ -132,30 +132,30 @@ public class HRDepartmentController implements Initializable {
         FlowPane.setMargin(newPane, new Insets(25, 25, 0, 25));
 
         office.setOnMouseClicked(mouseEvent -> {
-            if (!selectedDepartments.contains(d)) {
+            if (!selectedDepartments.contains(d))
                 selectedDepartments.add(d);
-            } else {
-                selectedDepartments.remove(d);
-            }
+//            } else {
+//                selectedDepartments.remove(d);
+//            }
             check.setVisible(!check.isVisible());
         });
 
         newRectangle.setOnMouseClicked(mouseEvent -> {
-            if (!selectedDepartments.contains(d)) {
+            if (!selectedDepartments.contains(d))
                 selectedDepartments.add(d);
-            } else {
-                selectedDepartments.remove(d);
-            }
+//            } else {
+//                selectedDepartments.remove(d);
+//            }
             check.setVisible(!check.isVisible());
             System.out.println(selectedDepartments);
         });
 
         check.setOnMouseClicked(mouseEvent -> {
-            if (!selectedDepartments.contains(d)) {
+            if (!selectedDepartments.contains(d))
                 selectedDepartments.add(d);
-            } else {
-                selectedDepartments.remove(d);
-            }
+//            } else {
+//                selectedDepartments.remove(d);
+//            }
             check.setVisible(!check.isVisible());
         });
 
