@@ -119,7 +119,8 @@ public class MessageDAL {
                  "ScreenMessage.ScreenId AS ScreenId " +
                  "FROM Message " +
                  "LEFT OUTER JOIN ScreenMessage " +
-                 "ON [Message].Id = ScreenMessage.MessageId");
+                 "ON [Message].Id = ScreenMessage.MessageId WHERE ScreenId=?");
+            pSql.setInt(1,screenBit.getId());
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
