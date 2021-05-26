@@ -62,7 +62,7 @@ public class ManagerScreenViewController implements Initializable {
         comboScreens.getItems().addAll(currentUser.getAssignedScreenBits());
     }
 
-    public void init(ScreenBit screenBit) {
+    public void init(ScreenBit screenBit) throws Exception {
         if (!currentUser.getAssignedScreenBits().isEmpty()) {
             if (currentUser.getAssignedScreenBits().size() == 1) {
                 try {
@@ -74,34 +74,13 @@ public class ManagerScreenViewController implements Initializable {
                     e.printStackTrace();
                 }
             } else {
-
-
                 ScreenBit s = screenBit;
                 comboScreens.getSelectionModel().select(s);
                 lblBar.setText("Manager Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
-                try {
-                    EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreenBits());
-
-                    Optional<ScreenBit> results = selectDialog.showAndWait();
-
-                    if (results.isPresent()) {
-                        ScreenBit s = results.get();
-                        comboScreens.getSelectionModel().select(s);
-                        lblBar.setText("Manager Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
-
-                        try {
-                            setScreen(s);
-                            selectedScreen = s;
-                            MessageModel.getInstance().loadScreenBitsMessages(selectedScreen);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+                setScreen(s);
+                selectedScreen = s;
+                MessageModel.getInstance().loadScreenBitsMessages(selectedScreen);
             }
         } else {
             try {
@@ -130,7 +109,7 @@ public class ManagerScreenViewController implements Initializable {
 
             AtomicReference<Message> messageAtomicReference = new AtomicReference<>(selectedScreen.getCurrentMessage());
             Message currentMessage = messageAtomicReference.get();
-            
+
             String textColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().getRed() * 255, currentMessage.getTextColor().getGreen() * 255, currentMessage.getTextColor().getBlue() * 255);
             String highLightTextFillColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().brighter().getRed() * 255, currentMessage.getTextColor().brighter().getGreen() * 255, currentMessage.getTextColor().brighter().getBlue() * 255);
             String highLightColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().darker().getRed() * 255, currentMessage.getTextColor().darker().getGreen() * 255, currentMessage.getTextColor().darker().getBlue() * 255);
