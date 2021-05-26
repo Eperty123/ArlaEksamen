@@ -51,18 +51,23 @@ public class UserBackUp {
 
                 // Check if an existing user with the id exists, if none import it.
                 // If no id, check for first, last name, department and phone number.
-                var existing = userModel.getUser(id);
+                var existing = userModel.getUserById(id);
                 if (existing == null) {
+
+                    Department desiredDepartment = DepartmentModel.getInstance().getDepartment(department);
                     // No existing found, check some other criteria in case a user is found with the same name.
-                    if (userModel.getUser(parsedUser.getFirstName(), parsedUser.getLastName()) == null && departmentModel.getUser(parsedUser.getUserName()) == null && departmentModel.getUser(parsedUser.getFirstName(), parsedUser.getLastName()) == null) {
+                    if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && departmentModel.getUser(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null) {
                         importedUsers.add(parsedUser);
                         System.out.println(String.format("User: %s %s (%d) imported.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
-                    }
+                    } else
+                        System.out.println(String.format("User: %s %s (id: %d, email: %s) already exists in the %s department! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId(), parsedUser.getEmail(), desiredDepartment.getName()));
                 } else
                     System.out.println(String.format("User: %s %s (%d) already exists! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
 
                 //System.out.println(String.format("User: %s %s (%d).", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getPhone()));
             }
+
+            userModel.addUsers(importedUsers);
         } else System.out.println(String.format("The backup file: %s doesn't exist!", filePath));
 
         return importedUsers;
