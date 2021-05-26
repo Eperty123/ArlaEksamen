@@ -202,6 +202,11 @@ public class UserManagementPaneFactory {
                 selectedUser.add(u);
                 check.setVisible(true);
             }
+            else{
+                UserManagementPaneFactory.selectedUser.clear();
+                setCheckmarkVisibility(false);
+                check.setVisible(false);
+            }
 
             System.out.println(selectedUser);
         });
