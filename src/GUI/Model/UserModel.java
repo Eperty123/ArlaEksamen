@@ -52,15 +52,11 @@ public class UserModel {
     }
 
     /**
-     * Import a list of users.
+     * Import a list of CSVUsers in to the database.
+     * @param users The list of CSVUsers to import.
      */
     public void addUsers(List<CSVUser> users) {
-        if (users != null && users.size() > 0) {
-            for (int i = 0; i < users.size(); i++) {
-                var user = users.get(i);
-                // addUser(user);
-            }
-        }
+        userManager.addUsers(users);
     }
 
     /**
@@ -109,12 +105,12 @@ public class UserModel {
     }
 
     /**
-     * Get the ScreenBit specified by an id.
+     * Get the User specified by an id.
      *
-     * @param userId The id of the ScreenBit.
-     * @return Returns the found ScreenBit.
+     * @param userId The id of the User.
+     * @return Returns the found User.
      */
-    public User getUser(int userId) {
+    public User getUserById(int userId) {
         for (int i = 0; i < allUsers.size(); i++) {
             User user = allUsers.get(i);
             if (user.getId() == userId)
@@ -124,12 +120,12 @@ public class UserModel {
     }
 
     /**
-     * Get the User specified by a name.
+     * Get the User specified by username.
      *
-     * @param userName The name of the ScreenBit.
-     * @return Returns the found ScreenBit.
+     * @param userName The username to get.
+     * @return Returns the found User.
      */
-    public User getUser(String userName) {
+    public User getUserByUsername(String userName) {
         for (int i = 0; i < allUsers.size(); i++) {
             User user = allUsers.get(i);
             if (user.getUserName().equals(userName))
@@ -139,13 +135,28 @@ public class UserModel {
     }
 
     /**
-     * Get the User specified by a name.
+     * Get the User specified by email.
+     *
+     * @param email The email to get.
+     * @return Returns the found User.
+     */
+    public User getUserByEmail(String email) {
+        for (int i = 0; i < allUsers.size(); i++) {
+            User user = allUsers.get(i);
+            if (user.getEmail().equals(email))
+                return user;
+        }
+        return null;
+    }
+
+    /**
+     * Get the User specified by a first and last name.
      *
      * @param firstName The first name of the user.
      * @param lastName  The last name of the user.
-     * @return Returns the found ScreenBit.
+     * @return Returns the found User.
      */
-    public User getUser(String firstName, String lastName) {
+    public User getUserByFirstLastName(String firstName, String lastName) {
         for (int i = 0; i < allUsers.size(); i++) {
             User user = allUsers.get(i);
             if (user.getUserName().equals(firstName) && user.getLastName().equals(lastName))
@@ -180,7 +191,7 @@ public class UserModel {
         }
     }
 
-    public void updateUserDepartment(List<Department> departments){
+    public void updateUserDepartment(List<Department> departments) {
         userManager.updateUserDepartment(departments);
     }
 }
