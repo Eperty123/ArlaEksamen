@@ -1,13 +1,13 @@
 package GUI.Controller.HRControllers;
 
-import BE.ClockCalender;
-import BE.SceneMover;
-import BE.User;
+import BE.*;
 import BLL.LoginManager;
+import GUI.Controller.DPT.DepartmentStageController;
 import GUI.Controller.ManagerControllers.ManagerMessageController;
 import GUI.Controller.ManagerControllers.ManagerScreenViewController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.DepartmentModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
@@ -17,7 +17,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
@@ -27,6 +29,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -62,8 +66,41 @@ public class HRDashboardController implements Initializable {
         }
     }
 
-    public void handleOrgDiagramCreator() throws IOException {
-        //TODO DP's ORG DIAGRAM CREATOR
+    @FXML
+    private void handleOrgDiagramCreator() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentStage.fxml"));
+        AnchorPane node = loader.load();
+        DepartmentStageController con2 = loader.getController();
+        con2.addChildrenNode(DepartmentModel.getInstance().getSuperDepartment());
+        Button b = new Button("Save");
+        con2.getChildrenNodes().add(b);
+
+        b.setOnAction((save) -> {
+            con2.getDepartmentViewControllers().forEach(vc -> {
+                vc.getAllSubDepartments().forEach(item -> {
+                    List<User> users = new ArrayList<>(item.getUsers());
+                    users.removeIf(u->u.getUserName().isEmpty() || u.getUserRole()!= UserType.Admin);
+                    if (!users.isEmpty() && item.getManager() == null) {
+                        item.setManager(users.get(0));
+                        DepartmentModel.getInstance().addDepartment(item);
+
+                        for (Department dpt : vc.getDepartment().getAllSubDepartments()) {
+                            if (dpt.getSubDepartments().contains(item)) {
+                                DepartmentModel.getInstance().addSubDepartment(dpt, item);
+                                break;
+                            }
+                        }
+                    } else if (item.getManager() == null) {
+                        User placeholderUser = new User();
+                        placeholderUser.setUserName("admtest");
+                        item.setManager(placeholderUser);
+                    }
+                });
+                UserModel.getInstance().updateUserDepartment(vc.getAllSubDepartments());
+            });
+        });
+
+        borderPane.setCenter(new ScrollPane(node));
     }
 
     public void handleDeptManagement() throws IOException {

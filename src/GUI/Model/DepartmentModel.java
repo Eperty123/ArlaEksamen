@@ -109,4 +109,8 @@ public class DepartmentModel {
     public ObservableList<Department> getAllDepartments() {
         return departmentManager.getAllDepartments();
     }
+
+    public Department getSuperDepartment() {
+        return departmentManager.getSuperDepartment();
+    }
 }
