@@ -1,17 +1,11 @@
 package BE;
 
-import GUI.Controller.AdminControllers.AdminManagementController;
 import GUI.Controller.EmployeeCardController;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -21,17 +15,16 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
-
-import java.lang.reflect.Array;
+import java.util.List;
 import java.util.ArrayList;
 
 public class UserManagementPaneFactory {
     private static Department currentDepartment;
 
     private static ArrayList<User> selectedUser = new ArrayList<>();
+    private static List<FontAwesomeIconView> icons = new ArrayList<>();
 
     public static BorderPane createUserManagementBoard(Department department, VBox root) {
         currentDepartment = department;
@@ -42,6 +35,15 @@ public class UserManagementPaneFactory {
         bp.setCenter(createFlowPane());
 
         return bp;
+    }
+
+    public static void setCheckmarkVisibility(boolean visible){
+        UserManagementPaneFactory.icons.forEach(i->i.setVisible(visible));
+    }
+
+    public static void clearSelectedUserList()
+    {
+        selectedUser.clear();
     }
 
     private static Pane createBar(Department currentDepartment) {
@@ -108,6 +110,7 @@ public class UserManagementPaneFactory {
         check.setLayoutY(26);
         check.setSize(String.valueOf(16));
         check.setVisible(false);
+        UserManagementPaneFactory.icons.add(check);
 
         ImageView image = new ImageView();
         image.setImage(u.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
@@ -194,11 +197,10 @@ public class UserManagementPaneFactory {
         newRectangle.setOnMouseClicked(e -> {
 
             if (!selectedUser.contains(u)) {
+                UserManagementPaneFactory.selectedUser.clear();
+                setCheckmarkVisibility(false);
                 selectedUser.add(u);
                 check.setVisible(true);
-            } else {
-                selectedUser.remove(u);
-                check.setVisible(false);
             }
 
             System.out.println(selectedUser);
