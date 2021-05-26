@@ -135,9 +135,9 @@ public class DepartmentDAL {
 
         while (rs.next()) {
             for (Department dpt : departments) {
-                if (dpt.getId()==rs.getInt("Id")) {
+                if (dpt.getId()==rs.getInt("dptId")) {
                     for (Department subDpt : departments) {
-                        if (subDpt.getId()==(rs.getInt("Id"))) {
+                        if (subDpt.getId()==(rs.getInt("subDpt"))) {
                             if (!dpt.getSubDepartments().contains(subDpt)) {
                                 dpt.addSubDepartment(subDpt);
                             }
