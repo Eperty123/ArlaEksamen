@@ -159,7 +159,7 @@ public class EditEmployeeController implements Initializable {
             chsDepartment.setValue(getUsersDepartment());
         }
 
-        image.setImage(user.getPhotoPath().equalsIgnoreCase("demopath") ? new Image("/GUI/Resources/defaultPerson.png") : new Image(user.getPhotoPath()));
+        image.setImage(user.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(user.getPhotoPath()));
         chsSex.getSelectionModel().select(user.getGender());
         chsRole.getSelectionModel().select(user.getUserRole());
 
