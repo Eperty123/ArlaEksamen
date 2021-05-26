@@ -20,11 +20,11 @@ public class DepartmentDAL {
     private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
     private final ResultSetParser resultSetParser = new ResultSetParser();
 
-    public Department addDepartment(Department department) {
+    public void addDepartment(Department department) {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Department VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             pSql.setString(1, department.getName());
-            pSql.setString(2,department.getManager().getUserName());
+            pSql.setString(2, department.getManager().getUserName());
             pSql.executeUpdate();
             var generatedKeys = pSql.getGeneratedKeys();
             generatedKeys.next();
@@ -35,7 +35,19 @@ public class DepartmentDAL {
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a new department " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-        return department;
+    }
+
+    public void addSubDepartment(Department department, Department subDepartment) {
+        try (Connection con = dbCon.getConnection()) {
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO SubDepartment VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
+            pSql.setInt(1, department.getId());
+            pSql.setInt(2, subDepartment.getId());
+            pSql.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to add a new department " +
+                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+        }
     }
 
     public void deleteDepartment(Department department) {
@@ -70,14 +82,14 @@ public class DepartmentDAL {
                             "Department.Name AS dptName, " +
                             "Department.Manager, " +
                             "[User].*, " +
-                            "SubDepartment.SubDpt AS subDpt " +
+                            "SubDepartment.SubDptId AS subDpt " +
                             "FROM Department " +
                             "LEFT OUTER JOIN DepartmentUser " +
                             "ON Department.Id = DepartmentUser.DepartmentId " +
                             "LEFT OUTER JOIN [User] " +
                             "ON [User].UserName = DepartmentUser.UserName " +
                             "LEFT OUTER JOIN SubDepartment " +
-                            "ON SubDepartment.DptName = Department.Name",
+                            "ON SubDepartment.DptId = Department.Id",
                     ResultSet.TYPE_SCROLL_SENSITIVE,
                     ResultSet.CONCUR_UPDATABLE);
             pSql.execute();
@@ -112,21 +124,20 @@ public class DepartmentDAL {
                 if (d.getManager().getUserName().equals(user.getUserName())) {
                     d.setManager(user);
                 }
-                if(user.getUserName()!=null)
-                if (rs.getString("dptName").equals(d.getName()) && d.getUsers().stream().noneMatch(o -> o.getUserName().equals(user.getUserName()))) {
-                    d.addUser(user);
-                }
+                if (user.getUserName() != null)
+                    if (rs.getString("dptName").equals(d.getName()) && d.getUsers().stream().noneMatch(o -> o.getUserName().equals(user.getUserName()))) {
+                        d.addUser(user);
+                    }
             }
         }
 
         rs.beforeFirst();
 
         while (rs.next()) {
-
             for (Department dpt : departments) {
-                if (dpt.getName().equals(rs.getString("dptName"))) {
+                if (dpt.getId()==rs.getInt("Id")) {
                     for (Department subDpt : departments) {
-                        if (subDpt.getName().equals(rs.getString("subDpt"))) {
+                        if (subDpt.getId()==(rs.getInt("Id"))) {
                             if (!dpt.getSubDepartments().contains(subDpt)) {
                                 dpt.addSubDepartment(subDpt);
                             }
@@ -138,12 +149,13 @@ public class DepartmentDAL {
         }
     }
 
-    public void updateDepartment(Department oldDepartment, Department department) {
+    public void updateDepartment(Department department) {
         try (Connection con = dbCon.getConnection()) {
-            PreparedStatement pSql = con.prepareStatement("UPDATE Title SET Title=?, Manager=? WHERE Id=?");
+            PreparedStatement pSql = con.prepareStatement("UPDATE Department SET Name=?, Manager=? WHERE Id=?");
+            department.setManager(department.getUsers().get(0));
             pSql.setString(1, department.getName());
             pSql.setString(2, department.getManager().getUserName());
-            pSql.setInt(3, oldDepartment.getId());
+            pSql.setInt(3, department.getId());
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

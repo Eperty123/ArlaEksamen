@@ -27,8 +27,8 @@ public class DepartmentManager {
         return departmentList;
     }
 
-    public Department addDepartment(Department department) {
-        return departmentDAL.addDepartment(department);
+    public void addDepartment(Department department) {
+        departmentDAL.addDepartment(department);
     }
 
     public void removeDepartment(Department department) {
@@ -36,6 +36,7 @@ public class DepartmentManager {
     }
 
     public void editDepartment(Department department) {
+        departmentDAL.updateDepartment(department);
     }
 
     public void exportPhoneNumbers(List<Department> departments) {
@@ -44,5 +45,9 @@ public class DepartmentManager {
 
     public void deleteDepartment(Department d) {
         departmentDAL.deleteDepartment(d);
+    }
+
+    public void addSubDepartment(Department department, Department subDepartment){
+        departmentDAL.addSubDepartment(department,subDepartment);
     }
 }

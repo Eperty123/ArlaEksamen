@@ -27,8 +27,12 @@ public class DepartmentModel {
         return instance == null ? instance = new DepartmentModel() : instance;
     }
 
-    public Department addDepartment(String newDepartment){
-        return departmentManager.addDepartment(new Department(newDepartment));
+    public void addDepartment(Department newDepartment){
+        departmentManager.addDepartment(newDepartment);
+    }
+
+    public void addSubDepartment(Department department, Department subDepartment){
+        departmentManager.addSubDepartment(department,subDepartment);
     }
 
     public void deleteDepartment(Department d) {
@@ -96,6 +100,10 @@ public class DepartmentModel {
                 return department;
         }
         return null;
+    }
+
+    public void updateDepartment(Department department){
+        departmentManager.editDepartment(department);
     }
 
     public ObservableList<Department> getAllDepartments() {

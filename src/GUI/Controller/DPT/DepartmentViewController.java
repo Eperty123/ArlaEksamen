@@ -3,6 +3,7 @@ package GUI.Controller.DPT;
 import BE.Department;
 import BE.User;
 import BLL.DepartmentManager;
+import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -10,6 +11,7 @@ import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +26,7 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DepartmentViewController implements Initializable {
     @FXML
@@ -68,6 +68,7 @@ public class DepartmentViewController implements Initializable {
         dptNameField.setOnAction((v) -> {
             //TODO add some confirmation
             department.setName(dptNameField.getText());
+            DepartmentModel.getInstance().updateDepartment(department);
         });
     }
 
@@ -97,6 +98,10 @@ public class DepartmentViewController implements Initializable {
             departmentManager.removeDepartment(department);
             superAC.getChildren().clear();
         });
+    }
+
+    public Department getDepartment() {
+        return department;
     }
 
     private void initTables() {
@@ -152,7 +157,11 @@ public class DepartmentViewController implements Initializable {
         }
     }
 
-    public List<Department> getSubDepartments() {
+    public List<Department> getSubDepartments(){
+        return department.getSubDepartments();
+    }
+
+    public List<Department> getAllSubDepartments() {
         List<Department> tmp = new ArrayList<>();
         tmp.add(department);
         tmp.addAll(department.getSubDepartments());
