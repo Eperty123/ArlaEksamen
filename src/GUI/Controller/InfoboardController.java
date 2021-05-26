@@ -1,11 +1,8 @@
 package GUI.Controller;
 
-import BE.Bug;
 import BE.Department;
 import BE.InfoboardPaneFactory;
 import GUI.Model.DepartmentModel;
-import com.jfoenix.controls.JFXComboBox;
-import javafx.beans.InvalidationListener;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,11 +10,8 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
