@@ -1,5 +1,7 @@
 package BE;
 
+import BLL.SettingsManager;
+import GUI.Model.SettingsModel;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -45,6 +47,10 @@ public class Timer {
      * per standard it has duration of 30 seconds
      */
     public Timer() {
+        String time = SettingsModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION).getAttribute();
+        Long l = Long.valueOf(time);
+
+        setTimeoutDuration(Duration.ofSeconds(l));
     }
 
     /**

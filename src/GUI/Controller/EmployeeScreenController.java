@@ -6,10 +6,7 @@ import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
-import GUI.Model.BugModel;
-import GUI.Model.MessageModel;
-import GUI.Model.ScreenModel;
-import GUI.Model.UserModel;
+import GUI.Model.*;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -134,7 +131,7 @@ public class EmployeeScreenController implements Initializable {
             String highLightTextFillColor = String.format("rgb( %s , %s , %s )", message.getTextColor().brighter().getRed() * 255, message.getTextColor().brighter().getGreen() * 255, message.getTextColor().brighter().getBlue() * 255);
             String highLightColor = String.format("rgb( %s , %s , %s )", message.getTextColor().darker().getRed() * 255, message.getTextColor().darker().getGreen() * 255, message.getTextColor().darker().getBlue() * 255);
             updateMessage(message, textColor, highLightTextFillColor, highLightColor);
-        }), 0, 5, TimeUnit.SECONDS);
+        }), 0, Integer.parseInt(SettingsModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY).getAttribute()), TimeUnit.SECONDS);
     }
 
     private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {
