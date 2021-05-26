@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.net.URL;
@@ -28,6 +29,8 @@ public class DepartmentStageController implements Initializable {
     private TableColumn<User, String> userTableColumn;
     @FXML
     private HBox hBox;
+
+    private List<DepartmentViewController> departmentViewControllers = new ArrayList<>();
 
     public HBox gethBox() {
         return hBox;
@@ -70,9 +73,14 @@ public class DepartmentStageController implements Initializable {
             hBox.getChildren().add(fxmlLoader.load());
             DepartmentViewController con = fxmlLoader.getController();
             con.setDepartment(department);
+            departmentViewControllers.add(con);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<DepartmentViewController> getDepartmentViewControllers() {
+        return departmentViewControllers;
     }
 }
 
