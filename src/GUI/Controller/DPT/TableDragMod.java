@@ -16,6 +16,7 @@ import java.util.List;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TableDragMod {
@@ -123,24 +124,27 @@ public class TableDragMod {
                         dropIndex = finalTableView.getItems().size();
 
                     finalTableView.getSelectionModel().clearSelection();
+                    int initialDropIndex = dropIndex;
 
-                    //Actually adds the selected items
-                    for (User sI : selections) {
-                        Thread thread = new Thread(()->
+                    selections.forEach(sI -> {
                         tableViews.forEach(t -> {
                             t.getItems().removeIf(u -> u.getId() == sI.getId());
                             if (t.getItems().isEmpty())
                                 t.getItems().add(userPlaceHolder);
-                        }));
-                        thread.start();
+                        });
+                    });
+
+                    //Actually adds the selected items
+                    for (User sI : selections) {
+
                         if (!finalTableView.getItems().contains(sI)) {
                             finalTableView.getItems().add(dropIndex, sI);
                         }
+
                         finalTableView.getSelectionModel().select(dropIndex);
                         dropIndex++;
                     }
-
-
+                    
                     if (finalTableView.getItems().contains(userPlaceHolder))
                         finalTableView.getSelectionModel().selectAll();
 
