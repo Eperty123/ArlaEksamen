@@ -61,15 +61,6 @@ public class InfoboardController implements Initializable {
 
     }
 
-    private void autoFitSize(){
-        scroll.widthProperty().addListener((observable, t, t1) -> {
-            hbox.setPrefWidth(t1.doubleValue());
-            hbox.setMaxWidth(t1.doubleValue());
-            hbox.setMinWidth(t1.doubleValue());
-        });
-    }
-
-
     public void handleAddDepartment() {
         if (cmbAddDepartment.getValue() != null) {
             vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(cmbAddDepartment.getValue()));
