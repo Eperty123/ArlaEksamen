@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -45,13 +46,13 @@ public class InfoboardController implements Initializable {
                     Label l = (Label) c.getRemoved().get(0).lookup("#ID");
                     addToCombo(l.getText());
                     vbox.getChildren().clear();
-                    for (Node n : hbox.lookupAll("#ID")){
+                    for (Node n : hbox.lookupAll("#ID")) {
                         Department department = DepartmentModel.getInstance().getDepartment(((Label) n).getText());
                         vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(department));
                     }
                 }
 
-                if (c.wasAdded()){
+                if (c.wasAdded()) {
                     cmbAddDepartment.getSelectionModel().clearSelection();
                 }
             }
@@ -61,7 +62,7 @@ public class InfoboardController implements Initializable {
 
     }
 
-    private void autoFitSize(){
+    private void autoFitSize() {
         scroll.widthProperty().addListener((observable, t, t1) -> {
             hbox.setPrefWidth(t1.doubleValue());
             hbox.setMaxWidth(t1.doubleValue());
@@ -79,7 +80,8 @@ public class InfoboardController implements Initializable {
     }
 
     public void addToCombo(String departmentName) {
-        cmbAddDepartment.getItems().add(DepartmentModel.getInstance().getDepartment(departmentName));
+        if (!cmbAddDepartment.getItems().contains(departmentName))
+            cmbAddDepartment.getItems().add(DepartmentModel.getInstance().getDepartment(departmentName));
     }
 
 }
