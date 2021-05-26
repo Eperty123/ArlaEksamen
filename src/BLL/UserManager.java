@@ -1,5 +1,6 @@
 package BLL;
 
+import BE.CSVUser;
 import BE.Department;
 import BE.User;
 import DAL.UserDAL;
@@ -29,6 +30,14 @@ public class UserManager {
      */
     public void addUser(User user, Department department) {
         userDAL.addUser(user, department);
+    }
+
+    /**
+     * Import a list of CSVUsers in to the database.
+     * @param users The list of CSVUsers to import.
+     */
+    public void addUsers(List<CSVUser> users) {
+        userDAL.addUsers(users);
     }
 
     /**

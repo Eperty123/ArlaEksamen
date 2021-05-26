@@ -1,5 +1,6 @@
 package DAL;
 
+import BE.CSVUser;
 import BE.Department;
 import BE.ScreenBit;
 import BE.User;
@@ -92,7 +93,50 @@ public class UserDAL {
         }
     }
 
+    /**
+     * Import a list of CSVUsers in to the database.
+     * @param users The list of CSVUsers to import.
+     */
+    public void addUsers(List<CSVUser> users) {
 
+        try (Connection con = dbCon.getConnection()) {
+
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)");
+
+            for (CSVUser user : users) {
+                pSql.setString(1, user.getFirstName());
+                pSql.setString(2, user.getLastName());
+                pSql.setString(3, user.getUserName());
+                pSql.setString(4, user.getEmail());
+                pSql.setInt(5, user.getPassword());
+                pSql.setInt(6, user.getUserRole().ordinal());
+                pSql.setInt(7, user.getPhone());
+                pSql.setInt(8, user.getGender().ordinal());
+                pSql.setString(9, user.getPhotoPath());
+                pSql.setString(10, user.getTitle());
+                pSql.addBatch();
+
+                if (user.getDepartment() != null) {
+                    addUserDepartmentRelation(con, user, user.getDepartment());
+                }
+            }
+            pSql.executeBatch();
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
+                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+        }
+    }
+
+    /**
+     * Associate a relation to a department for the specfied user.
+     * @param con The database connection to use.
+     * @param user The user to associate with.
+     * @param department The department to associate the user with.
+     * @throws SQLException
+     */
     private void addUserDepartmentRelation(Connection con, User user, Department department) throws SQLException {
 
         PreparedStatement pSql = con.prepareStatement("INSERT INTO DepartmentUser VALUES(?,?)");
@@ -151,16 +195,15 @@ public class UserDAL {
 
 
     public void updateUserDepartment(List<Department> departments) {
+
         try (Connection con = dbCon.getConnection()) {
             deleteAllUserDepartmentAssociation(con);
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO DepartmentUser VALUES(?,?);");
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO DepartmentUser VALUES(?,?)");
             for (Department d : departments) {
                 for (User u : d.getUsers()) {
-                    if (!u.getUserName().isEmpty()) {
-                        pSql.setInt(1, d.getId());
-                        pSql.setString(2, u.getUserName());
-                        pSql.addBatch();
-                    }
+                    pSql.setInt(1, d.getId());
+                    pSql.setString(2, u.getUserName());
+                    pSql.addBatch();
                 }
             }
             pSql.executeBatch();

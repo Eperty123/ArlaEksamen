@@ -165,14 +165,14 @@ public class DepartmentDAL {
                 for (int u = 0; u < users.size(); u++) {
                     userCount++;
                     var user = users.get(u);
-                    sb.append(String.format("%s     %s      %d", user.getFirstName(), user.getLastName(), user.getPhone()));
+                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), user.getPhone()));
                 }
 
                 sb.append("\n\n");
             }
 
             DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            var file = new File(String.format("src/Resources/phonelist_%s.txt", LocalDateTime.now().format(format)));
+            var file = new File(String.format("src/Resources/phonelist_%s_%s.txt", LocalDateTime.now().format(format), LocalDateTime.now().hashCode()));
             var writer = new BufferedWriter(new FileWriter(file));
             writer.write(sb.toString());
 

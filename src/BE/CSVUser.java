@@ -1,10 +1,12 @@
 package BE;
 
+import GUI.Model.DepartmentModel;
+
 import java.util.List;
 
 public class CSVUser extends User {
 
-    private int departmentId;
+    private Department department;
 
     public CSVUser() {
     }
@@ -37,7 +39,7 @@ public class CSVUser extends User {
         setPassword(user.getPassword());
         setGender(user.getGender());
         setTitle(user.getTitle());
-        setDepartmentId(departmentId);
+        setDepartment(DepartmentModel.getInstance().getDepartment(departmentId));
     }
 
     public CSVUser(String fName, String lName, String email, int phone) {
@@ -84,16 +86,16 @@ public class CSVUser extends User {
         super(id, firstName, lastName, userName, email, phoneNumber, userRole, password, gender, department, title);
     }
 
-    public int getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
-    }
-
     @Override
     public String toCSV() {
-        return getId() + ";" + getFirstName() + ";" + getLastName() + ";" + getUserName() + ";" + getEmail() + ";" + getPhone() + ";" + getUserRole().ordinal() + ";" + getPassword() + ";" + getGender().ordinal() + ";" + getDepartmentId() + ";" + getTitle();
+        return getId() + ";" + getFirstName() + ";" + getLastName() + ";" + getUserName() + ";" + getEmail() + ";" + getPhone() + ";" + getUserRole().ordinal() + ";" + getPassword() + ";" + getGender().ordinal() + ";" + getDepartment().getId() + ";" + getTitle();
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
