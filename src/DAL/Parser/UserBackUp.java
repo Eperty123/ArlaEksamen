@@ -8,6 +8,7 @@ import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -73,10 +74,63 @@ public class UserBackUp {
         return importedUsers;
     }
 
+    public void exportUsers(List<Department> departments, String outputFile) {
+        //File csvOutputFile = new File(getFileName());
+        File csvOutputFile = new File(outputFile);
+
+        try (FileWriter csvWriter = new FileWriter(csvOutputFile)) {
+            csvWriter.append(HEADER_INFO_FORMAT);
+
+            for (Department department : departments) {
+                for (User u : department.getUsers()) {
+                    var csvUser = new CSVUser(u, department.getId());
+                    csvWriter.append(csvUser.toCSV() + "\n");
+                }
+            }
+
+            csvWriter.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exportUsers(List<Department> departments, File outputFile) {
+        //File csvOutputFile = new File(getFileName());
+
+        try (FileWriter csvWriter = new FileWriter(outputFile)) {
+            csvWriter.append(HEADER_INFO_FORMAT);
+
+            for (Department department : departments) {
+                for (User u : department.getUsers()) {
+                    var csvUser = new CSVUser(u, department.getId());
+                    csvWriter.append(csvUser.toCSV() + "\n");
+                }
+            }
+
+            csvWriter.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void exportUsers(List<Department> departments) {
-        for (int i = 0; i < departments.size(); i++) {
-            var department = departments.get(i);
-            exportUsers(department);
+        File csvOutputFile = new File(getFileName());
+        try (FileWriter csvWriter = new FileWriter(csvOutputFile)) {
+            csvWriter.append(HEADER_INFO_FORMAT);
+
+            for (Department department : departments) {
+                for (User u : department.getUsers()) {
+                    var csvUser = new CSVUser(u, department.getId());
+                    csvWriter.append(csvUser.toCSV() + "\n");
+                }
+            }
+
+            csvWriter.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
