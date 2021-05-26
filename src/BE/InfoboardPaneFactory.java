@@ -101,7 +101,7 @@ public class InfoboardPaneFactory {
         newCircle.setLayoutY(64);
 
         System.out.println(u.getPhotoPath());
-        ImageView image = new ImageView(u.getPhotoPath() == null || u.getPhotoPath().isEmpty() ? new Image("/Gui/Resources/defaultPerson.png") : new Image("/Gui/Resources/defaultPerson.png"));
+        ImageView image = new ImageView(u.getPhotoPath() == null ? new Image("/Gui/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
         image.setMouseTransparent(true);
         image.setFitWidth(105);
         image.setFitHeight(105);

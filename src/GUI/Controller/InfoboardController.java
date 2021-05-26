@@ -69,8 +69,7 @@ public class InfoboardController implements Initializable {
             hbox.setMinWidth(t1.doubleValue());
         });
     }
-
-
+  
     public void handleAddDepartment() {
         if (cmbAddDepartment.getValue() != null) {
             vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(cmbAddDepartment.getValue()));
