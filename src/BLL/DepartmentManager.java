@@ -5,6 +5,7 @@ import DAL.DepartmentDAL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.File;
 import java.util.List;
 
 public class DepartmentManager {
@@ -18,7 +19,7 @@ public class DepartmentManager {
     public Department getSuperDepartment() {
         ObservableList<Department> tmp = FXCollections.observableArrayList(departmentList);
         departmentList.forEach(d -> {
-            d.getSubDepartments().forEach(sd->tmp.remove(sd));
+            d.getSubDepartments().forEach(sd -> tmp.remove(sd));
         });
         return tmp.get(0);
     }
@@ -43,11 +44,19 @@ public class DepartmentManager {
         departmentDAL.exportPhoneNumbers(departments);
     }
 
+    public void exportPhoneNumbers(List<Department> departments, String outputFile) {
+        departmentDAL.exportPhoneNumbers(departments, outputFile);
+    }
+
+    public void exportPhoneNumbers(List<Department> departments, File outputFile) {
+        departmentDAL.exportPhoneNumbers(departments, outputFile);
+    }
+
     public void deleteDepartment(Department d) {
         departmentDAL.deleteDepartment(d);
     }
 
-    public void addSubDepartment(Department department, Department subDepartment){
-        departmentDAL.addSubDepartment(department,subDepartment);
+    public void addSubDepartment(Department department, Department subDepartment) {
+        departmentDAL.addSubDepartment(department, subDepartment);
     }
 }

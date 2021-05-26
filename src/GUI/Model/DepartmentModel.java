@@ -5,6 +5,7 @@ import BE.User;
 import BLL.DepartmentManager;
 import javafx.collections.ObservableList;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,22 +18,42 @@ public class DepartmentModel {
         departmentManager.exportPhoneNumbers(departments);
     }
 
+    public void exportPhoneNumbers(List<Department> departments, String outputFile) {
+        departmentManager.exportPhoneNumbers(departments, outputFile);
+    }
+
+    public void exportPhoneNumbers(List<Department> departments, File outputFile) {
+        departmentManager.exportPhoneNumbers(departments, outputFile);
+    }
+
     public void exportPhoneNumbers(Department department) {
         var departments = new ArrayList<Department>();
         departments.add(department);
         departmentManager.exportPhoneNumbers(departments);
     }
 
+    public void exportPhoneNumbers(Department department, String outputFile) {
+        var departments = new ArrayList<Department>();
+        departments.add(department);
+        departmentManager.exportPhoneNumbers(departments, outputFile);
+    }
+
+    public void exportPhoneNumbers(Department department, File outputFile) {
+        var departments = new ArrayList<Department>();
+        departments.add(department);
+        departmentManager.exportPhoneNumbers(departments, outputFile);
+    }
+
     public static DepartmentModel getInstance() {
         return instance == null ? instance = new DepartmentModel() : instance;
     }
 
-    public void addDepartment(Department newDepartment){
+    public void addDepartment(Department newDepartment) {
         departmentManager.addDepartment(newDepartment);
     }
 
-    public void addSubDepartment(Department department, Department subDepartment){
-        departmentManager.addSubDepartment(department,subDepartment);
+    public void addSubDepartment(Department department, Department subDepartment) {
+        departmentManager.addSubDepartment(department, subDepartment);
     }
 
     public void deleteDepartment(Department d) {
@@ -102,7 +123,7 @@ public class DepartmentModel {
         return null;
     }
 
-    public void updateDepartment(Department department){
+    public void updateDepartment(Department department) {
         departmentManager.editDepartment(department);
     }
 
