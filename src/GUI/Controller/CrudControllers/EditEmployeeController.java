@@ -16,10 +16,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -61,8 +64,8 @@ public class EditEmployeeController implements Initializable {
 
     public void handleSave(ActionEvent actionEvent) throws SQLException {
         if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtUsername.getText().isEmpty()
-                 && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
-                ) {
+                && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
+        ) {
             String firstName = txtFirstname.getText();
             String lastName = txtLastname.getText();
             String jobTitle = chsTitle.getValue();
@@ -77,7 +80,7 @@ public class EditEmployeeController implements Initializable {
 
             //public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
 
-            User newUser = new User(firstName,lastName,username,email,password,userRole.ordinal(),phone,sex,imgPath,jobTitle);
+            User newUser = new User(firstName, lastName, username, email, password, userRole.ordinal(), phone, sex, imgPath, jobTitle);
 
 
             Department oldDepartment = getUsersDepartment();
@@ -93,17 +96,17 @@ public class EditEmployeeController implements Initializable {
     }
 
     private int getPhone() {
-        if(hidePhoneCheck.isSelected()){
+        if (hidePhoneCheck.isSelected()) {
             return Integer.parseInt(txtPhoneNumber.getText()) * -1;
-        } else{
+        } else {
             return Integer.parseInt(txtPhoneNumber.getText());
         }
     }
 
     private String getEmail() {
-        if(hideEmailCheck.isSelected()){
+        if (hideEmailCheck.isSelected()) {
             return "@" + txtEmail.getText();
-        } else{
+        } else {
             return txtEmail.getText();
         }
     }
@@ -139,12 +142,13 @@ public class EditEmployeeController implements Initializable {
         chsTitle.setValue(oldUser.getTitle());
         txtEmail.setText(setEmail(user));
         txtPhoneNumber.setText(setPhone(user));
-        if(getUsersDepartment() == null){
+        if (getUsersDepartment() == null) {
             chsDepartment.setPromptText("Choose department");
-        } else{
+        } else {
             chsDepartment.setValue(getUsersDepartment());
         }
 
+        image.setImage(user.getPhotoPath().equalsIgnoreCase("demopath") ? new Image("/GUI/Resources/defaultPerson.png") : new Image(user.getPhotoPath()));
         chsSex.getSelectionModel().select(user.getGender());
         chsRole.getSelectionModel().select(user.getUserRole());
 
@@ -152,7 +156,7 @@ public class EditEmployeeController implements Initializable {
     }
 
     private Department getUsersDepartment() {
-        for(Department d : DepartmentModel.getInstance().getAllDepartments()) {
+        for (Department d : DepartmentModel.getInstance().getAllDepartments()) {
             if (d.getUsers().stream().anyMatch(o -> o.getUserName().equals(oldUser.getUserName()))) {
                 return d;
             }
@@ -161,10 +165,10 @@ public class EditEmployeeController implements Initializable {
     }
 
     private String setPhone(User user) {
-        if(user.getPhone() < 0){
+        if (user.getPhone() < 0) {
             hidePhoneCheck.setSelected(true);
             return String.valueOf((user.getPhone() * -1));
-        } else{
+        } else {
             hidePhoneCheck.setSelected(false);
             return String.valueOf(user.getPhone());
         }
@@ -173,18 +177,26 @@ public class EditEmployeeController implements Initializable {
 
     private String setEmail(User user) {
 
-        if(user.getEmail().charAt(0) == '@'){
+        if (user.getEmail().charAt(0) == '@') {
             hideEmailCheck.setSelected(true);
             return user.getEmail().substring(1);
-        } else{
+        } else {
             hideEmailCheck.setSelected(false);
             return user.getEmail();
         }
     }
 
 
+    public void handleSelectImage() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open Resource File");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        File selectedFile = chooser.showOpenDialog(null);
 
-    public void handleSelectImage(){
-        //TODO
+        if (selectedFile != null) {
+            Image selectedImage = new Image(selectedFile.toURI().toString());
+            image.setImage(selectedImage);
+        }
+
     }
 }

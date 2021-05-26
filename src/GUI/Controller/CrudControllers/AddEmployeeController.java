@@ -17,11 +17,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -151,7 +154,16 @@ public class AddEmployeeController implements Initializable {
         chsDepartment.setItems(FXCollections.observableArrayList(DepartmentModel.getInstance().getAllDepartments()));
     }
 
-    public void handleSelectImage(){
-        //TODO SELECT IMAGE
+    public void handleSelectImage() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open Resource File");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        File selectedFile = chooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            Image selectedImage = new Image(selectedFile.toURI().toString());
+            image.setImage(selectedImage);
+        }
+
     }
 }
