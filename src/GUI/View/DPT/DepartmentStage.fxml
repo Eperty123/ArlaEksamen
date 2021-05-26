@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,21 +14,29 @@
          <center>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <HBox fx:id="hBox" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <HBox fx:id="hBox" alignment="CENTER" />
+                     </content>
+                  </ScrollPane>
                </children>
             </AnchorPane>
          </center>
          <right>
             <BorderPane BorderPane.alignment="CENTER">
                <center>
-                  <TableView fx:id="userTable" prefWidth="200.0">
-                    <columns>
-                      <TableColumn fx:id="userTableColumn" prefWidth="75.0" text="User" />
-                    </columns>
-                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                     </columnResizePolicy>
-                  </TableView>
+                  <ScrollPane fitToWidth="true">
+                     <content>
+                        <TableView fx:id="userTable" prefWidth="200.0">
+                          <columns>
+                            <TableColumn fx:id="userTableColumn" prefWidth="75.0" text="User" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </content>
+                  </ScrollPane>
                </center>
                <top>
                   <JFXTextField fx:id="searchField" BorderPane.alignment="CENTER" />
