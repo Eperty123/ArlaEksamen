@@ -3,6 +3,7 @@ package GUI.Controller.HRControllers;
 import BE.Department;
 import BE.SceneMover;
 import BE.Searcher;
+import DAL.Parser.UserBackUp;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
 import com.jfoenix.controls.JFXTextField;
@@ -37,9 +38,11 @@ public class HRDepartmentController implements Initializable {
 
     private ArrayList<Department> selectedDepartments = new ArrayList<>();
     private SceneMover sceneMover = new SceneMover();
+    private DepartmentModel departmentModel = DepartmentModel.getInstance();
+    private UserBackUp userBackUp = new UserBackUp();
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         loadAllDepartments();
         autofitSize();
         handleDepartmentUpdate();
@@ -165,13 +168,13 @@ public class HRDepartmentController implements Initializable {
         DepartmentModel.getInstance().deleteDepartment(d);
     }
 
-    public void handleSearchUser(){
+    public void handleSearchUser() {
         if (!txtSearch.getText().isEmpty() || !txtSearch.getText().isBlank()) {
             flowpane.getChildren().clear();
-            for (Department d : Searcher.searchDepartments(DepartmentModel.getInstance().getAllDepartments(), txtSearch.getText())){
+            for (Department d : Searcher.searchDepartments(DepartmentModel.getInstance().getAllDepartments(), txtSearch.getText())) {
                 handleNewDepartment(d);
             }
-        } else{
+        } else {
             loadAllDepartments();
         }
     }
@@ -185,31 +188,35 @@ public class HRDepartmentController implements Initializable {
             loadAllDepartments();
         });
     }
+
     /**
      * Displays the add Employee screen.
      *
      * @throws IOException if it cannot find the FXML file.
      */
     public void handleImportUsers() throws IOException {
-        System.out.println("IMPORT");
         loadAllDepartments();
     }
 
 
     public void handleExportUsers() throws IOException {
         if (!selectedDepartments.isEmpty()) {
-            System.out.println("EXPORT");
+            userBackUp.exportUsers(selectedDepartments);
             loadAllDepartments();
+
+            System.out.println("Export users");
         } else {
             WarningController.createWarning("No departments selected! Please select the departments you want to export");
         }
     }
 
 
-    public void handleExportPhonelist(){
+    public void handleExportPhonelist() {
         if (!selectedDepartments.isEmpty()) {
-            System.out.println("EXPORT PHONE");
+            departmentModel.exportPhoneNumbers(selectedDepartments);
             loadAllDepartments();
+
+            System.out.println("EXPORT PHONE");
         } else {
             WarningController.createWarning("No departments selected! Please select the departments you want to export");
         }
