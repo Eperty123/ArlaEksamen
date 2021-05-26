@@ -66,9 +66,10 @@ public class AdminManagementController implements Initializable {
      * Load all the available screens.
      */
     private void loadAllUsers() {
+        UserManagementPaneFactory.getSelectedUser().clear();
+        System.out.println(vbox.getChildren());
         // Remove all nodes.
         vbox.getChildren().clear();
-
         // Add all screens.
         for (Department d : DepartmentModel.getInstance().getAllDepartments()) {
             if (!d.getUsers().isEmpty())
@@ -92,7 +93,7 @@ public class AdminManagementController implements Initializable {
      */
     private void handleUserUpdate() {
         UserModel.getInstance().getAllUsers().addListener((ListChangeListener<User>) c -> {
-            System.out.println("Called");
+            System.out.println("User updated");
             loadAllUsers();
         });
     }
