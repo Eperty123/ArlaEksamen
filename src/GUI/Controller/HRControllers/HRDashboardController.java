@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -69,15 +70,14 @@ public class HRDashboardController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRDepartment.fxml"));
         Parent root = fxmlLoader.load();
-        HRDepartmentController
-                controller = fxmlLoader.getController();
+        HRDepartmentController controller = fxmlLoader.getController();
         borderPane.setCenter(root);
     }
 
     public void handleShowInfoboard() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/Infoboard.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/InfoboardDashboard.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Infoboard");
@@ -87,8 +87,13 @@ public class HRDashboardController implements Initializable {
                 new Image("/GUI/Resources/AppIcons/icon32x32.png"),
                 new Image("/GUI/Resources/AppIcons/icon48x48.png"),
                 new Image("/GUI/Resources/AppIcons/icon64x64.png"));
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();
+
+        SceneMover mover = new SceneMover();
+        BorderPane bp = (BorderPane) scene.getRoot();
+        mover.move(stage,bp.getTop());
     }
 
     public void minimize() {
