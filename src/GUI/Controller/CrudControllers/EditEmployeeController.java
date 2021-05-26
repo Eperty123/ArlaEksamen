@@ -5,12 +5,14 @@ import BE.Gender;
 import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
 import GUI.Model.TitleModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.mysql.cj.xdevapi.Warning;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -63,9 +65,10 @@ public class EditEmployeeController implements Initializable {
     private PasswordManager passwordManager = new PasswordManager();
 
     public void handleSave(ActionEvent actionEvent) throws SQLException {
-        if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtUsername.getText().isEmpty()
-                && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
-        ) {
+        if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !chsTitle.getSelectionModel().getSelectedItem().isEmpty()
+                && !txtEmail.getText().isEmpty() && !txtPhoneNumber.getText().isEmpty() && chsSex.getSelectionModel().getSelectedItem() != null
+                && chsDepartment.getSelectionModel() != null && chsRole.getSelectionModel().getSelectedItem() != null && !txtUsername.getText().isEmpty()
+                && !txtPassword.getText().isEmpty()) {
             String firstName = txtFirstname.getText();
             String lastName = txtLastname.getText();
             String jobTitle = chsTitle.getValue();
@@ -76,7 +79,8 @@ public class EditEmployeeController implements Initializable {
             Enum<UserType> userRole = chsRole.getSelectionModel().getSelectedItem();
             String username = txtUsername.getText();
             int password = passwordManager.encrypt(txtPassword.getText());
-            String imgPath = image.getImage().getUrl();
+            String imgPath = image.getImage().getUrl().isEmpty() ? new Image("/GUI/Resources/defaultPerson.png").getUrl() : image.getImage().getUrl();
+
 
             //public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
 
@@ -92,7 +96,10 @@ public class EditEmployeeController implements Initializable {
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
             System.out.println("Edit saved!");
-        } else System.out.println("Edit got wrecked! Not saved. Check all fields please.");
+        } else {
+            WarningController.createWarning("Warning! You've not entered some crucial information about the employee.\n\n" +
+                    "Please check if all fields are filled in");
+        };
     }
 
     private int getPhone() {
