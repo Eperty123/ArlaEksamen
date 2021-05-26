@@ -16,6 +16,7 @@ import java.util.List;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 public class TableDragMod {
     private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
@@ -125,14 +126,13 @@ public class TableDragMod {
 
                     //Actually adds the selected items
                     for (User sI : selections) {
+                        Thread thread = new Thread(()->
                         tableViews.forEach(t -> {
-                            if (sI != userPlaceHolder) {
-                                t.getItems().remove(sI);
-                            }
                             t.getItems().removeIf(u -> u.getId() == sI.getId());
                             if (t.getItems().isEmpty())
                                 t.getItems().add(userPlaceHolder);
-                        });
+                        }));
+                        thread.start();
                         if (!finalTableView.getItems().contains(sI)) {
                             finalTableView.getItems().add(dropIndex, sI);
                         }
