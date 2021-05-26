@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -37,6 +38,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class InfoboardDashboardController implements Initializable {
     @FXML
+    private BorderPane root;
+    @FXML
     private BorderPane borderPane;
     @FXML
     private Label lblBar;
@@ -44,6 +47,10 @@ public class InfoboardDashboardController implements Initializable {
     private Label lblTime;
 
     private boolean isMaximized = false;
+
+    public BorderPane getRootBorderPane() {
+        return root;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
