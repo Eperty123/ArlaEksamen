@@ -3,6 +3,7 @@ package GUI.Controller.DPT;
 import BE.Department;
 import BE.User;
 import BLL.DepartmentManager;
+import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.DepartmentModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -99,9 +100,11 @@ public class DepartmentViewController implements Initializable {
             }
         });
         removeIcon.setOnMouseClicked((v) -> {
-            //TODO make some confirmation
-            DepartmentModel.getInstance().deleteDepartment(department);
-            superAC.getChildren().clear();
+            if (ConfirmationDialog.createConfirmationDialog("Are you sure you want to remove this department?\n\n" +
+                    "This action is not reversible")) {
+                DepartmentModel.getInstance().deleteDepartment(department);
+                superAC.getChildren().clear();
+            }
         });
     }
 
@@ -175,9 +178,10 @@ public class DepartmentViewController implements Initializable {
     }
 
     private void saveDPTNameChange() {
-        //TODO add some confirmation
-        department.setName(dptNameField.getText());
-        DepartmentModel.getInstance().updateDepartment(department);
-        saveIcon.fillProperty().set(Paint.valueOf("Green"));
+        if (ConfirmationDialog.createConfirmationDialog("Are you sure you want to save the name on this department?")) {
+            department.setName(dptNameField.getText());
+            DepartmentModel.getInstance().updateDepartment(department);
+            saveIcon.fillProperty().set(Paint.valueOf("Green"));
+        }
     }
 }

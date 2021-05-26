@@ -83,30 +83,35 @@ public class HRDashboardController implements Initializable {
         con2.getChildrenNodes().add(b);
 
         b.setOnAction((save) -> {
-            con2.getDepartmentViewControllers().forEach(vc -> {
-                vc.getRemoveIcon().setDisable(true);
-                vc.getAllSubDepartments().forEach(item -> {
-                    List<User> users = new ArrayList<>(item.getUsers());
-                    users.removeIf(u->u.getUserName().isEmpty() || u.getUserRole()!= UserType.Admin);
-                    if (!users.isEmpty() && item.getManager() == null) {
-                        item.setManager(users.get(0));
-                        DepartmentModel.getInstance().addDepartment(item);
+            boolean confirm = ConfirmationDialog.createConfirmationDialog("Are you sure you want to save the current configuration?");
 
-                        for (Department dpt : vc.getDepartment().getAllSubDepartments()) {
-                            if (dpt.getSubDepartments().contains(item)) {
-                                DepartmentModel.getInstance().addSubDepartment(dpt, item);
-                                break;
+            if (confirm) {
+                con2.getDepartmentViewControllers().forEach(vc -> {
+                    vc.getRemoveIcon().setDisable(true);
+                    vc.getAllSubDepartments().forEach(item -> {
+                        List<User> users = new ArrayList<>(item.getUsers());
+                        users.removeIf(u -> u.getUserName().isEmpty() || u.getUserRole() != UserType.Admin);
+                        if (!users.isEmpty() && item.getManager() == null) {
+                            item.setManager(users.get(0));
+                            DepartmentModel.getInstance().addDepartment(item);
+
+                            for (Department dpt : vc.getDepartment().getAllSubDepartments()) {
+                                if (dpt.getSubDepartments().contains(item)) {
+                                    DepartmentModel.getInstance().addSubDepartment(dpt, item);
+                                    break;
+                                }
                             }
+                        } else if (item.getManager() == null) {
+                            User placeholderUser = new User();
+                            placeholderUser.setUserName("admtest");
+                            item.setManager(placeholderUser);
                         }
-                    } else if (item.getManager() == null) {
-                        User placeholderUser = new User();
-                        placeholderUser.setUserName("admtest");
-                        item.setManager(placeholderUser);
-                    }
+                    });
+                    UserModel.getInstance().updateUserDepartment(vc.getAllSubDepartments());
                 });
-                UserModel.getInstance().updateUserDepartment(vc.getAllSubDepartments());
-            });
+            }
         });
+
 
         borderPane.setCenter(node);
     }
@@ -138,7 +143,7 @@ public class HRDashboardController implements Initializable {
         InfoboardDashboardController controller = fxmlLoader.getController();
 
         SceneMover mover = new SceneMover();
-        mover.move(stage,controller.getRootBorderPane().getTop());
+        mover.move(stage, controller.getRootBorderPane().getTop());
     }
 
     public void minimize() {
@@ -146,7 +151,7 @@ public class HRDashboardController implements Initializable {
         stage.setIconified(true);
     }
 
-    public void maximize(){
+    public void maximize() {
         isMaximized = !isMaximized;
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.setMaximized(isMaximized);
@@ -167,7 +172,7 @@ public class HRDashboardController implements Initializable {
                 // Reset the singleton instance so we don't leave any cache behind.
                 UserModel.getInstance().resetSingleton();
                 ScreenModel.getInstance().resetSingleton();
-                
+
                 Stage root1 = (Stage) root.getScene().getWindow();
 
                 Stage stage = new Stage();
