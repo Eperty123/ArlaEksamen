@@ -379,7 +379,11 @@ POP UP
 }
 
 .MScroll-pane {
-    -fx-background-color: transparent;
+    -fx-background-color: #0d262e;
+}
+
+.MScroll-pane > .viewport {
+    -fx-background-color: #0d262e;
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical {

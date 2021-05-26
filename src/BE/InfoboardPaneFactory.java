@@ -94,14 +94,9 @@ public class InfoboardPaneFactory {
         newRectangle.setFill(Paint.valueOf("#154c5d"));
         newRectangle.getStyleClass().add("SMButtons");
 
-        Circle newCircle = new Circle();
-        newCircle.setMouseTransparent(true);
-        newCircle.setRadius(50);
-        newCircle.setLayoutX(75);
-        newCircle.setLayoutY(64);
-
         System.out.println(u.getPhotoPath());
-        ImageView image = new ImageView(u.getPhotoPath() == null ? new Image("/Gui/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
+        ImageView image = new ImageView();
+        image.setImage(u.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
         image.setMouseTransparent(true);
         image.setFitWidth(105);
         image.setFitHeight(105);
@@ -182,7 +177,7 @@ public class InfoboardPaneFactory {
             EmployeeCardController.OpenEmployeeCard(u);
         });
 
-        newPane.getChildren().addAll(newRectangle, newCircle, image, underBar, name, title, department, viewMoreButton, viewMoreLabel);
+        newPane.getChildren().addAll(newRectangle, image, underBar, name, title, department, viewMoreButton, viewMoreLabel);
 
         FlowPane.setMargin(newPane, new Insets(25, 25, 25, 25));
         return newPane;

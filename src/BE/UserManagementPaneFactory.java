@@ -109,14 +109,8 @@ public class UserManagementPaneFactory {
         check.setSize(String.valueOf(16));
         check.setVisible(false);
 
-
-        Circle newCircle = new Circle();
-        newCircle.setMouseTransparent(true);
-        newCircle.setRadius(50);
-        newCircle.setLayoutX(75);
-        newCircle.setLayoutY(64);
-
-        ImageView image = new ImageView(new Image("/Gui/Resources/defaultPerson.png"));
+        ImageView image = new ImageView();
+        image.setImage(u.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
         image.setMouseTransparent(true);
         image.setFitWidth(105);
         image.setFitHeight(105);
@@ -210,7 +204,7 @@ public class UserManagementPaneFactory {
             System.out.println(selectedUser);
         });
 
-        newPane.getChildren().addAll(newRectangle, check, newCircle, image, underBar, name, title, department, viewMoreButton, viewMoreLabel);
+        newPane.getChildren().addAll(newRectangle, check, image, underBar, name, title, department, viewMoreButton, viewMoreLabel);
 
         FlowPane.setMargin(newPane, new Insets(25, 25, 25, 25));
         return newPane;
