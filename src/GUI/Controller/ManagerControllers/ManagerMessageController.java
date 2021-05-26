@@ -290,8 +290,6 @@ public class ManagerMessageController implements Initializable {
             minuteBox.setValue(message.getMessageStartTime().getMinute());
             colorPicker.setValue(message.getTextColor());
 
-
-
         }
     }
 
