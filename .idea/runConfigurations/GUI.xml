@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="GUI" type="Application" factoryName="Application">
+  <configuration default="false" name="GUI" type="Application" factoryName="Application" singleton="false">
     <option name="MAIN_CLASS_NAME" value="Main" />
     <module name="ArlaEksamen" />
     <option name="VM_PARAMETERS" value=" --module-path lib --add-modules javafx.controls,javafx.fxml,javafx.media,javafx.web --add-exports javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED --add-opens &quot;javafx.graphics/javafx.css=ALL-UNNAMED&quot; --add-opens javafx.base/com.sun.javafx.runtime=ALL-UNNAMED --add-opens javafx.controls/com.sun.javafx.scene.control.behavior=ALL-UNNAMED --add-opens javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED --add-opens javafx.base/com.sun.javafx.binding=ALL-UNNAMED --add-opens javafx.base/com.sun.javafx.event=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED" />

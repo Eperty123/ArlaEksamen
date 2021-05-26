@@ -60,6 +60,9 @@ public class ManagerScreenViewController implements Initializable {
         ClockCalender.initClock(lblTime);
 
         comboScreens.getItems().addAll(currentUser.getAssignedScreenBits());
+    }
+
+    public void init(ScreenBit screenBit) {
         if (!currentUser.getAssignedScreenBits().isEmpty()) {
             if (currentUser.getAssignedScreenBits().size() == 1) {
                 try {
@@ -71,6 +74,12 @@ public class ManagerScreenViewController implements Initializable {
                     e.printStackTrace();
                 }
             } else {
+
+
+                ScreenBit s = screenBit;
+                comboScreens.getSelectionModel().select(s);
+                lblBar.setText("Manager Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+
                 try {
                     EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreenBits());
 
@@ -92,6 +101,7 @@ public class ManagerScreenViewController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
         } else {
             try {

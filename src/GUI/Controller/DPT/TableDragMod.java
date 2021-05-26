@@ -16,6 +16,8 @@ import java.util.List;
 
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class TableDragMod {
     private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
@@ -122,24 +124,26 @@ public class TableDragMod {
                         dropIndex = finalTableView.getItems().size();
 
                     finalTableView.getSelectionModel().clearSelection();
+                    int initialDropIndex = dropIndex;
 
-                    //Actually adds the selected items
-                    for (User sI : selections) {
+                    selections.forEach(sI -> {
                         tableViews.forEach(t -> {
-                            if (sI != userPlaceHolder) {
-                                t.getItems().remove(sI);
-                            }
                             t.getItems().removeIf(u -> u.getId() == sI.getId());
                             if (t.getItems().isEmpty())
                                 t.getItems().add(userPlaceHolder);
                         });
+                    });
+
+                    //Actually adds the selected items
+                    for (User sI : selections) {
+
                         if (!finalTableView.getItems().contains(sI)) {
                             finalTableView.getItems().add(dropIndex, sI);
                         }
+
                         finalTableView.getSelectionModel().select(dropIndex);
                         dropIndex++;
                     }
-
 
                     if (finalTableView.getItems().contains(userPlaceHolder))
                         finalTableView.getSelectionModel().selectAll();
