@@ -120,7 +120,7 @@ public class ManagerScreenViewController implements Initializable {
 
             AtomicReference<Message> messageAtomicReference = new AtomicReference<>(selectedScreen.getCurrentMessage());
             Message currentMessage = messageAtomicReference.get();
-            
+
             String textColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().getRed() * 255, currentMessage.getTextColor().getGreen() * 255, currentMessage.getTextColor().getBlue() * 255);
             String highLightTextFillColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().brighter().getRed() * 255, currentMessage.getTextColor().brighter().getGreen() * 255, currentMessage.getTextColor().brighter().getBlue() * 255);
             String highLightColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().darker().getRed() * 255, currentMessage.getTextColor().darker().getGreen() * 255, currentMessage.getTextColor().darker().getBlue() * 255);
