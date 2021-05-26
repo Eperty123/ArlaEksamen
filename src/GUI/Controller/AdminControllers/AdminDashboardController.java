@@ -115,7 +115,7 @@ public class AdminDashboardController implements Initializable {
 
     public void handleCreateMessage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminMessage.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerMessage.fxml"));
         borderPane.setCenter(fxmlLoader.load());
     }
 

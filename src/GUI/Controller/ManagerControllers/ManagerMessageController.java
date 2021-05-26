@@ -131,7 +131,7 @@ public class ManagerMessageController implements Initializable {
     }
 
     private void setDurationChoiceBoxes() {
-        hourBox.setItems(FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24));
+        hourBox.setItems(FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24));
         minuteBox.setItems(FXCollections.observableArrayList(
                 0, 30));
         durationHoursChoice.setItems(FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7, 8));
@@ -152,10 +152,16 @@ public class ManagerMessageController implements Initializable {
         // Remove all nodes.
         screenContainer.getChildren().clear();
         currentUser = LoginManager.getCurrentUser();
-        System.out.println(currentUser.getAssignedScreenBits());
-        // Add all screens.
-        for (ScreenBit s : currentUser.getAssignedScreenBits()) {
-            makeScreen(s);
+        if (currentUser.getUserRole() == UserType.Admin) {
+            for (ScreenBit s : ScreenModel.getInstance().getAllScreenBits()) {
+                makeScreen(s);
+            }
+        } else {
+            System.out.println(currentUser.getAssignedScreenBits());
+            // Add all screens.
+            for (ScreenBit s : currentUser.getAssignedScreenBits()) {
+                makeScreen(s);
+            }
         }
     }
 
@@ -355,10 +361,10 @@ public class ManagerMessageController implements Initializable {
         }
     }
 
-    public void handleDeleteMessage(){
+    public void handleDeleteMessage() {
         if (comingMessages.getSelectionModel().getSelectedItem() != null) {
             MessageModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
-        }else{
+        } else {
             WarningController.createWarning("Please select a message to delete!");
         }
     }
