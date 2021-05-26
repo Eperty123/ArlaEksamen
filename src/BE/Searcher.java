@@ -45,5 +45,25 @@ public class Searcher {
         OLDepartmentReturn.addAll(results);
         return OLDepartmentReturn;
     }
+
+    public static ObservableList<Department> searchDepartmentUsers(ObservableList<Department> currentList, String query) {
+        OLDepartmentReturn.clear();
+        List<Department> results = new ArrayList<>();
+
+        for (Department d : currentList) {
+            for (User u : d.getUsers()) {
+                if ((u.getUserName().toLowerCase().contains(query.toLowerCase())
+                        || u.getFirstName().toLowerCase().contains(query.toLowerCase())
+                        || u.getLastName().toLowerCase().contains(query.toLowerCase()))) {
+
+                    results.add(d);
+                    break;
+                }
+            }
+        }
+
+        OLDepartmentReturn.addAll(results);
+        return OLDepartmentReturn;
+    }
 }
 

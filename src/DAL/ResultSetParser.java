@@ -47,7 +47,7 @@ public class ResultSetParser {
         int phoneNumber = rs.getInt("Phone");
         Enum gender = rs.getBoolean("Gender") ? Gender.Male : Gender.Female;
         // TODO update when ready
-        String photoPath = "demopath";
+        String photoPath = rs.getString("PhotoPath");
         String title = rs.getString("Title");
 
         return new User(userId, firstName, lastName, userName, email, password, userRole, phoneNumber, gender, photoPath, title);

@@ -17,11 +17,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -63,9 +66,11 @@ public class AddEmployeeController implements Initializable {
     private PasswordManager passwordManager = new PasswordManager();
 
     public void handleSave(ActionEvent actionEvent) throws SQLException, IOException {
-        if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !txtUsername.getText().isEmpty()
-                && !txtPassword.getText().isEmpty() && !txtEmail.getText().isEmpty() && !chsRole.getSelectionModel().isEmpty()
-                ) {
+
+        if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !chsTitle.getSelectionModel().getSelectedItem().isEmpty()
+                && !txtEmail.getText().isEmpty() && !txtPhoneNumber.getText().isEmpty() && chsSex.getSelectionModel().getSelectedItem() != null
+                && chsDepartment.getSelectionModel() != null && chsRole.getSelectionModel().getSelectedItem() != null && !txtUsername.getText().isEmpty()
+                && !txtPassword.getText().isEmpty()) {
             String firstName = txtFirstname.getText();
             String lastName = txtLastname.getText();
             String jobTitle = chsTitle.getValue();
@@ -76,7 +81,7 @@ public class AddEmployeeController implements Initializable {
             Enum<UserType> userRole = chsRole.getSelectionModel().getSelectedItem();
             String username = txtUsername.getText();
             int password = passwordManager.encrypt(txtPassword.getText());
-            String imgPath = image.getImage().getUrl();
+            String imgPath = image.getImage().getUrl().isEmpty() ? new Image("/GUI/Resources/defaultPerson.png").getUrl() : image.getImage().getUrl();
 
             //public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
 
@@ -88,21 +93,8 @@ public class AddEmployeeController implements Initializable {
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
         }else{
-            Stage warning = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/GUI/VIEW/popupviews/Warning.fxml"));
-            warning.setTitle("Warning!");
-            Parent root = (Parent) loader.load();
-
-            WarningController warningController = loader.getController();
-            warningController.setText("Warning! You've not entered some crucial information about the employee.\n\n" +
+            WarningController.createWarning("Warning! You've not entered some crucial information about the employee.\n\n" +
                     "Please check if all fields are filled in");
-
-            Scene warningScene = new Scene(root);
-
-            warning.initStyle(StageStyle.UNDECORATED);
-            warning.setScene(warningScene);
-            warning.show();
         }
     }
 
@@ -151,7 +143,16 @@ public class AddEmployeeController implements Initializable {
         chsDepartment.setItems(FXCollections.observableArrayList(DepartmentModel.getInstance().getAllDepartments()));
     }
 
-    public void handleSelectImage(){
-        //TODO SELECT IMAGE
+    public void handleSelectImage() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Open Resource File");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        File selectedFile = chooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            Image selectedImage = new Image(selectedFile.toURI().toString());
+            image.setImage(selectedImage);
+        }
+
     }
 }

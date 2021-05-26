@@ -12,9 +12,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="540.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CrudControllers.EditEmployeeController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="540.0" styleClass="popupBaggrund" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.CrudControllers.EditEmployeeController">
    <children>
-      <Pane layoutX="14.0" prefHeight="469.0" prefWidth="536.0" styleClass="popupForground">
+      <Pane layoutX="2.0" layoutY="2.0" prefHeight="469.0" prefWidth="536.0" styleClass="popupForground">
          <children>
             <Label alignment="TOP_CENTER" layoutX="228.0" layoutY="14.0" text="Edit Employee" textFill="#4c707a">
                <font>

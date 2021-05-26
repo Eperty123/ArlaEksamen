@@ -20,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -38,6 +39,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -50,7 +52,6 @@ public class AdminManagementController implements Initializable {
     @FXML
     private JFXTextField txtSearch;
 
-    private ArrayList<User> selectedUser = new ArrayList<>();
     private UserModel userModel = UserModel.getInstance();
     private SceneMover sceneMover = new SceneMover();
 
@@ -76,10 +77,12 @@ public class AdminManagementController implements Initializable {
     }
 
     public void handleSearchUser() {
+        vbox.getChildren().clear();
         if (!txtSearch.getText().isEmpty() || !txtSearch.getText().isBlank()) {
-            vbox.getChildren().clear();
-
-        } else {
+            for (Department d : Searcher.searchDepartmentUsers(DepartmentModel.getInstance().getAllDepartments(), txtSearch.getText())){
+                vbox.getChildren().add((UserManagementPaneFactory.createUserManagementBoard(d,vbox)));
+            }
+        }else{
             loadAllUsers();
         }
     }

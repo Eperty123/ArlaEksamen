@@ -8,6 +8,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -66,7 +68,25 @@ public class LoginController implements Initializable {
 
     @FXML
     private void login() throws SQLException, IOException {
-        loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText());
+        Boolean test = loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText());
+
+        if (!test){
+            Label label = new Label();
+
+            label.setTextAlignment(TextAlignment.CENTER);
+            label.setTextFill(Paint.valueOf("RED"));
+            label.setText("Wrong Username or Password!");
+
+            new Timeline(new KeyFrame(
+                    javafx.util.Duration.seconds(5),
+                    ae -> label.setVisible(false)))
+                    .play();
+
+            txtPassword.clear();
+            txtUsername.clear();
+
+            lblPane.setCenter(label);
+        }
         User u = LoginManager.getCurrentUser();
         if (u != null) {
             Stage root1 = (Stage) root.getScene().getWindow();

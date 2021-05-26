@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -39,6 +40,8 @@ public class ManagerDashboardController implements Initializable {
     private BorderPane borderPane;
     @FXML
     private Label dateTimeLabel;
+    @FXML
+    private ImageView image;
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -48,6 +51,7 @@ public class ManagerDashboardController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(dateTimeLabel);
 
+        image.setImage(currentUser.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(currentUser.getPhotoPath()));
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Manager Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         try {
