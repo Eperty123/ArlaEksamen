@@ -91,7 +91,11 @@ public class EditEmployeeController implements Initializable {
             Department newDepartment = chsDepartment.getValue();
             System.out.println(newDepartment.getName());
 
+            oldDepartment.getUsers().remove(oldUser);
+            newDepartment.addUser(newUser);
+
             userModel.updateUser(oldUser, newUser, oldDepartment, newDepartment);
+
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
