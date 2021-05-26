@@ -66,7 +66,7 @@ public class ManagerDashboardController implements Initializable {
         }
     }
 
-    public void handleViewScreens() throws IOException {
+    public void handleViewScreens() throws Exception {
         EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreenBits());
 
         Optional<ScreenBit> result = selectDialog.showAndWait();
