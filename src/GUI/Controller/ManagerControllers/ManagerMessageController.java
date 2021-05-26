@@ -44,9 +44,9 @@ public class ManagerMessageController implements Initializable {
     @FXML
     private JFXDatePicker datePicker;
     @FXML
-    private JFXComboBox hourBox;
+    private JFXComboBox<Integer> hourBox;
     @FXML
-    private JFXComboBox minuteBox;
+    private JFXComboBox<Integer> minuteBox;
     @FXML
     private JFXColorPicker colorPicker;
     @FXML
@@ -261,12 +261,13 @@ public class ManagerMessageController implements Initializable {
         // Then reload all the updated messages.
         currentUsersMessages.setAll(messageModel.getAllUserMessages());
         sortMessagesByStartTime();
+        clearMessageFields();
     }
 
     private Message getMessage() {
         String message = messageArea.getText();
         Color color = colorPicker.getValue();
-        LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), LocalTime.of(hourBox.getSelectionModel().getSelectedIndex(), minuteBox.getSelectionModel().getSelectedIndex()));
+        LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), LocalTime.of(hourBox.getSelectionModel().getSelectedIndex(), minuteBox.getSelectionModel().getSelectedItem()));
         System.out.println(getDurationHours());
         System.out.println(getDurationMinutes());
         LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
@@ -286,8 +287,9 @@ public class ManagerMessageController implements Initializable {
             messageArea.setText(message.getMessage());
             datePicker.setValue(message.getMessageStartTime().toLocalDate());
             hourBox.setValue(message.getMessageStartTime().getHour());
-            minuteBox.setValue(0);
+            minuteBox.setValue(message.getMessageStartTime().getMinute());
             colorPicker.setValue(message.getTextColor());
+
         }
     }
 

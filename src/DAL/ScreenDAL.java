@@ -118,11 +118,15 @@ public class ScreenDAL {
     public void addScreenBit(ScreenBit newScreenBit) {
 
         try (Connection con = dbCon.getConnection()) {
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO Screen VALUES(?,?)");
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO Screen VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             pSql.setString(1, newScreenBit.getName());
             pSql.setString(2, newScreenBit.getScreenInfo());
-            pSql.execute();
-            createScreenBitTimeTable(con, newScreenBit);
+            pSql.executeUpdate();
+
+            ResultSet generatedKeys = pSql.getGeneratedKeys();
+            generatedKeys.next();
+
+            createScreenBitTimeTable(con, generatedKeys.getInt(1));
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -132,19 +136,9 @@ public class ScreenDAL {
     }
 
     // TODO javadoc jonas
-    private void createScreenBitTimeTable(Connection con, ScreenBit newScreenBit) {
+    private void createScreenBitTimeTable(Connection con, int screenId) {
 
         try {
-            PreparedStatement pSql2 = con.prepareStatement("SELECT Id FROM Screen WHERE ScreenName=?");
-            pSql2.setString(1, newScreenBit.getName());
-            pSql2.execute();
-
-            int screenId = -1;
-            ResultSet rs = pSql2.getResultSet();
-            while (rs.next()) {
-                screenId = rs.getInt("Id");
-            }
-
             PreparedStatement pSql = con.prepareStatement("INSERT INTO ScreenTime VALUES(?,?,?)");
 
             // Creates 48 time slots of 30 minutes pr. day, one year forward from current date.
