@@ -149,4 +149,6 @@ public class ScreenModel {
             System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
+
+
 }

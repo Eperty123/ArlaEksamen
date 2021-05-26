@@ -157,7 +157,10 @@ public class MessageDAL {
             pSql.execute();
 
             // Toggle's the ScreenBits timetable, so that it is booked during the message's duration.
-            bookTimeSlots(con, newMessage, assignedScreenBits);
+            if(newMessage.getMessageType() != MessageType.Admin){
+                bookTimeSlots(con, newMessage, assignedScreenBits);
+            }
+
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

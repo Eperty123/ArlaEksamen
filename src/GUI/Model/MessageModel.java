@@ -73,4 +73,8 @@ public class MessageModel {
     public List<Message> getAllUserMessages(String userName) {
         return messageManager.getUsersMessages(userName);
     }
+
+    public void loadScreenBitsMessages(ScreenBit screen) {
+        messageManager.loadScreenBitsMessages(screen);
+    }
 }
