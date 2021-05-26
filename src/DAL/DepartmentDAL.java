@@ -20,17 +20,13 @@ public class DepartmentDAL {
     public void addDepartment(Department department) {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Department VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
-            if (department.getManager() == null) {
-                User placeholderUser = new User();
-                placeholderUser.setUserName("admtest");
-                department.setManager(placeholderUser);
-            }
             pSql.setString(1, department.getName());
             pSql.setString(2, department.getManager().getUserName());
             pSql.executeUpdate();
             var generatedKeys = pSql.getGeneratedKeys();
             generatedKeys.next();
             department.setId(generatedKeys.getInt(1));
+            System.out.println(department.getId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a new department " +
@@ -55,7 +51,6 @@ public class DepartmentDAL {
 
         try (Connection con = dbCon.getConnection()) {
             deleteDepartmentUserAssociations(con, department);
-            deleteDepartmentSubDepartmentAssociations(con, department);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Department WHERE Id=?");
             pSql.setInt(1, department.getId());
             pSql.execute();
@@ -64,13 +59,6 @@ public class DepartmentDAL {
             WarningController.createWarning("Oh no! Something went wrong when attempting to delete a department " +
                     "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-    }
-
-    private void deleteDepartmentSubDepartmentAssociations(Connection con, Department department) throws SQLException {
-        PreparedStatement pSql = con.prepareStatement("DELETE FROM SubDepartment WHERE DptId=? OR SubDptId=?");
-        pSql.setInt(1, department.getId());
-        pSql.setInt(2, department.getId());
-        pSql.execute();
     }
 
     private void deleteDepartmentUserAssociations(Connection con, Department department) throws SQLException {
@@ -186,8 +174,7 @@ public class DepartmentDAL {
                 for (int u = 0; u < users.size(); u++) {
                     userCount++;
                     var user = users.get(u);
-                    int phone = user.getPhone() < 0 ? user.getPhone() * -1 : user.getPhone();
-                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), phone));
+                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), user.getPhone()));
                 }
 
                 sb.append("\n\n");
@@ -204,7 +191,6 @@ public class DepartmentDAL {
         }
     }
 
-    // TODO extract duplicate method
     public void exportPhoneNumbers(List<Department> departments, String outputFile) {
         try {
             var sb = new StringBuilder();
@@ -218,8 +204,7 @@ public class DepartmentDAL {
                 for (int u = 0; u < users.size(); u++) {
                     userCount++;
                     var user = users.get(u);
-                    int phone = user.getPhone() < 0 ? user.getPhone() * -1 : user.getPhone();
-                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), phone));
+                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), user.getPhone()));
                 }
 
                 sb.append("\n\n");
@@ -248,8 +233,7 @@ public class DepartmentDAL {
                 for (int u = 0; u < users.size(); u++) {
                     userCount++;
                     var user = users.get(u);
-                    int phone = user.getPhone() < 0 ? user.getPhone() * -1 : user.getPhone();
-                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), phone));
+                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), user.getPhone()));
                 }
 
                 sb.append("\n\n");
