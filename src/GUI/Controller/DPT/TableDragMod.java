@@ -1,5 +1,6 @@
 package GUI.Controller.DPT;
 
+import BE.Department;
 import BE.User;
 import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
@@ -10,9 +11,11 @@ import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 
+import java.util.HashSet;
 import java.util.List;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class TableDragMod {
     private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
@@ -21,6 +24,7 @@ public class TableDragMod {
     private static final User userPlaceHolder = new User("", "", "", -1);
     private static TableView<User> dontDeleteFromTable;
     private static List<User> selections = new ArrayList<>();
+    private static List<TableView<User>> tableViews = new ArrayList<>();
 
     public static void setDontDeleteFromTable(TableView<User> dontDeleteFromTable) {
         TableDragMod.dontDeleteFromTable = dontDeleteFromTable;
@@ -32,6 +36,8 @@ public class TableDragMod {
      * @param tableView the tableView you want to be draggable
      */
     public static void makeTableDraggable(TableView<User> tableView) {
+        if (tableView != dontDeleteFromTable)
+            tableViews.add(tableView);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         //If the table is empty we add a user place holder, no users in a tables makes problems
         if (tableView.getItems().isEmpty())
@@ -119,13 +125,23 @@ public class TableDragMod {
 
                     //Actually adds the selected items
                     for (User sI : selections) {
+                        tableViews.forEach(t -> {
+                            if (sI != userPlaceHolder) {
+                                t.getItems().remove(sI);
+                            }
+                            t.getItems().removeIf(u -> u.getId() == sI.getId());
+                            if (t.getItems().isEmpty())
+                                t.getItems().add(userPlaceHolder);
+                        });
                         if (!finalTableView.getItems().contains(sI)) {
                             finalTableView.getItems().add(dropIndex, sI);
                         }
                         finalTableView.getSelectionModel().select(dropIndex);
                         dropIndex++;
                     }
-                    if(finalTableView.getItems().contains(userPlaceHolder))
+
+
+                    if (finalTableView.getItems().contains(userPlaceHolder))
                         finalTableView.getSelectionModel().selectAll();
 
                     //Some more placeholders to make this work

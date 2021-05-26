@@ -139,7 +139,6 @@ public class DepartmentDAL {
     }
 
     public void updateDepartment(Department oldDepartment, Department department) {
-
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("UPDATE Title SET Title=?, Manager=? WHERE Id=?");
             pSql.setString(1, department.getName());

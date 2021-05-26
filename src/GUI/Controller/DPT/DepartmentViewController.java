@@ -1,16 +1,14 @@
 package GUI.Controller.DPT;
 
 import BE.Department;
-import BE.SceneMover;
 import BE.User;
 import BLL.DepartmentManager;
-import GUI.Model.DepartmentModel;
+import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,15 +16,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,7 +52,6 @@ public class DepartmentViewController implements Initializable {
     @FXML
     private TableColumn<User, Integer> phoneField;
     private Department department;
-    private ObservableList<User> users = FXCollections.observableArrayList();
     private ObservableList<Department> subDepartments = FXCollections.observableArrayList();
     private HBox hBox = new HBox();
     private boolean isHidden = false;
@@ -112,15 +105,14 @@ public class DepartmentViewController implements Initializable {
         phoneField.setCellValueFactory(data -> data.getValue().phoneProperty().get() < 0 ? new SimpleObjectProperty<>() : data.getValue().phoneProperty());
     }
 
-    private void openDepartmentAddWindow() {
-
+    public void saveUserChangesToDepartment() {
     }
 
     public void setDepartment(Department department) {
         this.department = department;
-        this.users = department.getUsers();
         this.subDepartments = department.getSubDepartments();
         dptUsersTable.setItems(department.getUsers());
+        department.setDepartmentViewController(this);
 
         TableDragMod.makeTableDraggable(dptUsersTable);
 
@@ -151,24 +143,20 @@ public class DepartmentViewController implements Initializable {
             AnchorPane pane = loader.load();
             DepartmentViewController con = loader.getController();
             Department dpt = new Department("New Department");
+            department.addSubDepartment(dpt);
             con.setDepartment(dpt);
+            department.setDepartmentViewController(con);
             hBox.getChildren().add(hBox.getChildren().size() - 1, pane);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void addSubDepartment(Department subDepartment) {
-        subDepartments.add(subDepartments.size(), subDepartment);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
-        try {
-            Node node = loader.load();
-            DepartmentViewController con = loader.getController();
-            con.setDepartment(subDepartment);
-            hBox.getChildren().set(hBox.getChildren().size() - 1, node);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public List<Department> getSubDepartments() {
+        List<Department> tmp = new ArrayList<>();
+        tmp.add(department);
+        tmp.addAll(department.getSubDepartments());
+        subDepartments.forEach(sd -> tmp.addAll(sd.getSubDepartments()));
+        return tmp;
     }
 }
