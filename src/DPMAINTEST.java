@@ -1,5 +1,6 @@
 import BE.Department;
 import BE.User;
+import BE.UserType;
 import BLL.DepartmentManager;
 import GUI.Controller.DPT.DepartmentStageController;
 import GUI.Controller.StageBuilder;
@@ -38,7 +39,7 @@ public class DPMAINTEST extends Application {
             con2.getDepartmentViewControllers().forEach(vc -> {
                 vc.getAllSubDepartments().forEach(item -> {
                     List<User> users = new ArrayList<>(item.getUsers());
-                    users.removeIf(u->u.getUserName().isEmpty());
+                    users.removeIf(u->u.getUserName().isEmpty() || u.getUserRole()!=UserType.Admin);
                     if (!users.isEmpty() && item.getManager() == null) {
                         item.setManager(users.get(0));
                         DepartmentModel.getInstance().addDepartment(item);

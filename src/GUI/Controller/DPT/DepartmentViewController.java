@@ -4,15 +4,14 @@ import BE.Department;
 import BE.User;
 import BLL.DepartmentManager;
 import GUI.Model.DepartmentModel;
-import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Paint;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,15 +30,15 @@ import java.util.*;
 
 public class DepartmentViewController implements Initializable {
     @FXML
+    private AnchorPane superAC;
+    @FXML
     private BorderPane manageIconsBP;
     @FXML
     private MaterialDesignIconView hideIcon;
     @FXML
-    private AnchorPane superAC;
+    private MaterialDesignIconView saveIcon;
     @FXML
     private MaterialDesignIconView removeIcon;
-    @FXML
-    private MaterialDesignIconView settingsIcon;
     @FXML
     private BorderPane superBP;
     @FXML
@@ -65,17 +65,18 @@ public class DepartmentViewController implements Initializable {
     }
 
     private void initChangeName() {
-        dptNameField.setOnAction((v) -> {
-            //TODO add some confirmation
-            department.setName(dptNameField.getText());
-            DepartmentModel.getInstance().updateDepartment(department);
+        dptNameField.setOnAction((v)->saveDPTNameChange());
+        dptNameField.setOnKeyTyped((v)->{
+            saveIcon.fillProperty().set(Paint.valueOf("Red"));
         });
+        saveIcon.setOnMouseClicked((v)->saveDPTNameChange());
+
     }
 
     private void initIcons() {
         hideIcon.setIcon(MaterialDesignIcon.MINUS_BOX);
-        settingsIcon.setIcon(MaterialDesignIcon.SETTINGS);
         removeIcon.setIcon(MaterialDesignIcon.CLOSE_BOX);
+        saveIcon.setIcon(MaterialDesignIcon.CONTENT_SAVE);
 
         hideIcon.setOnMouseClicked((v) -> {
             if (!isHidden) {
@@ -167,5 +168,12 @@ public class DepartmentViewController implements Initializable {
         tmp.addAll(department.getSubDepartments());
         subDepartments.forEach(sd -> tmp.addAll(sd.getSubDepartments()));
         return tmp;
+    }
+
+    private void saveDPTNameChange() {
+        //TODO add some confirmation
+        department.setName(dptNameField.getText());
+        DepartmentModel.getInstance().updateDepartment(department);
+        saveIcon.fillProperty().set(Paint.valueOf("Green"));
     }
 }
