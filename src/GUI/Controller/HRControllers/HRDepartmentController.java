@@ -4,6 +4,8 @@ import BE.Department;
 import BE.SceneMover;
 import BE.Searcher;
 import DAL.Parser.UserBackUp;
+import GUI.Controller.CrudControllers.AddEmployeeController;
+import GUI.Controller.PopupControllers.FileChooserDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
 import com.jfoenix.controls.JFXTextField;
@@ -11,20 +13,29 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -195,16 +206,34 @@ public class HRDepartmentController implements Initializable {
      * @throws IOException if it cannot find the FXML file.
      */
     public void handleImportUsers() throws IOException {
-        loadAllDepartments();
+
+        Stage stage = new Stage();
+        FileChooser.ExtensionFilter csvExtension = new FileChooser.ExtensionFilter("CSV file", "*.csv");
+        var fileChooser = FileChooserDialog.createFileChooser(csvExtension);
+        fileChooser.setTitle("Select a user backup to import");
+        var chosenFile = fileChooser.showOpenDialog(stage);
+        if (chosenFile != null && chosenFile.exists()) {
+            userBackUp.importUsers(chosenFile.getAbsolutePath());
+            loadAllDepartments();
+        }
     }
 
 
     public void handleExportUsers() throws IOException {
         if (!selectedDepartments.isEmpty()) {
-            userBackUp.exportUsers(selectedDepartments);
-            loadAllDepartments();
+            Stage stage = new Stage();
+            FileChooser.ExtensionFilter csvExtension = new FileChooser.ExtensionFilter("CSV file", "*.csv");
+            var fileChooser = FileChooserDialog.createFileChooser(csvExtension);
+            fileChooser.setTitle("Save user backup to csv");
 
-            System.out.println("Export users");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM_dd_yyyy_HH_mm_ss");
+            fileChooser.setInitialFileName(String.format("user_backup_%s", LocalDateTime.now().format(formatter)));
+            var chosenFile = fileChooser.showSaveDialog(stage);
+            if (chosenFile != null) {
+                userBackUp.exportUsers(selectedDepartments, chosenFile);
+                //loadAllDepartments();
+            }
+            System.out.println("Exported users!");
         } else {
             WarningController.createWarning("No departments selected! Please select the departments you want to export");
         }
@@ -213,10 +242,20 @@ public class HRDepartmentController implements Initializable {
 
     public void handleExportPhonelist() {
         if (!selectedDepartments.isEmpty()) {
-            departmentModel.exportPhoneNumbers(selectedDepartments);
-            loadAllDepartments();
 
-            System.out.println("EXPORT PHONE");
+            Stage stage = new Stage();
+            FileChooser.ExtensionFilter csvExtension = new FileChooser.ExtensionFilter("Text file", "*.txt");
+            var fileChooser = FileChooserDialog.createFileChooser(csvExtension);
+            fileChooser.setTitle("Export department(s) phone list to file");
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM_dd_yyyy_HH_mm_ss");
+            fileChooser.setInitialFileName(String.format("phone_list_%s", LocalDateTime.now().format(formatter)));
+            var chosenFile = fileChooser.showSaveDialog(stage);
+            if (chosenFile != null) {
+                departmentModel.exportPhoneNumbers(selectedDepartments, chosenFile);
+                //loadAllDepartments();
+            }
+            System.out.println("Exported phone list!");
         } else {
             WarningController.createWarning("No departments selected! Please select the departments you want to export");
         }
