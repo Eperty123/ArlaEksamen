@@ -1,8 +1,10 @@
 package GUI.Controller;
 
 import BE.Department;
+import BE.SettingsType;
 import BE.User;
 import GUI.Model.DepartmentModel;
+import GUI.Model.SettingsModel;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -62,11 +64,15 @@ public class EmployeeCardController {
         executor.scheduleWithFixedDelay(t, 0, 1, timerSpeed);
     }
 
-    public static void setCountdownDuration(Duration duration) {
+    private void setCountdownDuration(Duration duration) {
         countDownDuration = duration;
     }
 
     public void setData(User u) {
+        String time = SettingsModel.getInstance().getSettingByType(SettingsType.CARD_OPEN_DURATION).getAttribute();
+        Long l = Long.getLong(time);
+        setCountdownDuration(Duration.ofMinutes(l));
+
         img.setImage(u.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
         name.setText(u.getFirstName() + " " + u.getLastName());
         title.setText(u.getTitle() != null ? u.getTitle() : "None");

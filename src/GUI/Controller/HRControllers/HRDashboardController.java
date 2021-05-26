@@ -4,6 +4,7 @@ import BE.*;
 import BLL.LoginManager;
 import GUI.Controller.DPT.DepartmentStageController;
 import GUI.Controller.DPT.DepartmentViewController;
+import GUI.Controller.InfoboardDashboardController;
 import GUI.Controller.ManagerControllers.ManagerMessageController;
 import GUI.Controller.ManagerControllers.ManagerScreenViewController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
@@ -49,7 +50,6 @@ public class HRDashboardController implements Initializable {
     private Label dateTimeLabel;
     @FXML
     private ImageView image;
-
     private User currentUser;
     private boolean isMaximized = false;
 
@@ -133,10 +133,10 @@ public class HRDashboardController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(scene);
         stage.show();
+        InfoboardDashboardController controller = fxmlLoader.getController();
 
         SceneMover mover = new SceneMover();
-        BorderPane bp = (BorderPane) scene.getRoot();
-        mover.move(stage,bp.getTop());
+        mover.move(stage,controller.getRootBorderPane().getTop());
     }
 
     public void minimize() {
