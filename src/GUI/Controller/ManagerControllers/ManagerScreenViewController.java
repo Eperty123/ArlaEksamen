@@ -1,16 +1,16 @@
 package GUI.Controller.ManagerControllers;
 
-import BE.Bug;
-import BE.ClockCalender;
-import BE.ScreenBit;
-import BE.User;
+import BE.*;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Controller.StageBuilder;
 import GUI.Model.BugModel;
+import GUI.Model.MessageModel;
+import GUI.Model.SettingsModel;
 import com.jfoenix.controls.JFXComboBox;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -28,8 +29,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ManagerScreenViewController implements Initializable {
     @FXML
@@ -40,10 +44,15 @@ public class ManagerScreenViewController implements Initializable {
     private Label lblBar;
     @FXML
     private Label lblTime;
+    @FXML
+    private TextArea txtMessage;
 
     private User currentUser;
     private boolean isMaximized = false;
+    private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     private Stage parentStage;
+    private ScreenBit selectedScreen;
+    private List<Message> screenMessages = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -74,6 +83,8 @@ public class ManagerScreenViewController implements Initializable {
 
                         try {
                             setScreen(s);
+                            selectedScreen = s;
+                            MessageModel.getInstance().loadScreenBitsMessages(selectedScreen);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -101,6 +112,27 @@ public class ManagerScreenViewController implements Initializable {
                 }
             }
         });
+        autoUpdateMessageBox();
+    }
+
+    private void autoUpdateMessageBox() {
+        service.scheduleAtFixedRate(new Thread(() -> {
+
+            AtomicReference<Message> messageAtomicReference = new AtomicReference<>(selectedScreen.getCurrentMessage());
+            Message currentMessage = messageAtomicReference.get();
+            
+            String textColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().getRed() * 255, currentMessage.getTextColor().getGreen() * 255, currentMessage.getTextColor().getBlue() * 255);
+            String highLightTextFillColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().brighter().getRed() * 255, currentMessage.getTextColor().brighter().getGreen() * 255, currentMessage.getTextColor().brighter().getBlue() * 255);
+            String highLightColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().darker().getRed() * 255, currentMessage.getTextColor().darker().getGreen() * 255, currentMessage.getTextColor().darker().getBlue() * 255);
+            updateMessage(currentMessage, textColor, highLightTextFillColor, highLightColor);
+        }), 0, Integer.parseInt(SettingsModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY).getAttribute()), TimeUnit.SECONDS);
+    }
+
+    private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {
+        Platform.runLater(new Thread(() -> {
+            txtMessage.setStyle(String.format("-fx-text-fill: %s; -fx-highlight-text-fill: %s; -fx-highlight-fill: %s;", textColor, highLightTextFillColor, hightLightColor));
+            txtMessage.setText(message.getMessage());
+        }));
     }
 
     private void displayNoScreenWarning() throws IOException {
