@@ -56,6 +56,7 @@ public class DepartmentViewController implements Initializable {
     private HBox hBox = new HBox();
     private boolean isHidden = false;
     private List<Node> hiddenChildren = new ArrayList<>();
+    private int dptCount = DepartmentModel.getInstance().getAllDepartments().size();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,12 +65,16 @@ public class DepartmentViewController implements Initializable {
         initChangeName();
     }
 
+    public MaterialDesignIconView getRemoveIcon() {
+        return removeIcon;
+    }
+
     private void initChangeName() {
-        dptNameField.setOnAction((v)->saveDPTNameChange());
-        dptNameField.setOnKeyTyped((v)->{
+        dptNameField.setOnAction((v) -> saveDPTNameChange());
+        dptNameField.setOnInputMethodTextChanged((v) -> {
             saveIcon.fillProperty().set(Paint.valueOf("Red"));
         });
-        saveIcon.setOnMouseClicked((v)->saveDPTNameChange());
+        saveIcon.setOnMouseClicked((v) -> saveDPTNameChange());
 
     }
 
@@ -95,8 +100,7 @@ public class DepartmentViewController implements Initializable {
         });
         removeIcon.setOnMouseClicked((v) -> {
             //TODO make some confirmation
-            DepartmentManager departmentManager = new DepartmentManager();
-            departmentManager.removeDepartment(department);
+            DepartmentModel.getInstance().deleteDepartment(department);
             superAC.getChildren().clear();
         });
     }
@@ -109,9 +113,6 @@ public class DepartmentViewController implements Initializable {
         nameField.setCellValueFactory(data -> data.getValue().getFullNameProperty());
         emailField.setCellValueFactory(data -> data.getValue().emailProperty());
         phoneField.setCellValueFactory(data -> data.getValue().phoneProperty().get() < 0 ? new SimpleObjectProperty<>() : data.getValue().phoneProperty());
-    }
-
-    public void saveUserChangesToDepartment() {
     }
 
     public void setDepartment(Department department) {
@@ -148,8 +149,10 @@ public class DepartmentViewController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
             AnchorPane pane = loader.load();
             DepartmentViewController con = loader.getController();
-            Department dpt = new Department("New Department");
+            Department dpt = new Department("New Department" + dptCount++);
             department.addSubDepartment(dpt);
+            DepartmentModel.getInstance().addDepartment(dpt);
+            DepartmentModel.getInstance().addSubDepartment(department, dpt);
             con.setDepartment(dpt);
             department.setDepartmentViewController(con);
             hBox.getChildren().add(hBox.getChildren().size() - 1, pane);
@@ -158,7 +161,7 @@ public class DepartmentViewController implements Initializable {
         }
     }
 
-    public List<Department> getSubDepartments(){
+    public List<Department> getSubDepartments() {
         return department.getSubDepartments();
     }
 

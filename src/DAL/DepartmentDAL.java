@@ -23,6 +23,11 @@ public class DepartmentDAL {
     public void addDepartment(Department department) {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Department VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
+            if (department.getManager() == null) {
+                User placeholderUser = new User();
+                placeholderUser.setUserName("admtest");
+                department.setManager(placeholderUser);
+            }
             pSql.setString(1, department.getName());
             pSql.setString(2, department.getManager().getUserName());
             pSql.executeUpdate();
@@ -54,6 +59,7 @@ public class DepartmentDAL {
 
         try (Connection con = dbCon.getConnection()) {
             deleteDepartmentUserAssociations(con, department);
+            deleteDepartmentSubDepartmentAssociations(con, department);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Department WHERE Id=?");
             pSql.setInt(1, department.getId());
             pSql.execute();
@@ -62,6 +68,13 @@ public class DepartmentDAL {
             WarningController.createWarning("Oh no! Something went wrong when attempting to delete a department " +
                     "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
+    }
+
+    private void deleteDepartmentSubDepartmentAssociations(Connection con, Department department) throws SQLException {
+        PreparedStatement pSql = con.prepareStatement("DELETE FROM SubDepartment WHERE DptId=? OR SubDptId=?");
+        pSql.setInt(1, department.getId());
+        pSql.setInt(2, department.getId());
+        pSql.execute();
     }
 
     private void deleteDepartmentUserAssociations(Connection con, Department department) throws SQLException {
@@ -135,9 +148,9 @@ public class DepartmentDAL {
 
         while (rs.next()) {
             for (Department dpt : departments) {
-                if (dpt.getId()==rs.getInt("dptId")) {
+                if (dpt.getId() == rs.getInt("dptId")) {
                     for (Department subDpt : departments) {
-                        if (subDpt.getId()==(rs.getInt("subDpt"))) {
+                        if (subDpt.getId() == (rs.getInt("subDpt"))) {
                             if (!dpt.getSubDepartments().contains(subDpt)) {
                                 dpt.addSubDepartment(subDpt);
                             }
