@@ -144,7 +144,7 @@ public class TableDragMod {
                         finalTableView.getSelectionModel().select(dropIndex);
                         dropIndex++;
                     }
-                    
+
                     if (finalTableView.getItems().contains(userPlaceHolder))
                         finalTableView.getSelectionModel().selectAll();
 
