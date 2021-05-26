@@ -79,6 +79,7 @@ public class HRDashboardController implements Initializable {
         DepartmentStageController con2 = loader.getController();
         con2.addChildrenNode(DepartmentModel.getInstance().getSuperDepartment());
         JFXButton b = new JFXButton("Save");
+        b.getStyleClass().add("addSubDeptButton");
         con2.getChildrenNodes().add(b);
 
         b.setOnAction((save) -> {

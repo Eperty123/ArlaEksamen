@@ -138,6 +138,7 @@ public class DepartmentViewController implements Initializable {
 
         });
         JFXButton addSubDepartmentButton = new JFXButton("Add sub department");
+        addSubDepartmentButton.getStyleClass().add("addSubDeptButton");
         hBox.getChildren().add(addSubDepartmentButton);
         addSubDepartmentButton.setOnMouseClicked((v) -> addSubDepartment());
         hBox.setAlignment(Pos.TOP_CENTER);
