@@ -4,6 +4,8 @@ import BE.ClockCalender;
 import BE.SceneMover;
 import BE.User;
 import BLL.LoginManager;
+import GUI.Controller.DPT.DepartmentStageController;
+import GUI.Controller.DPT.DepartmentViewController;
 import GUI.Controller.ManagerControllers.ManagerMessageController;
 import GUI.Controller.ManagerControllers.ManagerScreenViewController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
@@ -63,7 +65,11 @@ public class HRDashboardController implements Initializable {
     }
 
     public void handleOrgDiagramCreator() throws IOException {
-        //TODO DP's ORG DIAGRAM CREATOR
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
+        Parent root = fxmlLoader.load();
+        DepartmentViewController controller = fxmlLoader.getController();
+        borderPane.setCenter(root);
     }
 
     public void handleDeptManagement() throws IOException {

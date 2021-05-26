@@ -4,10 +4,14 @@ import GUI.Controller.AdminControllers.AdminManagementController;
 import GUI.Controller.EmployeeCardController;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -21,12 +25,13 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UserManagementPaneFactory {
     private static Department currentDepartment;
 
-    private static final ArrayList<User> selectedUser = new ArrayList<>();
+    private static ArrayList<User> selectedUser = new ArrayList<>();
 
     public static BorderPane createUserManagementBoard(Department department, VBox root) {
         currentDepartment = department;
@@ -35,7 +40,6 @@ public class UserManagementPaneFactory {
 
         bp.setTop(createBar(currentDepartment));
         bp.setCenter(createFlowPane());
-
 
         return bp;
     }
@@ -76,8 +80,8 @@ public class UserManagementPaneFactory {
         flowPane.setOrientation(Orientation.HORIZONTAL);
 
         for (User u : currentDepartment.getUsers()) {
-                flowPane.getChildren().add(0, createUser(u));
-                FlowPane.setMargin(createUser(u), new Insets(25, 25, 0, 25));
+            flowPane.getChildren().add(0, createUser(u));
+            FlowPane.setMargin(createUser(u), new Insets(25, 25, 0, 25));
         }
 
         return flowPane;
@@ -104,6 +108,7 @@ public class UserManagementPaneFactory {
         check.setLayoutY(26);
         check.setSize(String.valueOf(16));
         check.setVisible(false);
+
 
         Circle newCircle = new Circle();
         newCircle.setMouseTransparent(true);
@@ -189,17 +194,19 @@ public class UserManagementPaneFactory {
         viewMoreLabel.setTextAlignment(TextAlignment.CENTER);
 
         viewMoreButton.setOnMouseClicked(e -> {
-            System.out.println("TEST");
             EmployeeCardController.OpenEmployeeCard(u);
         });
 
         newRectangle.setOnMouseClicked(e -> {
+
             if (!selectedUser.contains(u)) {
                 selectedUser.add(u);
+                check.setVisible(true);
             } else {
                 selectedUser.remove(u);
+                check.setVisible(false);
             }
-            check.setVisible(!check.isVisible());
+
             System.out.println(selectedUser);
         });
 

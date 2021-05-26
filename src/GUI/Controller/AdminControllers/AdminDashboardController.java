@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -42,6 +43,8 @@ public class AdminDashboardController implements Initializable {
     private JFXButton btnSelectAll;
     @FXML
     private Label dateTimeLabel;
+    @FXML
+    private ImageView image;
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -56,6 +59,7 @@ public class AdminDashboardController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(dateTimeLabel);
 
+        image.setImage(currentUser.getPhotoPath().equalsIgnoreCase("demopath") ? new Image("/GUI/Resources/defaultPerson.png") : new Image(currentUser.getPhotoPath()));
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         handleBugReportUpdate();
