@@ -23,7 +23,7 @@
                      <top>
                         <Pane fx:id="headerPanel" maxHeight="235.0" maxWidth="235.0" minHeight="235.0" minWidth="235.0" prefHeight="235.0" prefWidth="235.0" styleClass="headerPanel" BorderPane.alignment="CENTER">
                            <children>
-                              <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="43.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="image" fitHeight="150.0" fitWidth="150.0" layoutX="43.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../Resources/defaultPerson.png" />
                                  </image>

@@ -59,7 +59,7 @@ public class AdminDashboardController implements Initializable {
         currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(dateTimeLabel);
 
-        image.setImage(currentUser.getPhotoPath().equalsIgnoreCase("demopath") ? new Image("/GUI/Resources/defaultPerson.png") : new Image(currentUser.getPhotoPath()));
+        image.setImage(currentUser.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(currentUser.getPhotoPath()));
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         handleBugReportUpdate();

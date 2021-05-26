@@ -1,12 +1,15 @@
 package GUI.Controller;
 
+import BE.Department;
 import BE.User;
+import GUI.Model.DepartmentModel;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -59,20 +62,29 @@ public class EmployeeCardController {
         executor.scheduleWithFixedDelay(t, 0, 1, timerSpeed);
     }
 
-    public static void setCountdownDuration(Duration duration){
+    public static void setCountdownDuration(Duration duration) {
         countDownDuration = duration;
     }
 
-    public void setData(User u){
-        //img.setImage(u.getImage());
+    public void setData(User u) {
+        img.setImage(u.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
         name.setText(u.getFirstName() + " " + u.getLastName());
         title.setText(u.getTitle() != null ? u.getTitle() : "None");
-        //department.setText(u.getDepartment() != null ? u.getDepartment().name() : "None");
+        for (Department d : DepartmentModel.getInstance().getAllDepartments()) {
+            for (User user : d.getUsers()) {
+                if (user == u) {
+                    department.setText(d.getName());
+                    break;
+                }
+                break;
+            }
+        }
+
         phone.setText(!String.valueOf(u.getPhone()).isEmpty() ? String.valueOf(u.getPhone()) : "None");
         mail.setText(!u.getEmail().isEmpty() ? u.getEmail() : "None");
     }
 
-    public void handleClose(){
+    public void handleClose() {
         executor.shutdownNow();
         Stage stage = (Stage) root.getScene().getWindow();
         stage.close();
