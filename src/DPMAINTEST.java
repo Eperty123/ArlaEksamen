@@ -3,6 +3,7 @@ import DAL.DepartmentDAL;
 import GUI.Controller.DPT.DepartmentStageController;
 import GUI.Controller.StageBuilder;
 import GUI.Model.DepartmentModel;
+import GUI.Model.UserModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class DPMAINTEST extends Application {
     DepartmentManager departmentManager = new DepartmentManager();
@@ -25,6 +28,15 @@ public class DPMAINTEST extends Application {
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
         con2.addChildrenNode(departmentManager.getSuperDepartment());
+
+        Button b = new Button("Save");
+        con2.getChildrenNodes().add(b);
+
+        b.setOnAction((save)->{
+            con2.getDepartmentViewControllers().forEach(vc->{
+                UserModel.getInstance().updateUserDepartment(vc.getSubDepartments());
+            });
+        });
 
         stage.setScene(new Scene(node));
         stage.show();
