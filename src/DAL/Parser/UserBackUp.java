@@ -73,6 +73,13 @@ public class UserBackUp {
         return importedUsers;
     }
 
+    public void exportUsers(List<Department> departments) {
+        for (int i = 0; i < departments.size(); i++) {
+            var department = departments.get(i);
+            exportUsers(department);
+        }
+    }
+
     public void exportUsers(Department department) {
 
         File csvOutputFile = new File(getFileName());
