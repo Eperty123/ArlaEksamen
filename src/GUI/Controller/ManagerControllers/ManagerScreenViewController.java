@@ -81,28 +81,14 @@ public class ManagerScreenViewController implements Initializable {
                 lblBar.setText("Manager Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
                 try {
-                    EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreenBits());
-
-                    Optional<ScreenBit> results = selectDialog.showAndWait();
-
-                    if (results.isPresent()) {
-                        s = results.get();
-                        comboScreens.getSelectionModel().select(s);
-                        lblBar.setText("Manager Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
-
-                        try {
-                            setScreen(s);
-                            selectedScreen = s;
-                            MessageModel.getInstance().loadScreenBitsMessages(selectedScreen);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (IOException e) {
+                    setScreen(s);
+                    selectedScreen = s;
+                    MessageModel.getInstance().loadScreenBitsMessages(selectedScreen);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
+            
         } else {
             try {
                 displayNoScreenWarning();
