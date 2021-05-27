@@ -75,7 +75,6 @@ public class BugDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            System.out.println(throwables.toString());
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a bug " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
@@ -102,7 +101,6 @@ public class BugDAL {
                 allBugs.add(bug);
             }
         } catch (SQLException throwables) {
-            System.out.println(throwables.getMessage());
             WarningController.createWarning("Oh no! Something went wrong when attempting to get all bugs from " +
                     "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }

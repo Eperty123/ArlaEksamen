@@ -8,7 +8,6 @@ import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -24,7 +23,7 @@ public class UserBackUp {
     private final String HEADER_INFO_FORMAT = "Id;FirstName;LastName;UserName;Email;PhoneNumber;UserRole;Password;Gender;DepartmentId;Title\n";
 
     public List<CSVUser> importUsers(String filePath) {
-        ArrayList<CSVUser> importedUsers = new ArrayList<>();
+        List<CSVUser> importedUsers = new ArrayList<>();
         var userModel = UserModel.getInstance();
         var departmentModel = DepartmentModel.getInstance();
 

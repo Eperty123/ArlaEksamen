@@ -1,6 +1,5 @@
 package DAL;
 
-import BE.Title;
 import DAL.DbConnector.DbConnectionHandler;
 import GUI.Controller.PopupControllers.WarningController;
 

@@ -15,8 +15,8 @@ import java.util.List;
 
 public class SettingsDAL implements ISettingsCRUD {
 
-    private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
-    private ResultSetParser resultSetParser = new ResultSetParser();
+    private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
+    private final ResultSetParser resultSetParser = new ResultSetParser();
 
     @Override
     public List<Settings> getSettings() {
@@ -60,7 +60,7 @@ public class SettingsDAL implements ISettingsCRUD {
         var allSettings = getSettings();
         for (int i = 0; i < allSettings.size(); i++) {
             var setting = allSettings.get(i);
-            if (setting.getType().equals(settings.getType())) {
+            if (setting.getType() == settings.getType()) {
                 return setting;
             }
         }
@@ -72,7 +72,7 @@ public class SettingsDAL implements ISettingsCRUD {
         var allSettings = getSettings();
         for (int i = 0; i < allSettings.size(); i++) {
             var setting = allSettings.get(i);
-            if (setting.getType().equals(settingsType)) {
+            if (setting.getType() == settingsType) {
                 return setting;
             }
         }
