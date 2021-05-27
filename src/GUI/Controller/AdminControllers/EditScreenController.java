@@ -4,8 +4,7 @@ import BE.ScreenBit;
 import BE.Searcher;
 import BE.User;
 import BE.UserType;
-import GUI.Model.ScreenModel;
-import GUI.Model.UserModel;
+import GUI.Model.DataModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -67,23 +66,18 @@ public class EditScreenController implements Initializable {
         stage.close();
     }
 
-    // TODO update to handle List
+
     public void handleSave(ActionEvent actionEvent) {
+        if(usersToDelete != null){
+            DataModel.getInstance().removeScreenBitRights(usersToDelete, screenBit);
+        }
+        if(usersToAdd != null){
+            DataModel.getInstance().assignScreenBitRights(usersToAdd, screenBit);
+        }
 
-        usersToAdd.forEach(user -> {
-            user.getAssignedScreenBits().add(screenBit);
-            ScreenModel.getInstance().assignScreenBitRights(user,screenBit);
-            screenBit.getAssignedUsers().add(user);
-        });
 
 
-        List<User> usersToDeleteAssociations = new ArrayList<>();
-        usersToDelete.forEach(user -> {
-            user.getAssignedScreenBits().remove(screenBit);
-            ScreenModel.getInstance().removeScreenBitRights(user,screenBit);
-            screenBit.removeUser(user);
-        });
-        setData(UserModel.getInstance().getAllUsers());
+        setData(DataModel.getInstance().getUsers());
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();
     }

@@ -33,16 +33,18 @@ public class DepartmentDAL {
             var generatedKeys = pSql.getGeneratedKeys();
             generatedKeys.next();
             department.setId(generatedKeys.getInt(1));
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a new department " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
+
     }
 
     public void addSubDepartment(Department department, Department subDepartment) {
         try (Connection con = dbCon.getConnection()) {
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO SubDepartment VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO SubDepartment VALUES(?,?)");
             pSql.setInt(1, department.getId());
             pSql.setInt(2, subDepartment.getId());
             pSql.execute();

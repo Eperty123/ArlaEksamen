@@ -6,6 +6,7 @@ import BE.Searcher;
 import DAL.Parser.UserBackUp;
 import GUI.Controller.PopupControllers.FileChooserDialog;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -26,6 +27,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -81,7 +83,7 @@ public class HRDepartmentController implements Initializable {
         flowpane.getChildren().clear();
 
         // Add all screens.
-        for (Department d : DepartmentModel.getInstance().getAllDepartments()) {
+        for (Department d : DataModel.getInstance().getDepartments()) {
             handleNewDepartment(d);
         }
     }
@@ -175,14 +177,14 @@ public class HRDepartmentController implements Initializable {
     }
 
     private void handleRemove(Department d) {
-        DepartmentModel.getInstance().deleteDepartment(d);
+        DataModel.getInstance().deleteDepartment(d);
         loadAllDepartments();
     }
 
     public void handleSearchUser() {
         if (!txtSearch.getText().isEmpty() || !txtSearch.getText().isBlank()) {
             flowpane.getChildren().clear();
-            for (Department d : Searcher.searchDepartments(DepartmentModel.getInstance().getAllDepartments(), txtSearch.getText())) {
+            for (Department d : Searcher.searchDepartments(DataModel.getInstance().getDepartments(), txtSearch.getText())) {
                 handleNewDepartment(d);
             }
         } else {
@@ -194,7 +196,7 @@ public class HRDepartmentController implements Initializable {
      * Handle any incoming changes to the User ObservableList and update the table.
      */
     private void handleDepartmentUpdate() {
-        DepartmentModel.getInstance().getAllDepartments().addListener((ListChangeListener<Department>) c -> {
+        DataModel.getInstance().getDepartments().addListener((ListChangeListener<Department>) c -> {
             //System.out.println("Called");
             loadAllDepartments();
         });

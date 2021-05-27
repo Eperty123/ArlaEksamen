@@ -5,6 +5,7 @@ import javafx.beans.property.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class User {
@@ -329,11 +330,44 @@ public class User {
 
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getFirstName(), user.getFirstName()) &&
+                Objects.equals(getLastName(), user.getLastName()) &&
+                Objects.equals(getUserName(), user.getUserName()) &&
+                Objects.equals(getEmail(), user.getEmail()) &&
+                Objects.equals(getUserRole(), user.getUserRole()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getPhone(), user.getPhone()) &&
+                Objects.equals(getAssignedScreenBits(), user.getAssignedScreenBits()) &&
+                Objects.equals(getPhotoPath(), user.getPhotoPath()) &&
+                Objects.equals(getTitle(), user.getTitle()) &&
+                Objects.equals(getGender(), user.getGender());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getFirstName(), getLastName(), getUserName(), getEmail(), getUserRole(), getPassword(), getPhone(), getAssignedScreenBits(), getPhotoPath(), getTitle(), getGender());
+    }
+
+    @Override
     public String toString() {
         return this.userName.getValue() + " - " + this.firstName.getValue() + " " + this.lastName.getValue();
     }
 
     public void addScreenAssignment(ScreenBit screenBit) {
         this.assignedScreenBits.add(screenBit);
+    }
+
+    public void removeScreenBit(ScreenBit screenBit) {
+        assignedScreenBits.remove(screenBit);
+    }
+
+    public void updateScreenBit(ScreenBit oldScreenBit, ScreenBit newScreenBit) {
+        assignedScreenBits.remove(oldScreenBit);
+        assignedScreenBits.add(newScreenBit);
     }
 }

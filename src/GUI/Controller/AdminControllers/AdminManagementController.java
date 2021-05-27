@@ -1,10 +1,11 @@
 package GUI.Controller.AdminControllers;
 
 import BE.*;
+import BLL.StageShower;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
 import GUI.Controller.CrudControllers.RemoveEmployeeController;
-import GUI.Model.DepartmentModel;
+import GUI.Model.DataModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ListChangeListener;
@@ -12,12 +13,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,7 +48,7 @@ public class AdminManagementController implements Initializable {
         // Remove all nodes.
         vbox.getChildren().clear();
         // Add all screens.
-        for (Department d : DepartmentModel.getInstance().getAllDepartments()) {
+        for (Department d : DataModel.getInstance().getDepartments()) {
             if (!d.getUsers().isEmpty())
                 vbox.getChildren().add(UserManagementPaneFactory.createUserManagementBoard(d, vbox));
         }
@@ -59,7 +57,7 @@ public class AdminManagementController implements Initializable {
     public void handleSearchUser() {
         vbox.getChildren().clear();
         if (!txtSearch.getText().isEmpty() || !txtSearch.getText().isBlank()) {
-            for (Department d : Searcher.searchDepartmentUsers(DepartmentModel.getInstance().getAllDepartments(), txtSearch.getText())){
+            for (Department d : Searcher.searchDepartmentUsers(DataModel.getInstance().getDepartments(), txtSearch.getText())){
                 vbox.getChildren().add((UserManagementPaneFactory.createUserManagementBoard(d,vbox)));
             }
         }else{
@@ -71,7 +69,7 @@ public class AdminManagementController implements Initializable {
      * Handle any incoming changes to the User ObservableList and update the table.
      */
     private void handleUserUpdate() {
-        UserModel.getInstance().getAllUsers().addListener((ListChangeListener<User>) c -> {
+        DataModel.getInstance().getUsers().addListener((ListChangeListener<User>) c -> {
             loadAllUsers();
         });
     }
@@ -101,6 +99,7 @@ public class AdminManagementController implements Initializable {
             editEmployee.setTitle("Edit Employee");
             Parent root = (Parent) loader.load();
             EditEmployeeController editEmployeeController = loader.getController();
+            editEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
 
             stageShower.showScene(editEmployee,root,sceneMover);
         }
@@ -116,6 +115,7 @@ public class AdminManagementController implements Initializable {
 
             Parent root = (Parent) loader.load();
             RemoveEmployeeController removeEmployeeController = loader.getController();
+            removeEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
             removeEmployeeStage.setTitle("Remove Employee");
 
             stageShower.showScene(removeEmployeeStage,root,sceneMover);

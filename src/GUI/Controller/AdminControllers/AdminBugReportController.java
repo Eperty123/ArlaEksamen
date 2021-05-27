@@ -2,12 +2,13 @@ package GUI.Controller.AdminControllers;
 
 import BE.Bug;
 import BE.SceneMover;
-import BE.StageShower;
+import BLL.StageShower;
 import BE.User;
 import GUI.Controller.CrudControllers.EditBugController;
 import GUI.Controller.PopupControllers.ConfirmBugController;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.BugModel;
+import GUI.Model.DataModel;
 import GUI.Model.UserModel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -81,7 +82,7 @@ public class AdminBugReportController implements Initializable {
 
 
     private String getAdmin(int id){
-        for (User u : UserModel.getInstance().getAllUsers()){
+        for (User u : DataModel.getInstance().getUsers()){
             if (u.getId() == id){
                 return u.getUserName();
             }

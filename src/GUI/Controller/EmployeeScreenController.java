@@ -2,6 +2,7 @@ package GUI.Controller;
 
 import BE.*;
 import BLL.LoginManager;
+import BLL.StageShower;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;

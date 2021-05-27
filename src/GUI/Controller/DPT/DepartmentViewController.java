@@ -3,6 +3,7 @@ package GUI.Controller.DPT;
 import BE.Department;
 import BE.User;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -55,7 +56,7 @@ public class DepartmentViewController implements Initializable {
     private final HBox hBox = new HBox();
     private boolean isHidden = false;
     private final List<Node> hiddenChildren = new ArrayList<>();
-    private int dptCount = DepartmentModel.getInstance().getAllDepartments().size();
+    private int dptCount = DataModel.getInstance().getDepartments().size();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -100,7 +101,7 @@ public class DepartmentViewController implements Initializable {
         removeIcon.setOnMouseClicked((v) -> {
             if (ConfirmationDialog.createConfirmationDialog("Are you sure you want to remove this department?\n\n" +
                     "This action is not reversible")) {
-                DepartmentModel.getInstance().deleteDepartment(department);
+                DataModel.getInstance().deleteDepartment(department);
                 superAC.getChildren().clear();
             }
         });
@@ -153,8 +154,8 @@ public class DepartmentViewController implements Initializable {
             DepartmentViewController con = loader.getController();
             Department dpt = new Department("New Department" + dptCount++);
             department.addSubDepartment(dpt);
-            DepartmentModel.getInstance().addDepartment(dpt);
-            DepartmentModel.getInstance().addSubDepartment(department, dpt);
+            DataModel.getInstance().addDepartment(dpt);
+            DataModel.getInstance().addSubDepartment(department, dpt);
             con.setDepartment(dpt);
             department.setDepartmentViewController(con);
             hBox.getChildren().add(hBox.getChildren().size() - 1, pane);
@@ -178,7 +179,7 @@ public class DepartmentViewController implements Initializable {
     private void saveDPTNameChange() {
         if (ConfirmationDialog.createConfirmationDialog("Are you sure you want to save the name on this department?")) {
             department.setName(dptNameField.getText());
-            DepartmentModel.getInstance().updateDepartment(department);
+            DataModel.getInstance().updateDepartment(department);
             saveIcon.fillProperty().set(Paint.valueOf("Green"));
         }
     }

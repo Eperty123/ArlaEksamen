@@ -2,6 +2,7 @@ package GUI.Controller;
 
 import BE.Department;
 import BE.InfoboardPaneFactory;
+import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -28,7 +29,7 @@ public class InfoboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        for (Department d : DepartmentModel.getInstance().getAllDepartments()) {
+        for (Department d : DataModel.getInstance().getDepartments()) {
             if (!d.getUsers().isEmpty()) {
                 hbox.getChildren().add(InfoboardPaneFactory.createDepartmentLabel(d, hbox));
                 vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(d));
@@ -47,7 +48,7 @@ public class InfoboardController implements Initializable {
                     addToCombo(l.getText());
                     vbox.getChildren().clear();
                     for (Node n : hbox.lookupAll("#ID")) {
-                        Department department = DepartmentModel.getInstance().getDepartment(((Label) n).getText());
+                        Department department = DataModel.getInstance().getDepartment(((Label) n).getText());
                         vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(department));
                     }
                 }
@@ -68,9 +69,9 @@ public class InfoboardController implements Initializable {
     public void handleAddDepartment() {
         if (cmbAddDepartment.getValue() != null) {
             Node infoBoard = InfoboardPaneFactory.createInfoBoard(cmbAddDepartment.getValue());
-            vbox.getChildren().add(Math.min(hbox.getChildren().size(),DepartmentModel.getInstance().getAllDepartments().indexOf(cmbAddDepartment.getValue())),infoBoard);
+            vbox.getChildren().add(Math.min(hbox.getChildren().size(),DataModel.getInstance().getDepartments().indexOf(cmbAddDepartment.getValue())),infoBoard);
             Node departmentLabel = InfoboardPaneFactory.createDepartmentLabel(cmbAddDepartment.getValue(), hbox);
-            hbox.getChildren().add(Math.min(hbox.getChildren().size(),DepartmentModel.getInstance().getAllDepartments().indexOf(cmbAddDepartment.getValue())),departmentLabel);
+            hbox.getChildren().add(Math.min(hbox.getChildren().size(),DataModel.getInstance().getDepartments().indexOf(cmbAddDepartment.getValue())),departmentLabel);
             cmbAddDepartment.getItems().remove(cmbAddDepartment.getSelectionModel().getSelectedItem());
             cmbAddDepartment.getSelectionModel().select(null);
         }
@@ -78,7 +79,7 @@ public class InfoboardController implements Initializable {
 
     public void addToCombo(String departmentName) {
         if (cmbAddDepartment.getItems().stream().noneMatch(d->d.getName().equals(departmentName)))
-            cmbAddDepartment.getItems().add(DepartmentModel.getInstance().getDepartment(departmentName));
+            cmbAddDepartment.getItems().add(DataModel.getInstance().getDepartment(departmentName));
     }
 
 }

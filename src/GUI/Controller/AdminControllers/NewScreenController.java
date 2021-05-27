@@ -1,6 +1,7 @@
 package GUI.Controller.AdminControllers;
 
 import BE.ScreenBit;
+import GUI.Model.DataModel;
 import GUI.Model.ScreenModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
@@ -18,7 +19,7 @@ public class NewScreenController {
 
     public String handleContinue() {
         if (!txtScreenName.getText().isEmpty()){
-            screenModel.getAllScreenBits().add(0, new ScreenBit(txtScreenName.getText()));
+            DataModel.getInstance().getScreenBits().add(0, new ScreenBit(txtScreenName.getText()));
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();

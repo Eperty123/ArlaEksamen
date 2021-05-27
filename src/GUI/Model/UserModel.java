@@ -8,7 +8,6 @@ import BLL.UserManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +40,6 @@ public final class UserModel {
     public void addUser(User newUser, Department department) {
         if (allUsers.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
             userManager.addUser(newUser, department);
-            updateUsers();
         }
     }
 
@@ -71,7 +69,6 @@ public final class UserModel {
      */
     public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
         userManager.updateUser(oldUser, newUser, oldDepartment, newDepartment);
-        updateUsers();
     }
 
     /**

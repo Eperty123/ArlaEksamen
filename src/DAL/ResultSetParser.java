@@ -2,6 +2,7 @@ package DAL;
 
 import BE.*;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -77,5 +78,12 @@ public class ResultSetParser {
         SettingsType settingsType = SettingsType.valueOf(rs.getInt("Type"));
         String attribute = rs.getString("Attribute");
         return new Settings(settingsId, settingsType, attribute);
+    }
+
+    public int getGeneratedKey(PreparedStatement pSql) throws SQLException {
+        ResultSet generatedKeys = pSql.getGeneratedKeys();
+        generatedKeys.next();
+
+        return generatedKeys.getInt(1);
     }
 }
