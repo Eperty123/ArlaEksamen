@@ -1,11 +1,11 @@
 package GUI.Controller.AdminControllers;
 
 import BE.*;
+import BLL.StageShower;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
 import GUI.Controller.CrudControllers.RemoveEmployeeController;
 import GUI.Model.DataModel;
-import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ListChangeListener;
@@ -13,12 +13,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -102,6 +99,7 @@ public class AdminManagementController implements Initializable {
             editEmployee.setTitle("Edit Employee");
             Parent root = (Parent) loader.load();
             EditEmployeeController editEmployeeController = loader.getController();
+            editEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
 
             stageShower.showScene(editEmployee,root,sceneMover);
         }
@@ -117,6 +115,7 @@ public class AdminManagementController implements Initializable {
 
             Parent root = (Parent) loader.load();
             RemoveEmployeeController removeEmployeeController = loader.getController();
+            removeEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
             removeEmployeeStage.setTitle("Remove Employee");
 
             stageShower.showScene(removeEmployeeStage,root,sceneMover);

@@ -2,6 +2,7 @@ package GUI.Controller.HRControllers;
 
 import BE.*;
 import BLL.LoginManager;
+import BLL.StageShower;
 import GUI.Controller.DPT.DepartmentStageController;
 import GUI.Controller.InfoboardDashboardController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;

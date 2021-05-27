@@ -1,5 +1,6 @@
-package BE;
+package BLL;
 
+import BE.SceneMover;
 import BLL.LoginManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
