@@ -32,23 +32,37 @@ public class DataModel {
 
         // TODO prioritize, and make a thread for concurrent init
         userModel = UserModel.getInstance();
+
+        screenBits = FXCollections.observableArrayList();
+        departments = FXCollections.observableArrayList();
+        messages = FXCollections.observableArrayList();
+        titles = FXCollections.observableArrayList();
+        users = FXCollections.observableArrayList();
+
+        users.addAll(userModel.getAllUsers());
+
+
         screenModel = ScreenModel.getInstance();
         departmentModel = DepartmentModel.getInstance();
         messageModel = MessageModel.getInstance();
         titleModel = TitleModel.getInstance();
 
-        users = FXCollections.observableArrayList();
-        screenBits = FXCollections.observableArrayList();
-        departments = FXCollections.observableArrayList();
-        messages = FXCollections.observableArrayList();
-        titles = FXCollections.observableArrayList();
-
         // TODO use internal
-        users.addAll(userModel.getAllUsers());
-        screenBits.addAll(getScreenBits());
+
+        screenBits.addAll(screenModel.getAllScreenBits());
         departments.addAll(departmentModel.getAllDepartments());
-        messages.addAll(getMessages());
+        messages.addAll(messageModel.getAllMessages());
         titles.addAll(titleModel.getTitles());
+
+
+
+
+
+
+
+
+
+
     }
 
     public static DataModel getInstance(){
@@ -164,13 +178,13 @@ public class DataModel {
 
     private void unAssignUserFromScreens(User user) {
         screenBits.forEach(screenBit -> {
-            screenBit.getAssignedUsers().stream().filter(u -> u.getUserName().equals(user.getUserName())).forEach(u -> screenBit.getAssignedUsers().remove(user));
+            screenBit.getAssignedUsers().remove(user);
         });
     }
 
     private void deleteUserFromDepartments(User user) {
         departments.forEach(dpt -> {
-            dpt.getUsers().stream().filter(u -> u.getUserName().equals(user.getUserName())).forEach(u -> dpt.getUsers().remove(user));
+            dpt.getUsers().remove(user);
         });
     }
 

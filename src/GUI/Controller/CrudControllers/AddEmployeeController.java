@@ -84,7 +84,7 @@ public class AddEmployeeController implements Initializable {
             User newUser = new User(firstName,lastName,username,email,password,userRole.ordinal(),phone,sex,imgPath,jobTitle);
 
             // Add the new user.
-            userModel.addUser(newUser, department);
+            DataModel.getInstance().addUser(newUser, department);
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();

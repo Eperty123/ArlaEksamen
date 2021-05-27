@@ -85,7 +85,7 @@ public class AdminScreenManagementController implements Initializable {
         root.getChildren().clear();
 
         // Add all screens.
-        for (ScreenBit s : screenModel.getAllScreenBits()) {
+        for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
             handleNewScreen(s);
         }
 
@@ -215,9 +215,8 @@ public class AdminScreenManagementController implements Initializable {
 
         if (result.isPresent()) {
 
-            // Add the new screen to database. No id is assigned here. We need to RELOAD all the screens in order to
-            // get the id for it.
-            screenModel.addScreenBit(new ScreenBit(result.get(), ""));
+
+            DataModel.getInstance().addScreenBit(new ScreenBit(result.get(), ""));
 
             // Reload all screens. Can be optimized further using thread to not halt the gui.
             loadAllScreens();
@@ -248,7 +247,7 @@ public class AdminScreenManagementController implements Initializable {
         Optional<Boolean> result = confirmationDialog.showAndWait();
         if (result.isPresent()) {
             if (result.get()) {
-                screenModel.deleteScreenBit(screenBit);
+                DataModel.getInstance().deleteScreenBit(screenBit);
                 removeScreenNode(screenBit);
             }
         }

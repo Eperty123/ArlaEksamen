@@ -68,8 +68,14 @@ public class EditScreenController implements Initializable {
 
 
     public void handleSave(ActionEvent actionEvent) {
-        DataModel.getInstance().removeScreenBitRights(usersToDelete, screenBit);
-        DataModel.getInstance().assignScreenBitRights(usersToAdd, screenBit);
+        if(usersToDelete != null){
+            DataModel.getInstance().removeScreenBitRights(usersToDelete, screenBit);
+        }
+        if(usersToAdd != null){
+            DataModel.getInstance().assignScreenBitRights(usersToAdd, screenBit);
+        }
+
+
 
         setData(DataModel.getInstance().getUsers());
         Stage stage = (Stage) borderPane.getScene().getWindow();

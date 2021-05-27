@@ -22,7 +22,7 @@ public class JonasTest {
         DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
 
         List<User> users = DataModel.getInstance().getUsers();
-        List<ScreenBit> screenBits = ScreenModel.getInstance().getAllScreenBits();
+        List<ScreenBit> screenBits = DataModel.getInstance().getScreenBits();
         List<Department> departments = departmentDAL.getDepartments();
 
 

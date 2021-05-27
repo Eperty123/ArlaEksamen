@@ -6,6 +6,7 @@ import BE.UserType;
 import BLL.PasswordManager;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.BugModel;
+import GUI.Model.DataModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;

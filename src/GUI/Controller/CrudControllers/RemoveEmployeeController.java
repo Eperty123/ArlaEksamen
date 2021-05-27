@@ -31,6 +31,7 @@ public class RemoveEmployeeController {
 
         DataModel.getInstance().deleteUser(user);
 
+
         Stage stage = (Stage) root.getScene().getWindow();
         stage.close();
     }

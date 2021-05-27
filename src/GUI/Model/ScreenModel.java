@@ -65,7 +65,7 @@ public final class ScreenModel {
      */
     public void deleteScreenBit(ScreenBit screenBit) {
         screenManager.deleteScreenBit(screenBit);
-        updateScreenBits();
+
     }
 
     /**
@@ -110,36 +110,6 @@ public final class ScreenModel {
     public void removeScreenBitRights(List<User> users, ScreenBit screenBit) {
         screenManager.removeScreenBitRights(users, screenBit);
 
-    }
-
-    /**
-     * Get the ScreenBit specified by an id.
-     *
-     * @param screenId The id of the ScreenBit to get.
-     * @return Returns the found ScreenBit.
-     */
-    public ScreenBit getScreen(int screenId) {
-        for (int i = 0; i < allScreenBits.size(); i++) {
-            ScreenBit screen = allScreenBits.get(i);
-            if (screen.getId() == screenId)
-                return screen;
-        }
-        return null;
-    }
-
-    /**
-     * Get the ScreenBit specified by a name.
-     *
-     * @param screenName The name of the ScreenBit.
-     * @return Returns the found ScreenBit.
-     */
-    public ScreenBit getScreen(String screenName) {
-        for (int i = 0; i < allScreenBits.size(); i++) {
-            ScreenBit screen = allScreenBits.get(i);
-            if (screen.getName().equals(screenName))
-                return screen;
-        }
-        return null;
     }
 
     /**

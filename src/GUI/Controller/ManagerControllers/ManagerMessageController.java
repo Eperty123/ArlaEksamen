@@ -151,7 +151,7 @@ public class ManagerMessageController implements Initializable {
         screenContainer.getChildren().clear();
         currentUser = LoginManager.getCurrentUser();
         if (currentUser.getUserRole() == UserType.Admin) {
-            for (ScreenBit s : ScreenModel.getInstance().getAllScreenBits()) {
+            for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
                 makeScreen(s);
             }
         } else {
@@ -318,7 +318,7 @@ public class ManagerMessageController implements Initializable {
     private void handleSelectAll() {
         isAllSelected = !isAllSelected;
 
-        for (ScreenBit s : ScreenModel.getInstance().getAllScreenBits()) {
+        for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
             if (isAllSelected) {
                 btnSelectAll.setText("Deselect All");
                 if (!selectedScreens.contains(s)) {
