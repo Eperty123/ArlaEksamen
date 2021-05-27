@@ -99,6 +99,7 @@ public class AdminManagementController implements Initializable {
             editEmployee.setTitle("Edit Employee");
             Parent root = (Parent) loader.load();
             EditEmployeeController editEmployeeController = loader.getController();
+            editEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
 
             stageShower.showScene(editEmployee,root,sceneMover);
         }
@@ -114,6 +115,7 @@ public class AdminManagementController implements Initializable {
 
             Parent root = (Parent) loader.load();
             RemoveEmployeeController removeEmployeeController = loader.getController();
+            removeEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
             removeEmployeeStage.setTitle("Remove Employee");
 
             stageShower.showScene(removeEmployeeStage,root,sceneMover);
