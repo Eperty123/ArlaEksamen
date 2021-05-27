@@ -2,7 +2,7 @@ package GUI.Controller.AdminControllers;
 
 import BE.SceneMover;
 import BE.ScreenBit;
-import BE.StageShower;
+import BLL.StageShower;
 import BE.User;
 import GUI.Controller.HRControllers.HRDepartmentController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
@@ -20,11 +20,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -33,7 +31,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;

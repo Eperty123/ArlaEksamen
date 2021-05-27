@@ -2,7 +2,7 @@ package GUI.Controller.AdminControllers;
 
 import BE.Bug;
 import BE.SceneMover;
-import BE.StageShower;
+import BLL.StageShower;
 import BE.User;
 import GUI.Controller.CrudControllers.EditBugController;
 import GUI.Controller.PopupControllers.ConfirmBugController;
