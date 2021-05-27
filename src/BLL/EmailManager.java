@@ -133,8 +133,13 @@ public class EmailManager {
             message.setFrom(new InternetAddress(email.getSender()));
 
             // Set To: header field of the header.
+            StringBuilder hiddenCheck = new StringBuilder(email.getRecipient());
+
+            if (hiddenCheck.toString().startsWith("@")){
+                hiddenCheck.deleteCharAt(0);
+            }
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(email.getRecipient()));
+                    InternetAddress.parse(hiddenCheck.toString()));
 
             // Set Subject: header field
             message.setSubject(email.getSubject());

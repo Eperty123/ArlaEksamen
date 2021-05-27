@@ -27,8 +27,6 @@ public class SettingsController implements Initializable {
     private JFXTextField txtEmployeeCard;
     @FXML
     private JFXTextField txtPasswordTimeout;
-    @FXML
-    private JFXComboBox<String> cmbTimeFormat;
 
     private SettingsModel settingsModel = SettingsModel.getInstance();
 
@@ -77,7 +75,6 @@ public class SettingsController implements Initializable {
         switch (settingsType) {
             case MESSAGE_CHECK_FREQUENCY -> result = txtMessageUpdate.getText();
             case CARD_OPEN_DURATION -> result = txtEmployeeCard.getText();
-            case TIME_FORMAT -> result = cmbTimeFormat.getSelectionModel().getSelectedItem();
             case WRONG_PASS_FREEZE_DURATION -> result = txtPasswordTimeout.getText();
         }
         return (result == null || result.isEmpty()) ? "" : result;
@@ -92,7 +89,6 @@ public class SettingsController implements Initializable {
         switch (settings.getType()) {
             case MESSAGE_CHECK_FREQUENCY -> txtMessageUpdate.setText(settings.getAttribute());
             case CARD_OPEN_DURATION -> txtEmployeeCard.setText(settings.getAttribute());
-            case TIME_FORMAT -> cmbTimeFormat.getSelectionModel().select(settings.getAttribute());
             case WRONG_PASS_FREEZE_DURATION -> txtPasswordTimeout.setText(settings.getAttribute());
         }
     }
@@ -118,9 +114,6 @@ public class SettingsController implements Initializable {
 
         if (settingsModel.getSettingByType(SettingsType.CARD_OPEN_DURATION) == null)
             settingsModel.addSetting(new Settings(SettingsType.CARD_OPEN_DURATION, getValueForSettingsType(SettingsType.CARD_OPEN_DURATION)));
-
-        if (settingsModel.getSettingByType(SettingsType.TIME_FORMAT) == null)
-            settingsModel.addSetting(new Settings(SettingsType.TIME_FORMAT, getValueForSettingsType(SettingsType.TIME_FORMAT)));
 
         if (settingsModel.getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION) == null)
             settingsModel.addSetting(new Settings(SettingsType.WRONG_PASS_FREEZE_DURATION, getValueForSettingsType(SettingsType.WRONG_PASS_FREEZE_DURATION)));

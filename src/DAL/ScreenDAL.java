@@ -136,13 +136,13 @@ public class ScreenDAL {
     }
 
     // TODO javadoc jonas
-    private void createScreenBitTimeTable(Connection con, int screenId) {
+    public void createScreenBitTimeTable(Connection con, int screenId) {
 
         try {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO ScreenTime VALUES(?,?,?)");
 
             // Creates 48 time slots of 30 minutes pr. day, one year forward from current date.
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < 14; i++) {
                 for (int j = 0; j < 48; j++) {
                     pSql.setInt(1, screenId);
                     pSql.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(LocalDate.now().plusDays(i), LocalTime.ofSecondOfDay(j * 1800))));

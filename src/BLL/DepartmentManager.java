@@ -2,6 +2,7 @@ package BLL;
 
 import BE.Department;
 import DAL.DepartmentDAL;
+import GUI.Model.DepartmentModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -16,12 +17,18 @@ public class DepartmentManager {
         departmentList.setAll(departmentDAL.getDepartments());
     }
 
-    public Department getSuperDepartment() {
+    public List<Department> getSuperDepartment() {
         ObservableList<Department> tmp = FXCollections.observableArrayList(departmentList);
         departmentList.forEach(d -> {
             d.getSubDepartments().forEach(sd -> tmp.remove(sd));
         });
-        return tmp.get(0);
+        if(departmentList.isEmpty())
+        {
+            Department newDepartment = new Department("new Department1");
+            addDepartment(newDepartment);
+            tmp.add(newDepartment);
+        }
+        return tmp;
     }
 
     public ObservableList<Department> getAllDepartments() {

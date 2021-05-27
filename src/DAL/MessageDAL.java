@@ -4,6 +4,7 @@ import BE.Message;
 import BE.MessageType;
 import BE.ScreenBit;
 import BE.User;
+import BLL.TimeSlotCalculator;
 import DAL.DbConnector.DbConnectionHandler;
 import GUI.Controller.PopupControllers.WarningController;
 import javafx.scene.paint.Color;
@@ -205,24 +206,12 @@ public class MessageDAL {
      * @return list of time slots to book.
      */
     private List<LocalDateTime> getSlots(Message newMessage) {
-        LocalDateTime start = newMessage.getMessageStartTime();
-        LocalDateTime end = newMessage.getMessageEndTime();
         List<LocalDateTime> timeSlots = new ArrayList<>();
-
-        // Determine how many 30 minute time slots the LocalDateTime's represent.
-        // 14:30 would represent 29 slots for instance.
-        int endb = (end.getHour() * 2) + (end.getMinute()== 0 ? 0 : 1);
-        int startb = (start.getHour() * 2) + (start.getMinute()== 0 ? 0 : 1);
-
-        // If the message's end time is on a different day than the start time, the time slots are adjusted accordingly.
-        if(end.getDayOfMonth() > start.getDayOfMonth()){
-            endb += 48 * (end.getDayOfMonth() - start.getDayOfMonth());
-        }
-        int slotCount = endb - startb;
+        int slotCount = TimeSlotCalculator.calculateTimeSlots(newMessage);
 
         // Adding LocalDateTime objects with 30 minute increments (appropriate for the ScreenBit's time table.
         for(int i = 0; i < slotCount; i++){
-            timeSlots.add(start.plusMinutes(i * 30));
+            timeSlots.add(newMessage.getMessageStartTime().plusMinutes(i * 30));
         }
         return timeSlots;
     }

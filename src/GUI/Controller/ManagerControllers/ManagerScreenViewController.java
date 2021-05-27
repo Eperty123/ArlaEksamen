@@ -62,7 +62,7 @@ public class ManagerScreenViewController implements Initializable {
         comboScreens.getItems().addAll(currentUser.getAssignedScreenBits());
     }
 
-    public void init(ScreenBit screenBit) throws Exception {
+    public void init(ScreenBit screenBit) {
         if (!currentUser.getAssignedScreenBits().isEmpty()) {
             if (currentUser.getAssignedScreenBits().size() == 1) {
                 try {
@@ -74,14 +74,21 @@ public class ManagerScreenViewController implements Initializable {
                     e.printStackTrace();
                 }
             } else {
+
+
                 ScreenBit s = screenBit;
                 comboScreens.getSelectionModel().select(s);
                 lblBar.setText("Manager Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
-                setScreen(s);
-                selectedScreen = s;
-                MessageModel.getInstance().loadScreenBitsMessages(selectedScreen);
+                try {
+                    setScreen(s);
+                    selectedScreen = s;
+                    MessageModel.getInstance().loadScreenBitsMessages(selectedScreen);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         } else {
             try {
                 displayNoScreenWarning();

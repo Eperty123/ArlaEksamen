@@ -1,6 +1,7 @@
 package BE;
 
 import BLL.MessageSorter;
+import BLL.TimeSlotCalculator;
 import javafx.scene.layout.Pane;
 
 import java.time.LocalDateTime;
@@ -206,17 +207,7 @@ public class ScreenBit {
      */
     public boolean isAvailable(LocalDateTime startTime, LocalDateTime endTime){
 
-        // Determine how many 30 minute time slots the LocalDateTime's represent.
-        // 14:30 would represent 29 slots for instance.
-        int endb = (endTime.getHour() * 2) + (endTime.getMinute()== 0 ? 0 : 1);
-        int startb = (startTime.getHour() * 2) + (startTime.getMinute()== 0 ? 0 : 1);
-
-        // If the message's end time is on a different day than the start time, the time slots are adjusted accordingly.
-        if(endTime.getDayOfMonth() > startTime.getDayOfMonth()){
-            endb += 48 * (endTime.getDayOfMonth() - startTime.getDayOfMonth());
-        }
-        int slotCount = endb - startb;
-
+        int slotCount = TimeSlotCalculator.calculateTimeSlots(startTime, endTime);
 
         // timeTable is a HashMap with a LocalDateTime object as key, and a boolean as value.
         // If a time slot is booked, the boolean is set to false.
