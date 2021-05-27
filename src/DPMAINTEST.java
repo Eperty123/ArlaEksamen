@@ -30,7 +30,8 @@ public class DPMAINTEST extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
-        con2.addChildrenNode(departmentManager.getSuperDepartment());
+        for(Department department:departmentManager.getSuperDepartment())
+        con2.addChildrenNode(department);
 
         Button b = new Button("Save");
         con2.getChildrenNodes().add(b);
