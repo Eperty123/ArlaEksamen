@@ -3,30 +3,23 @@ package GUI.Controller.HRControllers;
 import BE.*;
 import BLL.LoginManager;
 import GUI.Controller.DPT.DepartmentStageController;
-import GUI.Controller.DPT.DepartmentViewController;
 import GUI.Controller.InfoboardDashboardController;
-import GUI.Controller.ManagerControllers.ManagerMessageController;
-import GUI.Controller.ManagerControllers.ManagerScreenViewController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXButton;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -89,6 +82,7 @@ public class HRDashboardController implements Initializable {
             if (confirm) {
                 con2.getDepartmentViewControllers().forEach(vc -> {
                     vc.getRemoveIcon().setDisable(true);
+                    vc.getRemoveIcon().setVisible(false);
                     vc.getAllSubDepartments().forEach(item -> {
                         List<User> users = new ArrayList<>(item.getUsers());
                         users.removeIf(u -> u.getUserName().isEmpty() || u.getUserRole() != UserType.Admin);
