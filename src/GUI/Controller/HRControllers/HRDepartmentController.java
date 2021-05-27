@@ -55,6 +55,10 @@ public class HRDepartmentController implements Initializable {
     }
 
     private void autofitSize() {
+        handleAutofitSize(flowpane, scrollPane);
+    }
+
+    public static void handleAutofitSize(FlowPane flowpane, ScrollPane scrollPane) {
         flowpane.setPrefWrapLength(scrollPane.getWidth());
         scrollPane.widthProperty().addListener((observable, t, t1) -> {
             flowpane.setPrefWidth(t1.doubleValue());

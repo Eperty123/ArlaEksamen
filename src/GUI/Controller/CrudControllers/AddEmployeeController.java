@@ -135,6 +135,11 @@ public class AddEmployeeController implements Initializable {
     }
 
     public void handleSelectImage() {
+        handleFileChooser(image);
+
+    }
+
+    static void handleFileChooser(ImageView image) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Open Resource File");
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
@@ -144,6 +149,5 @@ public class AddEmployeeController implements Initializable {
             Image selectedImage = new Image(selectedFile.toURI().toString());
             image.setImage(selectedImage);
         }
-
     }
 }

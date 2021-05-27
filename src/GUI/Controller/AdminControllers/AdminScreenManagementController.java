@@ -2,7 +2,9 @@ package GUI.Controller.AdminControllers;
 
 import BE.SceneMover;
 import BE.ScreenBit;
+import BE.StageShower;
 import BE.User;
+import GUI.Controller.HRControllers.HRDepartmentController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.ScreenModel;
@@ -52,6 +54,7 @@ public class AdminScreenManagementController implements Initializable {
     private Node createBtnNode;
 
     private final List<User> userList = userModel.getAllUsers();
+    private final StageShower stageShower = new StageShower();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,18 +76,7 @@ public class AdminScreenManagementController implements Initializable {
     }
 
     private void autofitSize() {
-        root.setPrefWrapLength(scrollPane.getWidth());
-        scrollPane.widthProperty().addListener((observable, t, t1) -> {
-            root.setPrefWidth(t1.doubleValue());
-            root.setMaxWidth(t1.doubleValue());
-            root.setMinWidth(t1.doubleValue());
-            root.setPrefWrapLength(t1.doubleValue());
-        });
-        scrollPane.heightProperty().addListener(((observableValue, number, t1) -> {
-            root.setMaxHeight(t1.doubleValue());
-            root.setMinHeight(t1.doubleValue());
-            root.setPrefHeight(t1.doubleValue());
-        }));
+        HRDepartmentController.handleAutofitSize(root, scrollPane);
     }
 
     /**
@@ -211,21 +203,10 @@ public class AdminScreenManagementController implements Initializable {
 
         pickerDashboardController.setTitle(screenBit.getName());
         pickerDashboardController.init(screenBit);
-        Scene pickerScene = new Scene(root);
 
         BorderPane borderPane = (BorderPane) root.getChildren().get(0);
         Node bar = borderPane.getTop();
-        sceneMover.move(pickerDashboard, bar);
-
-        pickerDashboard.getIcons().addAll(
-                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-        pickerDashboard.initStyle(StageStyle.UNDECORATED);
-        pickerDashboard.setScene(pickerScene);
-        pickerDashboard.show();
+        stageShower.showScene(pickerDashboard,root,sceneMover,bar);
     }
 
 
@@ -257,19 +238,8 @@ public class AdminScreenManagementController implements Initializable {
         editScreenController.setData(userList);
 
         Node bar = root.getChildrenUnmodifiable().get(0);
-        Scene editScreenScene = new Scene(root);
-        sceneMover.move(editScreenStage, bar);
-        //applyScreenDrag(editScreenStage, editScreenScene);
 
-        editScreenStage.getIcons().addAll(
-                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-        editScreenStage.initStyle(StageStyle.UNDECORATED);
-        editScreenStage.setScene(editScreenScene);
-        editScreenStage.show();
+        stageShower.showScene(editScreenStage, root, sceneMover, bar);
     }
 
     private void handleRemove(ScreenBit screenBit) throws IOException {

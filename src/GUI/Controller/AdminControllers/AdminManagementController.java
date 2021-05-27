@@ -33,6 +33,7 @@ public class AdminManagementController implements Initializable {
 
     private final UserModel userModel = UserModel.getInstance();
     private final SceneMover sceneMover = new SceneMover();
+    private final StageShower stageShower = new StageShower();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -88,18 +89,7 @@ public class AdminManagementController implements Initializable {
         Parent root = (Parent) loader.load();
         AddEmployeeController addEmployeeController = loader.getController();
 
-        Scene addEmployeeScene = new Scene(root);
-        sceneMover.move(addEmployee, addEmployeeScene.getRoot());
-
-        addEmployee.getIcons().addAll(
-                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-        addEmployee.initStyle(StageStyle.UNDECORATED);
-        addEmployee.setScene(addEmployeeScene);
-        addEmployee.show();
+        stageShower.showScene(addEmployee, root, sceneMover);
     }
 
 
@@ -112,19 +102,7 @@ public class AdminManagementController implements Initializable {
             Parent root = (Parent) loader.load();
             EditEmployeeController editEmployeeController = loader.getController();
 
-            Scene editEmployeeScene = new Scene(root);
-            sceneMover.move(editEmployee, editEmployeeScene.getRoot());
-
-            editEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
-            editEmployee.getIcons().addAll(
-                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-            editEmployee.initStyle(StageStyle.UNDECORATED);
-            editEmployee.setScene(editEmployeeScene);
-            editEmployee.show();
+            stageShower.showScene(editEmployee,root,sceneMover);
         }
     }
 
@@ -140,20 +118,7 @@ public class AdminManagementController implements Initializable {
             RemoveEmployeeController removeEmployeeController = loader.getController();
             removeEmployeeStage.setTitle("Remove Employee");
 
-            Scene removeEmployeeScene = new Scene(root);
-            sceneMover.move(removeEmployeeStage, removeEmployeeScene.getRoot());
-
-            removeEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
-
-            removeEmployeeStage.getIcons().addAll(
-                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-            removeEmployeeStage.initStyle(StageStyle.UNDECORATED);
-            removeEmployeeStage.setScene(removeEmployeeScene);
-            removeEmployeeStage.show();
+            stageShower.showScene(removeEmployeeStage,root,sceneMover);
         }
     }
 }

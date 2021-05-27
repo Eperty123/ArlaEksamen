@@ -2,6 +2,7 @@ package GUI.Controller.AdminControllers;
 
 import BE.Bug;
 import BE.SceneMover;
+import BE.StageShower;
 import BE.User;
 import GUI.Controller.CrudControllers.EditBugController;
 import GUI.Controller.PopupControllers.ConfirmBugController;
@@ -43,6 +44,7 @@ public class AdminBugReportController implements Initializable {
     private final BugModel bugModel = BugModel.getInstance();
     private final SceneMover sceneMover = new SceneMover();
     private final ObservableList<Bug> bugs = bugModel.getAllBugs();
+    private final StageShower stageShower = new StageShower();
 
 
     @Override
@@ -138,24 +140,14 @@ public class AdminBugReportController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/GUI/VIEW/PopUpViews/ConfirmBug.fxml"));
             fixBug.setTitle("Fix Bug");
-            Parent root = (Parent) loader.load();
+            Parent root = loader.load();
             ConfirmBugController bugFixController = loader.getController();
             bugFixController.setSelectedBug(tblBugs.getSelectionModel().getSelectedItem());
 
-            Scene fixBugScene = new Scene(root);
-            sceneMover.move(fixBug, fixBugScene.getRoot());
-
-            fixBug.getIcons().addAll(
-                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-            fixBug.initStyle(StageStyle.UNDECORATED);
-            fixBug.setScene(fixBugScene);
-            fixBug.show();
+            stageShower.showScene(fixBug, root, sceneMover,root);
         }
     }
+
 
     /**
      * handles clicking the edit bug icon.
@@ -167,23 +159,12 @@ public class AdminBugReportController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/EditBug.fxml"));
             editBug.setTitle("Edit Bug");
-            Parent root = (Parent) loader.load();
+            Parent root = loader.load();
             EditBugController editBugController = loader.getController();
-
-            Scene editBugScene = new Scene(root);
-            sceneMover.move(editBug, editBugScene.getRoot());
 
             editBugController.setData(tblBugs.getSelectionModel().getSelectedItem());
 
-            editBug.getIcons().addAll(
-                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-            editBug.initStyle(StageStyle.UNDECORATED);
-            editBug.setScene(editBugScene);
-            editBug.show();
+           stageShower.showScene(editBug,root,sceneMover);
         }
     }
 }
