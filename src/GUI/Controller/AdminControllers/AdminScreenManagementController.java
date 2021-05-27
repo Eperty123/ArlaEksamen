@@ -45,6 +45,8 @@ public class AdminScreenManagementController implements Initializable {
     private ScrollPane scrollPane;
     @FXML
     private FlowPane root;
+    @FXML
+    private MaterialDesignIconView plus;
 
     private final SceneMover sceneMover = new SceneMover();
     private final ScreenModel screenModel = ScreenModel.getInstance();
@@ -58,6 +60,7 @@ public class AdminScreenManagementController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Get the hardcoded create screen button when not assigned yet.
         if (createBtnNode == null) createBtnNode = root.getChildren().get(0);
+        plus.setMouseTransparent(true);
         loadAllScreens();
         autofitSize();
     }
