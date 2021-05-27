@@ -52,6 +52,8 @@ public class SuperModel {
         return instance == null ? instance = new SuperModel() : instance;
     }
 
+    // _____ Title _____
+
     public void addTitle(String title){
         if(!titles.contains(title)){
             titleModel.addTitle(title);
@@ -70,7 +72,18 @@ public class SuperModel {
         titleModel.updateTitle(oldTitle, newTitle);
         titles.remove(oldTitle);
         titles.add(newTitle);
+        // TODO update users' titles
     }
+
+    public ObservableList<String> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(ObservableList<String> titles) {
+        this.titles = titles;
+    }
+
+    // _____ User _____
 
     public void addUser(User newUser, Department department) {
         if (users.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
@@ -81,6 +94,7 @@ public class SuperModel {
     }
 
     public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
+        // TODO check if only user is updated, or department also changed
         userModel.updateUser(oldUser, newUser, oldDepartment, newDepartment);
         users.remove(oldUser);
         users.add(newUser);
@@ -90,11 +104,12 @@ public class SuperModel {
     public void deleteUser(User user) {
         userModel.deleteUser(user);
         users.remove(user);
+        // TODO delete from department
+        // TODO unassign from screen
     }
 
     public User getUser(int userId) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
+        for (User user : users) {
             if (user.getId() == userId)
                 return user;
         }
@@ -102,8 +117,7 @@ public class SuperModel {
     }
 
     public User getUser(String userName) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
+        for (User user : users) {
             if (user.getUserName().equals(userName))
                 return user;
         }
@@ -111,8 +125,7 @@ public class SuperModel {
     }
 
     public User getUser(String firstName, String lastName) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
+        for (User user : users) {
             if (user.getUserName().equals(firstName) && user.getLastName().equals(lastName))
                 return user;
         }
@@ -121,8 +134,7 @@ public class SuperModel {
 
     public List<User> getAllUsersByRole(UserType role) {
         var filteredUsers = new ArrayList<User>();
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
+        for (User user : users) {
             if (user.getUserRole().equals(role))
                 filteredUsers.add(user);
         }
@@ -138,6 +150,16 @@ public class SuperModel {
         this.users = users;
     }
 
+    // _____ ScreenBits _____
+
+    public void addScreenBit(ScreenBit newScreenBit) {
+        // Not sure if this still return false with ! in it.
+        if (!screenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
+            ScreenModel.getInstance().addScreenBit(newScreenBit);
+            screenBits.add(newScreenBit);
+        }
+    }
+
     public ObservableList<ScreenBit> getScreenBits() {
         return screenBits;
     }
@@ -145,6 +167,8 @@ public class SuperModel {
     public void setScreenBits(ObservableList<ScreenBit> screenBits) {
         this.screenBits = screenBits;
     }
+
+    // _____ Departments _____
 
     public ObservableList<Department> getDepartments() {
         return departments;
@@ -154,6 +178,8 @@ public class SuperModel {
         this.departments = departments;
     }
 
+    // _____ Messages _____
+
     public ObservableList<Message> getMessages() {
         return messages;
     }
@@ -162,11 +188,5 @@ public class SuperModel {
         this.messages = messages;
     }
 
-    public ObservableList<String> getTitles() {
-        return titles;
-    }
 
-    public void setTitles(ObservableList<String> titles) {
-        this.titles = titles;
-    }
 }
