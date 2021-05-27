@@ -51,12 +51,7 @@ public class InfoboardController implements Initializable {
                         vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(department));
                     }
                 }
-
-                if (c.wasAdded()) {
-                    cmbAddDepartment.getSelectionModel().clearSelection();
-                }
             }
-
         });
 
 
@@ -72,14 +67,17 @@ public class InfoboardController implements Initializable {
   
     public void handleAddDepartment() {
         if (cmbAddDepartment.getValue() != null) {
-            vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(cmbAddDepartment.getValue()));
-            hbox.getChildren().add(InfoboardPaneFactory.createDepartmentLabel(cmbAddDepartment.getValue(), hbox));
-            cmbAddDepartment.getItems().remove(cmbAddDepartment.getValue());
+            Node infoBoard = InfoboardPaneFactory.createInfoBoard(cmbAddDepartment.getValue());
+            vbox.getChildren().add(Math.min(hbox.getChildren().size(),DepartmentModel.getInstance().getAllDepartments().indexOf(cmbAddDepartment.getValue())),infoBoard);
+            Node departmentLabel = InfoboardPaneFactory.createDepartmentLabel(cmbAddDepartment.getValue(), hbox);
+            hbox.getChildren().add(Math.min(hbox.getChildren().size(),DepartmentModel.getInstance().getAllDepartments().indexOf(cmbAddDepartment.getValue())),departmentLabel);
+            cmbAddDepartment.getItems().remove(cmbAddDepartment.getSelectionModel().getSelectedItem());
+            cmbAddDepartment.getSelectionModel().select(null);
         }
     }
 
     public void addToCombo(String departmentName) {
-        if (!cmbAddDepartment.getItems().contains(departmentName))
+        if (cmbAddDepartment.getItems().stream().noneMatch(d->d.getName().equals(departmentName)))
             cmbAddDepartment.getItems().add(DepartmentModel.getInstance().getDepartment(departmentName));
     }
 
