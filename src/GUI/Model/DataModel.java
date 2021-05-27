@@ -16,12 +16,14 @@ public class DataModel {
     private DepartmentModel departmentModel;
     private MessageModel messageModel;
     private TitleModel titleModel;
+    private BugModel bugModel;
 
     private ObservableList<User> users;
     private ObservableList<ScreenBit> screenBits;
     private ObservableList<Department> departments;
-    private ObservableList<Message> messages; // TODO maybe change to currentUsersMessages?
+    private ObservableList<Message> messages;
     private ObservableList<String> titles;
+    private ObservableList<Bug> bugs;
 
 
     private DataModel(){
@@ -30,39 +32,26 @@ public class DataModel {
 
     private void initialize() {
 
-        // TODO prioritize, and make a thread for concurrent init
+        departmentModel = DepartmentModel.getInstance();
+        messageModel = MessageModel.getInstance();
+        screenModel = ScreenModel.getInstance();
+        titleModel = TitleModel.getInstance();
         userModel = UserModel.getInstance();
+        bugModel = BugModel.getInstance();
 
-        screenBits = FXCollections.observableArrayList();
         departments = FXCollections.observableArrayList();
+        screenBits = FXCollections.observableArrayList();
         messages = FXCollections.observableArrayList();
         titles = FXCollections.observableArrayList();
         users = FXCollections.observableArrayList();
+        bugs = FXCollections.observableArrayList();
 
-        users.addAll(userModel.getAllUsers());
-
-
-        screenModel = ScreenModel.getInstance();
-        departmentModel = DepartmentModel.getInstance();
-        messageModel = MessageModel.getInstance();
-        titleModel = TitleModel.getInstance();
-
-        // TODO use internal
-
-        screenBits.addAll(screenModel.getAllScreenBits());
         departments.addAll(departmentModel.getAllDepartments());
+        screenBits.addAll(screenModel.getAllScreenBits());
         messages.addAll(messageModel.getAllMessages());
         titles.addAll(titleModel.getTitles());
-
-
-
-
-
-
-
-
-
-
+        users.addAll(userModel.getAllUsers());
+        bugs.addAll(bugModel.getAllBugs());
     }
 
     public static DataModel getInstance(){
@@ -425,6 +414,37 @@ public class DataModel {
 
     public void loadScreenBitsMessages(ScreenBit screen) {
         messageModel.loadScreenBitsMessages(screen);
+    }
+
+    // _____ Bugs _____
+
+    public void addBug(Bug newBug) {
+        bugModel.addBug(newBug);
+    }
+
+    public void updateBug(Bug oldBug, Bug newBug) {
+        bugModel.updateBug(oldBug, newBug);
+        bugs.remove(oldBug);
+        bugs.add(newBug);
+    }
+
+    public void deleteBug(Bug bug) {
+        bugModel.deleteBug(bug);
+        bugs.remove(bug);
+    }
+
+    public ObservableList<Bug> getAllBugs() {
+        return bugs;
+    }
+
+    public ObservableList<Bug> getAllUnresolvedBugs() {
+        ObservableList<Bug> unresolvedBugs = FXCollections.observableArrayList();
+        for(Bug b : bugs){
+            if(!b.isBugResolved()){
+                unresolvedBugs.add(b);
+            }
+        }
+        return unresolvedBugs;
     }
 
 }

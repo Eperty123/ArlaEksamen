@@ -202,7 +202,7 @@ public class ManagerScreenViewController implements Initializable {
                 Bug newBug = new Bug(result.get(), Timestamp.valueOf(LocalDateTime.now()).toString());
                 newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
-                BugModel.getInstance().addBug(newBug);
+                DataModel.getInstance().addBug(newBug);
 
                 //TODO uncheck
 

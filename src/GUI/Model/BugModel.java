@@ -39,7 +39,6 @@ public class BugModel {
      */
     public void addBug(Bug newBug) {
         bugManager.addBug(newBug);
-        updateAllBugs();
     }
 
 
@@ -70,7 +69,6 @@ public class BugModel {
      */
     public void updateBug(Bug oldBug, Bug newBug) {
         bugManager.updateBug(oldBug, newBug);
-        updateAllBugs();
     }
 
     /**
@@ -90,7 +88,6 @@ public class BugModel {
 
         // Now set the unresolved bug ObservableList.
         unresolvedBugs.setAll(_unresolvedBugs);
-        //System.out.println(String.format("Added unresolved bug: %s", unresolvedBugs.size()));
 
     }
 
@@ -101,7 +98,6 @@ public class BugModel {
      */
     public void deleteBug(Bug bug) {
         bugManager.deleteBug(bug);
-        updateAllBugs();
     }
 
 

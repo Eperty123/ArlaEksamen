@@ -28,6 +28,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -44,7 +45,7 @@ public class AdminBugReportController implements Initializable {
 
     private final BugModel bugModel = BugModel.getInstance();
     private final SceneMover sceneMover = new SceneMover();
-    private final ObservableList<Bug> bugs = bugModel.getAllBugs();
+    private final ObservableList<Bug> bugs = DataModel.getInstance().getAllBugs();
     private final StageShower stageShower = new StageShower();
 
 
@@ -94,7 +95,7 @@ public class AdminBugReportController implements Initializable {
      * Handle any incoming changes to the Bug ObservableList and update the table.
      */
     private void handleBugUpdate() {
-        bugModel.getAllBugs().addListener((ListChangeListener<Bug>) c -> {
+        DataModel.getInstance().getAllBugs().addListener((ListChangeListener<Bug>) c -> {
             ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
             allUnresolvedBugs.addAll(bugs);
             allUnresolvedBugs.removeIf(Bug::isBugResolved);

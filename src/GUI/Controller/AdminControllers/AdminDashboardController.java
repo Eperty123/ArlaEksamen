@@ -86,7 +86,7 @@ public class AdminDashboardController implements Initializable {
      * Handle any new incoming bug reports.
      */
     private void handleBugReportUpdate() {
-        bugModel.getAllUnresolvedBugs().addListener((ListChangeListener<Bug>) c -> {
+        DataModel.getInstance().getAllUnresolvedBugs().addListener((ListChangeListener<Bug>) c -> {
 
             if (c.getList().size() > 0) {
                 String properContext = c.getList().size() > 1 ? "reports" : "report";
