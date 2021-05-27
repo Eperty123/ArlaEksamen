@@ -66,6 +66,9 @@ public class AdminDashboardController implements Initializable {
 
         try {
             handleUserManagement();
+
+            // Update the bug model to get the snackbar to pop up.
+            bugModel.updateAllBugs();
         } catch (IOException e) {
             e.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to load the admins user management view." +
@@ -119,7 +122,7 @@ public class AdminDashboardController implements Initializable {
         borderPane.setCenter(fxmlLoader.load());
     }
 
-    public void handleSettings(){
+    public void handleSettings() {
         SettingsController.openSettings();
     }
 
