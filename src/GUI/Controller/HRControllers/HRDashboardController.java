@@ -77,7 +77,8 @@ public class HRDashboardController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
-        con2.addChildrenNode(DepartmentModel.getInstance().getSuperDepartment());
+        for(Department department : DepartmentModel.getInstance().getSuperDepartment())
+        con2.addChildrenNode(department);
         JFXButton b = new JFXButton("Save");
         con2.getChildrenNodes().add(b);
 
