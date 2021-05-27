@@ -86,7 +86,7 @@ public class ManagerScreenViewController implements Initializable {
                     Optional<ScreenBit> results = selectDialog.showAndWait();
 
                     if (results.isPresent()) {
-                        ScreenBit s = results.get();
+                        s = results.get();
                         comboScreens.getSelectionModel().select(s);
                         lblBar.setText("Manager Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
