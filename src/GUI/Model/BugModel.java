@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class BugModel {
@@ -78,7 +79,7 @@ public class BugModel {
     public void updateAllBugs() {
         try {
             var managerBugs = bugManager.getBugs();
-            ArrayList<Bug> _unresolvedBugs = new ArrayList<>();
+            List<Bug> _unresolvedBugs = new ArrayList<>();
             allBugs.setAll(managerBugs);
 
             // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports for each bug.
@@ -144,7 +145,6 @@ public class BugModel {
                     // Only send email if the following email providers are used in the admin mail. This is to avoid spam.
                     if (!emailMatcher.group(2).contains("gmail") && !emailMatcher.group(2).contains("yahoo") && !emailMatcher.group(2).contains("hotmail")
                             && !emailMatcher.group(2).contains("live") && !emailMatcher.group(2).contains("easv365")) {
-                        System.out.println(String.format("%s's email: %s is not supported.", admin.getUserName(), admin.getEmail()));
                         continue;
                     }
 
@@ -162,7 +162,6 @@ public class BugModel {
     public void resetSingleton() {
         if (instance != null) {
             instance = null;
-            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
 }

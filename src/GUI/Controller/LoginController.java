@@ -2,8 +2,6 @@ package GUI.Controller;
 
 import BE.*;
 import BLL.LoginManager;
-import GUI.Model.ScreenModel;
-import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -13,7 +11,6 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -30,9 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 public class LoginController implements Initializable {
     @FXML
@@ -61,13 +56,13 @@ public class LoginController implements Initializable {
     private final Timer timer = new Timer();
     private final SceneMover sceneMover = new SceneMover();
 
-    private double xOffset = 0;
-    private double yOffset = 0;
+    private final double xOffset = 0;
+    private final double yOffset = 0;
 
     private int failedLoginAttempts = 0;
 
     @FXML
-    private void login() throws SQLException, IOException {
+    private void login() throws IOException {
         Boolean test = loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText());
 
         if (!test){

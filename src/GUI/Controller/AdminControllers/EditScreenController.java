@@ -35,8 +35,8 @@ public class EditScreenController implements Initializable {
 
     private ScreenBit screenBit;
     private List<User> users;
-    private List<User> usersToAdd = new ArrayList<>();
-    private List<User> usersToDelete = new ArrayList<>();
+    private final List<User> usersToAdd = new ArrayList<>();
+    private final List<User> usersToDelete = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

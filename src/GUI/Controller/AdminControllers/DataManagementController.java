@@ -117,11 +117,7 @@ public class DataManagementController implements Initializable {
                 file.set(fileChooser.showOpenDialog(stage));
                 if (file.get() != null) {
                     textField.setText(file.get().getAbsolutePath());
-                    try {
-                        tryToMakeContent();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    tryToMakeContent();
                 }
             } else {
                 Stage stage1 = new Stage();
@@ -149,7 +145,7 @@ public class DataManagementController implements Initializable {
     /**
      * Tries to use the selected Item to make the given file
      */
-    private void tryToMakeContent() throws IOException {
+    private void tryToMakeContent() {
         if (comboBox.getSelectionModel().getSelectedItem() != null && file.get() != null) {
             try {
                 ViewMaker.callProperMethod(pickerStageController, selectedItem, file.get());

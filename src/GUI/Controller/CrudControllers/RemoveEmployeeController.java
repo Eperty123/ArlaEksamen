@@ -1,22 +1,14 @@
 package GUI.Controller.CrudControllers;
 
 import BE.User;
-import BLL.UserManager;
-import DAL.UserDAL;
-import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Stack;
 
 public class RemoveEmployeeController {
     @FXML
@@ -25,7 +17,7 @@ public class RemoveEmployeeController {
     private AnchorPane root;
 
     private User user;
-    private UserModel userModel = UserModel.getInstance();
+    private final UserModel userModel = UserModel.getInstance();
 
     public void setData(User user){
         this.user = user;

@@ -9,11 +9,11 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class MessageModel {
+public final class MessageModel {
 
     private static MessageModel instance;
-    private MessageManager messageManager;
-    private ObservableList<Message> allMessages;
+    private final MessageManager messageManager;
+    private final ObservableList<Message> allMessages;
 
     private MessageModel(){
         messageManager = new MessageManager();
@@ -62,7 +62,6 @@ public class MessageModel {
     public void resetSingleton() {
         if (instance != null) {
             instance = null;
-            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
 

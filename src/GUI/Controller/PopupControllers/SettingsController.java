@@ -3,7 +3,6 @@ package GUI.Controller.PopupControllers;
 import BE.Settings;
 import BE.SettingsType;
 import GUI.Model.SettingsModel;
-import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -28,7 +27,7 @@ public class SettingsController implements Initializable {
     @FXML
     private JFXTextField txtPasswordTimeout;
 
-    private SettingsModel settingsModel = SettingsModel.getInstance();
+    private final SettingsModel settingsModel = SettingsModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

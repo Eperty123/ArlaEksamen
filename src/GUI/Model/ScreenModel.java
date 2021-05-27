@@ -8,12 +8,12 @@ import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class ScreenModel {
+public final class ScreenModel {
 
-    private ScreenManager screenManager;
+    private final ScreenManager screenManager;
     private static ScreenModel instance;
 
-    private ObservableList<ScreenBit> allScreenBits;
+    private final ObservableList<ScreenBit> allScreenBits;
 
     private ScreenModel() {
         screenManager = new ScreenManager();
@@ -146,7 +146,6 @@ public class ScreenModel {
     public void resetSingleton() {
         if (instance != null) {
             instance = null;
-            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
 

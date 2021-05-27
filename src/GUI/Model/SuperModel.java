@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuperModel {
+public final class SuperModel {
 
     private static SuperModel instance;
 
@@ -120,7 +120,7 @@ public class SuperModel {
         var filteredUsers = new ArrayList<User>();
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
-            if (user.getUserRole().equals(role))
+            if (user.getUserRole() == role)
                 filteredUsers.add(user);
         }
         return filteredUsers;

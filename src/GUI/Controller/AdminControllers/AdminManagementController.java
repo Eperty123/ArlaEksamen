@@ -4,44 +4,23 @@ import BE.*;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
 import GUI.Controller.CrudControllers.RemoveEmployeeController;
-import GUI.Controller.EmployeeCardController;
-import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class AdminManagementController implements Initializable {
@@ -67,7 +46,6 @@ public class AdminManagementController implements Initializable {
      */
     private void loadAllUsers() {
         UserManagementPaneFactory.getSelectedUser().clear();
-        System.out.println(vbox.getChildren());
         // Remove all nodes.
         vbox.getChildren().clear();
         // Add all screens.
@@ -93,7 +71,6 @@ public class AdminManagementController implements Initializable {
      */
     private void handleUserUpdate() {
         UserModel.getInstance().getAllUsers().addListener((ListChangeListener<User>) c -> {
-            System.out.println("User updated");
             loadAllUsers();
         });
     }

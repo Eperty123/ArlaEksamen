@@ -2,7 +2,6 @@ package GUI.Controller.PopupControllers;
 
 import BE.ScreenBit;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;

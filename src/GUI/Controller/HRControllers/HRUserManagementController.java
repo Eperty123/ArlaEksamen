@@ -3,26 +3,17 @@ package GUI.Controller.HRControllers;
 import BE.SceneMover;
 import BE.Searcher;
 import BE.User;
-import GUI.Controller.CrudControllers.AddEmployeeController;
-import GUI.Controller.CrudControllers.EditEmployeeController;
-import GUI.Controller.CrudControllers.RemoveEmployeeController;
 import GUI.Controller.EmployeeCardController;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
-import com.mysql.cj.xdevapi.Warning;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -34,12 +25,11 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class HRUserManagementController implements Initializable {
@@ -50,9 +40,9 @@ public class HRUserManagementController implements Initializable {
     @FXML
     private JFXTextField txtSearch;
 
-    private ArrayList<User> selectedUsers = new ArrayList<>();
-    private UserModel userModel = UserModel.getInstance();
-    private SceneMover sceneMover = new SceneMover();
+    private final List<User> selectedUsers = new ArrayList<>();
+    private final UserModel userModel = UserModel.getInstance();
+    private final SceneMover sceneMover = new SceneMover();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -304,17 +294,14 @@ public class HRUserManagementController implements Initializable {
     /**
      * Displays the add Employee screen.
      *
-     * @throws IOException if it cannot find the FXML file.
      */
-    public void handleImportUsers() throws IOException {
-        System.out.println("IMPORT");
+    public void handleImportUsers() {
         loadAllUsers();
     }
 
 
-    public void handleExportUsers() throws IOException {
+    public void handleExportUsers() {
         if (!selectedUsers.isEmpty()) {
-            System.out.println("EXPORT");
             loadAllUsers();
         } else {
             WarningController.createWarning("No users selected! Please select the users you want to export");
@@ -322,9 +309,8 @@ public class HRUserManagementController implements Initializable {
     }
 
 
-    public void handleExportPhonelist() throws IOException {
+    public void handleExportPhonelist() {
         if (!selectedUsers.isEmpty()) {
-            System.out.println("EXPORT PHONE");
             loadAllUsers();
         } else {
             WarningController.createWarning("No users selected! Please select the users you want to export");

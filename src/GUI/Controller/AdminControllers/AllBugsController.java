@@ -63,7 +63,6 @@ public class AllBugsController implements Initializable {
     }
 
     private String getAdmin(int id){
-        System.out.println(id);
         for (User u : UserModel.getInstance().getAllUsers()){
             if (u.getId() == id){
                 return u.getUserName();

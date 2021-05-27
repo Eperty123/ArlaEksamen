@@ -229,7 +229,7 @@ public class AdminScreenManagementController implements Initializable {
     }
 
 
-    public void handleCreateScreen() throws IOException {
+    public void handleCreateScreen() {
         NewScreenDialog screenDialog = new NewScreenDialog("Test");
 
         Optional<String> result = screenDialog.showAndWait();
@@ -280,7 +280,6 @@ public class AdminScreenManagementController implements Initializable {
         Optional<Boolean> result = confirmationDialog.showAndWait();
         if (result.isPresent()) {
             if (result.get()) {
-                System.out.println(String.format("Screen to delete (id: %d): %s", screenBit.getId(), screenBit.getName()));
                 screenModel.deleteScreenBit(screenBit);
                 removeScreenNode(screenBit);
             }

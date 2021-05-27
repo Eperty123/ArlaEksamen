@@ -1,14 +1,11 @@
 package GUI.Controller.PopupControllers;
 
-import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 
@@ -16,7 +13,7 @@ import java.io.IOException;
 
 public class BugReportDialog extends Dialog<String> {
 
-    public BugReportDialog() throws IOException {
+    public BugReportDialog() {
         super();
         initStyle(StageStyle.UNDECORATED);
         initModality(Modality.APPLICATION_MODAL);

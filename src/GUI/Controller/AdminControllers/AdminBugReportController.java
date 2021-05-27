@@ -60,7 +60,7 @@ public class AdminBugReportController implements Initializable {
         tblBugs.setRowFactory(tv -> {
             TableRow<Bug> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                if (event.getButton() == MouseButton.PRIMARY) {
                     if (event.getClickCount() == 2 && (!row.isEmpty())) {
                         try {
                             handleEditBug();

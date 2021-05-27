@@ -4,7 +4,6 @@ import BE.Department;
 import BE.SceneMover;
 import BE.Searcher;
 import DAL.Parser.UserBackUp;
-import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.PopupControllers.FileChooserDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
@@ -13,16 +12,12 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
@@ -30,13 +25,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class HRDepartmentController implements Initializable {
@@ -47,10 +42,10 @@ public class HRDepartmentController implements Initializable {
     @FXML
     private JFXTextField txtSearch;
 
-    private ArrayList<Department> selectedDepartments = new ArrayList<>();
-    private SceneMover sceneMover = new SceneMover();
-    private DepartmentModel departmentModel = DepartmentModel.getInstance();
-    private UserBackUp userBackUp = new UserBackUp();
+    private final List<Department> selectedDepartments = new ArrayList<>();
+    private final SceneMover sceneMover = new SceneMover();
+    private final DepartmentModel departmentModel = DepartmentModel.getInstance();
+    private final UserBackUp userBackUp = new UserBackUp();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -159,7 +154,6 @@ public class HRDepartmentController implements Initializable {
             }
 
             check.setVisible(!check.isVisible());
-            System.out.println(selectedDepartments);
         });
 
         check.setOnMouseClicked(mouseEvent -> {
@@ -205,9 +199,8 @@ public class HRDepartmentController implements Initializable {
     /**
      * Displays the add Employee screen.
      *
-     * @throws IOException if it cannot find the FXML file.
      */
-    public void handleImportUsers() throws IOException {
+    public void handleImportUsers() {
 
         Stage stage = new Stage();
         FileChooser.ExtensionFilter csvExtension = new FileChooser.ExtensionFilter("CSV file", "*.csv");
@@ -221,7 +214,7 @@ public class HRDepartmentController implements Initializable {
     }
 
 
-    public void handleExportUsers() throws IOException {
+    public void handleExportUsers() {
         if (!selectedDepartments.isEmpty()) {
             Stage stage = new Stage();
             FileChooser.ExtensionFilter csvExtension = new FileChooser.ExtensionFilter("CSV file", "*.csv");
@@ -234,7 +227,6 @@ public class HRDepartmentController implements Initializable {
             if (chosenFile != null) {
                 userBackUp.exportUsers(selectedDepartments, chosenFile);
                 //loadAllDepartments();
-                System.out.println("Exported users!");
             }
         } else {
             WarningController.createWarning("No departments selected! Please select the departments you want to export");
@@ -256,7 +248,6 @@ public class HRDepartmentController implements Initializable {
             if (chosenFile != null) {
                 departmentModel.exportPhoneNumbers(selectedDepartments, chosenFile);
                 //loadAllDepartments();
-                System.out.println("Exported phone list!");
             }
         } else {
             WarningController.createWarning("No departments selected! Please select the departments you want to export");

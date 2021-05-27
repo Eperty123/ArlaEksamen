@@ -72,7 +72,7 @@ public class PickerDashboardController {
         }
     }
 
-    public void handleSave(ActionEvent actionEvent) throws IOException {
+    public void handleSave(ActionEvent actionEvent) {
         ScreenBit oldScreenBit = screenBit;
         screenBit.setScreenInfo(pickerStageController.getParentBuilderString());
         ScreenModel screenModel = ScreenModel.getInstance();

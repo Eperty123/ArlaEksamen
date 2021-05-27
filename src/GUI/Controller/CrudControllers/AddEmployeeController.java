@@ -4,7 +4,6 @@ import BE.*;
 import BLL.PasswordManager;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
-import GUI.Model.ScreenModel;
 import GUI.Model.TitleModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXCheckBox;
@@ -13,16 +12,12 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +60,7 @@ public class AddEmployeeController implements Initializable {
     private final UserModel userModel = UserModel.getInstance();
     private final PasswordManager passwordManager = new PasswordManager();
 
-    public void handleSave(ActionEvent actionEvent) throws SQLException, IOException {
+    public void handleSave(ActionEvent actionEvent) {
 
         if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !chsTitle.getSelectionModel().getSelectedItem().isEmpty()
                 && !txtEmail.getText().isEmpty() && !txtPhoneNumber.getText().isEmpty() && chsSex.getSelectionModel().getSelectedItem() != null
@@ -129,10 +124,6 @@ public class AddEmployeeController implements Initializable {
         chsSex.getSelectionModel().selectFirst();
         setDepartments();
         setTitles();
-
-        for (Enum e : chsRole.getItems()){
-            System.out.println(e.name() + " - " + e.ordinal());
-        }
     }
 
     private void setTitles() {
