@@ -2,6 +2,7 @@ package GUI.Controller.ManagerControllers;
 
 import BE.*;
 import BLL.LoginManager;
+import BLL.TimeSlotCalculator;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.MessageModel;
@@ -289,8 +290,15 @@ public class ManagerMessageController implements Initializable {
             hourBox.setValue(message.getMessageStartTime().getHour());
             minuteBox.setValue(message.getMessageStartTime().getMinute());
             colorPicker.setValue(message.getTextColor());
+            setMessageDuration(message);
 
         }
+    }
+
+    private void setMessageDuration(Message message) {
+        int slots = TimeSlotCalculator.calculateTimeSlots(message);
+        durationHoursChoice.setValue((slots - (slots % 2)) / 2);
+        durationMinutesChoice.setValue((slots % 2) * 30);
     }
 
     private long getDurationMinutes() {

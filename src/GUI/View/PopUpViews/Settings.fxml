@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,14 +23,12 @@
             <JFXButton layoutX="207.0" layoutY="161.0" onAction="#handleCancel" onTouchPressed="#handleCancel" prefHeight="25.0" prefWidth="80.0" styleClass="nej" text="Cancel" />
             <Label layoutX="32.0" layoutY="39.0" text="Message Update Freq." />
             <JFXTextField fx:id="txtMessageUpdate" focusColor="#94bdd3" layoutX="33.0" layoutY="56.0" prefHeight="25.0" prefWidth="131.0" promptText="In seconds" unFocusColor="#9f9f9f" />
-            <Label layoutX="32.0" layoutY="99.0" text="Employee Card Auto Close" />
-            <JFXTextField fx:id="txtEmployeeCard" focusColor="#94bdd3" layoutX="33.0" layoutY="116.0" prefHeight="25.0" prefWidth="131.0" promptText="In minutes" unFocusColor="#9f9f9f" />
+            <Label layoutX="115.0" layoutY="100.0" text="Employee Card Auto Close" />
+            <JFXTextField fx:id="txtEmployeeCard" focusColor="#94bdd3" layoutX="116.0" layoutY="117.0" prefHeight="25.0" prefWidth="131.0" promptText="In minutes" unFocusColor="#9f9f9f" />
             <Label layoutX="202.0" layoutY="39.0" text="Wrong Password Timeout" />
             <JFXTextField fx:id="txtPasswordTimeout" focusColor="#94bdd3" layoutX="203.0" layoutY="56.0" prefHeight="25.0" prefWidth="131.0" promptText="In seconds" unFocusColor="#9f9f9f" />
-            <JFXComboBox fx:id="cmbTimeFormat" focusColor="#94bdd3" layoutX="203.0" layoutY="116.0" prefHeight="25.0" prefWidth="135.0" unFocusColor="#9f9f9f" />
-            <Label layoutX="202.0" layoutY="99.0" text="Time Formatting" />
             <Label layoutX="166.0" layoutY="60.0" text="/ s" />
-            <Label layoutX="166.0" layoutY="120.0" text="/ m" />
+            <Label layoutX="249.0" layoutY="121.0" text="/ m" />
             <Label layoutX="336.0" layoutY="60.0" text="/ s" />
          </children></Pane>
    </children>
