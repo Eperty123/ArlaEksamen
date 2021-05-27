@@ -55,21 +55,8 @@ public class EditBugController implements Initializable {
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
         } else {
-            Stage warning = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/GUI/VIEW/popupviews/Warning.fxml"));
-            warning.setTitle("Warning!");
-            Parent root = (Parent) loader.load();
-
-            WarningController warningController = loader.getController();
-            warningController.setText("Warning! You have not selected which admin should take responsibility for this bug!\n\n" +
+            WarningController.createWarning("Warning! You have not selected which admin should take responsibility for this bug!\n\n" +
                     "Please select an admin in the choice box!");
-
-            Scene warningScene = new Scene(root);
-
-            warning.initStyle(StageStyle.UNDECORATED);
-            warning.setScene(warningScene);
-            warning.show();
         }
     }
 

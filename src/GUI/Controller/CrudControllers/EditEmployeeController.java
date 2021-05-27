@@ -195,15 +195,7 @@ public class EditEmployeeController implements Initializable {
 
 
     public void handleSelectImage() {
-        FileChooser chooser = new FileChooser();
-        chooser.setTitle("Open Resource File");
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
-        File selectedFile = chooser.showOpenDialog(null);
-
-        if (selectedFile != null) {
-            Image selectedImage = new Image(selectedFile.toURI().toString());
-            image.setImage(selectedImage);
-        }
+        AddEmployeeController.handleFileChooser(image);
 
     }
 }

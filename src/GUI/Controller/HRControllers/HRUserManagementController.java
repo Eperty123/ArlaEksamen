@@ -52,18 +52,7 @@ public class HRUserManagementController implements Initializable {
     }
 
     private void autofitSize() {
-        flowpane.setPrefWrapLength(scrollPane.getWidth());
-        scrollPane.widthProperty().addListener((observable, t, t1) -> {
-            flowpane.setPrefWidth(t1.doubleValue());
-            flowpane.setMaxWidth(t1.doubleValue());
-            flowpane.setMinWidth(t1.doubleValue());
-            flowpane.setPrefWrapLength(t1.doubleValue());
-        });
-        scrollPane.heightProperty().addListener(((observableValue, number, t1) -> {
-            flowpane.setMaxHeight(t1.doubleValue());
-            flowpane.setMinHeight(t1.doubleValue());
-            flowpane.setPrefHeight(t1.doubleValue());
-        }));
+        HRDepartmentController.handleAutofitSize(flowpane, scrollPane);
     }
 
     /**

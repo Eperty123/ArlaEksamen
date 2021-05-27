@@ -1,9 +1,6 @@
 package GUI.Controller.ManagerControllers;
 
-import BE.ClockCalender;
-import BE.SceneMover;
-import BE.ScreenBit;
-import BE.User;
+import BE.*;
 import BLL.EmailManager;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
@@ -47,6 +44,7 @@ public class ManagerDashboardController implements Initializable {
     private User currentUser;
     private boolean isMaximized = false;
     private EmailManager emailManager = EmailManager.getInstance();
+    private final StageShower stageShower = new StageShower();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,21 +89,12 @@ public class ManagerDashboardController implements Initializable {
                 ManagerScreenViewController controller = fxmlLoader.getController();
                 controller.init(result.get());
                 controller.setParentStage((Stage) this.root.getScene().getWindow());
-                Scene scene = new Scene(root);
+
                 BorderPane bp = (BorderPane) root.getScene().getRoot();
                 SceneMover sceneMover = new SceneMover();
-                sceneMover.move(stage, bp.getTop());
 
-                stage.getIcons().addAll(
-                        new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                        new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                        new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                        new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                        new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(scene);
-                stage.setTitle("Manager screen view");
-                stage.show();
+                stageShower.showScene(stage,root,sceneMover,bp.getTop());
+
                 minimize();
             }
         }
@@ -143,35 +132,13 @@ public class ManagerDashboardController implements Initializable {
 
         if (result.isPresent()) {
             if (result.get()) {
+                Stage root1 = (Stage) root.getScene().getWindow();
                 SceneMover sceneMover = new SceneMover();
                 // Reset the singleton instance so we don't leave any cache behind.
                 UserModel.getInstance().resetSingleton();
                 ScreenModel.getInstance().resetSingleton();
 
-                Stage root1 = (Stage) root.getScene().getWindow();
-
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/Login.fxml"));
-
-                Scene scene = new Scene(fxmlLoader.load());
-                stage.setTitle("Login");
-                stage.getIcons().addAll(
-                        new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                        new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                        new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                        new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                        new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(scene);
-                stage.show();
-
-                BorderPane borderPane = (BorderPane) stage.getScene().getRoot();
-
-                sceneMover.move(stage, borderPane.getTop());
-
-                LoginManager.setCurrentUser(null);
-                root1.close();
+                stageShower.handleLogout(root1,sceneMover);
             }
         }
     }

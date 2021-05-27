@@ -165,35 +165,14 @@ public class HRDashboardController implements Initializable {
 
         if (result.isPresent()) {
             if (result.get()) {
+                Stage root1 = (Stage) root.getScene().getWindow();
                 SceneMover sceneMover = new SceneMover();
                 // Reset the singleton instance so we don't leave any cache behind.
                 UserModel.getInstance().resetSingleton();
                 ScreenModel.getInstance().resetSingleton();
 
-                Stage root1 = (Stage) root.getScene().getWindow();
-
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/Login.fxml"));
-
-                Scene scene = new Scene(fxmlLoader.load());
-                stage.setTitle("Login");
-                stage.getIcons().addAll(
-                        new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                        new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                        new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                        new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                        new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(scene);
-                stage.show();
-
-                BorderPane borderPane = (BorderPane) stage.getScene().getRoot();
-
-                sceneMover.move(stage, borderPane.getTop());
-
-                LoginManager.setCurrentUser(null);
-                root1.close();
+                StageShower stageShower = new StageShower();
+                stageShower.handleLogout(root1,sceneMover);
             }
         }
     }

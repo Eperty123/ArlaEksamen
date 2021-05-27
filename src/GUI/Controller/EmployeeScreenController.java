@@ -116,7 +116,7 @@ public class EmployeeScreenController implements Initializable {
                     if (message.getMessageEndTime().isBefore(LocalDateTime.now())) ;
                     MessageModel.getInstance().deleteMessage(message);
                 } else {
-                    if (messageAtomicReference.get() == null || messageAtomicReference.get().getMessageType() != MessageType.Admin || message.getMessageType()==MessageType.Admin)
+                    if (messageAtomicReference.get() == null || messageAtomicReference.get().getMessageType() != MessageType.Admin || message.getMessageType() == MessageType.Admin)
                         messageAtomicReference.set(message);
                 }
             });
@@ -175,30 +175,12 @@ public class EmployeeScreenController implements Initializable {
 
         if (result.isPresent()) {
             if (result.get()) {
+                SceneMover sceneMover = new SceneMover();
+                StageShower stageShower = new StageShower();
+
                 Stage root1 = (Stage) borderPane.getScene().getWindow();
 
-                Stage stage = new Stage();
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/Login.fxml"));
-
-                Scene scene = new Scene(fxmlLoader.load());
-
-                stage.getIcons().addAll(
-                        new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                        new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                        new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                        new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                        new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-                stage.initStyle(StageStyle.UNDECORATED);
-                stage.setScene(scene);
-                stage.show();
-                LoginManager.setCurrentUser(null);
-                root1.close();
-
-                BorderPane borderPane1 = (BorderPane) stage.getScene().getRoot();
-
-                SceneMover sceneMover = new SceneMover();
-                sceneMover.move(stage, borderPane1.getTop());
+                stageShower.handleLogout(root1, sceneMover);
             }
         }
     }
@@ -232,7 +214,7 @@ public class EmployeeScreenController implements Initializable {
                 newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
                 BugModel.getInstance().addBug(newBug);
-                WarningController.createWarning("Report Send!","Bug report successfully send, " +
+                WarningController.createWarning("Report Send!", "Bug report successfully send, " +
                         "thank you for helping improving this program!");
             }
         }
