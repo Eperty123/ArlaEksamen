@@ -161,4 +161,8 @@ public class EmailManager {
     public static EmailManager getInstance() {
         return EmailManager.instance == null ? EmailManager.instance = new EmailManager() : EmailManager.instance;
     }
+
+    public boolean canSendEmail() {
+        return EmailExtension.isEmailValid(username);
+    }
 }
