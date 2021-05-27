@@ -7,6 +7,7 @@ import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Controller.StageBuilder;
 import GUI.Model.BugModel;
+import GUI.Model.DataModel;
 import GUI.Model.MessageModel;
 import GUI.Model.SettingsModel;
 import com.jfoenix.controls.JFXComboBox;
@@ -86,7 +87,7 @@ public class ManagerScreenViewController implements Initializable {
                 try {
                     setScreen(s);
                     selectedScreen = s;
-                    MessageModel.getInstance().loadScreenBitsMessages(selectedScreen);
+                    DataModel.getInstance().loadScreenBitsMessages(selectedScreen);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -203,7 +204,11 @@ public class ManagerScreenViewController implements Initializable {
                 newBug.setReferencedUser(currentUser.getUserName());
                 BugModel.getInstance().addBug(newBug);
 
+                //TODO uncheck
+
                 // Check if we can send emails at all.
+
+                
                 if (emailManager.canSendEmail()) {
                     // Proceed to do so.
                     bugModel.sendEmailBugReportToAllAdmins(newBug, comboScreens.getSelectionModel().getSelectedItem(), currentUser);
@@ -212,6 +217,10 @@ public class ManagerScreenViewController implements Initializable {
 
                 WarningController.createWarning("Report Send!", "Bug report successfully send, " +
                         "thank you for helping improving this program!");
+
+
+
+                 
             }
         }
     }

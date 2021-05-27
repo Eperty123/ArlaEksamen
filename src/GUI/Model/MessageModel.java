@@ -44,6 +44,7 @@ public final class MessageModel {
         allMessages.add(newMessage);
     }
 
+    // TODO But why.....?
     public void loadUserMessages(User user) {
         if (user != null) allMessages.setAll(getUsersMessages(user));
     }

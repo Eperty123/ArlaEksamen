@@ -3,6 +3,7 @@ package GUI.Controller.CrudControllers;
 import BE.*;
 import BLL.PasswordManager;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import GUI.Model.TitleModel;
 import GUI.Model.UserModel;
@@ -127,11 +128,11 @@ public class AddEmployeeController implements Initializable {
     }
 
     private void setTitles() {
-        chsTitle.setItems(FXCollections.observableArrayList(TitleModel.getInstance().getTitles()));
+        chsTitle.setItems(FXCollections.observableArrayList(DataModel.getInstance().getTitles()));
     }
 
     private void setDepartments() {
-        chsDepartment.setItems(FXCollections.observableArrayList(DepartmentModel.getInstance().getAllDepartments()));
+        chsDepartment.setItems(FXCollections.observableArrayList(DataModel.getInstance().getDepartments()));
     }
 
     public void handleSelectImage() {

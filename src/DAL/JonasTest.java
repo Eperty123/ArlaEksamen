@@ -24,11 +24,12 @@ public class JonasTest {
         List<ScreenBit> screenBits = ScreenModel.getInstance().getAllScreenBits();
         List<Department> departments = departmentDAL.getDepartments();
 
-        int slots = 17;
 
 
-        int halfHours = slots % 2;
-        int hours = (slots - halfHours) / 2;
+        ScreenBit screenBit = new ScreenBit("TstT");
+
+        System.out.println(screenDAL.addScreenBit(screenBit));
+
     }
 
 

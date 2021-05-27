@@ -76,8 +76,11 @@ public class AdminDashboardController implements Initializable {
     }
 
     private void checkEmailSettings() {
+
         if (!emailManager.canSendEmail())
             WarningController.createWarning(String.format("The email: \"%s\" for sending email notification for administrators is incorrect! Managers and users are not able to send emails until it's set correctly.", emailManager.getUsername()));
+
+
     }
 
     /**

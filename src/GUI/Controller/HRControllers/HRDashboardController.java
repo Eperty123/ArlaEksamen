@@ -6,6 +6,7 @@ import GUI.Controller.DPT.DepartmentStageController;
 import GUI.Controller.InfoboardDashboardController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
@@ -70,7 +71,7 @@ public class HRDashboardController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
-        for(Department department : DepartmentModel.getInstance().getSuperDepartment())
+        for(Department department : DataModel.getInstance().getSuperDepartment())
         con2.addChildrenNode(department);
         JFXButton b = new JFXButton("Save");
         b.getStyleClass().add("addSubDeptButton");
@@ -86,11 +87,11 @@ public class HRDashboardController implements Initializable {
                         users.removeIf(u -> u.getUserName().isEmpty() || u.getUserRole() != UserType.Admin);
                         if (!users.isEmpty() && item.getManager() == null) {
                             item.setManager(users.get(0));
-                            DepartmentModel.getInstance().addDepartment(item);
+                            DataModel.getInstance().addDepartment(item);
 
                             for (Department dpt : vc.getDepartment().getAllSubDepartments()) {
                                 if (dpt.getSubDepartments().contains(item)) {
-                                    DepartmentModel.getInstance().addSubDepartment(dpt, item);
+                                    DataModel.getInstance().addSubDepartment(dpt, item);
                                     break;
                                 }
                             }

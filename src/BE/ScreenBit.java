@@ -130,7 +130,7 @@ public class ScreenBit {
      *
      * @param user The User to assign.
      */
-    public void addUser(User user) {
+    public void addAssignedUser(User user) {
         this.assignedUsers.add(user);
     }
 
@@ -195,7 +195,13 @@ public class ScreenBit {
         return this.messages.get(0);
     }
 
-    // TODO bookTimeSlots()
+    public void bookTimeSlots(Message message){
+        int slotCount = TimeSlotCalculator.calculateTimeSlots(message);
+
+        for(int i = 0; i < slotCount; i++){
+            timeTable.replace(message.getMessageStartTime().plusMinutes(i * 30), false);
+        }
+    }
 
     /**
      * This method analyses if a ScreenBit is available in the time frame specified

@@ -6,6 +6,7 @@ import BE.User;
 import BE.UserType;
 import BLL.PasswordManager;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import GUI.Model.TitleModel;
 import GUI.Model.UserModel;
@@ -139,7 +140,7 @@ public class EditEmployeeController implements Initializable {
     }
 
     private void setDepartments() {
-        chsDepartment.setItems(FXCollections.observableArrayList(DepartmentModel.getInstance().getAllDepartments()));
+        chsDepartment.setItems(FXCollections.observableArrayList(DataModel.getInstance().getDepartments()));
     }
 
     public void setData(User user) {
@@ -163,7 +164,7 @@ public class EditEmployeeController implements Initializable {
     }
 
     private Department getUsersDepartment() {
-        for (Department d : DepartmentModel.getInstance().getAllDepartments()) {
+        for (Department d : DataModel.getInstance().getDepartments()) {
             if (d.getUsers().stream().anyMatch(o -> o.getUserName().equals(oldUser.getUserName()))) {
                 return d;
             }

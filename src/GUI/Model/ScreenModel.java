@@ -38,17 +38,16 @@ public final class ScreenModel {
     }
 
     /**
-     * If a ScreenBit does not already exist, with the same name as newScreenBit, a new row will be created
-     * in the database.
+
      *
      * @param newScreenBit object containing info on the new ScreenBit
      */
-    public void addScreenBit(ScreenBit newScreenBit) {
+    public int addScreenBit(ScreenBit newScreenBit) {
         // Not sure if this still return false with ! in it.
-        if (!allScreenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
-            screenManager.addScreenBit(newScreenBit);
-            updateScreenBits();
+        if (allScreenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
+            return screenManager.addScreenBit(newScreenBit);
         }
+        return -1;
     }
 
     /**
@@ -97,17 +96,20 @@ public final class ScreenModel {
      */
     public void assignScreenBitRights(User user, ScreenBit screenBit) {
         screenManager.assignScreenBitRights(user, screenBit);
-        updateScreenBits();
+    }
+
+    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) {
+        screenManager.assignScreenBitRights(users, screenBit);
     }
 
     public void removeScreenBitRights(User user, ScreenBit screenBit) {
         screenManager.removeScreenBitRights(user, screenBit);
-        updateScreenBits();
+
     }
 
     public void removeScreenBitRights(List<User> users, ScreenBit screenBit) {
         screenManager.removeScreenBitRights(users, screenBit);
-        updateScreenBits();
+
     }
 
     /**
