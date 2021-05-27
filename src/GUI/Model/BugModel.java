@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class BugModel {
 
@@ -128,8 +129,29 @@ public class BugModel {
             var admins = UserModel.getInstance().getAllUsersByRole(UserType.Admin);
             for (int i = 0; i < admins.size(); i++) {
                 var admin = admins.get(i);
-                var bugEmail = new Email(admin.getEmail(), user.getEmail(), String.format("Bug on screen: %s", screenBit.getName()), bug.getDescription());
-                EmailManager.getInstance().sendTo(bugEmail);
+
+                var adminEmail = admin.getEmail().startsWith("@") ? admin.getEmail().substring(1, admin.getEmail().length() - 1) : admin.getEmail();
+                var userEmail = user.getEmail().startsWith("@") ? user.getEmail().substring(1, user.getEmail().length() - 1) : user.getEmail();
+
+                String emailRegex = "^(.+)@(.+)$";
+
+                Pattern pattern = Pattern.compile(emailRegex);
+                var emailMatcher = pattern.matcher(adminEmail);
+
+                // If the email regex has matches, it must be a correct email format.
+                if (emailMatcher.matches()) {
+
+                    // Only send email if the following email providers are used in the admin mail. This is to avoid spam.
+                    if (!emailMatcher.group(2).contains("gmail") && !emailMatcher.group(2).contains("yahoo") && !emailMatcher.group(2).contains("hotmail")
+                            && !emailMatcher.group(2).contains("live") && !emailMatcher.group(2).contains("easv365")) {
+                        System.out.println(String.format("%s's email: %s is not supported.", admin.getUserName(), admin.getEmail()));
+                        continue;
+                    }
+
+                    // Send the bug report to the admin.
+                    var bugEmail = new Email(adminEmail, userEmail, String.format("Bug on screen: %s", screenBit.getName()), bug.getDescription());
+                    EmailManager.getInstance().sendTo(bugEmail);
+                }
             }
         }
     }
