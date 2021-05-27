@@ -56,7 +56,7 @@ public class DepartmentViewController implements Initializable {
     private final HBox hBox = new HBox();
     private boolean isHidden = false;
     private final List<Node> hiddenChildren = new ArrayList<>();
-    private int dptCount = DepartmentModel.getInstance().getAllDepartments().size();
+    private int dptCount = DataModel.getInstance().getDepartments().size();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -101,7 +101,7 @@ public class DepartmentViewController implements Initializable {
         removeIcon.setOnMouseClicked((v) -> {
             if (ConfirmationDialog.createConfirmationDialog("Are you sure you want to remove this department?\n\n" +
                     "This action is not reversible")) {
-                DepartmentModel.getInstance().deleteDepartment(department);
+                DataModel.getInstance().deleteDepartment(department);
                 superAC.getChildren().clear();
             }
         });
@@ -154,8 +154,8 @@ public class DepartmentViewController implements Initializable {
             DepartmentViewController con = loader.getController();
             Department dpt = new Department("New Department" + dptCount++);
             department.addSubDepartment(dpt);
-            DepartmentModel.getInstance().addDepartment(dpt);
-            DepartmentModel.getInstance().addSubDepartment(department, dpt);
+            DataModel.getInstance().addDepartment(dpt);
+            DataModel.getInstance().addSubDepartment(department, dpt);
             con.setDepartment(dpt);
             department.setDepartmentViewController(con);
             hBox.getChildren().add(hBox.getChildren().size() - 1, pane);

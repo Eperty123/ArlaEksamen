@@ -281,6 +281,10 @@ public class DataModel {
         return null;
     }
 
+    public List<Department> getSuperDepartment() {
+        return departmentModel.getSuperDepartment();
+    }
+
     // _____ Messages _____
 
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {

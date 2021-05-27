@@ -3,6 +3,7 @@ package GUI.Controller;
 import BE.Department;
 import BE.SettingsType;
 import BE.User;
+import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import GUI.Model.SettingsModel;
 import javafx.application.Platform;
@@ -75,7 +76,7 @@ public class EmployeeCardController {
         img.setImage(u.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
         name.setText(u.getFirstName() + " " + u.getLastName());
         title.setText(u.getTitle() != null ? u.getTitle() : "None");
-        for (Department d : DepartmentModel.getInstance().getAllDepartments()) {
+        for (Department d : DataModel.getInstance().getDepartments()) {
             for (User user : d.getUsers()) {
                 if (user == u) {
                     department.setText(d.getName());

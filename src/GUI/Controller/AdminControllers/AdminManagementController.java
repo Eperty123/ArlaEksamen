@@ -4,6 +4,7 @@ import BE.*;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
 import GUI.Controller.CrudControllers.RemoveEmployeeController;
+import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
@@ -50,7 +51,7 @@ public class AdminManagementController implements Initializable {
         // Remove all nodes.
         vbox.getChildren().clear();
         // Add all screens.
-        for (Department d : DepartmentModel.getInstance().getAllDepartments()) {
+        for (Department d : DataModel.getInstance().getDepartments()) {
             if (!d.getUsers().isEmpty())
                 vbox.getChildren().add(UserManagementPaneFactory.createUserManagementBoard(d, vbox));
         }
@@ -59,7 +60,7 @@ public class AdminManagementController implements Initializable {
     public void handleSearchUser() {
         vbox.getChildren().clear();
         if (!txtSearch.getText().isEmpty() || !txtSearch.getText().isBlank()) {
-            for (Department d : Searcher.searchDepartmentUsers(DepartmentModel.getInstance().getAllDepartments(), txtSearch.getText())){
+            for (Department d : Searcher.searchDepartmentUsers(DataModel.getInstance().getDepartments(), txtSearch.getText())){
                 vbox.getChildren().add((UserManagementPaneFactory.createUserManagementBoard(d,vbox)));
             }
         }else{
