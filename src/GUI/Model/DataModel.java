@@ -32,23 +32,37 @@ public class DataModel {
 
         // TODO prioritize, and make a thread for concurrent init
         userModel = UserModel.getInstance();
+
+        screenBits = FXCollections.observableArrayList();
+        departments = FXCollections.observableArrayList();
+        messages = FXCollections.observableArrayList();
+        titles = FXCollections.observableArrayList();
+        users = FXCollections.observableArrayList();
+
+        users.addAll(userModel.getAllUsers());
+
+
         screenModel = ScreenModel.getInstance();
         departmentModel = DepartmentModel.getInstance();
         messageModel = MessageModel.getInstance();
         titleModel = TitleModel.getInstance();
 
-        users = FXCollections.observableArrayList();
-        screenBits = FXCollections.observableArrayList();
-        departments = FXCollections.observableArrayList();
-        messages = FXCollections.observableArrayList();
-        titles = FXCollections.observableArrayList();
-
         // TODO use internal
-        users.addAll(userModel.getAllUsers());
-        screenBits.addAll(getScreenBits());
+
+        screenBits.addAll(screenModel.getAllScreenBits());
         departments.addAll(departmentModel.getAllDepartments());
-        messages.addAll(getMessages());
+        messages.addAll(messageModel.getAllMessages());
         titles.addAll(titleModel.getTitles());
+
+
+
+
+
+
+
+
+
+
     }
 
     public static DataModel getInstance(){
@@ -99,23 +113,79 @@ public class DataModel {
     public void addUser(User newUser, Department department) {
         if (users.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
             users.add(newUser);
-            // TODO add user to dpt
+            addUserToDepartment(newUser, department);
         }
     }
 
+    private void addUserToDepartment(User newUser, Department department) {
+        departments.forEach(dpt -> {
+            if(dpt.getId() == department.getId()){
+                dpt.addUser(newUser);
+            }
+        });
+    }
+
     public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
-        // TODO check if only user is updated, or department also changed
+
+        if(oldDepartment.getId() != newDepartment.getId() && oldUser.equals(newUser)){
+            moveUser(oldUser, oldUser, oldDepartment, newDepartment);
+        } else if (oldDepartment.getId() != newDepartment.getId() && !oldUser.equals(newUser)){
+            moveUser(oldUser, newUser, oldDepartment, newDepartment);
+        }
         userModel.updateUser(oldUser, newUser, oldDepartment, newDepartment);
         users.remove(oldUser);
         users.add(newUser);
-        // TODO update dpt
+
+    }
+
+    private void moveUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
+        departments.forEach(dpt -> {
+            if(dpt.getId() == oldDepartment.getId()){ dpt.getUsers().remove(oldUser); }
+        });
+        departments.forEach(dpt -> {
+            if(dpt.getId() == newDepartment.getId()){ dpt.getUsers().add(newUser); }
+        });
+    }
+
+    public void updateUserDepartment(List<Department> departments){
+        userModel.updateUserDepartment(departments);
+        updateUserDepartmentRelation(departments);
+
+    }
+
+    private void updateUserDepartmentRelation(List<Department> departments) {
+        //Delete users from Departments
+        this.departments.forEach(dpt -> {
+            dpt.getUsers().clear();
+        });
+        //Re-assign users to departments
+        this.departments.forEach(dpt -> {
+            departments.forEach(newDpt -> {
+                if(dpt.getId() == newDpt.getId()){
+                    dpt.setUsers(newDpt.getUsers());
+                }
+            });
+        });
     }
 
     public void deleteUser(User user) {
         userModel.deleteUser(user);
         users.remove(user);
-        // TODO delete from department
-        // TODO unassign from screen
+        deleteUserFromDepartments(user);
+        unAssignUserFromScreens(user);
+
+    }
+
+    private void unAssignUserFromScreens(User user) {
+        screenBits.forEach(screenBit -> {
+            screenBit.getAssignedUsers().remove(user);
+        });
+    }
+
+    private void deleteUserFromDepartments(User user) {
+        departments.forEach(dpt -> {
+            dpt.getUsers().remove(user);
+        });
     }
 
     public User getUser(int userId) {
@@ -282,6 +352,8 @@ public class DataModel {
         }
         return null;
     }
+
+
 
     public List<Department> getSuperDepartment() {
         return departmentModel.getSuperDepartment();

@@ -3,6 +3,7 @@ package GUI.Controller.AdminControllers;
 import BE.ScreenBit;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.StageBuilder;
+import GUI.Model.DataModel;
 import GUI.Model.ScreenModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,8 +76,8 @@ public class PickerDashboardController {
     public void handleSave(ActionEvent actionEvent) {
         ScreenBit oldScreenBit = screenBit;
         screenBit.setScreenInfo(pickerStageController.getParentBuilderString());
-        ScreenModel screenModel = ScreenModel.getInstance();
-        screenModel.updateScreenBit(screenBit, oldScreenBit);
+        //ScreenModel screenModel = ScreenModel.getInstance();
+        DataModel.getInstance().updateScreenBit(screenBit, oldScreenBit);
         //System.out.println(oldScreenBit.getName() + " " + oldScreenBit.getScreenInfo());
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.close();

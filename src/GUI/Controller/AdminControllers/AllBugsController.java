@@ -5,6 +5,7 @@ import BE.Searcher;
 import BE.User;
 import GUI.Controller.StageBuilder;
 import GUI.Model.BugModel;
+import GUI.Model.DataModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -63,7 +64,7 @@ public class AllBugsController implements Initializable {
     }
 
     private String getAdmin(int id){
-        for (User u : UserModel.getInstance().getAllUsers()){
+        for (User u : DataModel.getInstance().getUsers()){
             if (u.getId() == id){
                 return u.getUserName();
             }

@@ -68,9 +68,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private void login() throws IOException {
-        long t0 = System.currentTimeMillis();
+
         Boolean test = loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText(), users);
-        System.out.println(System.currentTimeMillis() - t0);
+
         if (!test){
             Label label = new Label();
 

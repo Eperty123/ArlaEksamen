@@ -5,6 +5,8 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Objects;
+
 public class Department {
     private ObjectProperty<Integer> id = new SimpleObjectProperty<>(-1);
     private StringProperty name = new SimpleStringProperty("");
@@ -127,7 +129,21 @@ public class Department {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Department that = (Department) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getManager(), that.getManager()) && Objects.equals(getUsers(), that.getUsers()) && Objects.equals(getSubDepartments(), that.getSubDepartments()) && Objects.equals(getIsSubDepartment(), that.getIsSubDepartment()) && Objects.equals(getDepartmentViewController(), that.getDepartmentViewController());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getManager(), getUsers(), getSubDepartments(), getIsSubDepartment(), getDepartmentViewController());
+    }
+
+    @Override
     public String toString() {
         return this.name.get();
     }
+
 }

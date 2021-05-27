@@ -69,7 +69,6 @@ public final class UserModel {
      */
     public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
         userManager.updateUser(oldUser, newUser, oldDepartment, newDepartment);
-        updateUsers();
     }
 
     /**
