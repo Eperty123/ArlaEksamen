@@ -16,12 +16,11 @@ public class LoginManager {
      * @param password the password given by the user.
      * @return true if the login was successful.
      */
-    public boolean attemptLogin(String username, String password) {
+    public boolean attemptLogin(String username, String password, List<User> users) {
         PasswordManager passwordManager = new PasswordManager();
-        List<User> allUsers = null;
-        allUsers = UserModel.getInstance().getAllUsers();
 
-        for (User u : allUsers) {
+
+        for (User u : users) {
             if (username.equalsIgnoreCase(u.getUserName()) && passwordManager.encrypt(password) == (u.getPassword())) {
                 LoginManager.currentUser = u;
                 return true;

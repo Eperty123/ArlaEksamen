@@ -44,7 +44,7 @@ public class DataModel {
         titles = FXCollections.observableArrayList();
 
         // TODO use internal
-        users.addAll(getUsers());
+        users.addAll(userModel.getAllUsers());
         screenBits.addAll(getScreenBits());
         departments.addAll(departmentModel.getAllDepartments());
         messages.addAll(getMessages());
@@ -155,6 +155,8 @@ public class DataModel {
     public ObservableList<User> getUsers() {
         return users;
     }
+
+
 
     public void setUsers(ObservableList<User> users) {
         this.users = users;

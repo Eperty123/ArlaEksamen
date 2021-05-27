@@ -2,12 +2,14 @@ package GUI.Controller;
 
 import BE.*;
 import BLL.LoginManager;
+import GUI.Model.DataModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +29,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -60,11 +64,13 @@ public class LoginController implements Initializable {
     private final double yOffset = 0;
 
     private int failedLoginAttempts = 0;
+    private List<User> users;
 
     @FXML
     private void login() throws IOException {
-        Boolean test = loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText());
-
+        long t0 = System.currentTimeMillis();
+        Boolean test = loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText(), users);
+        System.out.println(System.currentTimeMillis() - t0);
         if (!test){
             Label label = new Label();
 
@@ -182,5 +188,8 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        users = new ArrayList<>();
+        users.addAll(DataModel.getInstance().getUsers());
+
     }
 }
