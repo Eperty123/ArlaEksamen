@@ -1,6 +1,5 @@
 package GUI.Controller.DPT;
 
-import BE.Department;
 import BE.User;
 import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
@@ -10,14 +9,8 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-
-import java.util.HashSet;
 import java.util.List;
-
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class TableDragMod {
     private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
