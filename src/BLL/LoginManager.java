@@ -1,10 +1,8 @@
 package BLL;
 
 import BE.User;
-import DAL.UserDAL;
 import GUI.Model.UserModel;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class LoginManager {
@@ -25,7 +23,7 @@ public class LoginManager {
 
         for (User u : allUsers) {
             if (username.equalsIgnoreCase(u.getUserName()) && passwordManager.encrypt(password) == (u.getPassword())) {
-                currentUser = u;
+                LoginManager.currentUser = u;
                 return true;
             }
         }
@@ -37,7 +35,7 @@ public class LoginManager {
      * @return the currently logged in user.
      */
     public static User getCurrentUser() {
-        return currentUser;
+        return LoginManager.currentUser;
     }
 
     /**
@@ -46,7 +44,7 @@ public class LoginManager {
      * @param u the desired user.
      */
     public static void setCurrentUser(User u) {
-        currentUser = u;
+        LoginManager.currentUser = u;
     }
 
 

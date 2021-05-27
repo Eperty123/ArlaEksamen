@@ -13,10 +13,9 @@ public class BugManager {
     /**
      * Gets a list of all the bugs from the database.
      * @return a list of bugs from the database.
-     * @throws SQLException if the programme can't get access to the database.
      */
-    public List<Bug> getBugs() throws SQLException {
-        return bugDAL.getAllBugs();
+    public List<Bug> getBugs() {
+        return this.bugDAL.getAllBugs();
     }
 
     /**
@@ -24,7 +23,7 @@ public class BugManager {
      * @param bug the given bug to add.
      */
     public void addBug(Bug bug) {
-        bugDAL.addBug(bug);
+        this.bugDAL.addBug(bug);
     }
 
     /**
@@ -33,7 +32,7 @@ public class BugManager {
      * @param updatedBug the updated bug.
      */
     public void updateBug(Bug oldBug, Bug updatedBug) {
-        bugDAL.updateBug(oldBug, updatedBug);
+        this.bugDAL.updateBug(oldBug, updatedBug);
     }
 
     /**
@@ -41,6 +40,6 @@ public class BugManager {
      * @param bug the bug to be deleted.
      */
     public void deleteBug(Bug bug) {
-        bugDAL.deleteBug(bug);
+        this.bugDAL.deleteBug(bug);
     }
 }

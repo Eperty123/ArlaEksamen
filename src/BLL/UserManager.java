@@ -6,9 +6,7 @@ import BE.User;
 import DAL.UserDAL;
 
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class UserManager {
 
@@ -18,10 +16,9 @@ public class UserManager {
      * Gets a list of all users in the Database.
      *
      * @return a list of Users.
-     * @throws SQLException if the program cant access the Database.
      */
-    public List<User> getUsers() throws SQLException {
-        return userDAL.getUsers();
+    public List<User> getUsers() {
+        return this.userDAL.getUsers();
     }
 
     /**
@@ -30,7 +27,7 @@ public class UserManager {
      * @param user the desired user to be added.
      */
     public void addUser(User user, Department department) {
-        userDAL.addUser(user, department);
+        this.userDAL.addUser(user, department);
     }
 
     /**
@@ -38,7 +35,7 @@ public class UserManager {
      * @param users The list of CSVUsers to import.
      */
     public void addUsers(List<CSVUser> users) {
-        userDAL.addUsers(users);
+        this.userDAL.addUsers(users);
     }
 
     /**
@@ -48,7 +45,7 @@ public class UserManager {
      * @param updatedUser the updated user.
      */
     public void updateUser(User user, User updatedUser, Department oldDepartment, Department newDepartment) {
-        userDAL.updateUser(user, updatedUser, oldDepartment, newDepartment);
+        this.userDAL.updateUser(user, updatedUser, oldDepartment, newDepartment);
     }
 
     /**
@@ -57,10 +54,10 @@ public class UserManager {
      * @param user the User to be deleted.
      */
     public void deleteUser(User user) {
-        userDAL.deleteUser(user);
+        this.userDAL.deleteUser(user);
     }
 
     public void updateUserDepartment(List<Department> departments){
-        userDAL.updateUserDepartment(departments);
+        this.userDAL.updateUserDepartment(departments);
     }
 }

@@ -21,11 +21,11 @@ public class EmailManager {
     private static EmailManager instance;
 
     public EmailManager() {
-        initialize();
+        this.initialize();
     }
 
     private void initialize() {
-        loadEmailSettings("src/Resources/email.settings");
+        this.loadEmailSettings("src/Resources/email.settings");
     }
 
     public void loadEmailSettings(String settingsFile) {
@@ -35,11 +35,11 @@ public class EmailManager {
 
             try {
                 emailSettings.load(new FileInputStream(file));
-                setHost(emailSettings.getProperty("Host"));
-                setPort(Integer.parseInt(emailSettings.getProperty("Port")));
-                setUseTLS(Boolean.parseBoolean(emailSettings.getProperty("UseTLS")));
-                setUsername(emailSettings.getProperty("Username"));
-                setPassword(emailSettings.getProperty("Password"));
+                this.setHost(emailSettings.getProperty("Host"));
+                this.setPort(Integer.parseInt(emailSettings.getProperty("Port")));
+                this.setUseTLS(Boolean.parseBoolean(emailSettings.getProperty("UseTLS")));
+                this.setUsername(emailSettings.getProperty("Username"));
+                this.setPassword(emailSettings.getProperty("Password"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -47,7 +47,7 @@ public class EmailManager {
     }
 
     public String getHost() {
-        return host;
+        return this.host;
     }
 
     public void setHost(String host) {
@@ -55,7 +55,7 @@ public class EmailManager {
     }
 
     public int getPort() {
-        return port;
+        return this.port;
     }
 
     public void setPort(int port) {
@@ -63,7 +63,7 @@ public class EmailManager {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
@@ -71,7 +71,7 @@ public class EmailManager {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -79,7 +79,7 @@ public class EmailManager {
     }
 
     public boolean isUseTLS() {
-        return useTLS;
+        return this.useTLS;
     }
 
     public void setUseTLS(boolean useTLS) {
@@ -96,7 +96,7 @@ public class EmailManager {
      * @return Returns true if send is successful otherwise false.
      */
     public boolean sendTo(String recipient, String sender, String subject, String message) {
-        return sendTo(new Email(recipient, sender, subject, message));
+        return this.sendTo(new Email(recipient, sender, subject, message));
     }
 
     /**
@@ -112,16 +112,16 @@ public class EmailManager {
             // We create a new Properties object here for the email sender vendor itself.
             // We will use some of the email settings properties though.
             Properties prop = new Properties();
-            prop.put("mail.smtp.host", getHost());
-            prop.put("mail.smtp.port", getPort());
+            prop.put("mail.smtp.host", this.getHost());
+            prop.put("mail.smtp.port", this.getPort());
             prop.put("mail.smtp.auth", "true");
-            prop.put("mail.smtp.starttls.enable", isUseTLS()); //TLS
+            prop.put("mail.smtp.starttls.enable", this.isUseTLS()); //TLS
 
             // Get the Session object.
             Session session = Session.getInstance(prop,
                     new javax.mail.Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
+                            return new PasswordAuthentication(EmailManager.this.username, EmailManager.this.password);
                         }
                     });
 
@@ -159,6 +159,6 @@ public class EmailManager {
      * @return Returns the instance of said class.
      */
     public static EmailManager getInstance() {
-        return instance == null ? instance = new EmailManager() : instance;
+        return EmailManager.instance == null ? EmailManager.instance = new EmailManager() : EmailManager.instance;
     }
 }

@@ -11,39 +11,39 @@ import java.util.List;
 
 public class MessageManager {
 
-    private MessageDAL messageDAL;
+    private final MessageDAL messageDAL;
 
     public MessageManager() {
-        messageDAL = new MessageDAL();
+        this.messageDAL = new MessageDAL();
     }
 
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
-        messageDAL.addMessage(user, newMessage, assignedScreenBits);
+        this.messageDAL.addMessage(user, newMessage, assignedScreenBits);
     }
 
     public void deleteMessage(Message message) {
-        messageDAL.deleteMessage(message);
+        this.messageDAL.deleteMessage(message);
     }
 
     public void updateMessage(Message oldMessage, Message newMessage) {
-        messageDAL.updateMessage(oldMessage, newMessage);
+        this.messageDAL.updateMessage(oldMessage, newMessage);
     }
 
     public List<Message> getUsersMessages(User user) {
-        return messageDAL.getUsersMessages(user);
+        return this.messageDAL.getUsersMessages(user);
     }
 
     public List<Message> getUsersMessages(String user) {
-        return messageDAL.getUsersMessages(user);
+        return this.messageDAL.getUsersMessages(user);
     }
 
 
     public void loadScreenBitsMessages(ScreenBit screen) {
-        messageDAL.loadScreenBitsMessages(screen);
+        this.messageDAL.loadScreenBitsMessages(screen);
     }
 
     public ObservableList<Message> getAllMessages() {
-        return FXCollections.observableArrayList(messageDAL.getAllMessages());
+        return FXCollections.observableArrayList(this.messageDAL.getAllMessages());
     }
 
 

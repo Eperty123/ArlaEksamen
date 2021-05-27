@@ -21,8 +21,8 @@ public class DataGenerator {
      */
     public static BarChart<String, Number> getBarChart(String filename) {
 
-        String seriesHeader = "Units Produced Pr. Hour";
-        XYChart.Series<String, Number> series = getXYSeriesStringNumber(getParsedData(filename), seriesHeader);
+        final String seriesHeader = "Units Produced Pr. Hour";
+        XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -42,7 +42,7 @@ public class DataGenerator {
      */
     public static PieChart getPieChart(String filepath) {
 
-        PieChart pieChart = new PieChart(getPieChartData(filepath));
+        PieChart pieChart = new PieChart(DataGenerator.getPieChartData(filepath));
         pieChart.setTitle("Department Proficiency");
 
         return pieChart;
@@ -57,7 +57,7 @@ public class DataGenerator {
     private static ObservableList<PieChart.Data> getPieChartData(String filepath) {
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
 
-        List<String[]> data = getParsedData(filepath);
+        List<String[]> data = DataGenerator.getParsedData(filepath);
 
         for (int i = 1; i < data.size(); i++) {
             pieData.add(new PieChart.Data(data.get(i)[0], Integer.parseInt(data.get(i)[1])));
@@ -73,8 +73,8 @@ public class DataGenerator {
      */
     public static ScatterChart<String, Number> getScatterChart(String filename) {
 
-        String seriesHeader = "Temperature Pr. Hour";
-        XYChart.Series<String, Number> series = getXYSeriesStringNumber(getParsedData(filename), seriesHeader);
+        final String seriesHeader = "Temperature Pr. Hour";
+        XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -95,8 +95,8 @@ public class DataGenerator {
      */
     public static BubbleChart<Number, Number> getBubbleChart(String filename) {
 
-        String seriesHeader = "Duration Per. Hour";
-        XYChart.Series<Number, Number> series = getXYSeriesNumberNumber(getParsedData(filename), seriesHeader);
+        final String seriesHeader = "Duration Per. Hour";
+        XYChart.Series<Number, Number> series = DataGenerator.getXYSeriesNumberNumber(DataGenerator.getParsedData(filename), seriesHeader);
 
         NumberAxis xAxis = new NumberAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -117,8 +117,8 @@ public class DataGenerator {
      */
     public static AreaChart<String, Number> getAreaChart(String filename) {
 
-        String seriesHeader = "Sales Pr. Hour";
-        XYChart.Series<String, Number> series = getXYSeriesStringNumber(getParsedData(filename), seriesHeader);
+        final String seriesHeader = "Sales Pr. Hour";
+        XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -139,8 +139,8 @@ public class DataGenerator {
      */
     public static LineChart<String, Number> getLineChart(String filename) {
 
-        String seriesHeader = "Attendance pr. Day";
-        XYChart.Series<String, Number> series = getXYSeriesStringNumber(getParsedData(filename), seriesHeader);
+        final String seriesHeader = "Attendance pr. Day";
+        XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -161,12 +161,12 @@ public class DataGenerator {
      */
     public static StackedBarChart<String, Number> getStackedBarChart(String filename) {
 
-        String seriesHeader = "Sales Pr. Hour";
-        XYChart.Series<String, Number> series = getXYSeriesStringNumber(getParsedData(filename), seriesHeader);
+        final String seriesHeader = "Sales Pr. Hour";
+        XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
 
         // Hardcoded mock data to show.
-        XYChart.Series<String, Number> series1 = getXYSeriesStringNumber(getParsedData("src/Resources/StackedBarChart_mockData1.csv"), seriesHeader + "1");
-        XYChart.Series<String, Number> series2 = getXYSeriesStringNumber(getParsedData("src/Resources/StackedBarChart_mockData2.csv"), seriesHeader + "2");
+        XYChart.Series<String, Number> series1 = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData("src/Resources/StackedBarChart_mockData1.csv"), seriesHeader + "1");
+        XYChart.Series<String, Number> series2 = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData("src/Resources/StackedBarChart_mockData2.csv"), seriesHeader + "2");
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -189,11 +189,11 @@ public class DataGenerator {
      */
     public static StackedAreaChart<String, Number> getStackedAreaChart(String filename) {
 
-        String seriesHeader = "Sales Pr. Hour";
-        XYChart.Series<String, Number> series = getXYSeriesStringNumber(getParsedData(filename), seriesHeader);
+        final String seriesHeader = "Sales Pr. Hour";
+        XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
 
         // Hardcoded mock data to show.
-        XYChart.Series<String, Number> series1 = getXYSeriesStringNumber(getParsedData("src/Resources/StackedAreaChart_mockData1.csv"), seriesHeader + "1");
+        XYChart.Series<String, Number> series1 = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData("src/Resources/StackedAreaChart_mockData1.csv"), seriesHeader + "1");
         //XYChart.Series<String, Number> series2 = getXYSeriesStringNumber(getParsedData("src/Resources/StackedAreaChart_mockData2.csv"), seriesHeader + "2");
 
         CategoryAxis xAxis = new CategoryAxis();
@@ -220,7 +220,7 @@ public class DataGenerator {
      */
     private static List<String[]> getParsedData(String filepath) {
 
-        return isCSV(filepath) ? getCSVData(filepath) : getXLXSData(filepath);
+        return DataGenerator.isCSV(filepath) ? DataGenerator.getCSVData(filepath) : DataGenerator.getXLXSData(filepath);
     }
 
     /**
