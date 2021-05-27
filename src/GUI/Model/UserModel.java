@@ -8,7 +8,6 @@ import BLL.UserManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +37,10 @@ public final class UserModel {
      *
      * @param newUser object to be written to the database.
      */
-    public int addUser(User newUser, Department department) {
+    public void addUser(User newUser, Department department) {
         if (allUsers.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
-            return userManager.addUser(newUser, department);
+            userManager.addUser(newUser, department);
         }
-        return -1;
     }
 
     /**

@@ -62,36 +62,38 @@ public class UserDAL {
      *
      * @param user object containing information on the new user.
      */
-    public int addUser(User user, Department department) {
+    public void addUser(User user, Department department) {
 
         try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
-            pSql.setString(1, user.getFirstName());
-            pSql.setString(2, user.getLastName());
-            pSql.setString(3, user.getUserName());
-            pSql.setString(4, user.getEmail());
-            pSql.setInt(5, user.getPassword());
-            pSql.setInt(6, user.getUserRole().ordinal());
-            pSql.setInt(7, user.getPhone());
-            pSql.setInt(8, user.getGender().ordinal());
-            pSql.setString(9, user.getPhotoPath());
-            pSql.setString(10, user.getTitle());
+            setUserValues(user, pSql);
             pSql.executeUpdate();
+            user.setId(resultSetParser.getGeneratedKey(pSql));
 
             if (department != null) {
                 addUserDepartmentRelation(con, user, department);
+
             }
-
-            return resultSetParser.getGeneratedKey(pSql);
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-        return -1;
+    }
+
+    private void setUserValues(User user, PreparedStatement pSql) throws SQLException {
+        pSql.setString(1, user.getFirstName());
+        pSql.setString(2, user.getLastName());
+        pSql.setString(3, user.getUserName());
+        pSql.setString(4, user.getEmail());
+        pSql.setInt(5, user.getPassword());
+        pSql.setInt(6, user.getUserRole().ordinal());
+        pSql.setInt(7, user.getPhone());
+        pSql.setInt(8, user.getGender().ordinal());
+        pSql.setString(9, user.getPhotoPath());
+        pSql.setString(10, user.getTitle());
     }
 
 
@@ -106,16 +108,7 @@ public class UserDAL {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)");
 
             for (CSVUser user : users) {
-                pSql.setString(1, user.getFirstName());
-                pSql.setString(2, user.getLastName());
-                pSql.setString(3, user.getUserName());
-                pSql.setString(4, user.getEmail());
-                pSql.setInt(5, user.getPassword());
-                pSql.setInt(6, user.getUserRole().ordinal());
-                pSql.setInt(7, user.getPhone());
-                pSql.setInt(8, user.getGender().ordinal());
-                pSql.setString(9, user.getPhotoPath());
-                pSql.setString(10, user.getTitle());
+                setUserValues(user, pSql);
                 pSql.addBatch();
 
                 if (user.getDepartment() != null) {
@@ -170,17 +163,7 @@ public class UserDAL {
             PreparedStatement pSql = con.prepareStatement("UPDATE [User] SET FirstName = ?, LastName = ?, " +
                     "UserName = ?, Email = ?, Password = ?, UserRole = ?, Phone = ?, Gender = ?, " +
                     "PhotoPath = ?, Title = ? WHERE Id = ?");
-            pSql.setString(1, updatedUser.getFirstName());
-            pSql.setString(2, updatedUser.getLastName());
-            pSql.setString(3, updatedUser.getUserName());
-            pSql.setString(4, updatedUser.getEmail());
-            pSql.setInt(5, updatedUser.getPassword());
-            pSql.setInt(6, updatedUser.getUserRole().ordinal());
-            pSql.setInt(7, updatedUser.getPhone());
-            pSql.setInt(8, updatedUser.getGender().ordinal());
-            pSql.setString(9, updatedUser.getPhotoPath());
-            pSql.setString(10, updatedUser.getTitle());
-            ;
+            setUserValues(updatedUser, pSql);
             pSql.setInt(11, user.getId());
             pSql.execute();
 

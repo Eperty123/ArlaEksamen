@@ -98,7 +98,6 @@ public class DataModel {
 
     public void addUser(User newUser, Department department) {
         if (users.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
-            newUser.setId(userModel.addUser(newUser, department));
             users.add(newUser);
             // TODO add user to dpt
         }
@@ -234,12 +233,52 @@ public class DataModel {
 
     // _____ Departments _____
 
+    public void addDepartment(Department newDepartment) {
+        departmentModel.addDepartment(newDepartment);
+        departments.add(newDepartment);
+    }
+
+    public void addSubDepartment(Department department, Department subDepartment) {
+        departmentModel.addSubDepartment(department, subDepartment);
+        addSubDepartmentToDepartment(department, subDepartment);
+    }
+
+    private void addSubDepartmentToDepartment(Department department, Department subDepartment) {
+        departments.forEach(dpt -> {
+            if(dpt.getId() == department.getId()){dpt.addSubDepartment(subDepartment);}
+        });
+    }
+
+    public void deleteDepartment(Department d) {
+        departmentModel.deleteDepartment(d);
+        departments.remove(d);
+    }
+
+    public void updateDepartment(Department department) {
+        departmentModel.updateDepartment(department);
+        departments.forEach(dpt -> {
+            if( dpt.getId() == department.getId()){
+                dpt.setName(department.getName());
+                dpt.setManager(department.getManager());
+            }
+        });
+    }
+
     public ObservableList<Department> getDepartments() {
         return departments;
     }
 
     public void setDepartments(ObservableList<Department> departments) {
         this.departments = departments;
+    }
+
+    public Department getDepartment(String departmentName) {
+        for(Department d : departments){
+            if(d.getName().equals(departmentName)){
+                return d;
+            }
+        }
+        return null;
     }
 
     // _____ Messages _____
@@ -269,8 +308,6 @@ public class DataModel {
         messageModel.deleteMessage(message);
         messages.remove(message);
         deleteMessageFromScreenBits(message);
-
-        // TODO remove from screens and users
     }
 
     private void deleteMessageFromScreenBits( Message message) {
@@ -285,14 +322,20 @@ public class DataModel {
         messageModel.updateMessage(oldMessage, newMessage);
         messages.remove(oldMessage);
         messages.add(newMessage);
-        // TODO update on screens and users
+        updateMessageOnScreenBits(oldMessage, newMessage);
+
+    }
+
+    private void updateMessageOnScreenBits(Message oldMessage, Message newMessage) {
+        screenBits.forEach(s -> {
+            s.removeMessage(oldMessage);
+            s.addMessage(newMessage);
+        });
     }
 
     public List<Message> getUsersMessages(User user) {
         return messageModel.getUsersMessages(user);
     }
-
-
 
     public ObservableList<Message> getMessages() {
         return messages;
