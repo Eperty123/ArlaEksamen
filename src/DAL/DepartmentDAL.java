@@ -187,7 +187,8 @@ public class DepartmentDAL {
                 for (int u = 0; u < users.size(); u++) {
                     userCount++;
                     var user = users.get(u);
-                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), user.getPhone()));
+                    int phone = user.getPhone() < 0 ? user.getPhone() * -1 : user.getPhone();
+                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), phone));
                 }
 
                 sb.append("\n\n");
@@ -204,6 +205,7 @@ public class DepartmentDAL {
         }
     }
 
+    // TODO extract duplicate method
     public void exportPhoneNumbers(List<Department> departments, String outputFile) {
         try {
             var sb = new StringBuilder();
@@ -217,7 +219,8 @@ public class DepartmentDAL {
                 for (int u = 0; u < users.size(); u++) {
                     userCount++;
                     var user = users.get(u);
-                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), user.getPhone()));
+                    int phone = user.getPhone() < 0 ? user.getPhone() * -1 : user.getPhone();
+                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), phone));
                 }
 
                 sb.append("\n\n");
@@ -246,7 +249,8 @@ public class DepartmentDAL {
                 for (int u = 0; u < users.size(); u++) {
                     userCount++;
                     var user = users.get(u);
-                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), user.getPhone()));
+                    int phone = user.getPhone() < 0 ? user.getPhone() * -1 : user.getPhone();
+                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), phone));
                 }
 
                 sb.append("\n\n");
