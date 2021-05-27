@@ -67,13 +67,13 @@ public class SnackBarPopup {
         contentPane.setPadding(padding);
 
         //Makes it follow the panes width
-        pane.widthProperty().addListener((observableValue, bounds, t1) -> {
-            contentPane.setPrefWidth(t1.doubleValue());
-        });
-        //Makes it follow the panes height
-        pane.heightProperty().addListener((observableValue, bounds, t1) -> {
-            contentPane.setPrefHeight(t1.doubleValue());
-        });
+//        pane.widthProperty().addListener((observableValue, bounds, t1) -> {
+//            contentPane.setPrefWidth(t1.doubleValue());
+//        });
+//        //Makes it follow the panes height
+//        pane.heightProperty().addListener((observableValue, bounds, t1) -> {
+//            contentPane.setPrefHeight(t1.doubleValue());
+//        });
 
         //sets initial height and width
         contentPane.setPrefWidth(pane.getWidth() / 8);
