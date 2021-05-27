@@ -10,14 +10,14 @@
 
 <AnchorPane style="-fx-background-color: #0d262e;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.AdminControllers.AdminScreenManagementController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" fx:id="scrollPane" style="-fx-background-color: #0d262e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" style="-fx-background-color: #0d262e;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
             <FlowPane fx:id="root" style="-fx-background-color: #0d262e;" stylesheets="@../../Resources/Styles.css">
                <children>
                   <Pane onMouseClicked="#handleCreateScreen" onTouchPressed="#handleCreateScreen" prefHeight="150.0" prefWidth="150.0" styleClass="SMButtons">
                      <children>
                         <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#154c5d" height="150.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="SMButtons" width="150.0" />
-                        <MaterialDesignIconView fill="#0d262e" glyphName="PLUS" layoutX="39.0" layoutY="102.0" size="72" />
+                        <MaterialDesignIconView fx:id="plus" fill="#0d262e" glyphName="PLUS" layoutX="39.0" layoutY="102.0" size="72" />
                      </children>
                      <opaqueInsets>
                         <Insets />
