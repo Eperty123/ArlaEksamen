@@ -88,7 +88,7 @@ public class ManagerScreenViewController implements Initializable {
                     e.printStackTrace();
                 }
             }
-            
+
         } else {
             try {
                 displayNoScreenWarning();
