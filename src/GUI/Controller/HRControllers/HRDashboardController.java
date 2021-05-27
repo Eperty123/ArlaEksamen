@@ -44,12 +44,11 @@ public class HRDashboardController implements Initializable {
     private Label dateTimeLabel;
     @FXML
     private ImageView image;
-    private User currentUser;
     private boolean isMaximized = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        currentUser = LoginManager.getCurrentUser();
+        User currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(dateTimeLabel);
 
         image.setImage(currentUser.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(currentUser.getPhotoPath()));

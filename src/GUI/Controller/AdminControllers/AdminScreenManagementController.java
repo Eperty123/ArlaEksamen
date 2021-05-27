@@ -51,7 +51,7 @@ public class AdminScreenManagementController implements Initializable {
     private final UserModel userModel = UserModel.getInstance();
     private Node createBtnNode;
 
-    private List<User> userList = userModel.getAllUsers();
+    private final List<User> userList = userModel.getAllUsers();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

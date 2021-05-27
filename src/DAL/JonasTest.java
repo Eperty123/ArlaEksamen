@@ -38,14 +38,6 @@ public class JonasTest {
         List<ScreenBit> screenBits = ScreenModel.getInstance().getAllScreenBits();
         List<Department> departments = departmentDAL.getDepartments();
 
-        /*
-        try(Connection con = dbCon.getConnection()){
-            for(ScreenBit s : screenBits){
-                screenDAL.createScreenBitTimeTable(con, s.getId());
-            }
-        }
-
-         */
         int slots = 17;
 
 

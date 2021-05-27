@@ -30,7 +30,7 @@ public class Manager extends User{
     }
 
     public List<Message> getMessages() {
-        return messages;
+        return this.messages;
 
     }
 

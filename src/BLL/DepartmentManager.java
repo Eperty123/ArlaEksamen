@@ -10,8 +10,8 @@ import java.io.File;
 import java.util.List;
 
 public class DepartmentManager {
-    private ObservableList<Department> departmentList = FXCollections.observableArrayList();
-    private DepartmentDAL departmentDAL = new DepartmentDAL();
+    private final ObservableList<Department> departmentList = FXCollections.observableArrayList();
+    private final DepartmentDAL departmentDAL = new DepartmentDAL();
 
     public DepartmentManager() {
         departmentList.setAll(departmentDAL.getDepartments());

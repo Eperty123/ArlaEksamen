@@ -52,8 +52,8 @@ public class AdminManagementController implements Initializable {
     @FXML
     private JFXTextField txtSearch;
 
-    private UserModel userModel = UserModel.getInstance();
-    private SceneMover sceneMover = new SceneMover();
+    private final UserModel userModel = UserModel.getInstance();
+    private final SceneMover sceneMover = new SceneMover();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

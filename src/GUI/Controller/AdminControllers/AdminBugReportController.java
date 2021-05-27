@@ -40,9 +40,9 @@ public class AdminBugReportController implements Initializable {
     @FXML
     private TableColumn<Bug, String> bAR;
 
-    private BugModel bugModel = BugModel.getInstance();
-    private SceneMover sceneMover = new SceneMover();
-    private ObservableList<Bug> bugs = bugModel.getAllBugs();
+    private final BugModel bugModel = BugModel.getInstance();
+    private final SceneMover sceneMover = new SceneMover();
+    private final ObservableList<Bug> bugs = bugModel.getAllBugs();
 
 
     @Override

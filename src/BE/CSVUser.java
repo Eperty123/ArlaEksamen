@@ -92,7 +92,7 @@ public class CSVUser extends User {
     }
 
     public Department getDepartment() {
-        return department;
+        return this.department;
     }
 
     public void setDepartment(Department department) {

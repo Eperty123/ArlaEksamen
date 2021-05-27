@@ -62,7 +62,7 @@ public class PDFDisplayer {
      * @param file The File to load a pdf from.
      * @throws IOException
      */
-    public void loadPDF(File file) throws IOException {
+    public void loadPDF(File file) throws FileNotFoundException {
         loadPDF(new BufferedInputStream(new FileInputStream(file)));
     }
 
@@ -103,7 +103,7 @@ public class PDFDisplayer {
     private Task<String> buildLoadingTask(InputStream inputStream) {
         final Task<String> task = new Task<>() {
             @Override
-            protected String call() throws Exception {
+            protected String call() throws IOException {
                 try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
 
                     long contentSize = inputStream.available();
@@ -140,11 +140,11 @@ public class PDFDisplayer {
         task.valueProperty().addListener((observable, oldValue, js) -> {
             if (js != null) {
                 try {
-                    webView.getEngine().executeScript(js);
-                } catch (Exception ex) {
+                    this.webView.getEngine().executeScript(js);
+                } catch (RuntimeException ex) {
 
                     ex.printStackTrace();
-                    if (!pdfJsLoaded) loadScript = js;
+                    if (!this.pdfJsLoaded) this.loadScript = js;
                 }
             }
         });
@@ -208,8 +208,8 @@ public class PDFDisplayer {
      */
     public int getActualPageNumber() {
         try {
-            return (int) webView.getEngine().executeScript("PDFViewerApplication.page;");
-        } catch (Exception e) {
+            return (int) this.webView.getEngine().executeScript("PDFViewerApplication.page;");
+        } catch (RuntimeException e) {
             e.printStackTrace();
             return 0;
         }
@@ -222,8 +222,8 @@ public class PDFDisplayer {
      */
     public int getTotalPageCount() {
         try {
-            return (int) webView.getEngine().executeScript("PDFViewerApplication.pagesCount;");
-        } catch (Exception e) {
+            return (int) this.webView.getEngine().executeScript("PDFViewerApplication.pagesCount;");
+        } catch (RuntimeException e) {
             e.printStackTrace();
             return 0;
         }
@@ -237,10 +237,10 @@ public class PDFDisplayer {
     public void navigateByPage(int pageNum) {
         String jsCommand = "goToPage(" + pageNum + ");";
         try {
-            webView.getEngine().executeScript(jsCommand);
-        } catch (Exception ex) {
+            this.webView.getEngine().executeScript(jsCommand);
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
-            if (!pdfJsLoaded) toExecuteWhenPDFJSLoaded += jsCommand;
+            if (!this.pdfJsLoaded) this.toExecuteWhenPDFJSLoaded += jsCommand;
         }
     }
 
@@ -252,9 +252,9 @@ public class PDFDisplayer {
     public void executeScript(String js) {
         try {
             this.webView.getEngine().executeScript(js);
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
-            if (!pdfJsLoaded) toExecuteWhenPDFJSLoaded += String.format("%s;", js);
+            if (!this.pdfJsLoaded) this.toExecuteWhenPDFJSLoaded += String.format("%s;", js);
         }
     }
 
@@ -273,7 +273,6 @@ public class PDFDisplayer {
 
         engine.setJavaScriptEnabled(true);
         engine.load(url);
-        System.out.println(url);
 
 
         engine.getLoadWorker()
@@ -288,16 +287,16 @@ public class PDFDisplayer {
 
                                 if (newValue == Worker.State.SUCCEEDED) {
                                     try {
-                                        pdfJsLoaded = true;
+                                        PDFDisplayer.this.pdfJsLoaded = true;
 
-                                        if (loadScript != null) {
-                                            engine.executeScript(loadScript);
+                                        if (PDFDisplayer.this.loadScript != null) {
+                                            engine.executeScript(PDFDisplayer.this.loadScript);
                                         }
 
-                                        engine.executeScript(toExecuteWhenPDFJSLoaded);
-                                        toExecuteWhenPDFJSLoaded = null;
+                                        engine.executeScript(PDFDisplayer.this.toExecuteWhenPDFJSLoaded);
+                                        PDFDisplayer.this.toExecuteWhenPDFJSLoaded = null;
                                         observable.removeListener(this);
-                                    } catch (Exception e) {
+                                    } catch (RuntimeException e) {
                                         e.printStackTrace();
                                         throw new RuntimeException(e);
                                     }
@@ -313,9 +312,9 @@ public class PDFDisplayer {
      * @return Returns a usable Node to be used in a scene.
      */
     public Parent toNode() {
-        if (webView == null)
-            return webView = createWebView();
+        if (this.webView == null)
+            return this.webView = createWebView();
         else
-            return webView;
+            return this.webView;
     }
 }

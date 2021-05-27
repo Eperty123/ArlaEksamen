@@ -178,6 +178,7 @@ public class HRDepartmentController implements Initializable {
 
     private void handleRemove(Department d) {
         DepartmentModel.getInstance().deleteDepartment(d);
+        loadAllDepartments();
     }
 
     public void handleSearchUser() {

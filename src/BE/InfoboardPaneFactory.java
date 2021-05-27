@@ -1,31 +1,21 @@
 package BE;
 
 import GUI.Controller.EmployeeCardController;
-import GUI.Controller.InfoboardController;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 
-import javax.swing.border.Border;
-
-public class InfoboardPaneFactory {
+public final class InfoboardPaneFactory {
     private static Department currentDepartment;
 
     public static BorderPane createInfoBoard(Department department) {
@@ -94,7 +84,6 @@ public class InfoboardPaneFactory {
         newRectangle.setFill(Paint.valueOf("#154c5d"));
         newRectangle.getStyleClass().add("SMButtons");
 
-        System.out.println(u.getPhotoPath());
         ImageView image = new ImageView();
         image.setImage(u.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
         image.setMouseTransparent(true);

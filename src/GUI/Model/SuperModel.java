@@ -12,9 +12,6 @@ public class SuperModel {
     private static SuperModel instance;
 
     private UserModel userModel;
-    private ScreenModel screenModel;
-    private DepartmentModel departmentModel;
-    private MessageModel messageModel;
     private TitleModel titleModel;
 
     private ObservableList<User> users;
@@ -30,9 +27,9 @@ public class SuperModel {
 
     private void initialize() {
         userModel = UserModel.getInstance();
-        screenModel = ScreenModel.getInstance();
-        departmentModel = DepartmentModel.getInstance();
-        messageModel = MessageModel.getInstance();
+        ScreenModel screenModel = ScreenModel.getInstance();
+        DepartmentModel departmentModel = DepartmentModel.getInstance();
+        MessageModel messageModel = MessageModel.getInstance();
         titleModel = TitleModel.getInstance();
 
         users = FXCollections.observableArrayList();

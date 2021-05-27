@@ -62,8 +62,8 @@ public class AddEmployeeController implements Initializable {
     @FXML
     private JFXComboBox<String> chsTitle;
 
-    private UserModel userModel = UserModel.getInstance();
-    private PasswordManager passwordManager = new PasswordManager();
+    private final UserModel userModel = UserModel.getInstance();
+    private final PasswordManager passwordManager = new PasswordManager();
 
     public void handleSave(ActionEvent actionEvent) throws SQLException, IOException {
 

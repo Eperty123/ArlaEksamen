@@ -17,7 +17,7 @@ public class ScreenBit {
     private List<User> assignedUsers;
     private Pane pane;
     private List<Message> messages;
-    private HashMap<LocalDateTime, Boolean> timeTable;
+    private final HashMap<LocalDateTime, Boolean> timeTable;
 
 
     public ScreenBit(String name) {
@@ -59,7 +59,7 @@ public class ScreenBit {
      * @return Returns the assigned id.
      */
     public int getId() {
-        return id;
+        return this.id;
     }
 
     /**
@@ -77,7 +77,7 @@ public class ScreenBit {
      * @return Returns the Screen info.
      */
     public String getScreenInfo() {
-        return screenInfo;
+        return this.screenInfo;
     }
 
     /**
@@ -95,7 +95,7 @@ public class ScreenBit {
      * @return Returns the Screen name.
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -113,7 +113,7 @@ public class ScreenBit {
      * @return Returns a List of Users assigned to this Screen.
      */
     public List<User> getAssignedUsers() {
-        return assignedUsers;
+        return this.assignedUsers;
     }
 
     /**
@@ -140,7 +140,7 @@ public class ScreenBit {
      * @param user The User to unassign.
      */
     public void removeUser(User user) {
-        assignedUsers.remove(user);
+        this.assignedUsers.remove(user);
     }
 
     /**
@@ -149,7 +149,7 @@ public class ScreenBit {
      * @return Returns the Pane.
      */
     public Pane getPane() {
-        return pane;
+        return this.pane;
     }
 
     /**
@@ -163,7 +163,7 @@ public class ScreenBit {
 
     // TODO Jonas javadoc
     public List<Message> getMessages() {
-        return messages;
+        return this.messages;
     }
 
     public void setMessages(List<Message> messages) {
@@ -179,20 +179,20 @@ public class ScreenBit {
     }
 
     public HashMap<LocalDateTime, Boolean> getTimeTable() {
-        return timeTable;
+        return this.timeTable;
     }
 
     public Message getCurrentMessage(){
-        for(Message m : messages){
+        for(Message m : this.messages){
             if(m.getMessageType() == MessageType.Admin){
                 return m;
             }
             if(m.getMessageEndTime().isBefore(LocalDateTime.now())){
-                messages.remove(m);
+                this.messages.remove(m);
             }
         }
-        Collections.sort(messages, new MessageSorter());
-        return messages.get(0);
+        Collections.sort(this.messages, new MessageSorter());
+        return this.messages.get(0);
     }
 
     // TODO bookTimeSlots()
@@ -213,7 +213,7 @@ public class ScreenBit {
         // If a time slot is booked, the boolean is set to false.
 
         for(int i = 0; i < slotCount; i++){
-            if(!timeTable.get(startTime.plusMinutes(i * 30))){
+            if(!this.timeTable.get(startTime.plusMinutes(i * 30))){
                 return false;
             }
         }

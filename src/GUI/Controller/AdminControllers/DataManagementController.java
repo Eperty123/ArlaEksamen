@@ -44,11 +44,11 @@ public class DataManagementController implements Initializable {
     private Button pickFile;
     @FXML
     private BorderPane pane;
-    private AtomicReference<File> file = new AtomicReference<>();
+    private final AtomicReference<File> file = new AtomicReference<>();
     private Stage stage;
     private PickerStageController pickerStageController;
     private Node previousNode;
-    private DataGenerator dataGenerator = new DataGenerator();
+    private final DataGenerator dataGenerator = new DataGenerator();
     private ViewType selectedItem;
 
     public BorderPane getBar() {
