@@ -77,25 +77,21 @@ public class BugModel {
      * Update the ObservableList of Bug reports.
      */
     public void updateAllBugs() {
-        try {
-            var managerBugs = bugManager.getBugs();
-            List<Bug> _unresolvedBugs = new ArrayList<>();
-            allBugs.setAll(managerBugs);
+        var managerBugs = bugManager.getBugs();
+        List<Bug> _unresolvedBugs = new ArrayList<>();
+        allBugs.setAll(managerBugs);
 
-            // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports for each bug.
-            managerBugs.forEach((x) -> {
-                if (!x.isBugResolved()) {
-                    _unresolvedBugs.add(x);
-                }
-            });
+        // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports for each bug.
+        managerBugs.forEach((x) -> {
+            if (!x.isBugResolved()) {
+                _unresolvedBugs.add(x);
+            }
+        });
 
-            // Now set the unresolved bug ObservableList.
-            unresolvedBugs.setAll(_unresolvedBugs);
-            //System.out.println(String.format("Added unresolved bug: %s", unresolvedBugs.size()));
+        // Now set the unresolved bug ObservableList.
+        unresolvedBugs.setAll(_unresolvedBugs);
+        //System.out.println(String.format("Added unresolved bug: %s", unresolvedBugs.size()));
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     /**

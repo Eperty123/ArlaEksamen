@@ -21,11 +21,7 @@ public final class UserModel {
     private UserModel() {
         userManager = new UserManager();
         allUsers = FXCollections.observableArrayList();
-        try {
-            allUsers.addAll(userManager.getUsers());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        allUsers.addAll(userManager.getUsers());
 
     }
 
@@ -83,12 +79,8 @@ public final class UserModel {
      */
     public void updateUsers() {
         allUsers.clear();
-        try {
-            allUsers.addAll(userManager.getUsers());
+        allUsers.addAll(userManager.getUsers());
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     /**
