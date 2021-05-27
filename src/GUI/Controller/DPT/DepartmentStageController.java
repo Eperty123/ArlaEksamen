@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class DepartmentStageController implements Initializable {
     private TableColumn<User, String> userTableColumn;
     @FXML
     private HBox hBox;
+    @FXML
+    private AnchorPane root;
 
     private List<DepartmentViewController> departmentViewControllers = new ArrayList<>();
 
@@ -56,6 +59,15 @@ public class DepartmentStageController implements Initializable {
 
         TableDragMod.setDontDeleteFromTable(userTable);
         TableDragMod.makeTableDraggable(userTable);
+        autofitSize();
+    }
+
+    private void autofitSize() {
+        root.heightProperty().addListener(((observableValue, number, t1) -> {
+            userTable.setMaxHeight(t1.doubleValue());
+            userTable.setMinHeight(t1.doubleValue());
+            userTable.setPrefHeight(t1.doubleValue());
+        }));
     }
 
     public void setChildrenNodes(List<Node> childNodes) {

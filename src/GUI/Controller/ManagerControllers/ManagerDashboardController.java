@@ -6,6 +6,7 @@ import BE.ScreenBit;
 import BE.User;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
@@ -26,6 +27,7 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -64,29 +66,39 @@ public class ManagerDashboardController implements Initializable {
         }
     }
 
-    public void handleViewScreens() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
-        Parent root = fxmlLoader.load();
-        ManagerScreenViewController controller = fxmlLoader.getController();
-        controller.setParentStage((Stage)this.root.getScene().getWindow());
-        Scene scene = new Scene(root);
-        BorderPane bp = (BorderPane) root.getScene().getRoot();
-        SceneMover sceneMover = new SceneMover();
-        sceneMover.move(stage,bp.getTop());
+    public void handleViewScreens() throws Exception {
+        EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreenBits());
 
-        stage.getIcons().addAll(
-                new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setScene(scene);
-        stage.setTitle("Manager screen view");
-        stage.show();
-        minimize();
+        Optional<ScreenBit> result = selectDialog.showAndWait();
+
+        if (result.isPresent()){
+            if (result.get() != null){
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
+                Parent root = fxmlLoader.load();
+                ManagerScreenViewController controller = fxmlLoader.getController();
+                controller.init(result.get());
+                controller.setParentStage((Stage)this.root.getScene().getWindow());
+                Scene scene = new Scene(root);
+                BorderPane bp = (BorderPane) root.getScene().getRoot();
+                SceneMover sceneMover = new SceneMover();
+                sceneMover.move(stage,bp.getTop());
+
+                stage.getIcons().addAll(
+                        new Image("/GUI/Resources/AppIcons/icon16x16.png"),
+                        new Image("/GUI/Resources/AppIcons/icon24x24.png"),
+                        new Image("/GUI/Resources/AppIcons/icon32x32.png"),
+                        new Image("/GUI/Resources/AppIcons/icon48x48.png"),
+                        new Image("/GUI/Resources/AppIcons/icon64x64.png"));
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.setScene(scene);
+                stage.setTitle("Manager screen view");
+                stage.show();
+                minimize();
+            }
+        }
+
     }
 
     public void handleCreateMessage() throws IOException {
