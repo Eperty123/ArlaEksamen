@@ -112,7 +112,7 @@ public class ScreenDAL {
      *
      * @param newScreenBit
      */
-    public void addScreenBit(ScreenBit newScreenBit) {
+    public int addScreenBit(ScreenBit newScreenBit) {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Screen VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -120,16 +120,17 @@ public class ScreenDAL {
             pSql.setString(2, newScreenBit.getScreenInfo());
             pSql.executeUpdate();
 
-            ResultSet generatedKeys = pSql.getGeneratedKeys();
-            generatedKeys.next();
+            int screenId = resultSetParser.getGeneratedKey(pSql);
 
-            createScreenBitTimeTable(con, generatedKeys.getInt(1));
+            createScreenBitTimeTable(con, screenId);
+            return screenId;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add the given screen " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
+        return -1;
     }
 
     // TODO javadoc jonas

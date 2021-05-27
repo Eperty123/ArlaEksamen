@@ -203,7 +203,10 @@ public class ManagerScreenViewController implements Initializable {
                 newBug.setReferencedUser(currentUser.getUserName());
                 BugModel.getInstance().addBug(newBug);
 
+                //TODO uncheck
+
                 // Check if we can send emails at all.
+
                 if (emailManager.canSendEmail()) {
                     // Proceed to do so.
                     bugModel.sendEmailBugReportToAllAdmins(newBug, comboScreens.getSelectionModel().getSelectedItem(), currentUser);
@@ -212,6 +215,8 @@ public class ManagerScreenViewController implements Initializable {
 
                 WarningController.createWarning("Report Send!", "Bug report successfully send, " +
                         "thank you for helping improving this program!");
+
+                 
             }
         }
     }

@@ -26,8 +26,8 @@ public class UserManager {
      *
      * @param user the desired user to be added.
      */
-    public void addUser(User user, Department department) {
-        this.userDAL.addUser(user, department);
+    public int addUser(User user, Department department) {
+        return this.userDAL.addUser(user, department);
     }
 
     /**

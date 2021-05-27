@@ -14,8 +14,8 @@ public class ScreenManager {
      * Adds a ScreenBit to the Database.
      * @param newScreenBit the desired ScreenBit to be added.
      */
-    public void addScreenBit(ScreenBit newScreenBit){
-        this.screenDAL.addScreenBit(newScreenBit);
+    public int addScreenBit(ScreenBit newScreenBit){
+        return this.screenDAL.addScreenBit(newScreenBit);
     }
 
     /**

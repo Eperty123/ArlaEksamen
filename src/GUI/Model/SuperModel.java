@@ -72,7 +72,15 @@ public class SuperModel {
         titleModel.updateTitle(oldTitle, newTitle);
         titles.remove(oldTitle);
         titles.add(newTitle);
-        // TODO update users' titles
+        updateUserTitles(oldTitle, newTitle);
+    }
+
+    private void updateUserTitles(String oldTitle, String newTitle) {
+        for(User u: users){
+            if(u.getTitle().equals(oldTitle)){
+                u.setTitle(newTitle);
+            }
+        }
     }
 
     public ObservableList<String> getTitles() {
@@ -87,7 +95,7 @@ public class SuperModel {
 
     public void addUser(User newUser, Department department) {
         if (users.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
-            userModel.addUser(newUser, department);
+            newUser.setId(userModel.addUser(newUser, department));
             users.add(newUser);
             // TODO add user to dpt
         }
@@ -152,11 +160,39 @@ public class SuperModel {
 
     // _____ ScreenBits _____
 
+
     public void addScreenBit(ScreenBit newScreenBit) {
-        // Not sure if this still return false with ! in it.
-        if (!screenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
-            ScreenModel.getInstance().addScreenBit(newScreenBit);
+
+        if (screenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
+            newScreenBit.setId(ScreenModel.getInstance().addScreenBit(newScreenBit));
             screenBits.add(newScreenBit);
+        }
+    }
+
+    /**
+     * Deletes the specified ScreenBit from the database.
+     *
+     * @param screenBit object containing information to identify the row in the database.
+     */
+    public void deleteScreenBit(ScreenBit screenBit) {
+        screenModel.deleteScreenBit(screenBit);
+        users.forEach(u -> {
+            if(u.getAssignedScreenBits().contains(screenBit)){ u.removeScreenBit(screenBit); }
+        });
+    }
+
+
+    public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit) {
+        screenModel.updateScreenBit(newScreenBit, oldScreenBit);
+        updateScreenBitsOnUsers(newScreenBit, oldScreenBit);
+    }
+
+    private void updateScreenBitsOnUsers(ScreenBit newScreenBit, ScreenBit oldScreenBit) {
+        for(User u : users){
+            if(u.getAssignedScreenBits().contains(oldScreenBit)){
+                u.getAssignedScreenBits().remove(oldScreenBit);
+                u.getAssignedScreenBits().add(newScreenBit);
+            }
         }
     }
 

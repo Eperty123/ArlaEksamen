@@ -336,4 +336,8 @@ public class User {
     public void addScreenAssignment(ScreenBit screenBit) {
         this.assignedScreenBits.add(screenBit);
     }
+
+    public void removeScreenBit(ScreenBit screenBit) {
+        assignedScreenBits.remove(screenBit);
+    }
 }

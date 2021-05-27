@@ -38,11 +38,11 @@ public final class UserModel {
      *
      * @param newUser object to be written to the database.
      */
-    public void addUser(User newUser, Department department) {
+    public int addUser(User newUser, Department department) {
         if (allUsers.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
-            userManager.addUser(newUser, department);
-            updateUsers();
+            return userManager.addUser(newUser, department);
         }
+        return -1;
     }
 
     /**

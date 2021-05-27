@@ -7,12 +7,11 @@ import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
 import GUI.Controller.PopupControllers.WarningController;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class UserDAL {
     private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
@@ -63,11 +62,11 @@ public class UserDAL {
      *
      * @param user object containing information on the new user.
      */
-    public void addUser(User user, Department department) {
+    public int addUser(User user, Department department) {
 
         try (Connection con = dbCon.getConnection()) {
 
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
             pSql.setString(1, user.getFirstName());
             pSql.setString(2, user.getLastName());
@@ -79,19 +78,22 @@ public class UserDAL {
             pSql.setInt(8, user.getGender().ordinal());
             pSql.setString(9, user.getPhotoPath());
             pSql.setString(10, user.getTitle());
-            pSql.execute();
+            pSql.executeUpdate();
 
             if (department != null) {
                 addUserDepartmentRelation(con, user, department);
             }
 
+            return resultSetParser.getGeneratedKey(pSql);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
+        return -1;
     }
+
 
     /**
      * Import a list of CSVUsers in to the database.
