@@ -5,12 +5,11 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class Searcher {
-    private static ObservableList<User> OLUsersReturn = FXCollections.observableArrayList();
-    private static ObservableList<Bug> OLBugReturn = FXCollections.observableArrayList();
-    private static ObservableList<Department> OLDepartmentReturn = FXCollections.observableArrayList();
+public final class Searcher {
+    private static final ObservableList<User> OLUsersReturn = FXCollections.observableArrayList();
+    private static final ObservableList<Bug> OLBugReturn = FXCollections.observableArrayList();
+    private static final ObservableList<Department> OLDepartmentReturn = FXCollections.observableArrayList();
 
 
     public static ObservableList<User> searchUsers(List<User> currentList, String query) {

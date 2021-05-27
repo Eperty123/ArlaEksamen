@@ -22,7 +22,7 @@ public class Email {
     }
 
     public String getRecipient() {
-        return recipient;
+        return this.recipient;
     }
 
     public void setRecipient(String recipient) {
@@ -30,7 +30,7 @@ public class Email {
     }
 
     public String getSender() {
-        return sender;
+        return this.sender;
     }
 
     public void setSender(String sender) {
@@ -38,7 +38,7 @@ public class Email {
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
     public void setMessage(String message) {
@@ -46,7 +46,7 @@ public class Email {
     }
 
     public String getSubject() {
-        return subject;
+        return this.subject;
     }
 
     public void setSubject(String subject) {

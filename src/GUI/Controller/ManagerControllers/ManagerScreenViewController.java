@@ -4,7 +4,6 @@ import BE.*;
 import BLL.EmailManager;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.BugReportDialog;
-import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Controller.StageBuilder;
 import GUI.Model.BugModel;
@@ -50,7 +49,7 @@ public class ManagerScreenViewController implements Initializable {
 
     private User currentUser;
     private boolean isMaximized = false;
-    private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     private Stage parentStage;
     private ScreenBit selectedScreen;
     private List<Message> screenMessages = new ArrayList<>();

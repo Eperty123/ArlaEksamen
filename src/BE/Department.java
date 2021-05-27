@@ -1,7 +1,6 @@
 package BE;
 
 import GUI.Controller.DPT.DepartmentViewController;
-import GUI.Model.DepartmentModel;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,14 +8,14 @@ import javafx.collections.ObservableList;
 public class Department {
     private ObjectProperty<Integer> id = new SimpleObjectProperty<>(-1);
     private StringProperty name = new SimpleStringProperty("");
-    private ObjectProperty<User> manager = new SimpleObjectProperty();
+    private final ObjectProperty<User> manager = new SimpleObjectProperty();
     private ObservableList<User> users = FXCollections.observableArrayList();
     private ObservableList<Department> subDepartments = FXCollections.observableArrayList();
-    private BooleanProperty isSubDepartment = new SimpleBooleanProperty(false);
+    private final BooleanProperty isSubDepartment = new SimpleBooleanProperty(false);
     private DepartmentViewController departmentViewController;
 
     public DepartmentViewController getDepartmentViewController() {
-        return departmentViewController;
+        return this.departmentViewController;
     }
 
     public void setDepartmentViewController(DepartmentViewController departmentViewController) {
@@ -46,11 +45,11 @@ public class Department {
     }
 
     public User getManager() {
-        return manager.get();
+        return this.manager.get();
     }
 
     public ObjectProperty<User> managerProperty() {
-        return manager;
+        return this.manager;
     }
 
     public void setManager(User manager) {
@@ -58,7 +57,7 @@ public class Department {
     }
 
     public ObjectProperty<Integer> idProperty() {
-        return id;
+        return this.id;
     }
 
     public void setId(Integer id) {
@@ -67,15 +66,15 @@ public class Department {
     }
 
     public int getId() {
-        return id.get();
+        return this.id.get();
     }
 
     public String getName() {
-        return name.get();
+        return this.name.get();
     }
 
     public StringProperty nameProperty() {
-        return name;
+        return this.name;
 
     }
 
@@ -84,7 +83,7 @@ public class Department {
     }
 
     public ObservableList<User> getUsers() {
-        return users;
+        return this.users;
     }
 
     public void setUsers(ObservableList<User> users) {
@@ -96,11 +95,11 @@ public class Department {
     }
 
     public ObservableList<Department> getSubDepartments() {
-        return subDepartments;
+        return this.subDepartments;
     }
 
     public void addSubDepartment(Department subDepartment){
-        subDepartments.add(subDepartment);
+        this.subDepartments.add(subDepartment);
     }
 
     public void setSubDepartments(ObservableList<Department> subDepartments) {
@@ -118,7 +117,7 @@ public class Department {
     public ObservableList<Department> getAllSubDepartments() {
         ObservableList<Department> tmp = FXCollections.observableArrayList();
         if (!this.getSubDepartments().isEmpty())
-            subDepartments.forEach(sd -> {
+            this.subDepartments.forEach(sd -> {
                 tmp.addAll(sd.getAllSubDepartments());
                 tmp.add(sd);
             });
@@ -129,6 +128,6 @@ public class Department {
 
     @Override
     public String toString() {
-        return name.get();
+        return this.name.get();
     }
 }

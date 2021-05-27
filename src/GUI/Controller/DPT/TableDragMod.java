@@ -18,8 +18,8 @@ public class TableDragMod {
     private static TableView<User> finalTableView;
     private static final User userPlaceHolder = new User("", "", "", -1);
     private static TableView<User> dontDeleteFromTable;
-    private static List<User> selections = new ArrayList<>();
-    private static List<TableView<User>> tableViews = new ArrayList<>();
+    private static final List<User> selections = new ArrayList<>();
+    private static final List<TableView<User>> tableViews = new ArrayList<>();
 
     public static void setDontDeleteFromTable(TableView<User> dontDeleteFromTable) {
         TableDragMod.dontDeleteFromTable = dontDeleteFromTable;

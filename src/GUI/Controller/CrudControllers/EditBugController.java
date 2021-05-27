@@ -32,14 +32,14 @@ public class EditBugController implements Initializable {
     private JFXComboBox<User> chsAdmin;
 
     private Bug selectedBug;
-    private BugModel bugModel = BugModel.getInstance();
-    private PasswordManager passwordManager = new PasswordManager();
+    private final BugModel bugModel = BugModel.getInstance();
+    private final PasswordManager passwordManager = new PasswordManager();
 
     public void setData(Bug bug) {
         selectedBug = bug;
     }
 
-    public void handleSave(ActionEvent actionEvent) throws SQLException, IOException {
+    public void handleSave(ActionEvent actionEvent) throws IOException {
         if (!chsAdmin.getSelectionModel().isEmpty()) {
 
             // Create a new Bug instance with updated values.

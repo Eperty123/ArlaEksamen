@@ -15,10 +15,10 @@ public class User {
     private StringProperty email = new SimpleStringProperty("");
     private Enum userRole;
     private SimpleIntegerProperty password = new SimpleIntegerProperty(-1);
-    private ObjectProperty<Integer> phone = new SimpleObjectProperty<>(-1);
+    private final ObjectProperty<Integer> phone = new SimpleObjectProperty<>(-1);
     private List<ScreenBit> assignedScreenBits = new ArrayList<>();
-    private StringProperty photoPath = new SimpleStringProperty();
-    private StringProperty title = new SimpleStringProperty();
+    private final StringProperty photoPath = new SimpleStringProperty();
+    private final StringProperty title = new SimpleStringProperty();
     private Enum gender;
 
     public User() {
@@ -175,11 +175,11 @@ public class User {
 
 
     public int getId() {
-        return id.get();
+        return this.id.get();
     }
 
     public ObjectProperty<Integer> idProperty() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -187,11 +187,11 @@ public class User {
     }
 
     public String getFirstName() {
-        return firstName.get();
+        return this.firstName.get();
     }
 
     public StringProperty firstNameProperty() {
-        return firstName;
+        return this.firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -199,11 +199,11 @@ public class User {
     }
 
     public String getLastName() {
-        return lastName.get();
+        return this.lastName.get();
     }
 
     public StringProperty lastNameProperty() {
-        return lastName;
+        return this.lastName;
     }
 
     public void setLastName(String lastName) {
@@ -211,11 +211,11 @@ public class User {
     }
 
     public String getUserName() {
-        return userName.get();
+        return this.userName.get();
     }
 
     public StringProperty userNameProperty() {
-        return userName;
+        return this.userName;
     }
 
     public void setUserName(String userName) {
@@ -223,11 +223,11 @@ public class User {
     }
 
     public String getEmail() {
-        return email.get();
+        return this.email.get();
     }
 
     public StringProperty emailProperty() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -235,7 +235,7 @@ public class User {
     }
 
     public Enum getUserRole() {
-        return userRole;
+        return this.userRole;
     }
 
     public void setUserRole(Enum userRole) {
@@ -243,11 +243,11 @@ public class User {
     }
 
     public int getPassword() {
-        return password.get();
+        return this.password.get();
     }
 
     public IntegerProperty passwordProperty() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(int password) {
@@ -255,11 +255,11 @@ public class User {
     }
 
     public int getPhone() {
-        return phone.get();
+        return this.phone.get();
     }
 
     public ObjectProperty<Integer> phoneProperty() {
-        return phone;
+        return this.phone;
     }
 
     public void setPhone(int phone) {
@@ -267,7 +267,7 @@ public class User {
     }
 
     public List<ScreenBit> getAssignedScreenBits() {
-        return assignedScreenBits;
+        return this.assignedScreenBits;
     }
 
     public void setAssignedScreenBits(List<ScreenBit> assignedScreenBits) {
@@ -275,9 +275,9 @@ public class User {
     }
 
     public StringProperty getFullNameProperty() {
-        StringProperty fullNameProperty = new SimpleStringProperty(firstName.get() + " " + lastName.get());
-        firstName.addListener((observableValue, s, t1) -> fullNameProperty.setValue(t1 + " " + lastNameProperty().get()));
-        lastName.addListener((observableValue, s, t1) -> fullNameProperty.setValue(firstName + " " + t1));
+        StringProperty fullNameProperty = new SimpleStringProperty(this.firstName.get() + " " + this.lastName.get());
+        this.firstName.addListener((observableValue, s, t1) -> fullNameProperty.setValue(t1 + " " + lastNameProperty().get()));
+        this.lastName.addListener((observableValue, s, t1) -> fullNameProperty.setValue(this.firstName + " " + t1));
         return fullNameProperty;
     }
 
@@ -291,11 +291,11 @@ public class User {
     }
 
     public String getPhotoPath() {
-        return photoPath.get();
+        return this.photoPath.get();
     }
 
     public StringProperty photoPathProperty() {
-        return photoPath;
+        return this.photoPath;
     }
 
     public void setPhotoPath(String photoPath) {
@@ -303,11 +303,11 @@ public class User {
     }
 
     public String getTitle() {
-        return title.get();
+        return this.title.get();
     }
 
     public StringProperty titleProperty() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {
@@ -316,7 +316,7 @@ public class User {
 
 
     public Enum getGender() {
-        return gender;
+        return this.gender;
     }
 
     public void setGender(Enum gender) {
@@ -324,13 +324,13 @@ public class User {
     }
 
     public String toCSV() {
-        return id.getValue() + ";" + firstName.get() + ";" + lastName.get() + ";" + userName.get() + ";" + email.get() + ";" + phone.get() + ";" + userRole.ordinal() + ";" + password.get() + ";" + gender.ordinal() + ";" + title.get();
+        return this.id.getValue() + ";" + this.firstName.get() + ";" + this.lastName.get() + ";" + this.userName.get() + ";" + this.email.get() + ";" + this.phone.get() + ";" + this.userRole.ordinal() + ";" + this.password.get() + ";" + this.gender.ordinal() + ";" + this.title.get();
     }
 
 
     @Override
     public String toString() {
-        return userName.getValue() + " - " + firstName.getValue() + " " + lastName.getValue();
+        return this.userName.getValue() + " - " + this.firstName.getValue() + " " + this.lastName.getValue();
     }
 
     public void addScreenAssignment(ScreenBit screenBit) {

@@ -47,7 +47,6 @@ public class AdminDashboardController implements Initializable {
     @FXML
     private ImageView image;
 
-    private User currentUser;
     private boolean isMaximized = false;
     private BugModel bugModel = BugModel.getInstance();
     private EmailManager emailManager = EmailManager.getInstance();
@@ -58,7 +57,7 @@ public class AdminDashboardController implements Initializable {
     }
 
     private void initialize() {
-        currentUser = LoginManager.getCurrentUser();
+        User currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(dateTimeLabel);
 
         image.setImage(currentUser.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(currentUser.getPhotoPath()));

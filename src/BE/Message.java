@@ -43,7 +43,7 @@ public class Message {
         this.messageStartTime = messageStartTime;
         this.message = message;
         this.textColor = textColor;
-        this.messageEndTime = messageStartTime.plusHours(SHIFT_DURATION);
+        this.messageEndTime = messageStartTime.plusHours(this.SHIFT_DURATION);
         setId(message, messageStartTime, this.messageEndTime);
     }
 
@@ -53,7 +53,7 @@ public class Message {
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
     public void setMessage(String message) {
@@ -61,7 +61,7 @@ public class Message {
     }
 
     public Color getTextColor() {
-        return textColor;
+        return this.textColor;
     }
 
     public void setTextColor(Color textColor) {
@@ -69,7 +69,7 @@ public class Message {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -77,7 +77,7 @@ public class Message {
     }
 
     public LocalDateTime getMessageStartTime() {
-        return messageStartTime;
+        return this.messageStartTime;
     }
 
     public void setMessageStartTime(LocalDateTime messageStartTime) {
@@ -85,7 +85,7 @@ public class Message {
     }
 
     public LocalDateTime getMessageEndTime() {
-        return messageEndTime;
+        return this.messageEndTime;
     }
 
     public void setMessageEndTime(LocalDateTime messageEndTime) {
@@ -93,11 +93,11 @@ public class Message {
     }
 
     public int getSHIFT_DURATION() {
-        return SHIFT_DURATION;
+        return this.SHIFT_DURATION;
     }
 
     public MessageType getMessageType() {
-        return messageType;
+        return this.messageType;
     }
 
     public void setMessageType(MessageType messageType) {

@@ -5,20 +5,20 @@ public class Title {
     String title;
 
     public Title(int id, String title) {
-        Id = id;
+        this.Id = id;
         this.title = title;
     }
 
     public int getId() {
-        return Id;
+        return this.Id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.Id = id;
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {

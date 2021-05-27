@@ -9,8 +9,8 @@ public enum SettingsType {
     TIME_FORMAT(2), // 2 - Time format for date/time
     WRONG_PASS_FREEZE_DURATION(3); // 3 - Wrong password freeze duration (in seconds)
 
-    private int value;
-    private static Map map = new HashMap<>();
+    private final int value;
+    private static final Map map = new HashMap<>();
 
     SettingsType(int value) {
         this.value = value;
@@ -27,6 +27,6 @@ public enum SettingsType {
     }
 
     public int getValue() {
-        return value;
+        return this.value;
     }
 }

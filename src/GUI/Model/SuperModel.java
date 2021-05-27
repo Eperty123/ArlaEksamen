@@ -7,14 +7,11 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuperModel {
+public final class SuperModel {
 
     private static SuperModel instance;
 
     private UserModel userModel;
-    private ScreenModel screenModel;
-    private DepartmentModel departmentModel;
-    private MessageModel messageModel;
     private TitleModel titleModel;
 
     private ObservableList<User> users;
@@ -30,9 +27,9 @@ public class SuperModel {
 
     private void initialize() {
         userModel = UserModel.getInstance();
-        screenModel = ScreenModel.getInstance();
-        departmentModel = DepartmentModel.getInstance();
-        messageModel = MessageModel.getInstance();
+        ScreenModel screenModel = ScreenModel.getInstance();
+        DepartmentModel departmentModel = DepartmentModel.getInstance();
+        MessageModel messageModel = MessageModel.getInstance();
         titleModel = TitleModel.getInstance();
 
         users = FXCollections.observableArrayList();
@@ -123,7 +120,7 @@ public class SuperModel {
         var filteredUsers = new ArrayList<User>();
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
-            if (user.getUserRole().equals(role))
+            if (user.getUserRole() == role)
                 filteredUsers.add(user);
         }
         return filteredUsers;

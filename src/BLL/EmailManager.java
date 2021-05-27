@@ -20,7 +20,6 @@ public class EmailManager {
     private boolean useTLS;
 
     private static EmailManager instance;
-    private Properties emailSettings;
 
     public EmailManager() {
         initialize();
@@ -37,7 +36,7 @@ public class EmailManager {
     public void loadEmailSettings(String settingsFile) {
         var file = new File(settingsFile);
         if (file.exists()) {
-            emailSettings = new Properties();
+            Properties emailSettings = new Properties();
 
             try {
                 emailSettings.load(new FileInputStream(file));

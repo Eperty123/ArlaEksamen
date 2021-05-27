@@ -9,35 +9,29 @@ import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.*;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static BLL.DataNodes.ViewType.Image;
 
 public class EmployeeScreenController implements Initializable {
     @FXML
@@ -50,7 +44,7 @@ public class EmployeeScreenController implements Initializable {
     private TextArea txtMessage;
     @FXML
     private JFXComboBox<ScreenBit> comboScreens;
-    private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     private List<Message> userMessages = new ArrayList<>();
 
     private User currentUser;

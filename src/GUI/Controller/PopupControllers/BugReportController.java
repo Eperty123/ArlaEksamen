@@ -1,7 +1,6 @@
 package GUI.Controller.PopupControllers;
 
 import com.jfoenix.controls.JFXTextArea;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 

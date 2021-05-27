@@ -33,7 +33,7 @@ public class DepartmentStageController implements Initializable {
     @FXML
     private AnchorPane root;
 
-    private List<DepartmentViewController> departmentViewControllers = new ArrayList<>();
+    private final List<DepartmentViewController> departmentViewControllers = new ArrayList<>();
 
     public HBox gethBox() {
         return hBox;

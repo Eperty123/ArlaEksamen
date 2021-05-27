@@ -72,9 +72,9 @@ public class ManagerMessageController implements Initializable {
 
     private User currentUser;
 
-    private List<ScreenBit> selectedScreens = new ArrayList<>();
-    private MessageModel messageModel = MessageModel.getInstance();
-    private ObservableList<Message> currentUsersMessages = FXCollections.observableArrayList();
+    private final List<ScreenBit> selectedScreens = new ArrayList<>();
+    private final MessageModel messageModel = MessageModel.getInstance();
+    private final ObservableList<Message> currentUsersMessages = FXCollections.observableArrayList();
     private Message selectedMessage;
     private Boolean isAllSelected = false;
 
@@ -98,8 +98,6 @@ public class ManagerMessageController implements Initializable {
 
         // Sort the messages by start time (date & time reported).
         sortMessagesByStartTime();
-
-        System.out.println(String.format("Manager message count: %d", currentUsersMessages.size()));
     }
 
     /**
@@ -158,7 +156,6 @@ public class ManagerMessageController implements Initializable {
                 makeScreen(s);
             }
         } else {
-            System.out.println(currentUser.getAssignedScreenBits());
             // Add all screens.
             for (ScreenBit s : currentUser.getAssignedScreenBits()) {
                 makeScreen(s);
@@ -269,8 +266,6 @@ public class ManagerMessageController implements Initializable {
         String message = messageArea.getText();
         Color color = colorPicker.getValue();
         LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), LocalTime.of(hourBox.getSelectionModel().getSelectedIndex(), minuteBox.getSelectionModel().getSelectedItem()));
-        System.out.println(getDurationHours());
-        System.out.println(getDurationMinutes());
         LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
         MessageType messageType = currentUser.getUserRole() == UserType.Manager ? MessageType.Manager : MessageType.Admin;
 
@@ -307,10 +302,6 @@ public class ManagerMessageController implements Initializable {
 
     private long getDurationHours() {
         return durationHoursChoice.getSelectionModel().getSelectedItem();
-    }
-
-    public void handleCancel() {
-
     }
 
     private void clearMessageFields() {
