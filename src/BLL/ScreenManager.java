@@ -52,6 +52,10 @@ public class ScreenManager {
         this.screenDAL.assignScreenBitRights(user, screenBit);
     }
 
+    public void assignScreenBitRights(List<User> users, ScreenBit screenBit){
+        this.screenDAL.assignScreenBitRights(users, screenBit);
+    }
+
     /**
      * Removes an association between a ScreenBit and a User.
      * @param user the User the association is going to be removed from.

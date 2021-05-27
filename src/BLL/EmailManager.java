@@ -161,4 +161,9 @@ public class EmailManager {
     public static EmailManager getInstance() {
         return EmailManager.instance == null ? EmailManager.instance = new EmailManager() : EmailManager.instance;
     }
+
+    // TODO DELETE !!!!!!!
+    public boolean canSendEmail() {
+        return true;
+    }
 }

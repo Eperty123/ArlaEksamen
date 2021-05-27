@@ -224,6 +224,24 @@ public class ScreenDAL {
         }
     }
 
+    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) {
+
+        try (Connection con = dbCon.getConnection()) {
+            PreparedStatement pSql = con.prepareStatement("INSERT INTO ScreenRights VALUES(?,?)");
+            for(User u : users){
+                pSql.setInt(1, screenBit.getId());
+                pSql.setString(2, u.getUserName());
+                pSql.addBatch();
+            }
+            pSql.executeBatch();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to assign screen rights between " +
+                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
+        }
+    }
+
     /**
      * Deletes an association in the ScreenRights junction table in the database.
      * The row is identified using both userName and screenId.
@@ -258,10 +276,10 @@ public class ScreenDAL {
             for(User u : users){
                 pSql.setString(1, u.getUserName());
                 pSql.setInt(2, screenBit.getId());
-                pSql.executeBatch();
+                pSql.addBatch();
             }
 
-            pSql.execute();
+            pSql.executeBatch();
 
 
         } catch (SQLException throwables) {
@@ -273,7 +291,7 @@ public class ScreenDAL {
 
     /**
      * * This helper method updates the allScreenBits list with data retrieved from the ResultSet in the getScreenBits() method.
-     * <p>
+     *
      * - If a user does not exist in allUsers, first the ScreenBit is assigned to the user,
      * and then the user is added to allUsers.
      * - If a user does exist in allUsers, the ScreenBit is added to the users list of assigned ScreenBits.
@@ -285,13 +303,13 @@ public class ScreenDAL {
     private void addScreenBitAndUser(List<ScreenBit> allScreens, ScreenBit newScreenBit, User assignedUser) {
         // If ScreenBit does not exist, it is added to the return list.
         if (allScreens.stream().noneMatch(o -> o.getId() == newScreenBit.getId())) {
-            if (assignedUser.getUserName() != null) newScreenBit.addUser(assignedUser);
+            if (assignedUser.getUserName() != null) newScreenBit.addAssignedUser(assignedUser);
             allScreens.add(newScreenBit);
         } else {
             // If ScreenBit does exist assignedUser is added to the ScreenBit
             for (ScreenBit s : allScreens) {
                 if (s.getId() == newScreenBit.getId() && assignedUser.getUserName() != null) {
-                    s.addUser(assignedUser);
+                    s.addAssignedUser(assignedUser);
                 }
             }
         }

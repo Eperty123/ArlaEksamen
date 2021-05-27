@@ -7,6 +7,7 @@ import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.MessageModel;
 import GUI.Model.ScreenModel;
+import GUI.Model.DataModel;
 import com.jfoenix.controls.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -81,7 +82,6 @@ public class ManagerMessageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
-        currentUsersMessages.addAll(MessageModel.getInstance().getAllUserMessages(currentUser.getUserName()));
         datePicker.setValue(LocalDate.now());
 
 
@@ -91,10 +91,9 @@ public class ManagerMessageController implements Initializable {
         loadAllScreens();
 
         // Set the Message Model's current user to be the one now. Needed in order to know which manager messages to load.
-        messageModel.loadUserMessages(currentUser);
 
         // Then get all the user's (manager) messages.
-        currentUsersMessages.setAll(messageModel.getAllUserMessages());
+        currentUsersMessages.setAll(DataModel.getInstance().getUsersMessages(currentUser));
 
         // Sort the messages by start time (date & time reported).
         sortMessagesByStartTime();

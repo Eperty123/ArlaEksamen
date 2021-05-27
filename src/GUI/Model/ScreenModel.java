@@ -96,17 +96,20 @@ public final class ScreenModel {
      */
     public void assignScreenBitRights(User user, ScreenBit screenBit) {
         screenManager.assignScreenBitRights(user, screenBit);
-        updateScreenBits();
+    }
+
+    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) {
+        screenManager.assignScreenBitRights(users, screenBit);
     }
 
     public void removeScreenBitRights(User user, ScreenBit screenBit) {
         screenManager.removeScreenBitRights(user, screenBit);
-        updateScreenBits();
+
     }
 
     public void removeScreenBitRights(List<User> users, ScreenBit screenBit) {
         screenManager.removeScreenBitRights(users, screenBit);
-        updateScreenBits();
+
     }
 
     /**

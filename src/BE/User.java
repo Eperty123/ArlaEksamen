@@ -340,4 +340,9 @@ public class User {
     public void removeScreenBit(ScreenBit screenBit) {
         assignedScreenBits.remove(screenBit);
     }
+
+    public void updateScreenBit(ScreenBit oldScreenBit, ScreenBit newScreenBit) {
+        assignedScreenBits.remove(oldScreenBit);
+        assignedScreenBits.add(newScreenBit);
+    }
 }

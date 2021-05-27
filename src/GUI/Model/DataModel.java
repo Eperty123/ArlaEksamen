@@ -7,9 +7,9 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuperModel {
+public class DataModel {
 
-    private static SuperModel instance;
+    private static DataModel instance;
 
     private UserModel userModel;
     private ScreenModel screenModel;
@@ -20,15 +20,17 @@ public class SuperModel {
     private ObservableList<User> users;
     private ObservableList<ScreenBit> screenBits;
     private ObservableList<Department> departments;
-    private ObservableList<Message> messages;
+    private ObservableList<Message> messages; // TODO maybe change to currentUsersMessages?
     private ObservableList<String> titles;
 
 
-    private SuperModel(){
+    private DataModel(){
         initialize();
     }
 
     private void initialize() {
+
+        // TODO prioritize, and make a thread for concurrent init
         userModel = UserModel.getInstance();
         screenModel = ScreenModel.getInstance();
         departmentModel = DepartmentModel.getInstance();
@@ -41,15 +43,16 @@ public class SuperModel {
         messages = FXCollections.observableArrayList();
         titles = FXCollections.observableArrayList();
 
-        users.addAll(userModel.getAllUsers());
-        screenBits.addAll(screenModel.getAllScreenBits());
+        // TODO use internal
+        users.addAll(getUsers());
+        screenBits.addAll(getScreenBits());
         departments.addAll(departmentModel.getAllDepartments());
-        messages.addAll(messageModel.getAllMessages());
+        messages.addAll(getMessages());
         titles.addAll(titleModel.getTitles());
     }
 
-    public static SuperModel getInstance(){
-        return instance == null ? instance = new SuperModel() : instance;
+    public static DataModel getInstance(){
+        return instance == null ? instance = new DataModel() : instance;
     }
 
     // _____ Title _____
@@ -188,12 +191,37 @@ public class SuperModel {
     }
 
     private void updateScreenBitsOnUsers(ScreenBit newScreenBit, ScreenBit oldScreenBit) {
-        for(User u : users){
-            if(u.getAssignedScreenBits().contains(oldScreenBit)){
-                u.getAssignedScreenBits().remove(oldScreenBit);
-                u.getAssignedScreenBits().add(newScreenBit);
-            }
-        }
+        users.forEach(u -> { if(u.getAssignedScreenBits().contains(oldScreenBit)){ u.updateScreenBit(oldScreenBit, newScreenBit); } });
+    }
+
+    public void assignScreenBitRights(User user, ScreenBit screenBit) {
+        screenModel.assignScreenBitRights(user, screenBit);
+        assignScreenBitUserRights(user, screenBit);
+    }
+
+    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) {
+        screenModel.assignScreenBitRights(users, screenBit);
+        users.forEach(u -> {assignScreenBitUserRights(u, screenBit);});
+    }
+
+    private void assignScreenBitUserRights(User user, ScreenBit screenBit) {
+        users.forEach(u -> { if(u.getId() == user.getId()) {u.addScreenAssignment(screenBit);} });
+        screenBits.forEach(s -> { if(s.getId() == screenBit.getId()) {s.addAssignedUser(user);} });
+    }
+
+    public void removeScreenBitRights(User user, ScreenBit screenBit) {
+        screenModel.removeScreenBitRights(user, screenBit);
+        deleteScreenBitUserRights(user, screenBit);
+    }
+
+    public void removeScreenBitRights(List<User> users, ScreenBit screenBit) {
+        screenModel.removeScreenBitRights(users, screenBit);
+        users.forEach(u -> {deleteScreenBitUserRights(u, screenBit);});
+    }
+
+    private void deleteScreenBitUserRights(User user, ScreenBit screenBit) {
+        users.forEach(u -> { if(u.getId() == user.getId()) {u.removeScreenBit(screenBit);} });
+        screenBits.forEach(s -> { if(s.getId() == screenBit.getId()) {s.removeUser(user);} });
     }
 
     public ObservableList<ScreenBit> getScreenBits() {
@@ -216,6 +244,56 @@ public class SuperModel {
 
     // _____ Messages _____
 
+    public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
+        messageModel.addMessage(user, newMessage, assignedScreenBits);
+        messages.add(newMessage);
+        addMessageToScreenBits(newMessage, assignedScreenBits);
+        bookScreenBitTimeTables(newMessage, assignedScreenBits);
+    }
+
+    private void addMessageToScreenBits( Message newMessage, List<ScreenBit> assignedScreenBits) {
+        assignedScreenBits.forEach( assignedScreenBit -> {
+            screenBits.forEach( screenBit -> {
+                if (assignedScreenBit.getId() == screenBit.getId()) {
+                    screenBit.addMessage(newMessage);
+                }
+            });
+        });
+    }
+
+    private void bookScreenBitTimeTables(Message newMessage, List<ScreenBit> assignedScreenBits) {
+        assignedScreenBits.forEach( screenBit -> { screenBit.bookTimeSlots(newMessage); });
+    }
+
+    public void deleteMessage(Message message){
+        messageModel.deleteMessage(message);
+        messages.remove(message);
+        deleteMessageFromScreenBits(message);
+
+        // TODO remove from screens and users
+    }
+
+    private void deleteMessageFromScreenBits( Message message) {
+            screenBits.forEach( screenBit -> {
+                if (screenBit.getMessages().contains(message)) {
+                    screenBit.removeMessage(message);
+                }
+            });
+    }
+
+    public void updateMessage(Message oldMessage, Message newMessage) {
+        messageModel.updateMessage(oldMessage, newMessage);
+        messages.remove(oldMessage);
+        messages.add(newMessage);
+        // TODO update on screens and users
+    }
+
+    public List<Message> getUsersMessages(User user) {
+        return messageModel.getUsersMessages(user);
+    }
+
+
+
     public ObservableList<Message> getMessages() {
         return messages;
     }
@@ -224,5 +302,8 @@ public class SuperModel {
         this.messages = messages;
     }
 
+    public void loadScreenBitsMessages(ScreenBit screen) {
+        messageModel.loadScreenBitsMessages(screen);
+    }
 
 }
