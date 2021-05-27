@@ -70,7 +70,7 @@ public class EmployeeCardController {
 
     public void setData(User u) {
         String time = SettingsModel.getInstance().getSettingByType(SettingsType.CARD_OPEN_DURATION).getAttribute();
-        Long l = Long.getLong(time);
+        Long l = Long.valueOf(time);
         setCountdownDuration(Duration.ofMinutes(l));
 
         img.setImage(u.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
@@ -86,6 +86,13 @@ public class EmployeeCardController {
             }
         }
 
+        if (String.valueOf(u.getPhone()).startsWith("-")){
+            phone.setVisible(false);
+        }
+
+        if (u.getEmail().startsWith("@")){
+            mail.setVisible(false);
+        }
         phone.setText(!String.valueOf(u.getPhone()).isEmpty() ? String.valueOf(u.getPhone()) : "None");
         mail.setText(!u.getEmail().isEmpty() ? u.getEmail() : "None");
     }

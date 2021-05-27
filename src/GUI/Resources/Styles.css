@@ -493,6 +493,16 @@ POP UP
     HR Styles
  */
 
+.addSubDeptButton{
+    -fx-background-color: rgba(255,255,255,0.25);
+    -fx-text-fill: white;
+}
+
+.addSubDeptButton:hover{
+    -fx-background-color: #97CE68;
+    -fx-text-fill: white;
+}
+
 .importUsers {
     -fx-image: url("HRUserManagement/ImportUsers.png");
 }

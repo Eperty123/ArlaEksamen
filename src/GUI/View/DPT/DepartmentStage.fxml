@@ -8,28 +8,28 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.DPT.DepartmentStageController">
+<AnchorPane fx:id="root" styleClass="pickerStageBackground" stylesheets="@../../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.DPT.DepartmentStageController">
    <children>
-      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane styleClass="pickerStageBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ScrollPane styleClass="MScroll-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <HBox fx:id="hBox" alignment="CENTER" />
+                        <HBox fx:id="hBox" alignment="CENTER" spacing="50.0" />
                      </content>
                   </ScrollPane>
                </children>
             </AnchorPane>
          </center>
          <right>
-            <BorderPane BorderPane.alignment="CENTER">
+            <BorderPane styleClass="pickerStageBackground" BorderPane.alignment="CENTER">
                <center>
-                  <ScrollPane fitToWidth="true">
+                  <ScrollPane fitToWidth="true" styleClass="pickerStageBackground">
                      <content>
-                        <TableView fx:id="userTable" prefWidth="200.0">
+                        <TableView fx:id="userTable" prefWidth="200.0" styleClass="tblUsers">
                           <columns>
-                            <TableColumn fx:id="userTableColumn" prefWidth="75.0" text="User" />
+                            <TableColumn fx:id="userTableColumn" prefWidth="75.0" styleClass="tbl" text="User" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -39,7 +39,7 @@
                   </ScrollPane>
                </center>
                <top>
-                  <JFXTextField fx:id="searchField" BorderPane.alignment="CENTER" />
+                  <JFXTextField fx:id="searchField" focusColor="#94bdd3" promptText="Search for a user" styleClass="userSeach" unFocusColor="#9f9f9f" BorderPane.alignment="CENTER" />
                </top>
             </BorderPane>
          </right>
