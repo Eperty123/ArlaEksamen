@@ -184,6 +184,10 @@ public class ManagerScreenViewController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Handle bug reports.
+     * @throws IOException
+     */
     public void handleReportIssue() throws IOException {
         BugReportDialog reportDialog = new BugReportDialog();
         Optional<String> result = reportDialog.showAndWait();
