@@ -162,8 +162,7 @@ public class EmailManager {
         return EmailManager.instance == null ? EmailManager.instance = new EmailManager() : EmailManager.instance;
     }
 
-    // TODO DELETE !!!!!!!
     public boolean canSendEmail() {
-        return true;
+        return EmailExtension.isEmailValid(username);
     }
 }
