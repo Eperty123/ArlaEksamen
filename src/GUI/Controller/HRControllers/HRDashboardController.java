@@ -67,6 +67,7 @@ public class HRDashboardController implements Initializable {
 
     @FXML
     private void handleOrgDiagramCreator() throws IOException {
+        DepartmentModel.getInstance().resetSingleton();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
@@ -81,8 +82,6 @@ public class HRDashboardController implements Initializable {
 
             if (confirm) {
                 con2.getDepartmentViewControllers().forEach(vc -> {
-                    vc.getRemoveIcon().setDisable(true);
-                    vc.getRemoveIcon().setVisible(false);
                     vc.getAllSubDepartments().forEach(item -> {
                         List<User> users = new ArrayList<>(item.getUsers());
                         users.removeIf(u -> u.getUserName().isEmpty() || u.getUserRole() != UserType.Admin);
@@ -112,6 +111,8 @@ public class HRDashboardController implements Initializable {
     }
 
     public void handleDeptManagement() throws IOException {
+
+        DepartmentModel.getInstance().resetSingleton();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRDepartment.fxml"));
         Parent root = fxmlLoader.load();
@@ -120,6 +121,8 @@ public class HRDashboardController implements Initializable {
     }
 
     public void handleShowInfoboard() throws IOException {
+
+        DepartmentModel.getInstance().resetSingleton();
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/InfoboardDashboard.fxml"));
