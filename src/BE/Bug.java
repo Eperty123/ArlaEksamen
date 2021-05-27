@@ -1,8 +1,5 @@
 package BE;
 
-import GUI.Model.ScreenModel;
-import GUI.Model.UserModel;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -23,7 +20,7 @@ public class Bug {
     public Bug(String description, String dateReported) {
         setDescription(description);
         setDateReported(dateReported);
-        adminId = 0;
+        this.adminId = 0;
     }
 
     public Bug(int id, String description, String fixMessage, String dateReported, boolean bugResolved, int adminId, String referencedScreen, String referencedUser) {
@@ -61,7 +58,7 @@ public class Bug {
      * @return the description string
      */
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     /**
@@ -69,7 +66,7 @@ public class Bug {
      * @return the date reported in a string
      */
     public String getDateReported() {
-        return dateReported;
+        return this.dateReported;
     }
 
     /**
@@ -77,7 +74,7 @@ public class Bug {
      * @return the user object for the admin responsible for fixing the bug.
      */
     public int getAdminId() {
-        return adminId;
+        return this.adminId;
     }
 
     /**
@@ -125,7 +122,7 @@ public class Bug {
      * @return the boolean indicating whether the the bug is resolved or not.
      */
     public boolean isBugResolved() {
-        return bugResolved;
+        return this.bugResolved;
     }
 
     /**
@@ -141,7 +138,7 @@ public class Bug {
      * @param bugResolved the bit from the database. true if 1 or false if 0.
      */
     public void setBugResolved(int bugResolved) {
-        this.bugResolved = bugResolved > 0 ? true : false;
+        this.bugResolved = bugResolved > 0;
     }
 
     /**
@@ -149,7 +146,7 @@ public class Bug {
      * @return the ScreenBit the bug was reported on.
      */
     public String getReferencedScreen() {
-        return referencedScreen;
+        return this.referencedScreen;
     }
 
     /**
@@ -165,7 +162,7 @@ public class Bug {
      * @return the ID of this bug.
      */
     public int getId() {
-        return id;
+        return this.id;
     }
 
     /**
@@ -181,12 +178,12 @@ public class Bug {
     }
 
     public String getFixMessage() {
-        return fixMessage;
+        return this.fixMessage;
     }
 
 
     public String getReferencedUser() {
-        return referencedUser;
+        return this.referencedUser;
     }
 
     public void setReferencedUser(String referencedUser) {

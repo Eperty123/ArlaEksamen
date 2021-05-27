@@ -36,9 +36,9 @@ public class PickerStageController implements Initializable {
     private BorderPane root;
     @FXML
     private AnchorPane ap;
-    private SplitPane splitPane = new SplitPane();
-    private List<PickerStageController> controllers = new ArrayList<>();
-    private ContextMenu contextMenu = new ContextMenu();
+    private final SplitPane splitPane = new SplitPane();
+    private final List<PickerStageController> controllers = new ArrayList<>();
+    private final ContextMenu contextMenu = new ContextMenu();
     private PickerStageController parentPickerStageController;
     private PickerStageController closestParentPickerStageController;
 
@@ -93,7 +93,7 @@ public class PickerStageController implements Initializable {
     }
 
     private boolean isZoomed = false;
-    private DoubleProperty scale = new SimpleDoubleProperty();
+    private final DoubleProperty scale = new SimpleDoubleProperty();
 
     private void initContextMenu(Node node, ContextMenu contextMenu) {
         node.setOnMouseClicked((MouseEvent mouseEvent) -> {

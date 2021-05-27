@@ -7,8 +7,8 @@ public enum Gender {
     Female(0),
     Male(1);
 
-    private int value;
-    private static Map map = new HashMap<>();
+    private final int value;
+    private static final Map map = new HashMap<>();
 
     Gender(int value) {
         this.value = value;
@@ -25,6 +25,6 @@ public enum Gender {
     }
 
     public int getValue() {
-        return value;
+        return this.value;
     }
 }

@@ -5,30 +5,23 @@ import BE.Department;
 import BE.User;
 import BE.UserType;
 import BLL.UserManager;
-import DAL.Parser.CSVParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-public class UserModel {
+public final class UserModel {
 
     private static UserModel instance;
-    private ObservableList<User> allUsers;
-    private UserManager userManager;
+    private final ObservableList<User> allUsers;
+    private final UserManager userManager;
 
     private UserModel() {
         userManager = new UserManager();
         allUsers = FXCollections.observableArrayList();
-        try {
-            allUsers.addAll(userManager.getUsers());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        allUsers.addAll(userManager.getUsers());
 
     }
 
@@ -86,12 +79,8 @@ public class UserModel {
      */
     public void updateUsers() {
         allUsers.clear();
-        try {
-            allUsers.addAll(userManager.getUsers());
+        allUsers.addAll(userManager.getUsers());
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     /**
@@ -176,7 +165,7 @@ public class UserModel {
         var filteredUsers = new ArrayList<User>();
         for (int i = 0; i < allUsers.size(); i++) {
             User user = allUsers.get(i);
-            if (user.getUserRole().equals(role))
+            if (user.getUserRole() == role)
                 filteredUsers.add(user);
         }
         return filteredUsers;
@@ -188,7 +177,6 @@ public class UserModel {
     public void resetSingleton() {
         if (instance != null) {
             instance = null;
-            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
 

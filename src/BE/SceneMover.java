@@ -10,16 +10,16 @@ public class SceneMover {
     
     public void move(Stage stage, Node node){
         node.setOnMousePressed(event -> {
-            if (event.getButton().equals(MouseButton.PRIMARY)) {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
+            if (event.getButton() == MouseButton.PRIMARY) {
+                this.xOffset = event.getSceneX();
+                this.yOffset = event.getSceneY();
             }
         });
 
         node.setOnMouseDragged(event -> {
-            if (event.getButton().equals(MouseButton.PRIMARY)) {
-                stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
+            if (event.getButton() == MouseButton.PRIMARY) {
+                stage.setX(event.getScreenX() - this.xOffset);
+                stage.setY(event.getScreenY() - this.yOffset);
                 stage.setOpacity(0.8f);
             }
         });

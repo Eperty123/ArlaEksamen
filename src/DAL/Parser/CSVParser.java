@@ -4,12 +4,7 @@ import GUI.Controller.PopupControllers.WarningController;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.commons.io.input.BOMInputStream;
 
 import java.io.*;
@@ -70,7 +65,7 @@ public class CSVParser implements IFileParser {
                     .withCSVParser(csvParser)   // custom CSV parser
                     //.withSkipLines(1)           // skip the first line, header info
                     .build();
-            this.csvReader = reader;
+            csvReader = reader;
             parse();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

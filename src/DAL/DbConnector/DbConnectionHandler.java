@@ -3,7 +3,6 @@ package DAL.DbConnector;
 import BE.DatabaseType;
 import GUI.Controller.PopupControllers.WarningController;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,9 +15,7 @@ import java.util.Properties;
 public class DbConnectionHandler {
     private IDbConnectionProvider database;
     private static DbConnectionHandler instance;
-    private DatabaseType databaseType;
 
-    private Properties databaseProperties;
     private final static String database_settings_path = "src/Resources/database.settings";
 
 
@@ -30,12 +27,12 @@ public class DbConnectionHandler {
      * Load and parse the database settings.
      */
     private void loadDatabaseSettings() {
-        databaseProperties = new Properties();
+        Properties databaseProperties = new Properties();
         try {
-            databaseProperties.load(new FileInputStream(new File(database_settings_path)));
+            databaseProperties.load(new FileInputStream(database_settings_path));
 
             // Get the database type and determine which of the connection providers to use.
-            databaseType = DatabaseType.valueOf(databaseProperties.getProperty("DatabaseType"));
+            DatabaseType databaseType = DatabaseType.valueOf(databaseProperties.getProperty("DatabaseType"));
 
             switch (databaseType) {
                 case MySQL -> database = new DbMysqlConnectionProvider();

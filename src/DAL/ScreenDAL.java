@@ -1,12 +1,9 @@
 package DAL;
 
-import BE.Message;
-import BE.MessageType;
 import BE.ScreenBit;
 import BE.User;
 import DAL.DbConnector.DbConnectionHandler;
 import GUI.Controller.PopupControllers.WarningController;
-import javafx.scene.paint.Color;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -218,7 +215,6 @@ public class ScreenDAL {
             pSql.setInt(1, screenBit.getId());
             pSql.setString(2, user.getUserName());
             pSql.execute();
-            System.out.println("ASSIGN EXECUTED");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -235,13 +231,11 @@ public class ScreenDAL {
      * @param screenBit
      */
     public void removeScreenBitRights(User user, ScreenBit screenBit) {
-        System.out.println("removeScreenBitRights called");
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=? AND ScreenId=?");
             pSql.setString(1, user.getUserName());
             pSql.setInt(2, screenBit.getId());
             pSql.execute();
-            System.out.println("EXECUTED");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -257,8 +251,6 @@ public class ScreenDAL {
      * @param screenBit
      */
     public void removeScreenBitRights(List<User> users, ScreenBit screenBit){
-        System.out.println(users.size());
-
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=? AND ScreenId=?");
 

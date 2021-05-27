@@ -31,7 +31,7 @@ public class Settings {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -39,7 +39,7 @@ public class Settings {
     }
 
     public SettingsType getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(SettingsType type) {
@@ -51,7 +51,7 @@ public class Settings {
     }
 
     public String getAttribute() {
-        return attribute;
+        return this.attribute;
     }
 
     public void setAttribute(String attribute) {

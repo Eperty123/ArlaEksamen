@@ -20,11 +20,11 @@ import javafx.scene.text.TextAlignment;
 import java.util.List;
 import java.util.ArrayList;
 
-public class UserManagementPaneFactory {
+public final class UserManagementPaneFactory {
     private static Department currentDepartment;
 
-    private static ArrayList<User> selectedUser = new ArrayList<>();
-    private static List<FontAwesomeIconView> icons = new ArrayList<>();
+    private static final ArrayList<User> selectedUser = new ArrayList<>();
+    private static final List<FontAwesomeIconView> icons = new ArrayList<>();
 
     public static BorderPane createUserManagementBoard(Department department, VBox root) {
         currentDepartment = department;
@@ -207,8 +207,6 @@ public class UserManagementPaneFactory {
                 setCheckmarkVisibility(false);
                 check.setVisible(false);
             }
-
-            System.out.println(selectedUser);
         });
 
         newPane.getChildren().addAll(newRectangle, check, image, underBar, name, title, department, viewMoreButton, viewMoreLabel);

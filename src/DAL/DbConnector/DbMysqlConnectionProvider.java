@@ -48,10 +48,8 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
         try {
             // Connect to the database.
             connection = DriverManager.getConnection(String.format("jdbc:mysql://%s:%d/%s", getHost(), getPort(), getDatabase()), getUser(), getPassword());
-            System.out.println(String.format("[%s]: Successfully connected to database: %s!", this.getClass().getSimpleName(), getDatabase()));
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println(String.format("MySQL connect exception: %s", e.getMessage()));
         }
         return connection;
     }

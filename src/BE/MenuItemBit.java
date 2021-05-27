@@ -13,6 +13,6 @@ public class MenuItemBit {
     }
 
     public MenuItem getMenuItem() {
-        return menuItem;
+        return this.menuItem;
     }
 }

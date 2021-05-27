@@ -16,7 +16,7 @@ import java.util.List;
 
 public class MessageDAL {
 
-    private DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
+    private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
 
     /**
      * Retrieves all messages from the database.
@@ -41,8 +41,6 @@ public class MessageDAL {
             WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages " +
                     "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-
-        System.out.println(messages);
         return messages;
     }
 
@@ -184,7 +182,6 @@ public class MessageDAL {
     private void bookTimeSlots(Connection con, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
 
         List<LocalDateTime> timeSlots = getSlots(newMessage);
-        System.out.println("TimeSlots: " + timeSlots.size());
 
         PreparedStatement pSql = con.prepareStatement("UPDATE ScreenTime SET Available=? WHERE ScreenId=? AND TimeSlot=?");
         for(ScreenBit s : assignedScreenBits){

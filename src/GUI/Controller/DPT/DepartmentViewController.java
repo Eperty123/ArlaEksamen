@@ -2,7 +2,6 @@ package GUI.Controller.DPT;
 
 import BE.Department;
 import BE.User;
-import BLL.DepartmentManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Model.DepartmentModel;
 import com.jfoenix.controls.JFXButton;
@@ -12,7 +11,6 @@ import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -54,9 +52,9 @@ public class DepartmentViewController implements Initializable {
     private TableColumn<User, Integer> phoneField;
     private Department department;
     private ObservableList<Department> subDepartments = FXCollections.observableArrayList();
-    private HBox hBox = new HBox();
+    private final HBox hBox = new HBox();
     private boolean isHidden = false;
-    private List<Node> hiddenChildren = new ArrayList<>();
+    private final List<Node> hiddenChildren = new ArrayList<>();
     private int dptCount = DepartmentModel.getInstance().getAllDepartments().size();
 
     @Override

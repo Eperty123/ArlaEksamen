@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class BugModel {
 
@@ -75,25 +77,21 @@ public class BugModel {
      * Update the ObservableList of Bug reports.
      */
     public void updateAllBugs() {
-        try {
-            var managerBugs = bugManager.getBugs();
-            ArrayList<Bug> _unresolvedBugs = new ArrayList<>();
-            allBugs.setAll(managerBugs);
+        var managerBugs = bugManager.getBugs();
+        List<Bug> _unresolvedBugs = new ArrayList<>();
+        allBugs.setAll(managerBugs);
 
-            // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports for each bug.
-            managerBugs.forEach((x) -> {
-                if (!x.isBugResolved()) {
-                    _unresolvedBugs.add(x);
-                }
-            });
+        // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports for each bug.
+        managerBugs.forEach((x) -> {
+            if (!x.isBugResolved()) {
+                _unresolvedBugs.add(x);
+            }
+        });
 
-            // Now set the unresolved bug ObservableList.
-            unresolvedBugs.setAll(_unresolvedBugs);
-            //System.out.println(String.format("Added unresolved bug: %s", unresolvedBugs.size()));
+        // Now set the unresolved bug ObservableList.
+        unresolvedBugs.setAll(_unresolvedBugs);
+        //System.out.println(String.format("Added unresolved bug: %s", unresolvedBugs.size()));
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     /**
@@ -128,8 +126,28 @@ public class BugModel {
             var admins = UserModel.getInstance().getAllUsersByRole(UserType.Admin);
             for (int i = 0; i < admins.size(); i++) {
                 var admin = admins.get(i);
-                var bugEmail = new Email(admin.getEmail(), user.getEmail(), String.format("Bug on screen: %s", screenBit.getName()), bug.getDescription());
-                EmailManager.getInstance().sendTo(bugEmail);
+
+                var adminEmail = admin.getEmail().startsWith("@") ? admin.getEmail().substring(1, admin.getEmail().length() - 1) : admin.getEmail();
+                var userEmail = user.getEmail().startsWith("@") ? user.getEmail().substring(1, user.getEmail().length() - 1) : user.getEmail();
+
+                String emailRegex = "^(.+)@(.+)$";
+
+                Pattern pattern = Pattern.compile(emailRegex);
+                var emailMatcher = pattern.matcher(adminEmail);
+
+                // If the email regex has matches, it must be a correct email format.
+                if (emailMatcher.matches()) {
+
+                    // Only send email if the following email providers are used in the admin mail. This is to avoid spam.
+                    if (!emailMatcher.group(2).contains("gmail") && !emailMatcher.group(2).contains("yahoo") && !emailMatcher.group(2).contains("hotmail")
+                            && !emailMatcher.group(2).contains("live") && !emailMatcher.group(2).contains("easv365")) {
+                        continue;
+                    }
+
+                    // Send the bug report to the admin.
+                    var bugEmail = new Email(adminEmail, userEmail, String.format("Bug on screen: %s", screenBit.getName()), bug.getDescription());
+                    EmailManager.getInstance().sendTo(bugEmail);
+                }
             }
         }
     }
@@ -140,7 +158,6 @@ public class BugModel {
     public void resetSingleton() {
         if (instance != null) {
             instance = null;
-            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
 }

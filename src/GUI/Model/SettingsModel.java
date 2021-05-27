@@ -10,8 +10,8 @@ import javafx.collections.ObservableList;
 import java.util.List;
 
 public class SettingsModel implements ISettingsCRUD {
-    private SettingsManager settingsManager = new SettingsManager();
-    private ObservableList<Settings> settings = FXCollections.observableArrayList();
+    private final SettingsManager settingsManager = new SettingsManager();
+    private final ObservableList<Settings> settings = FXCollections.observableArrayList();
     private static SettingsModel instance;
 
     public SettingsModel() {
@@ -28,7 +28,7 @@ public class SettingsModel implements ISettingsCRUD {
     public Settings getSettingByType(Settings settings) {
         for (int i = 0; i < this.settings.size(); i++) {
             var setting = this.settings.get(i);
-            if (setting.getType().equals(settings.getType())) {
+            if (setting.getType() == settings.getType()) {
                 return setting;
             }
         }
@@ -39,7 +39,7 @@ public class SettingsModel implements ISettingsCRUD {
     public Settings getSettingByType(SettingsType settingsType) {
         for (int i = 0; i < settings.size(); i++) {
             var setting = settings.get(i);
-            if (setting.getType().equals(settingsType)) {
+            if (setting.getType() == settingsType) {
                 return setting;
             }
         }
@@ -77,7 +77,6 @@ public class SettingsModel implements ISettingsCRUD {
     public void resetSingleton() {
         if (instance != null) {
             instance = null;
-            System.out.println(String.format("%s singleton was reset.", getClass().getSimpleName()));
         }
     }
 

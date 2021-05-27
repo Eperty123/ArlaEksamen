@@ -56,7 +56,6 @@ public class DbMSSQLConnectionProvider implements IDbConnectionProvider {
         ds.setPassword(getPassword());
         ds.setPortNumber(getPort());
 
-        System.out.println(String.format("[%s]: Successfully connected to database: %s!", this.getClass().getSimpleName(), getDatabase()));
         return getConnection();
     }
 

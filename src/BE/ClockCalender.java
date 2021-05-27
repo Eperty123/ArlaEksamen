@@ -9,7 +9,7 @@ import javafx.util.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ClockCalender {
+public final class ClockCalender {
 
     public static void initClock(Label dateTimeLabel) {
         Timeline dateTime = new Timeline(new KeyFrame(Duration.ZERO, e -> {

@@ -42,6 +42,6 @@ public class PdfNode implements IDataNode {
 
     @Override
     public Node getData(BorderPane pane, String uri) {
-        return getData(pane, new File(uri));
+        return this.getData(pane, new File(uri));
     }
 }

@@ -8,7 +8,6 @@ import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -24,7 +23,7 @@ public class UserBackUp {
     private final String HEADER_INFO_FORMAT = "Id;FirstName;LastName;UserName;Email;PhoneNumber;UserRole;Password;Gender;DepartmentId;Title\n";
 
     public List<CSVUser> importUsers(String filePath) {
-        ArrayList<CSVUser> importedUsers = new ArrayList<>();
+        List<CSVUser> importedUsers = new ArrayList<>();
         var userModel = UserModel.getInstance();
         var departmentModel = DepartmentModel.getInstance();
 
@@ -56,12 +55,23 @@ public class UserBackUp {
                 if (existing == null) {
 
                     Department desiredDepartment = DepartmentModel.getInstance().getDepartment(department);
-                    // No existing found, check some other criteria in case a user is found with the same name.
-                    if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && departmentModel.getUser(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null) {
-                        importedUsers.add(parsedUser);
-                        System.out.println(String.format("User: %s %s (%d) imported.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
-                    } else
-                        System.out.println(String.format("User: %s %s (id: %d, email: %s) already exists in the %s department! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId(), parsedUser.getEmail(), desiredDepartment.getName()));
+
+                    // I
+                    if (desiredDepartment != null) {
+                        // No existing found, check some other criteria in case a user is found with the same name.
+                        if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && departmentModel.getUser(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null) {
+                            importedUsers.add(parsedUser);
+                            System.out.println(String.format("User: %s %s (%d) imported.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
+                        } else
+                            System.out.println(String.format("User: %s %s (id: %d, email: %s) already exists in the %s department! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId(), parsedUser.getEmail(), desiredDepartment.getName()));
+                    } else {
+
+                        if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null) {
+                            importedUsers.add(parsedUser);
+                            System.out.println(String.format("User: %s %s (%d) imported.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
+                        } else
+                            System.out.println(String.format("User: %s %s (id: %d, email: %s) already exists but without department! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId(), parsedUser.getEmail()));
+                    }
                 } else
                     System.out.println(String.format("User: %s %s (%d) already exists! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
 

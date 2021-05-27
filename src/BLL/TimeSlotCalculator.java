@@ -3,21 +3,19 @@ package BLL;
 import BE.Message;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeSlotCalculator {
 
 
     public static int calculateTimeSlots(Message message){
-        return calculate(message.getMessageStartTime(), message.getMessageEndTime());
+        return TimeSlotCalculator.calculate(message.getMessageStartTime(), message.getMessageEndTime());
     }
 
     public static int calculateTimeSlots(LocalDateTime startTime, LocalDateTime endTime){
 
         // Determine how many 30 minute time slots the LocalDateTime's represent.
         // 14:30 would represent 29 slots for instance.
-        return calculate(startTime, endTime);
+        return TimeSlotCalculator.calculate(startTime, endTime);
     }
 
     private static int calculate(LocalDateTime startTime, LocalDateTime endTime){

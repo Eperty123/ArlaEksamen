@@ -5,7 +5,6 @@ import BE.SettingsType;
 import BE.User;
 import GUI.Model.DepartmentModel;
 import GUI.Model.SettingsModel;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +39,7 @@ public class EmployeeCardController {
     private Label mail;
 
     private static Duration countDownDuration = Duration.ofMinutes(5);
-    private TimeUnit timerSpeed = TimeUnit.SECONDS;
+    private final TimeUnit timerSpeed = TimeUnit.SECONDS;
     private ScheduledExecutorService executor;
 
     Thread t = new Thread(() -> {

@@ -33,7 +33,6 @@ public class DepartmentDAL {
             var generatedKeys = pSql.getGeneratedKeys();
             generatedKeys.next();
             department.setId(generatedKeys.getInt(1));
-            System.out.println(department.getId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a new department " +

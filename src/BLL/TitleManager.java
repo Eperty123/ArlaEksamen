@@ -1,28 +1,27 @@
 package BLL;
 
 import DAL.TitleDAL;
-import org.apache.poi.ss.formula.functions.T;
 
 import java.util.List;
 
 public class TitleManager {
 
-    private TitleDAL titleDAL = new TitleDAL();
+    private final TitleDAL titleDAL = new TitleDAL();
 
     public void addTitle(String newTitle){
-        titleDAL.addTitle(newTitle);
+        this.titleDAL.addTitle(newTitle);
     }
 
     public void deleteTitle(String title){
-        titleDAL.deleteTitle(title);
+        this.titleDAL.deleteTitle(title);
     }
 
     public List<String> getTitles(){
-        return titleDAL.getTitles();
+        return this.titleDAL.getTitles();
     }
 
     public void updateTitle(String oldTitle, String newTitle){
-        titleDAL.updateTitle(oldTitle, newTitle);
+        this.titleDAL.updateTitle(oldTitle, newTitle);
     }
 
 

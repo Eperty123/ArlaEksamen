@@ -12,9 +12,7 @@ import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import com.mysql.cj.xdevapi.Warning;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,10 +59,10 @@ public class EditEmployeeController implements Initializable {
 
 
     private User oldUser;
-    private UserModel userModel = UserModel.getInstance();
-    private PasswordManager passwordManager = new PasswordManager();
+    private final UserModel userModel = UserModel.getInstance();
+    private final PasswordManager passwordManager = new PasswordManager();
 
-    public void handleSave(ActionEvent actionEvent) throws SQLException {
+    public void handleSave(ActionEvent actionEvent) {
         if (!txtFirstname.getText().isEmpty() && !txtLastname.getText().isEmpty() && !chsTitle.getSelectionModel().getSelectedItem().isEmpty()
                 && !txtEmail.getText().isEmpty() && !txtPhoneNumber.getText().isEmpty() && chsSex.getSelectionModel().getSelectedItem() != null
                 && chsDepartment.getSelectionModel() != null && chsRole.getSelectionModel().getSelectedItem() != null && !txtUsername.getText().isEmpty()
@@ -89,7 +87,6 @@ public class EditEmployeeController implements Initializable {
 
             Department oldDepartment = getUsersDepartment();
             Department newDepartment = chsDepartment.getValue();
-            System.out.println(newDepartment.getName());
 
             oldDepartment.getUsers().remove(oldUser);
             newDepartment.addUser(newUser);
@@ -99,7 +96,6 @@ public class EditEmployeeController implements Initializable {
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
-            System.out.println("Edit saved!");
         } else {
             WarningController.createWarning("Warning! You've not entered some crucial information about the employee.\n\n" +
                     "Please check if all fields are filled in");

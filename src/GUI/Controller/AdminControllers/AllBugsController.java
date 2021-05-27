@@ -43,8 +43,8 @@ public class AllBugsController implements Initializable {
     private TableColumn<Bug, String> bFM;
 
 
-    private BugModel bugModel = BugModel.getInstance();
-    private ObservableList<Bug> bugs = bugModel.getAllBugs();
+    private final BugModel bugModel = BugModel.getInstance();
+    private final ObservableList<Bug> bugs = bugModel.getAllBugs();
     ObservableList<Bug> allResolvedBugs = FXCollections.observableArrayList();
     private Boolean isMaximized = false;
     StageBuilder stageBuilder = new StageBuilder();
@@ -63,7 +63,6 @@ public class AllBugsController implements Initializable {
     }
 
     private String getAdmin(int id){
-        System.out.println(id);
         for (User u : UserModel.getInstance().getAllUsers()){
             if (u.getId() == id){
                 return u.getUserName();

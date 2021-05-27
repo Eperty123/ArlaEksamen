@@ -15,7 +15,7 @@ public class ScreenManager {
      * @param newScreenBit the desired ScreenBit to be added.
      */
     public void addScreenBit(ScreenBit newScreenBit){
-        screenDAL.addScreenBit(newScreenBit);
+        this.screenDAL.addScreenBit(newScreenBit);
     }
 
     /**
@@ -23,7 +23,7 @@ public class ScreenManager {
      * @param screenBit the desired ScreenBit to be deleted.
      */
     public void deleteScreenBit(ScreenBit screenBit){
-        screenDAL.deleteScreenBit(screenBit);
+        this.screenDAL.deleteScreenBit(screenBit);
     }
 
     /**
@@ -32,7 +32,7 @@ public class ScreenManager {
      * @param oldScreenBit the old ScreenBit to be updated.
      */
     public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit){
-        screenDAL.updateScreenBit(newScreenBit, oldScreenBit);
+        this.screenDAL.updateScreenBit(newScreenBit, oldScreenBit);
     }
 
     /**
@@ -40,7 +40,7 @@ public class ScreenManager {
      * @return a list of all ScreenBits in the Database.
      */
     public List<ScreenBit> getScreenBits(){
-        return screenDAL.getScreenBits();
+        return this.screenDAL.getScreenBits();
     }
 
     /**
@@ -49,7 +49,7 @@ public class ScreenManager {
      * @param screenBit the ScreenBit to be associated with.
      */
     public void assignScreenBitRights(User user, ScreenBit screenBit){
-        screenDAL.assignScreenBitRights(user, screenBit);
+        this.screenDAL.assignScreenBitRights(user, screenBit);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ScreenManager {
      * @param screenBit the ScreenBit the association is going to be removed from.
      */
     public void removeScreenBitRights(User user, ScreenBit screenBit){
-        screenDAL.removeScreenBitRights(user, screenBit);
+        this.screenDAL.removeScreenBitRights(user, screenBit);
     }
 
     /**
@@ -67,6 +67,6 @@ public class ScreenManager {
      * @param screenBit the ScreenBit the association is going to be removed from.
      */
     public void removeScreenBitRights(List<User> users, ScreenBit screenBit){
-        screenDAL.removeScreenBitRights(users, screenBit);
+        this.screenDAL.removeScreenBitRights(users, screenBit);
     }
 }

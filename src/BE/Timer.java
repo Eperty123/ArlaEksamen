@@ -1,6 +1,5 @@
 package BE;
 
-import BLL.SettingsManager;
 import GUI.Model.SettingsModel;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -13,28 +12,28 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Timer {
-    private List<Node> nodesToDisable = new ArrayList<>();
+    private final List<Node> nodesToDisable = new ArrayList<>();
     private String textBeforeTimer = "Time until you can try to log in:";
     private Duration timeoutDuration = Duration.ofSeconds(5);
-    private Duration countDownDuration = timeoutDuration;
-    private TimeUnit timerSpeed = TimeUnit.SECONDS;
+    private Duration countDownDuration = this.timeoutDuration;
+    private final TimeUnit timerSpeed = TimeUnit.SECONDS;
     private ScheduledExecutorService executor;
-    private Label timerLabel = new Label(String.format("%s %s...", textBeforeTimer, timeoutDuration.toSeconds()));
+    private final Label timerLabel = new Label(String.format("%s %s...", this.textBeforeTimer, this.timeoutDuration.toSeconds()));
     //A thread that counts down fot the duration timer
     Thread t = new Thread(() -> {
         Platform.runLater(new Thread(() -> {
-            if (!countDownDuration.isZero()) {
-                countDownDuration = countDownDuration.minus(Duration.ofSeconds(1));
-                timerLabel.setText(String.format("%s %s...", textBeforeTimer, countDownDuration.toSeconds()));
-                if (!nodesToDisable.isEmpty())
-                    nodesToDisable.forEach(node -> {
+            if (!this.countDownDuration.isZero()) {
+                this.countDownDuration = this.countDownDuration.minus(Duration.ofSeconds(1));
+                this.timerLabel.setText(String.format("%s %s...", this.textBeforeTimer, this.countDownDuration.toSeconds()));
+                if (!this.nodesToDisable.isEmpty())
+                    this.nodesToDisable.forEach(node -> {
                         if (!node.isDisabled())
                             node.setDisable(true);
                     });
             } else {
-                executor.shutdownNow();
-                if (!nodesToDisable.isEmpty())
-                    nodesToDisable.forEach(node -> {
+                this.executor.shutdownNow();
+                if (!this.nodesToDisable.isEmpty())
+                    this.nodesToDisable.forEach(node -> {
                         if (node.isDisabled())
                             node.setDisable(false);
                     });
@@ -59,18 +58,18 @@ public class Timer {
      * @return
      */
     public Label getTimerLabel() {
-        return timerLabel;
+        return this.timerLabel;
     }
 
     /**
      * Starts a new scheduled executor with the given timer speed
      */
     public void startTimer() {
-        if (executor != null && !executor.isShutdown())
-            executor.shutdown();
-        countDownDuration = timeoutDuration;
-        executor = Executors.newSingleThreadScheduledExecutor();
-        executor.scheduleWithFixedDelay(t, 0, 1, timerSpeed);
+        if (this.executor != null && !this.executor.isShutdown())
+            this.executor.shutdown();
+        this.countDownDuration = this.timeoutDuration;
+        this.executor = Executors.newSingleThreadScheduledExecutor();
+        this.executor.scheduleWithFixedDelay(this.t, 0, 1, this.timerSpeed);
     }
 
     /**
@@ -79,11 +78,11 @@ public class Timer {
      * @param node
      */
     public void addNodeToDisable(Node node) {
-        nodesToDisable.add(node);
+        this.nodesToDisable.add(node);
     }
 
     public String getTextBeforeTimer() {
-        return textBeforeTimer;
+        return this.textBeforeTimer;
     }
 
     public void setTextBeforeTimer(String textBeforeTimer) {
@@ -91,7 +90,7 @@ public class Timer {
     }
 
     public Duration getTimeoutDuration() {
-        return timeoutDuration;
+        return this.timeoutDuration;
     }
 
     public void setTimeoutDuration(Duration timeoutDuration) {

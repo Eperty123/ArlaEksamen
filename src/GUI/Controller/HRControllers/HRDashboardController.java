@@ -44,12 +44,11 @@ public class HRDashboardController implements Initializable {
     private Label dateTimeLabel;
     @FXML
     private ImageView image;
-    private User currentUser;
     private boolean isMaximized = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        currentUser = LoginManager.getCurrentUser();
+        User currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(dateTimeLabel);
 
         image.setImage(currentUser.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(currentUser.getPhotoPath()));
@@ -67,6 +66,7 @@ public class HRDashboardController implements Initializable {
 
     @FXML
     private void handleOrgDiagramCreator() throws IOException {
+        DepartmentModel.getInstance().resetSingleton();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
@@ -81,8 +81,6 @@ public class HRDashboardController implements Initializable {
 
             if (confirm) {
                 con2.getDepartmentViewControllers().forEach(vc -> {
-                    vc.getRemoveIcon().setDisable(true);
-                    vc.getRemoveIcon().setVisible(false);
                     vc.getAllSubDepartments().forEach(item -> {
                         List<User> users = new ArrayList<>(item.getUsers());
                         users.removeIf(u -> u.getUserName().isEmpty() || u.getUserRole() != UserType.Admin);
@@ -112,6 +110,8 @@ public class HRDashboardController implements Initializable {
     }
 
     public void handleDeptManagement() throws IOException {
+
+        DepartmentModel.getInstance().resetSingleton();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRDepartment.fxml"));
         Parent root = fxmlLoader.load();
@@ -120,6 +120,8 @@ public class HRDashboardController implements Initializable {
     }
 
     public void handleShowInfoboard() throws IOException {
+
+        DepartmentModel.getInstance().resetSingleton();
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/GUI/VIEW/InfoboardDashboard.fxml"));

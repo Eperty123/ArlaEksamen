@@ -1,17 +1,16 @@
 package GUI.Model;
 
 import BLL.TitleManager;
-import DAL.TitleDAL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.List;
 
-public class TitleModel {
+public final class TitleModel {
 
     private static TitleModel instance;
-    private TitleManager titleManager;
-    private ObservableList<String> allTitles;
+    private final TitleManager titleManager;
+    private final ObservableList<String> allTitles;
 
     public static TitleModel getInstance(){
         return instance == null ? instance = new TitleModel() : instance;

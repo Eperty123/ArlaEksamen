@@ -14,7 +14,6 @@ public class SnackBarPopup {
     private String title;
     private String text;
     private Double duration;
-    private JFXSnackbar.SnackbarEvent snackbarEvent;
 
     public SnackBarPopup(Pane pane, String title, String text, Double duration) {
         setPane(pane);
@@ -91,7 +90,7 @@ public class SnackBarPopup {
         BorderPane.setAlignment(msg, Pos.CENTER);
 
         JFXSnackbar snackBar = new JFXSnackbar(pane);
-        snackbarEvent = new JFXSnackbar.SnackbarEvent(contentPane, Duration.seconds(duration), null);
+        JFXSnackbar.SnackbarEvent snackbarEvent = new JFXSnackbar.SnackbarEvent(contentPane, Duration.seconds(duration), null);
         snackBar.enqueue(snackbarEvent);
         return snackBar;
     }

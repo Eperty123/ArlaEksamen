@@ -10,8 +10,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class Main extends Application {
-    private final int WIDTH = 800;
-    private final int HEIGHT = 600;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -19,6 +17,8 @@ public class Main extends Application {
         Parent root = loader.load();
         LoginController controller = loader.getController();
         primaryStage.setTitle("Login");
+        int WIDTH = 800;
+        int HEIGHT = 600;
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.getIcons().addAll(

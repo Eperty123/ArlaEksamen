@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DepartmentModel {
 
-    private DepartmentManager departmentManager = new DepartmentManager();
+    private final DepartmentManager departmentManager = new DepartmentManager();
     private static DepartmentModel instance;
 
     public void exportPhoneNumbers(List<Department> departments) {
@@ -133,5 +133,14 @@ public class DepartmentModel {
 
     public List<Department> getSuperDepartment() {
         return departmentManager.getSuperDepartment();
+    }
+
+    /**
+     * Reset the singleton instance.
+     */
+    public void resetSingleton() {
+        if (instance != null) {
+            instance = null;
+        }
     }
 }

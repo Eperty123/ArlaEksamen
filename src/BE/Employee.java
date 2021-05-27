@@ -21,22 +21,22 @@ public class Employee {
     }
 
     public int getId() {
-        return id.get();
+        return this.id.get();
     }
 
     public int getScreenNumber() {
-        return screenNumber.get();
+        return this.screenNumber.get();
     }
 
     public String getFirstName() {
-        return firstName.get();
+        return this.firstName.get();
     }
 
     public String getLastName() {
-        return lastName.get();
+        return this.lastName.get();
     }
 
     public String getDescription() {
-        return description.get();
+        return this.description.get();
     }
 }
