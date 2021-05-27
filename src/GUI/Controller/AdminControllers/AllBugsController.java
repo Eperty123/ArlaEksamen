@@ -63,7 +63,7 @@ public class AllBugsController implements Initializable {
     }
 
     private String getAdmin(int id){
-        for (User u : UserModel.getInstance().getAllUsers()){
+        for (User u : DataModel.getInstance().getAllUsers()){
             if (u.getId() == id){
                 return u.getUserName();
             }

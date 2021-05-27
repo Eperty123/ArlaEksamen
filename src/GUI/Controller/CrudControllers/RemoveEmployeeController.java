@@ -1,6 +1,7 @@
 package GUI.Controller.CrudControllers;
 
 import BE.User;
+import GUI.Model.DataModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextArea;
@@ -28,8 +29,7 @@ public class RemoveEmployeeController {
 
     public void handleJa(ActionEvent actionEvent) {
 
-        userModel.deleteUser(user);
-        ScreenModel.getInstance().updateScreenBits();
+        DataModel.getInstance().deleteUser(user);
 
         Stage stage = (Stage) root.getScene().getWindow();
         stage.close();

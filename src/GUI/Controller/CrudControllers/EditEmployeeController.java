@@ -92,7 +92,7 @@ public class EditEmployeeController implements Initializable {
             oldDepartment.getUsers().remove(oldUser);
             newDepartment.addUser(newUser);
 
-            userModel.updateUser(oldUser, newUser, oldDepartment, newDepartment);
+            DataModel.getInstance().updateUser(oldUser, newUser, oldDepartment, newDepartment);
 
 
             Stage stage = (Stage) root.getScene().getWindow();

@@ -3,6 +3,7 @@ package DAL;
 import BE.*;
 import DAL.DbConnector.DbConnectionHandler;
 import DAL.Parser.UserBackUp;
+import GUI.Model.DataModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 
@@ -20,7 +21,7 @@ public class JonasTest {
         DepartmentDAL departmentDAL = new DepartmentDAL();
         DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
 
-        List<User> users = UserModel.getInstance().getAllUsers();
+        List<User> users = DataModel.getInstance().getUsers();
         List<ScreenBit> screenBits = ScreenModel.getInstance().getAllScreenBits();
         List<Department> departments = departmentDAL.getDepartments();
 

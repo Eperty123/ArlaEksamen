@@ -72,7 +72,7 @@ public class AdminManagementController implements Initializable {
      * Handle any incoming changes to the User ObservableList and update the table.
      */
     private void handleUserUpdate() {
-        UserModel.getInstance().getAllUsers().addListener((ListChangeListener<User>) c -> {
+        DataModel.getInstance().getUsers().addListener((ListChangeListener<User>) c -> {
             loadAllUsers();
         });
     }

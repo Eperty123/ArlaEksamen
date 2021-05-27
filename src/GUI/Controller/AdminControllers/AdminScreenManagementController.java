@@ -7,6 +7,7 @@ import BE.User;
 import GUI.Controller.HRControllers.HRDepartmentController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.DataModel;
 import GUI.Model.ScreenModel;
 import GUI.Model.UserModel;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -53,7 +54,7 @@ public class AdminScreenManagementController implements Initializable {
     private final UserModel userModel = UserModel.getInstance();
     private Node createBtnNode;
 
-    private final List<User> userList = userModel.getAllUsers();
+    private final List<User> userList = DataModel.getInstance().getUsers();
     private final StageShower stageShower = new StageShower();
 
     @Override

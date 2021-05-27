@@ -157,8 +157,21 @@ public class DataModel {
     public void deleteUser(User user) {
         userModel.deleteUser(user);
         users.remove(user);
-        // TODO delete from department
-        // TODO unassign from screen
+        deleteUserFromDepartments(user);
+        unAssignUserFromScreens(user);
+
+    }
+
+    private void unAssignUserFromScreens(User user) {
+        screenBits.forEach(screenBit -> {
+            screenBit.getAssignedUsers().stream().filter(u -> u.getUserName().equals(user.getUserName())).forEach(u -> screenBit.getAssignedUsers().remove(user));
+        });
+    }
+
+    private void deleteUserFromDepartments(User user) {
+        departments.forEach(dpt -> {
+            dpt.getUsers().stream().filter(u -> u.getUserName().equals(user.getUserName())).forEach(u -> dpt.getUsers().remove(user));
+        });
     }
 
     public User getUser(int userId) {

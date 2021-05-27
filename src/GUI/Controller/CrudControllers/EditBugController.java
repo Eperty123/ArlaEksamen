@@ -69,7 +69,7 @@ public class EditBugController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<User> admins = new ArrayList<>();
 
-        for (User u : UserModel.getInstance().getAllUsers()) {
+        for (User u : DataModel.getInstance().getUsers()) {
             if (u.getUserRole() == UserType.Admin) {
                 admins.add(u);
             }
