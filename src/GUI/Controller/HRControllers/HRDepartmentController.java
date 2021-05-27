@@ -233,8 +233,8 @@ public class HRDepartmentController implements Initializable {
             if (chosenFile != null) {
                 userBackUp.exportUsers(selectedDepartments, chosenFile);
                 //loadAllDepartments();
+                System.out.println("Exported users!");
             }
-            System.out.println("Exported users!");
         } else {
             WarningController.createWarning("No departments selected! Please select the departments you want to export");
         }
@@ -255,8 +255,8 @@ public class HRDepartmentController implements Initializable {
             if (chosenFile != null) {
                 departmentModel.exportPhoneNumbers(selectedDepartments, chosenFile);
                 //loadAllDepartments();
+                System.out.println("Exported phone list!");
             }
-            System.out.println("Exported phone list!");
         } else {
             WarningController.createWarning("No departments selected! Please select the departments you want to export");
         }
