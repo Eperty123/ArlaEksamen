@@ -1,6 +1,7 @@
 package GUI.Controller.ManagerControllers;
 
 import BE.*;
+import BLL.EmailManager;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
@@ -53,6 +54,8 @@ public class ManagerScreenViewController implements Initializable {
     private Stage parentStage;
     private ScreenBit selectedScreen;
     private List<Message> screenMessages = new ArrayList<>();
+    private EmailManager emailManager = EmailManager.getInstance();
+    private BugModel bugModel = BugModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,6 +63,7 @@ public class ManagerScreenViewController implements Initializable {
         ClockCalender.initClock(lblTime);
 
         comboScreens.getItems().addAll(currentUser.getAssignedScreenBits());
+
     }
 
     public void init(ScreenBit screenBit) {
@@ -186,6 +190,7 @@ public class ManagerScreenViewController implements Initializable {
 
     /**
      * Handle bug reports.
+     *
      * @throws IOException
      */
     public void handleReportIssue() throws IOException {
@@ -198,7 +203,14 @@ public class ManagerScreenViewController implements Initializable {
                 newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
                 BugModel.getInstance().addBug(newBug);
-                BugModel.getInstance().sendEmailBugReportToAllAdmins(newBug, comboScreens.getSelectionModel().getSelectedItem(), currentUser);
+
+                // Check if we can send emails at all.
+                if (emailManager.canSendEmail()) {
+                    // Proceed to do so.
+                    bugModel.sendEmailBugReportToAllAdmins(newBug, comboScreens.getSelectionModel().getSelectedItem(), currentUser);
+                } else
+                    WarningController.createWarning("The email for sending email notification for administrators is incorrect! Please contact an IT-Administrator about this!");
+
                 WarningController.createWarning("Report Send!", "Bug report successfully send, " +
                         "thank you for helping improving this program!");
             }

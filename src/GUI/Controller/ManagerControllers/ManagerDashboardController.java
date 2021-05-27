@@ -4,6 +4,7 @@ import BE.ClockCalender;
 import BE.SceneMover;
 import BE.ScreenBit;
 import BE.User;
+import BLL.EmailManager;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
@@ -47,6 +48,7 @@ public class ManagerDashboardController implements Initializable {
 
     private User currentUser;
     private boolean isMaximized = false;
+    private EmailManager emailManager = EmailManager.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -56,6 +58,9 @@ public class ManagerDashboardController implements Initializable {
         image.setImage(currentUser.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(currentUser.getPhotoPath()));
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Manager Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+        checkEmailSettings();
+
+
         try {
             handleCreateMessage();
         } catch (IOException e) {
@@ -66,24 +71,32 @@ public class ManagerDashboardController implements Initializable {
         }
     }
 
+    /**
+     * Check the email settings.
+     */
+    private void checkEmailSettings() {
+        if (!emailManager.canSendEmail())
+            WarningController.createWarning("The email for sending email notification for administrators is incorrect! Please contact an IT-Administrator about this!");
+    }
+
     public void handleViewScreens() throws Exception {
         EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreenBits());
 
         Optional<ScreenBit> result = selectDialog.showAndWait();
 
-        if (result.isPresent()){
-            if (result.get() != null){
+        if (result.isPresent()) {
+            if (result.get() != null) {
                 Stage stage = new Stage();
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
                 Parent root = fxmlLoader.load();
                 ManagerScreenViewController controller = fxmlLoader.getController();
                 controller.init(result.get());
-                controller.setParentStage((Stage)this.root.getScene().getWindow());
+                controller.setParentStage((Stage) this.root.getScene().getWindow());
                 Scene scene = new Scene(root);
                 BorderPane bp = (BorderPane) root.getScene().getRoot();
                 SceneMover sceneMover = new SceneMover();
-                sceneMover.move(stage,bp.getTop());
+                sceneMover.move(stage, bp.getTop());
 
                 stage.getIcons().addAll(
                         new Image("/GUI/Resources/AppIcons/icon16x16.png"),
@@ -115,7 +128,7 @@ public class ManagerDashboardController implements Initializable {
         stage.setIconified(true);
     }
 
-    public void maximize(){
+    public void maximize() {
         isMaximized = !isMaximized;
         Stage stage = (Stage) borderPane.getScene().getWindow();
         stage.setMaximized(isMaximized);
@@ -136,7 +149,7 @@ public class ManagerDashboardController implements Initializable {
                 // Reset the singleton instance so we don't leave any cache behind.
                 UserModel.getInstance().resetSingleton();
                 ScreenModel.getInstance().resetSingleton();
-                
+
                 Stage root1 = (Stage) root.getScene().getWindow();
 
                 Stage stage = new Stage();

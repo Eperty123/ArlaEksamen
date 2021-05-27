@@ -4,6 +4,7 @@ import BE.Bug;
 import BE.ClockCalender;
 import BE.SceneMover;
 import BE.User;
+import BLL.EmailManager;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.SettingsController;
@@ -49,6 +50,7 @@ public class AdminDashboardController implements Initializable {
     private User currentUser;
     private boolean isMaximized = false;
     private BugModel bugModel = BugModel.getInstance();
+    private EmailManager emailManager = EmailManager.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,6 +65,7 @@ public class AdminDashboardController implements Initializable {
         lblWelcome.setText("Welcome " + currentUser.getFirstName() + " " + currentUser.getLastName() + "!");
         lblBar.setText("Admin Dashboard - " + currentUser.getFirstName() + " " + currentUser.getLastName());
         handleBugReportUpdate();
+        checkEmailSettings();
 
         try {
             handleUserManagement();
@@ -74,6 +77,11 @@ public class AdminDashboardController implements Initializable {
             WarningController.createWarning("Oh no! Something went wrong trying to load the admins user management view." +
                     " It might be corrupted or lost.");
         }
+    }
+
+    private void checkEmailSettings() {
+        if (!emailManager.canSendEmail())
+            WarningController.createWarning(String.format("The email: \"%s\" for sending email notification for administrators is incorrect! Managers and users are not able to send emails until it's set correctly.", emailManager.getUsername()));
     }
 
     /**

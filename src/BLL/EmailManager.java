@@ -1,6 +1,7 @@
 package BLL;
 
 import BE.Email;
+import GUI.Controller.PopupControllers.WarningController;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -29,6 +30,10 @@ public class EmailManager {
         loadEmailSettings("src/Resources/email.settings");
     }
 
+    /**
+     * Load email settings from the given file path.
+     * @param settingsFile The file path to the email settings.
+     */
     public void loadEmailSettings(String settingsFile) {
         var file = new File(settingsFile);
         if (file.exists()) {
@@ -36,6 +41,8 @@ public class EmailManager {
 
             try {
                 emailSettings.load(new FileInputStream(file));
+
+                // Proceed to read other configs.
                 setHost(emailSettings.getProperty("Host"));
                 setPort(Integer.parseInt(emailSettings.getProperty("Port")));
                 setUseTLS(Boolean.parseBoolean(emailSettings.getProperty("UseTLS")));
@@ -155,8 +162,13 @@ public class EmailManager {
         }
     }
 
+    public boolean canSendEmail() {
+        return EmailExtension.isEmailValid(username);
+    }
+
     /**
      * Get the singleton instance of EmailManager.
+     *
      * @return Returns the instance of said class.
      */
     public static EmailManager getInstance() {
