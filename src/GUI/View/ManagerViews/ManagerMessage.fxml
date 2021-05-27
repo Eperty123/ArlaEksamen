@@ -34,8 +34,7 @@
                                           <AnchorPane BorderPane.alignment="CENTER">
                                              <children>
                                                 <JFXButton onAction="#handleSave" onTouchPressed="#handleSave" prefWidth="65.0" styleClass="MSave" text="Save" textFill="WHITE" AnchorPane.rightAnchor="85.0" />
-                                                <JFXButton onAction="#handleCancel" onTouchPressed="#handleCancel" prefWidth="65.0" styleClass="MCancel" text="Cancel" textFill="WHITE" AnchorPane.rightAnchor="10.0" />
-                                             </children>
+                                                </children>
                                           </AnchorPane>
                                        </bottom>
                                     </BorderPane>
