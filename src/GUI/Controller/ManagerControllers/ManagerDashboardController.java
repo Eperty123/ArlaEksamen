@@ -84,15 +84,15 @@ public class ManagerDashboardController implements Initializable {
                 Stage stage = new Stage();
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
-                Parent root = fxmlLoader.load();
+                Parent parent = fxmlLoader.load();
                 ManagerScreenViewController controller = fxmlLoader.getController();
                 controller.init(result.get());
                 controller.setParentStage((Stage) this.root.getScene().getWindow());
 
-                BorderPane bp = (BorderPane) root.getScene().getRoot();
+                BorderPane bp = (BorderPane) parent;
                 SceneMover sceneMover = new SceneMover();
 
-                stageShower.showScene(stage,root,sceneMover,bp.getTop());
+                stageShower.showScene(stage,parent,sceneMover,bp);
 
                 minimize();
             }
