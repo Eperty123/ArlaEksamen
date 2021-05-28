@@ -142,8 +142,6 @@ public class PDFDisplayer {
                 try {
                     this.webView.getEngine().executeScript(js);
                 } catch (RuntimeException ex) {
-
-                    ex.printStackTrace();
                     if (!this.pdfJsLoaded) this.loadScript = js;
                 }
             }

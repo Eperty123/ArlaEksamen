@@ -3,15 +3,12 @@ package GUI.Model;
 import BE.*;
 import BLL.BugManager;
 import BLL.EmailManager;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
-public class BugModel {
+public class BugModel implements IBugCRUD {
 
     private static BugModel instance;
     private BugManager bugManager;
@@ -32,7 +29,8 @@ public class BugModel {
      *
      * @param newBug
      */
-    public void addBug(Bug newBug) {
+    @Override
+    public void addBug(Bug newBug) throws SQLException {
         bugManager.addBug(newBug);
     }
 
@@ -42,8 +40,9 @@ public class BugModel {
      *
      * @return Returns a List of Bug reports.
      */
-    public List<Bug> getAllBugs() {
-        return bugManager.getBugs();
+    @Override
+    public ObservableList<Bug> getAllBugs() {
+        return bugManager.getAllBugs();
     }
 
     /**
@@ -52,7 +51,7 @@ public class BugModel {
      * @param oldBug The Bug report to update.
      * @param newBug The new Bug report to replace with.
      */
-    public void updateBug(Bug oldBug, Bug newBug) {
+    public void updateBug(Bug oldBug, Bug newBug) throws SQLException {
         bugManager.updateBug(oldBug, newBug);
     }
 
@@ -61,8 +60,14 @@ public class BugModel {
      *
      * @param bug The Bug report to delete.
      */
-    public void deleteBug(Bug bug) {
+    @Override
+    public void deleteBug(Bug bug) throws SQLException {
         bugManager.deleteBug(bug);
+    }
+
+    @Override
+    public boolean hasBugsLoaded() {
+        return bugManager.hasBugsLoaded();
     }
 
 

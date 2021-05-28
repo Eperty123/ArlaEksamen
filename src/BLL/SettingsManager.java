@@ -5,13 +5,14 @@ import BE.ISettingsCRUD;
 import BE.SettingsType;
 import DAL.SettingsDAL;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class SettingsManager implements ISettingsCRUD {
     private final SettingsDAL settingsDAL = new SettingsDAL();
 
     @Override
-    public void addSetting(Settings settings) {
+    public void addSetting(Settings settings) throws SQLException {
         settingsDAL.addSetting(settings);
     }
 
@@ -26,12 +27,12 @@ public class SettingsManager implements ISettingsCRUD {
     }
 
     @Override
-    public void deleteSetting(Settings settings) {
+    public void deleteSetting(Settings settings) throws SQLException {
         settingsDAL.deleteSetting(settings);
     }
 
     @Override
-    public void updateSetting(Settings oldSettings, Settings newSettings) {
+    public void updateSetting(Settings oldSettings, Settings newSettings) throws SQLException {
         settingsDAL.updateSetting(oldSettings, newSettings);
     }
 

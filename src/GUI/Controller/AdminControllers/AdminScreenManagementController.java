@@ -2,14 +2,13 @@ package GUI.Controller.AdminControllers;
 
 import BE.SceneMover;
 import BE.ScreenBit;
-import BLL.StageShower;
 import BE.User;
+import BLL.StageShower;
 import GUI.Controller.HRControllers.HRDepartmentController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DataModel;
-import GUI.Model.ScreenModel;
-import GUI.Model.UserModel;
+import com.mysql.cj.xdevapi.Warning;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
@@ -50,8 +49,6 @@ public class AdminScreenManagementController implements Initializable {
     private MaterialDesignIconView plus;
 
     private final SceneMover sceneMover = new SceneMover();
-    private final ScreenModel screenModel = ScreenModel.getInstance();
-    private final UserModel userModel = UserModel.getInstance();
     private Node createBtnNode;
 
     private final List<User> userList = DataModel.getInstance().getUsers();
@@ -85,12 +82,18 @@ public class AdminScreenManagementController implements Initializable {
      * Load all the available screens.
      */
     private void loadAllScreens() {
+
+
         // Remove all nodes.
         root.getChildren().clear();
 
-        // Add all screens.
-        for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
-            handleNewScreen(s);
+        try {
+            // Add all screens.
+            for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
+                handleNewScreen(s);
+            }
+        } catch (NullPointerException throwables) {
+            WarningController.createWarning("Oh no! Failed to load screens from the database!");
         }
 
         // Now add the create screen button.
@@ -208,7 +211,7 @@ public class AdminScreenManagementController implements Initializable {
 
         BorderPane borderPane = (BorderPane) root.getChildren().get(0);
         Node bar = borderPane.getTop();
-        stageShower.showScene(pickerDashboard,root,sceneMover,bar);
+        stageShower.showScene(pickerDashboard, root, sceneMover, bar);
     }
 
 
@@ -220,10 +223,14 @@ public class AdminScreenManagementController implements Initializable {
         if (result.isPresent()) {
 
 
-            DataModel.getInstance().addScreenBit(new ScreenBit(result.get(), ""));
-
-            // Reload all screens. Can be optimized further using thread to not halt the gui.
-            loadAllScreens();
+            try {
+                DataModel.getInstance().addScreenBit(new ScreenBit(result.get(), ""));
+                // Reload all screens. Can be optimized further using thread to not halt the gui.
+                loadAllScreens();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong when attempting to add the given screen to the database. Please try again, and if the problem persists, contact an IT Administrator.");
+            }
             //handleNewScreen(new ScreenBit(result.get()));
         }
     }
@@ -253,12 +260,11 @@ public class AdminScreenManagementController implements Initializable {
             if (result.get()) {
                 try {
                     DataModel.getInstance().deleteScreenBit(screenBit);
+                    removeScreenNode(screenBit);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
-                    WarningController.createWarning("Oh no! Something went wrong when attempting to update a title " +
-                            "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+                    WarningController.createWarning("Oh no! Something went wrong when attempting to remove the selected screen! Please try again, and if the problem persists, contact an IT Administrator.");
                 }
-                removeScreenNode(screenBit);
             }
         }
     }

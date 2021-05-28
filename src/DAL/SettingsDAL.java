@@ -32,16 +32,18 @@ public class SettingsDAL implements ISettingsCRUD {
                 settings.add(resultSetParser.getSetting(rs));
             }
 
+            return settings;
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to get all settings " +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            return null;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to get all settings " +
+//                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-        return settings;
     }
 
     @Override
-    public void addSetting(Settings settings) {
+    public void addSetting(Settings settings) throws SQLException {
         try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Settings VALUES(?,?)");
@@ -50,8 +52,9 @@ public class SettingsDAL implements ISettingsCRUD {
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add the setting " +
-                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to add the setting " +
+//                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -80,7 +83,7 @@ public class SettingsDAL implements ISettingsCRUD {
     }
 
     @Override
-    public void deleteSetting(Settings settings) {
+    public void deleteSetting(Settings settings) throws SQLException {
         try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Settings Where Id = ?");
@@ -88,13 +91,14 @@ public class SettingsDAL implements ISettingsCRUD {
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete the setting " +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete the setting " +
+//                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
     @Override
-    public void updateSetting(Settings oldSettings, Settings newSettings) {
+    public void updateSetting(Settings oldSettings, Settings newSettings) throws SQLException {
         try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement("UPDATE Settings SET Attribute = ? Where Id = ?");
@@ -103,8 +107,9 @@ public class SettingsDAL implements ISettingsCRUD {
             pSql.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to update the setting " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to update the setting " +
+//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 

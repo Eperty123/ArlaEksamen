@@ -1,6 +1,7 @@
 package GUI.Model;
 
 import BE.Department;
+import BE.IDepartmentCRUD;
 import BE.User;
 import BLL.DepartmentManager;
 import javafx.collections.ObservableList;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DepartmentModel {
+public class DepartmentModel implements IDepartmentCRUD {
 
     private final DepartmentManager departmentManager = new DepartmentManager();
     private static DepartmentModel instance;
@@ -49,25 +50,27 @@ public class DepartmentModel {
         return instance == null ? instance = new DepartmentModel() : instance;
     }
 
-    /**
-     * Adds a department to the database.
-     * @param newDepartment
-     */
-    public void addDepartment(Department newDepartment) {
+    public void addDepartment(Department newDepartment) throws SQLException {
         departmentManager.addDepartment(newDepartment);
     }
 
-    /**
-     * Adds a sub department to a department, and creates a relation in the database.
-     * @param department
-     * @param subDepartment
-     */
-    public void addSubDepartment(Department department, Department subDepartment) {
+    @Override
+    public void removeDepartment(Department department) {
+        departmentManager.removeDepartment(department);
+    }
+
+    @Override
+    public void editDepartment(Department department) throws SQLException {
+        departmentManager.editDepartment(department);
+    }
+
+    public void addSubDepartment(Department department, Department subDepartment) throws SQLException {
         departmentManager.addSubDepartment(department, subDepartment);
     }
 
     /**
      * Deletes a department from the database.
+     *
      * @param d
      * @throws SQLException
      */
@@ -93,6 +96,7 @@ public class DepartmentModel {
 
     /**
      * Retrieves a department matching the specified department id.
+     *
      * @param departmentId
      * @return
      */
@@ -106,28 +110,21 @@ public class DepartmentModel {
         return null;
     }
 
-    /**
-     * Updates a department in the database.
-     * @param department
-     */
-    public void updateDepartment(Department department) {
+    public void updateDepartment(Department department) throws SQLException {
         departmentManager.editDepartment(department);
     }
 
     /**
      * Returns an observable list of all departments.
+     *
      * @return
      */
     public ObservableList<Department> getAllDepartments() {
         return departmentManager.getAllDepartments();
     }
 
-    /**
-     * Returns a department's super department.
-     * @return
-     */
-    public List<Department> getSuperDepartment() {
-        return departmentManager.getSuperDepartment();
+    public boolean hasDepartmentsLoaded() {
+        return departmentManager.hasDepartmentsLoaded();
     }
 
     /**
@@ -141,9 +138,10 @@ public class DepartmentModel {
 
     /**
      * Returns a list of the departments(') super departments.
+     *
      * @return
      */
     public List<Department> getSuperDepartments() {
-        return departmentManager.getSuperDepartment();
+        return departmentManager.getSuperDepartments();
     }
 }

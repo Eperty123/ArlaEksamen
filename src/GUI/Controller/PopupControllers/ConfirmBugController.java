@@ -1,13 +1,14 @@
 package GUI.Controller.PopupControllers;
 
 import BE.Bug;
-import GUI.Model.BugModel;
+import GUI.Model.DataModel;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class ConfirmBugController {
@@ -31,16 +32,21 @@ public class ConfirmBugController {
                 "The bug will be marked as resolved and will not be able to be editted");
 
         Optional<Boolean> result = confirmationDialog.showAndWait();
-        if (result.isPresent()){
-            if (result.get()){
-                Bug updatedbug = selectedBug;
-                updatedbug.setFixMessage(getText());
-                updatedbug.setBugResolved(1);
+        if (result.isPresent()) {
+            if (result.get()) {
+                Bug updatedBug = selectedBug;
+                updatedBug.setFixMessage(getText());
+                updatedBug.setBugResolved(1);
 
-                BugModel.getInstance().updateBug(selectedBug,updatedbug);
+                try {
+                    DataModel.getInstance().updateBug(selectedBug, updatedBug);
 
-                Stage stage = (Stage) root.getScene().getWindow();
-                stage.close();
+                    Stage stage = (Stage) root.getScene().getWindow();
+                    stage.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                    WarningController.createWarning("Oh no! Failed to update the selected bug report in the database!");
+                }
             }
         }
     }
@@ -50,8 +56,8 @@ public class ConfirmBugController {
                 "The bug will not be marked as resolved");
 
         Optional<Boolean> result = confirmationDialog.showAndWait();
-        if (result.isPresent()){
-            if (result.get()){
+        if (result.isPresent()) {
+            if (result.get()) {
                 Stage stage = (Stage) root.getScene().getWindow();
                 stage.close();
             }

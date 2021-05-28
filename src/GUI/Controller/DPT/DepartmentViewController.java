@@ -149,7 +149,7 @@ public class DepartmentViewController implements Initializable {
      */
     public void setDepartment(Department department) {
         this.department = department;
-        this.subDepartments = FXCollections.observableArrayList(department.getSubDepartments());
+        subDepartments = FXCollections.observableArrayList(department.getSubDepartments());
         dptUsersTable.setItems(department.getUsers());
         department.setDepartmentViewController(this);
 
@@ -233,7 +233,13 @@ public class DepartmentViewController implements Initializable {
     private void saveDPTNameChange() {
         if (ConfirmationDialog.createConfirmationDialog("Are you sure you want to save the name on this department?")) {
             department.setName(dptNameField.getText());
-            DataModel.getInstance().updateDepartment(department);
+            try {
+                DataModel.getInstance().updateDepartment(department);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong when attempting to update a title " +
+                        "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            }
             saveIcon.fillProperty().set(Paint.valueOf("Green"));
         }
     }

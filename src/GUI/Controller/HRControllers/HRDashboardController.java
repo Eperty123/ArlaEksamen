@@ -28,6 +28,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -88,22 +89,32 @@ public class HRDashboardController implements Initializable {
                         users.removeIf(u -> u.getUserName().isEmpty());
                         if (!users.isEmpty()) {
                             item.setManager(users.get(0));
-                            DataModel.getInstance().updateDepartment(item);
+                            try {
+                                DataModel.getInstance().updateDepartment(item);
 
-                            for (Department dpt : vc.getDepartment().getAllSubDepartments()) {
-                                if (dpt.getSubDepartments().contains(item)) {
-                                    DataModel.getInstance().addSubDepartment(dpt, item);
-                                    break;
+                                for (Department dpt : vc.getDepartment().getAllSubDepartments()) {
+                                    if (dpt.getSubDepartments().contains(item)) {
+                                        DataModel.getInstance().addSubDepartment(dpt, item);
+                                        break;
+                                    }
                                 }
+                            } catch (SQLException throwables) {
+                                WarningController.createWarning("Oh no! Something went wrong when attempting to update a department and its sub departments in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
                             }
                         }
-                        if (item.getManager().getUserName()=="place") {
+                        if (item.getManager().getUserName() == "place") {
                             boolean confirm2 = ConfirmationDialog.createConfirmationDialog("dpt needs user");
                             if (confirm2)
                                 return;
                         }
                     });
-                    UserModel.getInstance().updateUserDepartment(vc.getAllSubDepartments());
+
+                    try {
+                        UserModel.getInstance().updateUserDepartment(vc.getAllSubDepartments());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                        WarningController.createWarning("Oh no! Something went wrong under updating the user's department! Please try again. If this persists, contact an IT-Administrator.");
+                    }
                 });
             }
         });

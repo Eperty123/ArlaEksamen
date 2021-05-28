@@ -6,10 +6,7 @@ import BLL.LoginManager;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Controller.StageBuilder;
-import GUI.Model.BugModel;
 import GUI.Model.DataModel;
-import GUI.Model.MessageModel;
-import GUI.Model.SettingsModel;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -28,9 +25,11 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -53,9 +52,8 @@ public class ManagerScreenViewController implements Initializable {
     private final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     private Stage parentStage;
     private ScreenBit selectedScreen;
-    private List<Message> screenMessages = new ArrayList<>();
     private EmailManager emailManager = EmailManager.getInstance();
-    private BugModel bugModel = BugModel.getInstance();
+    private DataModel dataModel = DataModel.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -202,25 +200,27 @@ public class ManagerScreenViewController implements Initializable {
                 Bug newBug = new Bug(result.get(), Timestamp.valueOf(LocalDateTime.now()).toString());
                 newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
-                DataModel.getInstance().addBug(newBug);
 
-                //TODO uncheck
+                try {
+                    dataModel.addBug(newBug);
 
-                // Check if we can send emails at all.
+                    //TODO uncheck
 
-                
-                if (emailManager.canSendEmail()) {
-                    // Proceed to do so.
-                    bugModel.sendEmailBugReportToAllAdmins(newBug, comboScreens.getSelectionModel().getSelectedItem(), currentUser);
-                } else
-                    WarningController.createWarning("The email for sending email notification for administrators is incorrect! Please contact an IT-Administrator about this!");
+                    // Check if we can send emails at all.
+                    if (emailManager.canSendEmail()) {
+                        // Proceed to do so.
+                        //bugModel.sendEmailBugReportToAllAdmins(newBug, comboScreens.getSelectionModel().getSelectedItem(), currentUser);
+                    } else
+                        WarningController.createWarning("The email for sending email notification for administrators is incorrect! Please contact an IT-Administrator about this!");
+                    WarningController.createWarning("Report Send!", "Bug report successfully send, " +
+                            "thank you for helping improving this program!");
 
-                WarningController.createWarning("Report Send!", "Bug report successfully send, " +
-                        "thank you for helping improving this program!");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                    WarningController.createWarning("Oh no! Failed to add the bug report to the database. If this persists, contact an IT-Administrator.");
+                }
 
 
-
-                 
             }
         }
     }

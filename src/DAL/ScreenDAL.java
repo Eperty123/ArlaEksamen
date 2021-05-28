@@ -30,14 +30,14 @@ public class ScreenDAL {
             con.setAutoCommit(false); // Enable transaction
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             deleteScreenBitUserAssociations(con, screenBit);
-            deleteScreenBitTimeTable(con,screenBit);
-            deleteScreenBitMessage(con,screenBit);
+            deleteScreenBitTimeTable(con, screenBit);
+            deleteScreenBitMessage(con, screenBit);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Screen WHERE Id=?");
             pSql.setInt(1, screenBit.getId());
 
-            try{
+            try {
                 pSql.execute();
-            } catch(SQLException throwables){
+            } catch (SQLException throwables) {
                 con.rollback();
                 con.setAutoCommit(true);
                 con.setTransactionIsolation(Connection.TRANSACTION_NONE);
@@ -51,23 +51,24 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-            }
+        }
     }
 
-    private void deleteScreenBitMessage(Connection con, ScreenBit screenBit) {
+    private void deleteScreenBitMessage(Connection con, ScreenBit screenBit) throws SQLException {
 
         try {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenMessage WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
-        }catch (SQLException throwables){
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message on the given screen " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message on the given screen " +
+//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
     }
 
-    private void deleteScreenBitTimeTable(Connection con, ScreenBit screenBit) {
+    private void deleteScreenBitTimeTable(Connection con, ScreenBit screenBit) throws SQLException {
 
         try {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenTime WHERE ScreenId=?");
@@ -75,10 +76,11 @@ public class ScreenDAL {
             pSql.execute();
             int r = 4;
 
-        }catch (SQLException throwables){
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a timetable on the given screen " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a timetable on the given screen " +
+//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -87,16 +89,17 @@ public class ScreenDAL {
      *
      * @param screenBit object containing information on which rows to be deleted from the  ScreenRights table.
      */
-    private void deleteScreenBitUserAssociations(Connection con, ScreenBit screenBit) {
-        try{
+    private void deleteScreenBitUserAssociations(Connection con, ScreenBit screenBit) throws SQLException {
+        try {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user - screen association" +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user - screen association" +
+//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -106,7 +109,7 @@ public class ScreenDAL {
      * @param newScreenBit contains the new ScreenBit information.
      * @param oldScreenBit used to get Id for row referencing.
      */
-    public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit) {
+    public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("UPDATE Screen SET ScreenName=?, ScreenInfo=? WHERE Id=?");
@@ -117,8 +120,9 @@ public class ScreenDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to update the given screen " +
-                "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to update the given screen " +
+//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -127,7 +131,7 @@ public class ScreenDAL {
      *
      * @param newScreenBit
      */
-    public int addScreenBit(ScreenBit newScreenBit) {
+    public int addScreenBit(ScreenBit newScreenBit) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Screen VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -142,14 +146,14 @@ public class ScreenDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add the given screen " +
-                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to add the given screen " +
+//                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-        return -1;
     }
 
     // TODO javadoc jonas
-    public void createScreenBitTimeTable(Connection con, int screenId) {
+    public void createScreenBitTimeTable(Connection con, int screenId) throws SQLException {
 
         try {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO ScreenTime VALUES(?,?,?)");
@@ -166,10 +170,11 @@ public class ScreenDAL {
             pSql.executeBatch();
 
             pSql.execute();
-        }catch (SQLException throwables){
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add a timetable the given screen " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to add a timetable the given screen " +
+//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
     }
@@ -209,12 +214,15 @@ public class ScreenDAL {
             }
             loadTimeTables(con, allScreens);
 
+            return allScreens;
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to get all screens from " +
-                    "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            //throw throwables;
+            return null;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to get all screens from " +
+//                    "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
-        return allScreens;
     }
 
     /**
@@ -224,7 +232,7 @@ public class ScreenDAL {
      * @param user
      * @param screenBit
      */
-    public void assignScreenBitRights(User user, ScreenBit screenBit) {
+    public void assignScreenBitRights(User user, ScreenBit screenBit) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO ScreenRights VALUES(?,?)");
@@ -234,16 +242,17 @@ public class ScreenDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to assign screen rights between " +
-                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to assign screen rights between " +
+//                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
-    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) {
+    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO ScreenRights VALUES(?,?)");
-            for(User u : users){
+            for (User u : users) {
                 pSql.setInt(1, screenBit.getId());
                 pSql.setString(2, u.getUserName());
                 pSql.addBatch();
@@ -252,8 +261,9 @@ public class ScreenDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to assign screen rights between " +
-                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to assign screen rights between " +
+//                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -264,7 +274,7 @@ public class ScreenDAL {
      * @param user
      * @param screenBit
      */
-    public void removeScreenBitRights(User user, ScreenBit screenBit) {
+    public void removeScreenBitRights(User user, ScreenBit screenBit) throws SQLException {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=? AND ScreenId=?");
             pSql.setString(1, user.getUserName());
@@ -273,22 +283,24 @@ public class ScreenDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to remove screen rights between " +
-                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to remove screen rights between " +
+//                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
     /**
      * Deletes an association in the ScreenRights junction table in the database using a batch query.
      * The row is identified using both userName and screenId.
+     *
      * @param users
      * @param screenBit
      */
-    public void removeScreenBitRights(List<User> users, ScreenBit screenBit){
+    public void removeScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=? AND ScreenId=?");
 
-            for(User u : users){
+            for (User u : users) {
                 pSql.setString(1, u.getUserName());
                 pSql.setInt(2, screenBit.getId());
                 pSql.addBatch();
@@ -299,14 +311,15 @@ public class ScreenDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to remove screen rights between " +
-                    "the given list of users and screen. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to remove screen rights between " +
+//                    "the given list of users and screen. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
     /**
      * * This helper method updates the allScreenBits list with data retrieved from the ResultSet in the getScreenBits() method.
-     *
+     * <p>
      * - If a user does not exist in allUsers, first the ScreenBit is assigned to the user,
      * and then the user is added to allUsers.
      * - If a user does exist in allUsers, the ScreenBit is added to the users list of assigned ScreenBits.
@@ -331,7 +344,7 @@ public class ScreenDAL {
     }
 
     // TODO javadoc jonas
-    private void loadTimeTables(Connection con, List<ScreenBit> screenBits) {
+    private void loadTimeTables(Connection con, List<ScreenBit> screenBits) throws SQLException {
 
         try {
             PreparedStatement pSql = con.prepareStatement("SELECT * FROM ScreenTime");
@@ -350,10 +363,11 @@ public class ScreenDAL {
                     }
                 }
             }
-        } catch (SQLException throwables){
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to load timetables from the Database. " +
-                    "Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+//            WarningController.createWarning("Oh no! Something went wrong when attempting to load timetables from the Database. " +
+//                    "Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 

@@ -4,9 +4,7 @@ import BE.Bug;
 import BE.Searcher;
 import BE.User;
 import GUI.Controller.StageBuilder;
-import GUI.Model.BugModel;
 import GUI.Model.DataModel;
-import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -43,8 +41,6 @@ public class AllBugsController implements Initializable {
     @FXML
     private TableColumn<Bug, String> bFM;
 
-
-    private final BugModel bugModel = BugModel.getInstance();
     private final ObservableList<Bug> bugs = DataModel.getInstance().getAllBugs();
     ObservableList<Bug> allResolvedBugs = FXCollections.observableArrayList();
     private Boolean isMaximized = false;

@@ -2,14 +2,12 @@ package GUI.Controller.AdminControllers;
 
 import BE.Bug;
 import BE.SceneMover;
-import BLL.StageShower;
 import BE.User;
+import BLL.StageShower;
 import GUI.Controller.CrudControllers.EditBugController;
 import GUI.Controller.PopupControllers.ConfirmBugController;
 import GUI.Controller.PopupControllers.WarningController;
-import GUI.Model.BugModel;
 import GUI.Model.DataModel;
-import GUI.Model.UserModel;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -28,7 +26,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,9 +40,9 @@ public class AdminBugReportController implements Initializable {
     @FXML
     private TableColumn<Bug, String> bAR;
 
-    private final BugModel bugModel = BugModel.getInstance();
     private final SceneMover sceneMover = new SceneMover();
-    private final ObservableList<Bug> bugs = DataModel.getInstance().getAllBugs();
+    private final DataModel dataModel = DataModel.getInstance();
+    private final ObservableList<Bug> bugs = dataModel.getAllBugs();
     private final StageShower stageShower = new StageShower();
 
 
@@ -53,7 +50,7 @@ public class AdminBugReportController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set the table's content with the BugModel's.
         loadAllBugs();
-        handleBugUpdate();
+        //handleBugUpdate();
 
         bD.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDescription()));
         bDR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDateReported()));
@@ -78,17 +75,32 @@ public class AdminBugReportController implements Initializable {
         });
     }
 
-    private void loadAllBugs(){
+    /**
+     * Load all bugs in the database.
+     */
+    private void loadAllBugs() {
         ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
-        allUnresolvedBugs.addAll(bugs);
-        allUnresolvedBugs.removeIf(Bug::isBugResolved);
-        tblBugs.setItems(allUnresolvedBugs);
+
+        try {
+            allUnresolvedBugs.addAll(bugs);
+            allUnresolvedBugs.removeIf(Bug::isBugResolved);
+            tblBugs.setItems(allUnresolvedBugs);
+            handleBugUpdate();
+        } catch (NullPointerException throwables) {
+            WarningController.createWarning("Oh no! Failed to load all the bug reports from the database!");
+        }
     }
 
 
-    private String getAdmin(int id){
-        for (User u : DataModel.getInstance().getUsers()){
-            if (u.getId() == id){
+    /**
+     * Get an administrator's username by id.
+     *
+     * @param id The id of the adminstrator.
+     * @return Returns the admin's username.
+     */
+    private String getAdmin(int id) {
+        for (User u : dataModel.getUsers()) {
+            if (u.getId() == id) {
                 return u.getUserName();
             }
         }
@@ -99,16 +111,27 @@ public class AdminBugReportController implements Initializable {
      * Handle any incoming changes to the Bug ObservableList and update the table.
      */
     private void handleBugUpdate() {
-        DataModel.getInstance().getAllBugs().addListener((ListChangeListener<Bug>) c -> {
-            ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
-            allUnresolvedBugs.addAll(bugs);
-            allUnresolvedBugs.removeIf(Bug::isBugResolved);
-            tblBugs.setItems(allUnresolvedBugs);
-        });
+
+        try {
+            bugs.addListener((ListChangeListener<Bug>) c -> {
+
+                try {
+                    ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
+                    allUnresolvedBugs.addAll(bugs);
+                    allUnresolvedBugs.removeIf(Bug::isBugResolved);
+                    tblBugs.setItems(allUnresolvedBugs);
+                } catch (NullPointerException throwables) {
+                    WarningController.createWarning("Oh no! Failed to load all updated bug reports from the database!");
+                }
+            });
+        } catch (NullPointerException throwables) {
+            WarningController.createWarning("Oh no! Failed to load bug reports from the database!");
+        }
     }
 
     /**
      * handles clicking the view all bugs icon on the UI
+     *
      * @throws IOException if it cannot find the FXML file.
      */
     public void handleViewAllBugs() throws IOException {
@@ -123,7 +146,7 @@ public class AdminBugReportController implements Initializable {
 
         SceneMover sceneMover = new SceneMover();
         BorderPane bp = (BorderPane) root.getChildrenUnmodifiable().get(0);
-        sceneMover.move(stage,bp.getTop());
+        sceneMover.move(stage, bp.getTop());
 
         stage.getIcons().addAll(
                 new Image("/GUI/Resources/AppIcons/icon16x16.png"),
@@ -138,6 +161,7 @@ public class AdminBugReportController implements Initializable {
 
     /**
      * handles clicking the bug fixed icon.
+     *
      * @throws IOException if it cannot find the FXML file in the ConfirmationDialog.
      */
     public void handleBugFixed() throws IOException {
@@ -147,16 +171,19 @@ public class AdminBugReportController implements Initializable {
             loader.setLocation(getClass().getResource("/GUI/VIEW/PopUpViews/ConfirmBug.fxml"));
             fixBug.setTitle("Fix Bug");
             Parent root = loader.load();
+
+            // ConfirmBugController is responsible for updating the selected bug report.
             ConfirmBugController bugFixController = loader.getController();
             bugFixController.setSelectedBug(tblBugs.getSelectionModel().getSelectedItem());
 
-            stageShower.showScene(fixBug, root, sceneMover,root);
+            stageShower.showScene(fixBug, root, sceneMover, root);
         }
     }
 
 
     /**
      * handles clicking the edit bug icon.
+     *
      * @throws IOException if it cannot find the FXML file given.
      */
     public void handleEditBug() throws IOException {
@@ -170,7 +197,7 @@ public class AdminBugReportController implements Initializable {
 
             editBugController.setData(tblBugs.getSelectionModel().getSelectedItem());
 
-           stageShower.showScene(editBug,root,sceneMover);
+            stageShower.showScene(editBug, root, sceneMover);
         }
     }
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 public enum SettingsType {
     MESSAGE_CHECK_FREQUENCY(0), // 0 - Message check update frequency (in seconds)
     CARD_OPEN_DURATION(1), // 1 - Employee card show duration (in seconds)
-    WRONG_PASS_FREEZE_DURATION(2); // 3 - Wrong password freeze duration (in seconds)
+    WRONG_PASS_FREEZE_DURATION(2); // 2 - Wrong password freeze duration (in seconds)
 
     private final int value;
     private static final Map map = new HashMap<>();
@@ -16,7 +16,7 @@ public enum SettingsType {
     }
 
     static {
-        for (SettingsType settingsType : SettingsType.values()) {
+        for (SettingsType settingsType : values()) {
             map.put(settingsType.value, settingsType);
         }
     }
@@ -26,6 +26,6 @@ public enum SettingsType {
     }
 
     public int getValue() {
-        return this.value;
+        return value;
     }
 }

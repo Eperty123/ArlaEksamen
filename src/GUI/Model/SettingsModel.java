@@ -7,6 +7,7 @@ import BLL.SettingsManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class SettingsModel implements ISettingsCRUD {
@@ -19,7 +20,7 @@ public class SettingsModel implements ISettingsCRUD {
     }
 
     @Override
-    public void addSetting(Settings settings) {
+    public void addSetting(Settings settings) throws SQLException {
         settingsManager.addSetting(settings);
     }
 
@@ -46,12 +47,12 @@ public class SettingsModel implements ISettingsCRUD {
     }
 
     @Override
-    public void deleteSetting(Settings settings) {
+    public void deleteSetting(Settings settings) throws SQLException {
         settingsManager.deleteSetting(settings);
     }
 
     @Override
-    public void updateSetting(Settings oldSettings, Settings newSettings) {
+    public void updateSetting(Settings oldSettings, Settings newSettings) throws SQLException {
         settingsManager.updateSetting(oldSettings, newSettings);
     }
 

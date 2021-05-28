@@ -1,6 +1,7 @@
 package BLL;
 
 import BE.Department;
+import BE.IDepartmentCRUD;
 import BE.User;
 import DAL.DepartmentDAL;
 import GUI.Model.DataModel;
@@ -11,12 +12,14 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DepartmentManager {
-    private final ObservableList<Department> departmentList = FXCollections.observableArrayList();
+public class DepartmentManager implements IDepartmentCRUD {
+    private ObservableList<Department> departmentList;
     private final DepartmentDAL departmentDAL = new DepartmentDAL();
 
+    private boolean departmentLoaded;
+
     public DepartmentManager() {
-        departmentList.setAll(departmentDAL.getDepartments());
+        initialize();
     }
 
     /**
@@ -24,20 +27,36 @@ public class DepartmentManager {
      *
      * @return A list of super departments
      */
-    public List<Department> getSuperDepartment() {
-        ObservableList<Department> tmp = FXCollections.observableArrayList(DataModel.getInstance().getDepartments());
-        DataModel.getInstance().getDepartments().forEach(department -> {
-            department.getSubDepartments().forEach(subDepartment -> tmp.remove(subDepartment));
-        });
-        if (DataModel.getInstance().getDepartments().isEmpty()) {
-            Department newDepartment = new Department("new Department");
-            User user = new User();
-            user.setUserName("place");
-            newDepartment.setManager(user);
-            addDepartment(newDepartment);
-            tmp.add(newDepartment);
+
+    private void initialize() {
+        var departments = departmentDAL.getDepartments();
+        if (departments != null) {
+            departmentList = FXCollections.observableArrayList();
+            departmentList.addAll(departmentDAL.getDepartments());
+            departmentLoaded = true;
         }
-        return tmp;
+    }
+
+    @Override
+    public List<Department> getSuperDepartments() {
+        try {
+            ObservableList<Department> tmp = FXCollections.observableArrayList(DataModel.getInstance().getDepartments());
+            DataModel.getInstance().getDepartments().forEach(department -> {
+                department.getSubDepartments().forEach(subDepartment -> tmp.remove(subDepartment));
+            });
+            if (DataModel.getInstance().getDepartments().isEmpty()) {
+                Department newDepartment = new Department("new Department");
+                User user = new User();
+                user.setUserName("place");
+                newDepartment.setManager(user);
+                addDepartment(newDepartment);
+                tmp.add(newDepartment);
+                return tmp;
+            }
+        } catch (SQLException throwables) {
+            return null;
+        }
+        return null;
     }
 
     /**
@@ -49,12 +68,7 @@ public class DepartmentManager {
         return departmentList;
     }
 
-    /**
-     * Adds a department to the departmentList
-     *
-     * @param department the department you want to add
-     */
-    public void addDepartment(Department department) {
+    public void addDepartment(Department department) throws SQLException {
         departmentDAL.addDepartment(department);
     }
 
@@ -72,7 +86,7 @@ public class DepartmentManager {
      *
      * @param department the updated department
      */
-    public void editDepartment(Department department) {
+    public void editDepartment(Department department) throws SQLException {
         departmentDAL.updateDepartment(department);
     }
 
@@ -86,16 +100,7 @@ public class DepartmentManager {
         departmentDAL.deleteDepartment(department);
     }
 
-    /**
-     * Adds a department subDepartment association to the database
-     * @param department the superDepartment
-     * @param subDepartment the subDepartment
-     */
-    public void addSubDepartment(Department department, Department subDepartment) {
-        departmentDAL.addSubDepartment(department, subDepartment);
-    }
-
-//TODO add javadoc to this
+    //TODO add javadoc to this
     public void exportPhoneNumbers(List<Department> departments) {
         departmentDAL.exportPhoneNumbers(departments);
     }
@@ -106,5 +111,19 @@ public class DepartmentManager {
 
     public void exportPhoneNumbers(List<Department> departments, File outputFile) {
         departmentDAL.exportPhoneNumbers(departments, outputFile);
+    }
+
+    /**
+     * Adds a department's subDepartment association to the database
+     *
+     * @param department    the superDepartment
+     * @param subDepartment the subDepartment
+     */
+    public void addSubDepartment(Department department, Department subDepartment) throws SQLException {
+        departmentDAL.addSubDepartment(department, subDepartment);
+    }
+
+    public boolean hasDepartmentsLoaded() {
+        return departmentLoaded;
     }
 }
