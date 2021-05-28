@@ -44,6 +44,7 @@ public class DepartmentStageController implements Initializable {
         ObservableList<User> allUsers = UserModel.getInstance().getAllUsers();
 
         userTable.setItems(FXCollections.observableArrayList(UserModel.getInstance().getAllUsers()));
+        userTable.getItems().removeIf(u->u.getUserName()=="place");
 
         userTableColumn.setCellValueFactory(data -> data.getValue().getFullNameProperty());
 
@@ -53,6 +54,7 @@ public class DepartmentStageController implements Initializable {
                             userTable.getItems().remove(u);
                         else if (!userTable.getItems().contains(u))
                             userTable.getItems().add(u);
+                        userTable.getItems().removeIf(u3->u3.getUserName()=="place");
                     });
                 }
         );

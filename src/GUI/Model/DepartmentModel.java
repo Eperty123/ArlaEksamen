@@ -94,7 +94,7 @@ public class DepartmentModel {
         return departmentManager.getAllDepartments();
     }
 
-    public List<Department> getSuperDepartment() {
+    public List<Department> getSuperDepartments() {
         return departmentManager.getSuperDepartment();
     }
 

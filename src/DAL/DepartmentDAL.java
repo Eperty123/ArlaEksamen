@@ -22,11 +22,6 @@ public class DepartmentDAL {
     public void addDepartment(Department department) {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Department VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
-            if (department.getManager() == null) {
-                User placeholderUser = new User();
-                placeholderUser.setUserName("admtest");
-                department.setManager(placeholderUser);
-            }
             pSql.setString(1, department.getName());
             pSql.setString(2, department.getManager().getUserName());
             pSql.executeUpdate();
@@ -34,7 +29,7 @@ public class DepartmentDAL {
             generatedKeys.next();
             department.setId(generatedKeys.getInt(1));
 
-        } catch (SQLException throwables) {
+        }catch (SQLException throwables) {
             throwables.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong when attempting to add a new department " +
                     "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
@@ -145,7 +140,6 @@ public class DepartmentDAL {
     public void updateDepartment(Department department) {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("UPDATE Department SET Name=?, Manager=? WHERE Id=?");
-            department.setManager(department.getUsers().get(0));
             pSql.setString(1, department.getName());
             pSql.setString(2, department.getManager().getUserName());
             pSql.setInt(3, department.getId());
