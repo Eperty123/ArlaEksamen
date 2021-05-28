@@ -5,6 +5,7 @@ import GUI.Model.SettingsModel;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import org.apache.commons.collections.bidimap.DualHashBidiMap;
 
 import javax.xml.crypto.Data;
 import java.time.Duration;
@@ -17,7 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class Timer {
     private final List<Node> nodesToDisable = new ArrayList<>();
     private String textBeforeTimer = "Time until you can try to log in:";
-    private Duration timeoutDuration = Duration.ofSeconds(5);
+    private Duration timeoutDuration = DataModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION) != null ?
+            Duration.ofSeconds(Long.valueOf(DataModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION).getAttribute())) : Duration.ofSeconds(30);
     private Duration countDownDuration = this.timeoutDuration;
     private final TimeUnit timerSpeed = TimeUnit.SECONDS;
     private ScheduledExecutorService executor;
@@ -51,7 +53,8 @@ public class Timer {
      * per standard it has duration of 30 seconds
      */
     public Timer() {
-        Long l = Long.valueOf(5);
+        String time = DataModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION) != null ? DataModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION).getAttribute() : "30";
+        Long l = Long.valueOf(time);
 
         setTimeoutDuration(Duration.ofSeconds(l));
     }
