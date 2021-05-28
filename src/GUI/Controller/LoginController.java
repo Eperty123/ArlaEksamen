@@ -158,7 +158,7 @@ public class LoginController implements Initializable {
      */
     private void startTimer() {
         timer.startTimer();
-        timer.setTimeoutDuration(Duration.ofSeconds(timer.getTimeoutDuration().getSeconds() * 2));
+        timer.setTimeoutDuration(Duration.ofSeconds(timer.getTimeoutDuration().getSeconds()));
         lblPane.getChildren().clear();
         Label label = timer.getTimerLabel();
 

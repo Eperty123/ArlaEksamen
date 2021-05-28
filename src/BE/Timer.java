@@ -31,6 +31,7 @@ public class Timer {
                 if (!this.nodesToDisable.isEmpty())
                     this.nodesToDisable.forEach(node -> {
                         if (!node.isDisabled())
+                            timerLabel.setVisible(true);
                             node.setDisable(true);
                     });
             } else {
@@ -38,6 +39,7 @@ public class Timer {
                 if (!this.nodesToDisable.isEmpty())
                     this.nodesToDisable.forEach(node -> {
                         if (node.isDisabled())
+                            timerLabel.setVisible(false);
                             node.setDisable(false);
                     });
             }
