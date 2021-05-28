@@ -19,6 +19,10 @@ public class DepartmentDAL {
     private final ResultSetParser resultSetParser = new ResultSetParser();
     private final DepartmentBuilder departmentBuilder = new DepartmentBuilder();
 
+    /**
+     * Adds a department to the database, and sets the id of the department to the identity given in the Database
+     * @param department the department you want to add
+     */
     public void addDepartment(Department department) {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Department VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -37,6 +41,11 @@ public class DepartmentDAL {
 
     }
 
+    /**
+     * Adds a SubDepartment into the database, given by the ids of department and subdepartment
+     * @param department the superDepartment
+     * @param subDepartment the subDepartment
+     */
     public void addSubDepartment(Department department, Department subDepartment) {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO SubDepartment VALUES(?,?)");
@@ -50,6 +59,11 @@ public class DepartmentDAL {
         }
     }
 
+    /**
+     * Removes the department with the given id, and removes the user and subDepartment assoiciations.
+     * @param department the department you want to remove
+     * @throws SQLException
+     */
     public void deleteDepartment(Department department) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
@@ -80,22 +94,36 @@ public class DepartmentDAL {
         }
     }
 
+    /**
+     * Removes columns in the database, where either the subDepartment's id or the superDepartment's id is the given department's id
+     * @param con the connection you want to use
+     * @param department the departments associations you want to remove
+     * @throws SQLException
+     */
     private void deleteDepartmentSubDepartmentAssociations(Connection con, Department department) throws SQLException {
-
         PreparedStatement pSql = con.prepareStatement("DELETE FROM SubDepartment WHERE DptId=? OR SubDptId=?");
         pSql.setInt(1, department.getId());
         pSql.setInt(2, department.getId());
         pSql.execute();
     }
 
+    /**
+     * Removes columns in the database, where a Department user is bound to the given department
+     * @param con the connection you want to use
+     * @param department the department of which you want the user associations to be removed
+     * @throws SQLException
+     */
     private void deleteDepartmentUserAssociations(Connection con, Department department) throws SQLException {
-
         PreparedStatement pSql = con.prepareStatement("DELETE FROM DepartmentUser WHERE DepartmentId=?");
         pSql.setInt(1, department.getId());
         pSql.execute();
     }
 
 
+    /**
+     * Gets a list of all the departments in the database
+     * @return the Departments
+     */
     public List<Department> getDepartments() {
         List<Department> departments = new ArrayList<>();
 
@@ -128,8 +156,13 @@ public class DepartmentDAL {
         return departments;
     }
 
+    /**
+     * Sends the departments and the result set to the DepartmentBuilder
+     * @param departments the departments
+     * @param rs the result set
+     * @throws SQLException if something went wrong
+     */
     private void addDepartmentsAndUsers(List<Department> departments, ResultSet rs) throws SQLException {
-
         departmentBuilder.makeDepartment(rs);
         departmentBuilder.addUsers(rs);
         departmentBuilder.addSubdepartments(rs);
@@ -137,6 +170,10 @@ public class DepartmentDAL {
 
     }
 
+    /**
+     * Updates the given department with the given parameters in the department
+     * @param department the department
+     */
     public void updateDepartment(Department department) {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("UPDATE Department SET Name=?, Manager=? WHERE Id=?");

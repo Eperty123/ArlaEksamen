@@ -41,10 +41,15 @@ public class PickerStageController implements Initializable {
     private final ContextMenu contextMenu = new ContextMenu();
     private PickerStageController parentPickerStageController;
     private PickerStageController closestParentPickerStageController;
+    private boolean isZoomed = false;
+    private final DoubleProperty scale = new SimpleDoubleProperty();
 
-    public PickerStageController() {
-    }
-
+    /**
+     * Calls the init method
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         init();
@@ -52,18 +57,21 @@ public class PickerStageController implements Initializable {
 
     /**
      * Initializes contextMenus
-     * adds onAction on menuItems
+     * adds onAction to menuItems
      */
     private void init() {
         initContextMenu(ap, contextMenu);
         contextMenu.getItems().addAll(Arrays.asList(
+                //Opens the change content window when clicking the Change content menuItem
                 new MenuItemBit("Change content", (action) -> changeContent()).getMenuItem(),
+                //Unsplits the current window when clicking the Unsplit menuItem
                 new MenuItemBit("Unsplit", (action) -> {
                     if (closestParentPickerStageController != null)
                         closestParentPickerStageController.unSplit();
                     else
                         unSplit();
                 }).getMenuItem(),
+                //Changes the orientation of the current window, when clicking the Change orientation menuItem
                 new MenuItemBit("Change Orientation", (action) -> {
                     if (closestParentPickerStageController != null) {
                         Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
@@ -73,31 +81,43 @@ public class PickerStageController implements Initializable {
                         splitPane.setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
                     }
                 }).getMenuItem(),
-                new MenuItemBit("Flip",(action) -> {
+                //FLips the current window, when clicking the Flip menuItem
+                new MenuItemBit("Flip", (action) -> {
                     if (closestParentPickerStageController != null)
                         closestParentPickerStageController.flipSplitPane();
                     else
                         flipSplitPane();
                 }).getMenuItem(),
                 new SeparatorMenuItem(),
-                new MenuItemBit("Reset",(action)->unSplit()).getMenuItem()));
+                //Resets the current window, when clicking the Reset menuItem
+                new MenuItemBit("Reset", (action) -> unSplit()).getMenuItem()));
     }
 
+    /**
+     * Gets all the nodes held within the pickerStageController
+     *
+     * @param pickerStageController the pickerStageController you want to nodes off
+     * @return The nodes held within the current controller
+     */
     private List<Node> getNodes(PickerStageController pickerStageController) {
         List<Node> temp = new ArrayList<>();
         if (pickerStageController.getControllers().isEmpty())
             temp.add(pickerStageController.getContent());
         else
-            pickerStageController.getControllers().forEach(c -> temp.addAll(c.getNodes(c)));
+            pickerStageController.getControllers().forEach(stageController -> temp.addAll(stageController.getNodes(stageController)));
         return temp;
     }
 
-    private boolean isZoomed = false;
-    private final DoubleProperty scale = new SimpleDoubleProperty();
-
+    /**
+     * Initializes the contexMenus in the given node
+     *
+     * @param node        the node you want the context menu to initialize in
+     * @param contextMenu tht context menu you want to initialize
+     */
     private void initContextMenu(Node node, ContextMenu contextMenu) {
         node.setOnMouseClicked((MouseEvent mouseEvent) -> {
-            if (parentPickerStageController==null||!parentPickerStageController.getRoot().isDisabled()) {
+            //Shows the original contextMenu if the stage is enabled
+            if (parentPickerStageController == null || !parentPickerStageController.getRoot().isDisabled()) {
                 if (!splitPane.isDisabled())
                     if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                         if (contextMenu.isShowing())
@@ -105,9 +125,15 @@ public class PickerStageController implements Initializable {
                         contextMenu.show(node, mouseEvent.getScreenX(), mouseEvent.getScreenY());
                     } else
                         contextMenu.hide();
-            } else {
+            }
+            //Otherwise it allows the user to zoom using the left click button, zoom out with leftclick +shift
+            // and stop zooming with right click
+            // and it allows the user to move the zoomed screen with the middle mouse button
+            else {
+                //this ensures that this will only be called by one controller
                 if (parentPickerStageController == this) {
                     AnchorPane anchorPane = parentPickerStageController.getAp();
+                    //Zooms on left click
                     if (mouseEvent.getButton() == MouseButton.PRIMARY && !isZoomed) {
                         isZoomed = true;
                         DoubleProperty invScale = new SimpleDoubleProperty();
@@ -118,6 +144,7 @@ public class PickerStageController implements Initializable {
                         });
                         scale.set(1.5);
 
+                        //moves on middle button drag
                         AtomicLong x = new AtomicLong();
                         AtomicLong y = new AtomicLong();
                         anchorPane.onMousePressedProperty().set((MouseEvent mouseEvent1337) -> {
@@ -135,12 +162,14 @@ public class PickerStageController implements Initializable {
                             }
                         });
                     } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                        //Stops the zoom
                         isZoomed = false;
                         anchorPane.setTranslateY(0);
                         anchorPane.setTranslateX(0);
                         scale.set(1);
                     }
                     if (mouseEvent.getButton() == MouseButton.PRIMARY && isZoomed) {
+                        //Zooms additionally to the initial zoom, and zooms out
                         if (mouseEvent.isShiftDown() && scale.get() > 1) {
                             scale.set(scale.get() - 0.25);
                         } else
@@ -151,26 +180,55 @@ public class PickerStageController implements Initializable {
         });
     }
 
+    /**
+     * Locks the panes within the given controller
+     *
+     * @param pickerStageController
+     */
     private void lockPanes(PickerStageController pickerStageController) {
-        parentPickerStageController.getRoot().setDisable(true);
+        pickerStageController.getRoot().setDisable(true);
     }
 
+    /**
+     * Locks the parentPickerController meaning that all the children nodes also get locked
+     */
     public void lockPanes() {
         lockPanes(parentPickerStageController);
     }
 
+    /**
+     * Gets the closestParentPickerStage, this is mostly used for flipping windows and such, since it is not always
+     * the actual PickerStage you click you want to flip, but the closest parent.
+     *
+     * @return the closest parent picker stage
+     */
     public PickerStageController getClosestParentPickerStageController() {
         return closestParentPickerStageController;
     }
 
+    /**
+     * Sets the closest parent picker stage controller
+     *
+     * @param closestParentPickerStageController
+     */
     public void setClosestParentPickerStageController(PickerStageController closestParentPickerStageController) {
         this.closestParentPickerStageController = closestParentPickerStageController;
     }
 
+    /**
+     * Gets the parentPickerstageController
+     *
+     * @return the parentPickerstageController
+     */
     public PickerStageController getParentPickerStageController() {
         return parentPickerStageController;
     }
 
+    /**
+     * Sets the parentPickerStageController
+     *
+     * @param pickerStageController the new parentPickerstageController
+     */
     public void setParentPickerStageController(PickerStageController pickerStageController) {
         this.parentPickerStageController = pickerStageController;
     }
@@ -234,6 +292,11 @@ public class PickerStageController implements Initializable {
         }
     }
 
+    /**
+     * Initializes a change content window
+     *
+     * @return the stage of the window
+     */
     private Stage changeContent() {
         try {
             Stage stage = new Stage();

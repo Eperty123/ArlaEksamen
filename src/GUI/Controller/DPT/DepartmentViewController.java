@@ -5,7 +5,6 @@ import BE.User;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DataModel;
-import GUI.Model.DepartmentModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
@@ -24,7 +23,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -60,6 +58,11 @@ public class DepartmentViewController implements Initializable {
     private final List<Node> hiddenChildren = new ArrayList<>();
     private int dptCount = DataModel.getInstance().getDepartments().size();
 
+    /**
+     * Initializes icons, tables, and the change dpt name functionality
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initIcons();
@@ -67,6 +70,10 @@ public class DepartmentViewController implements Initializable {
         initChangeName();
     }
 
+    /**
+     * Gets the remove icon
+     * @return the remove icon
+     */
     public MaterialDesignIconView getRemoveIcon() {
         return removeIcon;
     }
@@ -80,6 +87,9 @@ public class DepartmentViewController implements Initializable {
 
     }
 
+    /**
+     * Sets the icon values, and adds onMouseClicks to them
+     */
     private void initIcons() {
         hideIcon.setIcon(MaterialDesignIcon.MINUS_BOX);
         removeIcon.setIcon(MaterialDesignIcon.CLOSE_BOX);
@@ -115,16 +125,28 @@ public class DepartmentViewController implements Initializable {
         });
     }
 
+    /**
+     * Gets the department
+     * @return
+     */
     public Department getDepartment() {
         return department;
     }
 
+    /**
+     * Initializes the table values
+     */
     private void initTables() {
         nameField.setCellValueFactory(data -> data.getValue().getFullNameProperty());
         emailField.setCellValueFactory(data -> data.getValue().emailProperty());
         phoneField.setCellValueFactory(data -> data.getValue().phoneProperty().get() < 0 ? new SimpleObjectProperty<>() : data.getValue().phoneProperty());
     }
 
+    /**
+     * Set the Department to the given department, and builds the subDepartments in the department,
+     * also builds subSubDepartments and so on
+     * @param department
+     */
     public void setDepartment(Department department) {
         this.department = department;
         this.subDepartments = FXCollections.observableArrayList(department.getSubDepartments());
@@ -155,6 +177,9 @@ public class DepartmentViewController implements Initializable {
         superBP.setCenter(hBox);
     }
 
+    /**
+     * Adds a subDepartment, if there isn't a department with no users
+     */
     private void addSubDepartment() {
         for (Department d : DataModel.getInstance().getDepartments()) {
             if (d.getManager().getUserName() == "place") {
@@ -182,10 +207,18 @@ public class DepartmentViewController implements Initializable {
         }
     }
 
+    /**
+     * Gets the subDepartments of this controllers department
+     * @return the subDepartments
+     */
     public List<Department> getSubDepartments() {
         return department.getSubDepartments();
     }
 
+    /**
+     * Gets all of this departments root departments
+     * @return this department and its root departments
+     */
     public List<Department> getAllSubDepartments() {
         List<Department> tmp = new ArrayList<>();
         tmp.add(department);
@@ -194,6 +227,9 @@ public class DepartmentViewController implements Initializable {
         return tmp;
     }
 
+    /**
+     * Saves a DPT name change within the database
+     */
     private void saveDPTNameChange() {
         if (ConfirmationDialog.createConfirmationDialog("Are you sure you want to save the name on this department?")) {
             department.setName(dptNameField.getText());
