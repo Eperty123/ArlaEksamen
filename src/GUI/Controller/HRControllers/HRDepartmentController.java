@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -177,7 +178,13 @@ public class HRDepartmentController implements Initializable {
     }
 
     private void handleRemove(Department d) {
-        DataModel.getInstance().deleteDepartment(d);
+        try {
+            DataModel.getInstance().deleteDepartment(d);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a department " +
+                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+        }
         loadAllDepartments();
     }
 

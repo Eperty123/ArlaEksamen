@@ -6,6 +6,7 @@ import BLL.DepartmentManager;
 import javafx.collections.ObservableList;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class DepartmentModel {
         departmentManager.addSubDepartment(department, subDepartment);
     }
 
-    public void deleteDepartment(Department d) {
+    public void deleteDepartment(Department d) throws SQLException {
         departmentManager.deleteDepartment(d);
     }
 

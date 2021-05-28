@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 public class DepartmentManager {
@@ -13,56 +14,56 @@ public class DepartmentManager {
     private final DepartmentDAL departmentDAL = new DepartmentDAL();
 
     public DepartmentManager() {
-        this.departmentList.setAll(this.departmentDAL.getDepartments());
+        departmentList.setAll(departmentDAL.getDepartments());
     }
 
     public List<Department> getSuperDepartment() {
-        ObservableList<Department> tmp = FXCollections.observableArrayList(this.departmentList);
-        this.departmentList.forEach(d -> {
+        ObservableList<Department> tmp = FXCollections.observableArrayList(departmentList);
+        departmentList.forEach(d -> {
             d.getSubDepartments().forEach(sd -> tmp.remove(sd));
         });
-        if(this.departmentList.isEmpty())
+        if(departmentList.isEmpty())
         {
             Department newDepartment = new Department("new Department1");
-            this.addDepartment(newDepartment);
+            addDepartment(newDepartment);
             tmp.add(newDepartment);
         }
         return tmp;
     }
 
     public ObservableList<Department> getAllDepartments() {
-        return this.departmentList;
+        return departmentList;
     }
 
     public void addDepartment(Department department) {
-        this.departmentDAL.addDepartment(department);
+        departmentDAL.addDepartment(department);
     }
 
     public void removeDepartment(Department department) {
-        this.departmentList.remove(department);
+        departmentList.remove(department);
     }
 
     public void editDepartment(Department department) {
-        this.departmentDAL.updateDepartment(department);
+        departmentDAL.updateDepartment(department);
     }
 
     public void exportPhoneNumbers(List<Department> departments) {
-        this.departmentDAL.exportPhoneNumbers(departments);
+        departmentDAL.exportPhoneNumbers(departments);
     }
 
     public void exportPhoneNumbers(List<Department> departments, String outputFile) {
-        this.departmentDAL.exportPhoneNumbers(departments, outputFile);
+        departmentDAL.exportPhoneNumbers(departments, outputFile);
     }
 
     public void exportPhoneNumbers(List<Department> departments, File outputFile) {
-        this.departmentDAL.exportPhoneNumbers(departments, outputFile);
+        departmentDAL.exportPhoneNumbers(departments, outputFile);
     }
 
-    public void deleteDepartment(Department d) {
-        this.departmentDAL.deleteDepartment(d);
+    public void deleteDepartment(Department d) throws SQLException {
+        departmentDAL. deleteDepartment(d);
     }
 
     public void addSubDepartment(Department department, Department subDepartment) {
-        this.departmentDAL.addSubDepartment(department, subDepartment);
+        departmentDAL.addSubDepartment(department, subDepartment);
     }
 }
