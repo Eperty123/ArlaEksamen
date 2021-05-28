@@ -103,8 +103,9 @@ public class SettingsController implements Initializable {
             for (int i = 0; i < allSettings.size(); i++) {
                 var setting = allSettings.get(i);
                 var updatedValue = getValueForSettingsType(setting.getType());
-                setting.setAttribute(updatedValue);
-                DataModel.getInstance().updateSetting(setting, setting);
+                Settings newSetting = new Settings();
+                newSetting.setAttribute(updatedValue);
+                DataModel.getInstance().updateSetting(setting, newSetting);
             }
         }
 
