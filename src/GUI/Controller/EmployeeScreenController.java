@@ -57,41 +57,42 @@ public class EmployeeScreenController implements Initializable {
         ClockCalender.initClock(lblTime);
 
         comboScreens.getItems().addAll(currentUser.getAssignedScreenBits());
+    }
 
+    public void init(ScreenBit screenBit) {
         if (!currentUser.getAssignedScreenBits().isEmpty()) {
             if (currentUser.getAssignedScreenBits().size() == 1) {
                 try {
                     setScreen(currentUser.getAssignedScreenBits().get(0));
+                    comboScreens.setValue(currentUser.getAssignedScreenBits().get(0));
+                    lblBar.setText("Employee Screen - " + currentUser.getAssignedScreenBits().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
+
+
+                ScreenBit s = screenBit;
+                comboScreens.getSelectionModel().select(s);
+                lblBar.setText("Employee Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+
                 try {
-                    EScreenSelectDialog selectDialog = new EScreenSelectDialog(currentUser.getAssignedScreenBits());
-
-                    Optional<ScreenBit> results = selectDialog.showAndWait();
-
-                    if (results.isPresent()) {
-                        ScreenBit s = results.get();
-                        lblBar.setText("Employee Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
-                        comboScreens.getSelectionModel().select(s);
-                        try {
-                            setScreen(s);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (IOException e) {
+                    setScreen(s);
+                    DataModel.getInstance().loadScreenBitsMessages(s);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+
         } else {
-            lblBar.setText("Employee Screen - NONE Contact admin - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             try {
                 displayNoScreenWarning();
+                lblBar.setText("Employee Screen - NONE Contact admin - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
 
         comboScreens.setOnAction(e -> {
@@ -105,6 +106,7 @@ public class EmployeeScreenController implements Initializable {
         });
         autoUpdateMessageBox();
     }
+
 
     private void autoUpdateMessageBox() {
         service.scheduleAtFixedRate(new Thread(() -> {
@@ -126,7 +128,7 @@ public class EmployeeScreenController implements Initializable {
             String highLightTextFillColor = String.format("rgb( %s , %s , %s )", message.getTextColor().brighter().getRed() * 255, message.getTextColor().brighter().getGreen() * 255, message.getTextColor().brighter().getBlue() * 255);
             String highLightColor = String.format("rgb( %s , %s , %s )", message.getTextColor().darker().getRed() * 255, message.getTextColor().darker().getGreen() * 255, message.getTextColor().darker().getBlue() * 255);
             updateMessage(message, textColor, highLightTextFillColor, highLightColor);
-        }), 0, Integer.parseInt(SettingsModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY).getAttribute()), TimeUnit.SECONDS);
+        }), 0, Integer.parseInt(DataModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY).getAttribute()), TimeUnit.SECONDS);
     }
 
     private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {

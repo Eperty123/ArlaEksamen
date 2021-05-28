@@ -21,7 +21,6 @@ public class SettingsModel implements ISettingsCRUD {
     @Override
     public void addSetting(Settings settings) {
         settingsManager.addSetting(settings);
-        updateAllSettings();
     }
 
     @Override
@@ -49,13 +48,11 @@ public class SettingsModel implements ISettingsCRUD {
     @Override
     public void deleteSetting(Settings settings) {
         settingsManager.deleteSetting(settings);
-        updateAllSettings();
     }
 
     @Override
     public void updateSetting(Settings oldSettings, Settings newSettings) {
         settingsManager.updateSetting(oldSettings, newSettings);
-        updateAllSettings();
     }
 
     @Override
@@ -67,8 +64,8 @@ public class SettingsModel implements ISettingsCRUD {
         settings.setAll(getSettings());
     }
 
-    public ObservableList<Settings> getAllSettings() {
-        return settings;
+    public List<Settings> getAllSettings() {
+        return settingsManager.getSettings();
     }
 
     /**

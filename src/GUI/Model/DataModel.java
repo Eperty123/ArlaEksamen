@@ -16,6 +16,7 @@ public class DataModel {
     private UserModel userModel;
     private ScreenModel screenModel;
     private DepartmentModel departmentModel;
+    private SettingsModel settingsModel;
     private MessageModel messageModel;
     private TitleModel titleModel;
     private BugModel bugModel;
@@ -27,6 +28,7 @@ public class DataModel {
     private ObservableList<String> titles;
     private ObservableList<Bug> bugs;
     private ObservableList<Bug> unresolvedBugs;
+    private ObservableList<Settings> settings;
 
 
 
@@ -36,6 +38,7 @@ public class DataModel {
 
     private void initialize() {
         departmentModel = DepartmentModel.getInstance();
+        settingsModel = SettingsModel.getInstance();
         messageModel = MessageModel.getInstance();
         screenModel = ScreenModel.getInstance();
         titleModel = TitleModel.getInstance();
@@ -46,6 +49,7 @@ public class DataModel {
         departments = FXCollections.observableArrayList();
         screenBits = FXCollections.observableArrayList();
         messages = FXCollections.observableArrayList();
+        settings = FXCollections.observableArrayList();
         titles = FXCollections.observableArrayList();
         users = FXCollections.observableArrayList();
         bugs = FXCollections.observableArrayList();
@@ -53,6 +57,7 @@ public class DataModel {
         departments.addAll(departmentModel.getAllDepartments());
         screenBits.addAll(screenModel.getAllScreenBits());
         messages.addAll(messageModel.getAllMessages());
+        settings.addAll(settingsModel.getAllSettings());
         titles.addAll(titleModel.getTitles());
         users.addAll(userModel.getAllUsers());
         bugs.addAll(bugModel.getAllBugs());
@@ -433,6 +438,7 @@ public class DataModel {
     // _____ Bugs _____
 
     public void addBug(Bug newBug) {
+        getAllUnresolvedBugs().add(newBug);
         bugModel.addBug(newBug);
     }
 
@@ -475,7 +481,50 @@ public class DataModel {
 
         // Now set the unresolved bug ObservableList.
         unresolvedBugs.setAll(_unresolvedBugs);
+    }
 
+    // _____ Settings _____
+
+    // TODO Carlo javadoc
+
+    public void addSetting(Settings settings) {
+        settingsModel.addSetting(settings);
+        this.settings.add(settings);
+    }
+
+    public Settings getSettingByType(Settings settings) {
+        for (int i = 0; i < this.settings.size(); i++) {
+            var setting = this.settings.get(i);
+            if (setting.getType() == settings.getType()) {
+                return setting;
+            }
+        }
+        return null;
+    }
+
+    public Settings getSettingByType(SettingsType settingsType) {
+        for (int i = 0; i < settings.size(); i++) {
+            var setting = settings.get(i);
+            if (setting.getType() == settingsType) {
+                return setting;
+            }
+        }
+        return null;
+    }
+
+    public void deleteSetting(Settings settings) {
+        settingsModel.deleteSetting(settings);
+        this.settings.remove(settings);
+    }
+
+    public void updateSetting(Settings oldSettings, Settings newSettings) {
+        settingsModel.updateSetting(oldSettings, newSettings);
+        settings.remove(oldSettings);
+        settings.add(newSettings);
+    }
+
+    public ObservableList<Settings> getSettings() {
+        return settings;
     }
 
 }

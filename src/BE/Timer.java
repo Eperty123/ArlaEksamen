@@ -1,9 +1,12 @@
 package BE;
 
+import GUI.Model.DataModel;
 import GUI.Model.SettingsModel;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+
+import javax.xml.crypto.Data;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,7 @@ public class Timer {
                 if (!this.nodesToDisable.isEmpty())
                     this.nodesToDisable.forEach(node -> {
                         if (!node.isDisabled())
+                            timerLabel.setVisible(true);
                             node.setDisable(true);
                     });
             } else {
@@ -35,6 +39,7 @@ public class Timer {
                 if (!this.nodesToDisable.isEmpty())
                     this.nodesToDisable.forEach(node -> {
                         if (node.isDisabled())
+                            timerLabel.setVisible(false);
                             node.setDisable(false);
                     });
             }
@@ -46,7 +51,7 @@ public class Timer {
      * per standard it has duration of 30 seconds
      */
     public Timer() {
-        String time = SettingsModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION).getAttribute();
+        String time = DataModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION).getAttribute();
         Long l = Long.valueOf(time);
 
         setTimeoutDuration(Duration.ofSeconds(l));
