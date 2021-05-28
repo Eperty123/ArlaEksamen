@@ -13,7 +13,7 @@ public class TitleManager {
         this.titleDAL.addTitle(newTitle);
     }
 
-    public void deleteTitle(String title){
+    public void deleteTitle(String title) throws SQLException {
         this.titleDAL.deleteTitle(title);
     }
 

@@ -4,12 +4,14 @@ package DAL.Parser;
 import BE.CSVUser;
 import BE.Department;
 import BE.User;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -78,7 +80,13 @@ public class UserBackUp {
                 //System.out.println(String.format("User: %s %s (%d).", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getPhone()));
             }
 
-            userModel.addUsers(importedUsers);
+            try {
+                userModel.addUsers(importedUsers);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
+                        "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            }
         } else System.out.println(String.format("The backup file: %s doesn't exist!", filePath));
 
         return importedUsers;

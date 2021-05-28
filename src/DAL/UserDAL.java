@@ -101,10 +101,12 @@ public class UserDAL {
      * Import a list of CSVUsers in to the database.
      * @param users The list of CSVUsers to import.
      */
-    public void addUsers(List<CSVUser> users) {
+    public void addUsers(List<CSVUser> users) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
 
+            con.setAutoCommit(false); // Enable transaction
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             PreparedStatement pSql = con.prepareStatement("INSERT INTO [User] VALUES(?,?,?,?,?,?,?,?,?,?)");
 
             for (CSVUser user : users) {
@@ -115,13 +117,22 @@ public class UserDAL {
                     addUserDepartmentRelation(con, user, user.getDepartment());
                 }
             }
-            pSql.executeBatch();
+            try{
+                pSql.executeBatch();
+            } catch (SQLException throwables){
+                con.rollback();
+                con.setAutoCommit(true);
+                con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+                throw throwables;
+            }
 
+            con.commit();
+            con.setAutoCommit(true);
+            con.setTransactionIsolation(Connection.TRANSACTION_NONE);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
-                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
 
@@ -156,23 +167,36 @@ public class UserDAL {
      * @param user object used to identify the row to be updated.
      * @param department object containing the new department information.
      */
-    public void updateUser(User user, Department department) {
+    public void updateUser(User user, Department department) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
 
+            con.setAutoCommit(false); // Enable transaction
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             PreparedStatement pSql = con.prepareStatement("UPDATE [User] SET FirstName = ?, LastName = ?, " +
                     "UserName = ?, Email = ?, Password = ?, UserRole = ?, Phone = ?, Gender = ?, " +
                     "PhotoPath = ?, Title = ? WHERE Id = ?");
             setUserValues(user, pSql);
             pSql.setInt(11, user.getId());
-            pSql.execute();
 
-            updateDepartmentUser(con, user, department);
+            try{
+                pSql.execute();
+                updateDepartmentUser(con, user, department);
+            } catch (SQLException throwables){
+                con.rollback();
+                con.setAutoCommit(true);
+                con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+                throw throwables;
+            }
+
+            con.commit();
+            con.setAutoCommit(true);
+            con.setTransactionIsolation(Connection.TRANSACTION_NONE);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to update a user " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw  throwables;
+
         }
     }
 
@@ -218,21 +242,35 @@ public class UserDAL {
      *
      * @param user object used to identify which row to delete in database.
      */
-    public void deleteUser(User user) {
+    public void deleteUser(User user) throws SQLException {
         // Deletes all User-Screen associations in the ScreenRights junction table.
 
 
         try (Connection con = dbCon.getConnection()) {
+
+            con.setAutoCommit(false); // Enable transaction
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             deleteUserScreenAssociation(con, user);
             deleteUserDepartmentAssociation(con, user);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM [User] WHERE Id=?");
             pSql.setInt(1, user.getId());
-            pSql.execute();
+
+            try{
+                pSql.execute();
+            }catch (SQLException throwables){
+                con.rollback();
+                con.setAutoCommit(true);
+                con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+                throw throwables;
+            }
+
+            con.commit();
+            con.setAutoCommit(true);
+            con.setTransactionIsolation(Connection.TRANSACTION_NONE);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user " +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
 
     }

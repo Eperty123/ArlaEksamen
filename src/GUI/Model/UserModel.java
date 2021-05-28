@@ -8,6 +8,7 @@ import BLL.UserManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public final class UserModel {
      * Import a list of CSVUsers in to the database.
      * @param users The list of CSVUsers to import.
      */
-    public void addUsers(List<CSVUser> users) {
+    public void addUsers(List<CSVUser> users) throws SQLException {
         userManager.addUsers(users);
     }
 
@@ -67,7 +68,7 @@ public final class UserModel {
      * @param user object used to identify the row that is to be updated.
      * @param department object containing the updated User information.
      */
-    public void updateUser(User user, Department department) {
+    public void updateUser(User user, Department department) throws SQLException {
         userManager.updateUser(user, department);
     }
 
@@ -77,7 +78,7 @@ public final class UserModel {
      *
      * @param user user to be deleted.
      */
-    public void deleteUser(User user) {
+    public void deleteUser(User user) throws SQLException {
         userManager.deleteUser(user);
 
     }

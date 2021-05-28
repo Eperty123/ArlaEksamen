@@ -27,17 +27,31 @@ public class TitleDAL {
         }
     }
 
-    public void deleteTitle(String title){
+    public void deleteTitle(String title) throws SQLException {
 
         try(Connection con = dbCon.getConnection()){
-            deleteUserTitleAssociations(con, title);
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM Title WHERE Id=?");
-            pSql.setString(1, title);
-            pSql.execute();
+
+            con.setAutoCommit(false); // Enable transaction
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            try{
+                deleteUserTitleAssociations(con, title);
+                PreparedStatement pSql = con.prepareStatement("DELETE FROM Title WHERE Id=?");
+                pSql.setString(1, title);
+                pSql.execute();
+            } catch (SQLException throwables){
+                con.rollback();
+                con.setAutoCommit(true);
+                con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+                throw throwables;
+            }
+
+            con.commit();
+            con.setAutoCommit(true);
+            con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a title " +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
 
