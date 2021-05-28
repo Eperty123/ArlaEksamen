@@ -8,6 +8,7 @@ import GUI.Controller.CrudControllers.RemoveEmployeeController;
 import GUI.Model.DataModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
+import javafx.beans.InvalidationListener;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,9 +70,12 @@ public class AdminManagementController implements Initializable {
      * Handle any incoming changes to the User ObservableList and update the table.
      */
     private void handleUserUpdate() {
-        DataModel.getInstance().getUsers().addListener((ListChangeListener<User>) c -> {
-            loadAllUsers();
-        });
+
+        for(Department d : DataModel.getInstance().getDepartments()){
+            d.getUsers().addListener((ListChangeListener<User>) c -> {
+                loadAllUsers();
+            });
+        }
     }
 
     /**

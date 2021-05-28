@@ -41,10 +41,10 @@ public class UserManager {
      * Updates a User in the Database.
      *
      * @param user        the old user to be updated.
-     * @param updatedUser the updated user.
+     * @param department the updated user.
      */
-    public void updateUser(User user, User updatedUser, Department oldDepartment, Department newDepartment) {
-        this.userDAL.updateUser(user, updatedUser, oldDepartment, newDepartment);
+    public void updateUser(User user, Department department) {
+        this.userDAL.updateUser(user, department);
     }
 
     /**

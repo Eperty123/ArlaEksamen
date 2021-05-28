@@ -45,7 +45,7 @@ public class AllBugsController implements Initializable {
 
 
     private final BugModel bugModel = BugModel.getInstance();
-    private final ObservableList<Bug> bugs = bugModel.getAllBugs();
+    private final ObservableList<Bug> bugs = DataModel.getInstance().getAllBugs();
     ObservableList<Bug> allResolvedBugs = FXCollections.observableArrayList();
     private Boolean isMaximized = false;
     StageBuilder stageBuilder = new StageBuilder();

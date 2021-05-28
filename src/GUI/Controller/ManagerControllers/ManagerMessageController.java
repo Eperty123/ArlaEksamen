@@ -74,7 +74,6 @@ public class ManagerMessageController implements Initializable {
     private User currentUser;
 
     private final List<ScreenBit> selectedScreens = new ArrayList<>();
-    private final MessageModel messageModel = MessageModel.getInstance();
     private final ObservableList<Message> currentUsersMessages = FXCollections.observableArrayList();
     private Message selectedMessage;
     private Boolean isAllSelected = false;
@@ -243,20 +242,26 @@ public class ManagerMessageController implements Initializable {
 
     public void handleSave() {
 
-        Message newMessage = getMessage();
+
 
         // If no previous message is selected, create new and add it to the database.
         if (selectedMessage == null) {
-
+            Message newMessage = getMessage();
             // Add the message to database.
-            messageModel.addMessage(currentUser, newMessage, selectedScreens);
+            DataModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
         } else {
             var confirmUpdate = ConfirmationDialog.createConfirmationDialog("Are you sure you want to update the existing bug report?");
-            if (confirmUpdate) messageModel.updateMessage(selectedMessage, newMessage);
+
+            if (confirmUpdate){
+                Message updatedMessage = getUpdatedMessage();
+                DataModel.getInstance().updateMessage(selectedMessage, updatedMessage);
+                currentUsersMessages.remove(selectedMessage);
+                currentUsersMessages.add(updatedMessage);
+            }
         }
 
         // Then reload all the updated messages.
-        currentUsersMessages.setAll(messageModel.getAllUserMessages());
+        currentUsersMessages.setAll(DataModel.getInstance().getUsersMessages(currentUser));
         sortMessagesByStartTime();
         clearMessageFields();
     }
@@ -269,6 +274,18 @@ public class ManagerMessageController implements Initializable {
         MessageType messageType = currentUser.getUserRole() == UserType.Manager ? MessageType.Manager : MessageType.Admin;
 
         Message newMessage = new Message(startTime, endTime, message, color, messageType);
+        return newMessage;
+    }
+
+    private Message getUpdatedMessage() {
+        int id = selectedMessage.getId();
+        String message = messageArea.getText();
+        Color color = colorPicker.getValue();
+        LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), LocalTime.of(hourBox.getSelectionModel().getSelectedIndex(), minuteBox.getSelectionModel().getSelectedItem()));
+        LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
+        MessageType messageType = currentUser.getUserRole() == UserType.Manager ? MessageType.Manager : MessageType.Admin;
+
+        Message newMessage = new Message(id, message, startTime, endTime,  color, messageType);
         return newMessage;
     }
 
@@ -348,8 +365,15 @@ public class ManagerMessageController implements Initializable {
 
     public void showSelectedMessage(MouseEvent mouseEvent) {
 
-        selectedMessage = comingMessages.getSelectionModel().getSelectedItem();
+        if(selectedMessage != null && selectedMessage.getId() == comingMessages.getSelectionModel().getSelectedItem().getId()){
+            comingMessages.getSelectionModel().clearSelection();
+            selectedMessage = null;
+        } else {
+            selectedMessage = comingMessages.getSelectionModel().getSelectedItem();
+        }
+
         if (selectedMessage != null) {
+
             // If the user has written text in message that don't match the selected message, ask for confirmation
             // to override the current data.
             if (!messageArea.getText().equals(selectedMessage.getMessage()) && !messageArea.getText().isEmpty()) {
@@ -358,6 +382,8 @@ public class ManagerMessageController implements Initializable {
                 if (confirmation) loadSelectedMessage(selectedMessage);
             } else if (messageArea.getText().isEmpty())
                 loadSelectedMessage(selectedMessage);
+        } else{
+            clearMessageFields();
         }
     }
 

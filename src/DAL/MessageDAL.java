@@ -47,7 +47,7 @@ public class MessageDAL {
     /**
      * Retrieves a list of messages, specific to a user.
      * @param user user who's messages are retrieved.
-     * @return List<Message>
+     * @return List
      */
     public List<Message> getUsersMessages(User user) {
         List<Message> messages = new ArrayList<>();
@@ -154,6 +154,8 @@ public class MessageDAL {
             pSql.setInt(6, newMessage.getMessageType().ordinal());
             pSql.setString(7, user.getUserName());
             pSql.execute();
+
+
 
             // Toggle's the ScreenBits timetable, so that it is booked during the message's duration.
             if(newMessage.getMessageType() != MessageType.Admin){
@@ -303,6 +305,7 @@ public class MessageDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+
             WarningController.createWarning("Oh no! Something went wrong when attempting to update a message " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }

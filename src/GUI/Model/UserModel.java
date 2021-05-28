@@ -38,9 +38,9 @@ public final class UserModel {
      * @param newUser object to be written to the database.
      */
     public void addUser(User newUser, Department department) {
-        if (allUsers.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
+
             userManager.addUser(newUser, department);
-        }
+
     }
 
     /**
@@ -64,20 +64,11 @@ public final class UserModel {
      * Updates a user in the database. Passes a old and new user object to UserManager,
      * which passes them on to UserDAL.
      *
-     * @param oldUser object used to identify the row that is to be updated.
-     * @param newUser object containing the updated User information.
+     * @param user object used to identify the row that is to be updated.
+     * @param department object containing the updated User information.
      */
-    public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
-        userManager.updateUser(oldUser, newUser, oldDepartment, newDepartment);
-    }
-
-    /**
-     * Method used to re-initialize the allUsers list.
-     */
-    public void updateUsers() {
-        allUsers.clear();
-        allUsers.addAll(userManager.getUsers());
-
+    public void updateUser(User user, Department department) {
+        userManager.updateUser(user, department);
     }
 
     /**
@@ -88,7 +79,7 @@ public final class UserModel {
      */
     public void deleteUser(User user) {
         userManager.deleteUser(user);
-        updateUsers();
+
     }
 
     /**
