@@ -2,6 +2,9 @@ package GUI.Controller;
 
 import BE.*;
 import BLL.LoginManager;
+import BLL.StageShower;
+import GUI.Controller.ManagerControllers.ManagerScreenViewController;
+import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Model.DataModel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -13,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -31,6 +35,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -69,9 +74,9 @@ public class LoginController implements Initializable {
     @FXML
     private void login() throws IOException {
 
-        Boolean test = loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText(), users);
+        Boolean isCorrectLogin = loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText(), users);
 
-        if (!test){
+        if (!isCorrectLogin){
             Label label = new Label();
 
             label.setTextAlignment(TextAlignment.CENTER);
@@ -94,45 +99,51 @@ public class LoginController implements Initializable {
 
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader();
+            StageShower stageShower = new StageShower();
 
             Scene scene = null;
             if (u.getUserRole() == UserType.Admin) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/AdminViews/AdminDashboard.fxml"));
+                Parent parent = fxmlLoader.load();
                 stage.setTitle("Admin dashboard");
-                scene = new Scene(fxmlLoader.load());
-                BorderPane borderPane = (BorderPane) scene.getRoot().getChildrenUnmodifiable().get(0);
-                sceneMover.move(stage, borderPane.getTop());
+                BorderPane borderPane = (BorderPane) parent.getChildrenUnmodifiable().get(0);
+                stageShower.showScene(stage, parent,sceneMover,borderPane.getTop());
+                root1.close();
             } else if(u.getUserRole() == UserType.Manager) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerDashboard.fxml"));
                 stage.setTitle("Manager Dashboard");
-                scene = new Scene(fxmlLoader.load());
-                BorderPane borderPane = (BorderPane) scene.getRoot().getChildrenUnmodifiable().get(0);
-                sceneMover.move(stage, borderPane.getTop());
+                Parent parent = fxmlLoader.load();
+                BorderPane borderPane = (BorderPane) parent.getChildrenUnmodifiable().get(0);
+                stageShower.showScene(stage, parent,sceneMover,borderPane.getTop());
+                root1.close();
             }else if(u.getUserRole() == UserType.HR){
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRDashboard.fxml"));
                 stage.setTitle("HR Dashboard");
-                scene = new Scene(fxmlLoader.load());
-                BorderPane borderPane = (BorderPane) scene.getRoot().getChildrenUnmodifiable().get(0);
-                sceneMover.move(stage, borderPane.getTop());
+                Parent parent = fxmlLoader.load();
+                BorderPane borderPane = (BorderPane) parent.getChildrenUnmodifiable().get(0);
+                stageShower.showScene(stage, parent,sceneMover,borderPane.getTop());
+                root1.close();
             }else{
-                fxmlLoader.setLocation(getClass().getResource("/GUI/View/EmployeeScreen.fxml"));
-                stage.setTitle("Employee Screen");
-                scene = new Scene(fxmlLoader.load());
-                BorderPane borderPane = (BorderPane) scene.getRoot();
-                sceneMover.move(stage, borderPane.getTop());
+                EScreenSelectDialog selectDialog = new EScreenSelectDialog(u.getAssignedScreenBits());
+
+                Optional<ScreenBit> result = selectDialog.showAndWait();
+
+                if (result.isPresent()) {
+                    if (result.get() != null) {
+                        stage.setTitle("Employee Screen");
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("/GUI/View/EmployeeScreen.fxml"));
+                        Parent parent = loader.load();
+                        EmployeeScreenController controller = loader.getController();
+                        controller.init(result.get());
+
+                        BorderPane bp = (BorderPane) parent;
+                        sceneMover.move(stage, bp.getTop());
+                        stageShower.showScene(stage, parent,sceneMover,bp.getTop());
+                        root1.close();
+                    }
+                }
             }
-
-            stage.getIcons().addAll(
-                    new Image("/GUI/Resources/AppIcons/icon16x16.png"),
-                    new Image("/GUI/Resources/AppIcons/icon24x24.png"),
-                    new Image("/GUI/Resources/AppIcons/icon32x32.png"),
-                    new Image("/GUI/Resources/AppIcons/icon48x48.png"),
-                    new Image("/GUI/Resources/AppIcons/icon64x64.png"));
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(scene);
-            stage.show();
-
-            root1.close();
         } else {
             failedLoginAttempts++;
             if (failedLoginAttempts % 3 == 0)
