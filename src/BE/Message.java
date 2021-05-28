@@ -104,6 +104,12 @@ public class Message {
         this.messageType = messageType;
     }
 
+    /**
+     * Generates the message's id using a hashcode of the message, it's start- and end time.
+     * @param message
+     * @param messageStartTime
+     * @param messageEndTime
+     */
     public void setId(String message, LocalDateTime messageStartTime, LocalDateTime messageEndTime){
         int messageHash = message.hashCode();
         int startTimeHash = messageStartTime.hashCode();
