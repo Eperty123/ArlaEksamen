@@ -444,6 +444,7 @@ public class DataModel {
     // _____ Bugs _____
 
     public void addBug(Bug newBug) {
+        getAllUnresolvedBugs().add(newBug);
         bugModel.addBug(newBug);
     }
 

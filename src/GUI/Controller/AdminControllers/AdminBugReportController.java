@@ -52,10 +52,8 @@ public class AdminBugReportController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set the table's content with the BugModel's.
-        ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
-        allUnresolvedBugs.addAll(bugs);
-        allUnresolvedBugs.removeIf(Bug::isBugResolved);
-        tblBugs.setItems(allUnresolvedBugs);
+        loadAllBugs();
+        handleBugUpdate();
 
         bD.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDescription()));
         bDR.setCellValueFactory(b -> new ReadOnlyObjectWrapper<>(b.getValue().getDateReported()));
@@ -78,7 +76,13 @@ public class AdminBugReportController implements Initializable {
             });
             return row;
         });
-        handleBugUpdate();
+    }
+
+    private void loadAllBugs(){
+        ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
+        allUnresolvedBugs.addAll(bugs);
+        allUnresolvedBugs.removeIf(Bug::isBugResolved);
+        tblBugs.setItems(allUnresolvedBugs);
     }
 
 
