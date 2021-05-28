@@ -1,6 +1,8 @@
 package GUI.Model;
 
 import BLL.TitleManager;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public final class TitleModel {
@@ -29,7 +31,7 @@ public final class TitleModel {
         return titleManager.getTitles();
     }
 
-    public void updateTitle(String oldTitle, String newTitle){
+    public void updateTitle(String oldTitle, String newTitle) throws SQLException {
         titleManager.updateTitle(oldTitle, newTitle);
     }
 

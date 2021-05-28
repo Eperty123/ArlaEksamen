@@ -305,6 +305,7 @@ public class MessageDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+
             WarningController.createWarning("Oh no! Something went wrong when attempting to update a message " +
                     "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }

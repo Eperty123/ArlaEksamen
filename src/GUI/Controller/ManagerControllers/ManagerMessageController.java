@@ -242,16 +242,22 @@ public class ManagerMessageController implements Initializable {
 
     public void handleSave() {
 
-        Message newMessage = getMessage();
+
 
         // If no previous message is selected, create new and add it to the database.
         if (selectedMessage == null) {
-
+            Message newMessage = getMessage();
             // Add the message to database.
             DataModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
         } else {
             var confirmUpdate = ConfirmationDialog.createConfirmationDialog("Are you sure you want to update the existing bug report?");
-            if (confirmUpdate) DataModel.getInstance().updateMessage(selectedMessage, newMessage);
+
+            if (confirmUpdate){
+                Message updatedMessage = getUpdatedMessage();
+                DataModel.getInstance().updateMessage(selectedMessage, updatedMessage);
+                currentUsersMessages.remove(selectedMessage);
+                currentUsersMessages.add(updatedMessage);
+            }
         }
 
         // Then reload all the updated messages.
@@ -268,6 +274,18 @@ public class ManagerMessageController implements Initializable {
         MessageType messageType = currentUser.getUserRole() == UserType.Manager ? MessageType.Manager : MessageType.Admin;
 
         Message newMessage = new Message(startTime, endTime, message, color, messageType);
+        return newMessage;
+    }
+
+    private Message getUpdatedMessage() {
+        int id = selectedMessage.getId();
+        String message = messageArea.getText();
+        Color color = colorPicker.getValue();
+        LocalDateTime startTime = LocalDateTime.of(LocalDate.from(datePicker.getValue()), LocalTime.of(hourBox.getSelectionModel().getSelectedIndex(), minuteBox.getSelectionModel().getSelectedItem()));
+        LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
+        MessageType messageType = currentUser.getUserRole() == UserType.Manager ? MessageType.Manager : MessageType.Admin;
+
+        Message newMessage = new Message(id, message, startTime, endTime,  color, messageType);
         return newMessage;
     }
 

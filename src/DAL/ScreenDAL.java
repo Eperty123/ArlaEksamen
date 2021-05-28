@@ -22,22 +22,35 @@ public class ScreenDAL {
      *
      * @param screenBit used to get the ScreenBit's id, which is used to identify the row to be deleted.
      */
-    public void deleteScreenBit(ScreenBit screenBit) {
+    public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
 
         // First the ScreenBit is deleted from the ScreenRights junction table.
         try (Connection con = dbCon.getConnection()) {
+            con.setAutoCommit(false); // Enable transaction
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             deleteScreenBitUserAssociations(con, screenBit);
             deleteScreenBitTimeTable(con,screenBit);
             deleteScreenBitMessage(con,screenBit);
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM Screen WHERE Id=?");
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreQadmtesten WHERE Id=?");
             pSql.setInt(1, screenBit.getId());
-            pSql.execute();
+
+            try{
+                pSql.execute();
+            } catch(SQLException throwables){
+                con.rollback();
+                con.setAutoCommit(true);
+                con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+                throw throwables;
+            }
+
+            con.commit();
+            con.setAutoCommit(true);
+            con.setTransactionIsolation(Connection.TRANSACTION_NONE);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete the given screen " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
-        }
+            throw throwables;
+            }
     }
 
     private void deleteScreenBitMessage(Connection con, ScreenBit screenBit) {

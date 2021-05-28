@@ -35,6 +35,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -250,7 +251,13 @@ public class AdminScreenManagementController implements Initializable {
         Optional<Boolean> result = confirmationDialog.showAndWait();
         if (result.isPresent()) {
             if (result.get()) {
-                DataModel.getInstance().deleteScreenBit(screenBit);
+                try {
+                    DataModel.getInstance().deleteScreenBit(screenBit);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                    WarningController.createWarning("Oh no! Something went wrong when attempting to update a title " +
+                            "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+                }
                 removeScreenNode(screenBit);
             }
         }

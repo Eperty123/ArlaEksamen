@@ -4,6 +4,7 @@ import BE.ScreenBit;
 import BE.User;
 import DAL.ScreenDAL;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class ScreenManager {
@@ -22,8 +23,8 @@ public class ScreenManager {
      * Deletes a ScreenBit from the Database.
      * @param screenBit the desired ScreenBit to be deleted.
      */
-    public void deleteScreenBit(ScreenBit screenBit){
-        this.screenDAL.deleteScreenBit(screenBit);
+    public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
+        screenDAL.deleteScreenBit(screenBit);
     }
 
     /**
@@ -32,7 +33,7 @@ public class ScreenManager {
      * @param oldScreenBit the old ScreenBit to be updated.
      */
     public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit){
-        this.screenDAL.updateScreenBit(newScreenBit, oldScreenBit);
+        screenDAL.updateScreenBit(newScreenBit, oldScreenBit);
     }
 
     /**

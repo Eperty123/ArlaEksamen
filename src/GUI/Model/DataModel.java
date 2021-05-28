@@ -4,6 +4,7 @@ import BE.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -80,7 +81,7 @@ public class DataModel {
         }
     }
 
-    public void updateTitle(String oldTitle, String newTitle){
+    public void updateTitle(String oldTitle, String newTitle) throws SQLException {
         titleModel.updateTitle(oldTitle, newTitle);
         titles.remove(oldTitle);
         titles.add(newTitle);
@@ -255,7 +256,7 @@ public class DataModel {
      *
      * @param screenBit object containing information to identify the row in the database.
      */
-    public void deleteScreenBit(ScreenBit screenBit) {
+    public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
         screenModel.deleteScreenBit(screenBit);
         users.forEach(u -> {
             if(u.getAssignedScreenBits().contains(screenBit)){ u.removeScreenBit(screenBit); }
@@ -402,6 +403,7 @@ public class DataModel {
                 }
             });
     }
+
 
     public void updateMessage(Message oldMessage, Message newMessage) {
         messageModel.updateMessage(oldMessage, newMessage);
