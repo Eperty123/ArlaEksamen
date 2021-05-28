@@ -73,6 +73,7 @@ public class AddEmployeeController implements Initializable {
             String email = getEmail();
             int phone = getPhone();
             Enum<Gender> sex = chsSex.getSelectionModel().getSelectedItem();
+
             Department department = chsDepartment.getSelectionModel().getSelectedItem();
             Enum<UserType> userRole = chsRole.getSelectionModel().getSelectedItem();
             String username = txtUsername.getText();

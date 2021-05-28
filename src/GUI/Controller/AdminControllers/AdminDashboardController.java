@@ -66,7 +66,7 @@ public class AdminDashboardController implements Initializable {
             handleUserManagement();
 
             // Update the bug model to get the snackbar to pop up.
-            bugModel.updateAllBugs();
+            DataModel.getInstance().updateAllBugs();
         } catch (IOException e) {
             e.printStackTrace();
             WarningController.createWarning("Oh no! Something went wrong trying to load the admins user management view." +

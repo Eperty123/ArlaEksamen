@@ -249,10 +249,10 @@ public class ManagerMessageController implements Initializable {
         if (selectedMessage == null) {
 
             // Add the message to database.
-            messageModel.addMessage(currentUser, newMessage, selectedScreens);
+            DataModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
         } else {
             var confirmUpdate = ConfirmationDialog.createConfirmationDialog("Are you sure you want to update the existing bug report?");
-            if (confirmUpdate) messageModel.updateMessage(selectedMessage, newMessage);
+            if (confirmUpdate) DataModel.getInstance().updateMessage(selectedMessage, newMessage);
         }
 
         // Then reload all the updated messages.

@@ -24,6 +24,8 @@ public class DataModel {
     private ObservableList<Message> messages;
     private ObservableList<String> titles;
     private ObservableList<Bug> bugs;
+    private ObservableList<Bug> unresolvedBugs;
+
 
 
     private DataModel(){
@@ -32,6 +34,8 @@ public class DataModel {
 
     private void initialize() {
 
+
+
         departmentModel = DepartmentModel.getInstance();
         messageModel = MessageModel.getInstance();
         screenModel = ScreenModel.getInstance();
@@ -39,6 +43,7 @@ public class DataModel {
         userModel = UserModel.getInstance();
         bugModel = BugModel.getInstance();
 
+        unresolvedBugs = FXCollections.observableArrayList();
         departments = FXCollections.observableArrayList();
         screenBits = FXCollections.observableArrayList();
         messages = FXCollections.observableArrayList();
@@ -114,6 +119,7 @@ public class DataModel {
         });
     }
 
+    // update to only use new user
     public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
 
         if(oldDepartment.getId() != newDepartment.getId() && oldUser.equals(newUser)){
@@ -445,6 +451,23 @@ public class DataModel {
             }
         }
         return unresolvedBugs;
+    }
+
+    public void updateAllBugs() {
+        var managerBugs = bugs;
+        List<Bug> _unresolvedBugs = new ArrayList<>();
+
+
+        // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports for each bug.
+        managerBugs.forEach((x) -> {
+            if (!x.isBugResolved()) {
+                _unresolvedBugs.add(x);
+            }
+        });
+
+        // Now set the unresolved bug ObservableList.
+        unresolvedBugs.setAll(_unresolvedBugs);
+
     }
 
 }

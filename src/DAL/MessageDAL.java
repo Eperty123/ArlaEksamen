@@ -47,7 +47,7 @@ public class MessageDAL {
     /**
      * Retrieves a list of messages, specific to a user.
      * @param user user who's messages are retrieved.
-     * @return List<Message>
+     * @return List
      */
     public List<Message> getUsersMessages(User user) {
         List<Message> messages = new ArrayList<>();
