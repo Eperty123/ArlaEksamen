@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DPMAINTEST extends Application {
-    DepartmentManager departmentManager = new DepartmentManager();
 
     public static void Main(String[] args) {
         launch(args);
@@ -28,6 +27,12 @@ public class DPMAINTEST extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        initStageBuilderStage(stage);
+
+    }
+
+    private void initDPTStage(Stage stage) throws java.io.IOException {
+        DepartmentManager departmentManager = new DepartmentManager();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
@@ -64,7 +69,6 @@ public class DPMAINTEST extends Application {
 
         stage.setScene(new Scene(node));
         stage.show();
-
     }
 
     private void initStageBuilderStage(Stage stage) throws Exception {
