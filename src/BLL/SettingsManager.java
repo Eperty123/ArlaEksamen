@@ -12,32 +12,32 @@ public class SettingsManager implements ISettingsCRUD {
 
     @Override
     public void addSetting(Settings settings) {
-        this.settingsDAL.addSetting(settings);
+        settingsDAL.addSetting(settings);
     }
 
     @Override
     public Settings getSettingByType(Settings settings) {
-        return this.settingsDAL.getSettingByType(settings);
+        return settingsDAL.getSettingByType(settings);
     }
 
     @Override
     public Settings getSettingByType(SettingsType settingsType) {
-        return this.settingsDAL.getSettingByType(settingsType);
+        return settingsDAL.getSettingByType(settingsType);
     }
 
     @Override
     public void deleteSetting(Settings settings) {
-        this.settingsDAL.deleteSetting(settings);
+        settingsDAL.deleteSetting(settings);
     }
 
     @Override
     public void updateSetting(Settings oldSettings, Settings newSettings) {
-        this.settingsDAL.updateSetting(oldSettings, newSettings);
+        settingsDAL.updateSetting(oldSettings, newSettings);
     }
 
 
     @Override
     public List<Settings> getSettings() {
-        return this.settingsDAL.getSettings();
+        return settingsDAL.getSettings();
     }
 }

@@ -125,7 +125,7 @@ public class ManagerScreenViewController implements Initializable {
             String highLightTextFillColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().brighter().getRed() * 255, currentMessage.getTextColor().brighter().getGreen() * 255, currentMessage.getTextColor().brighter().getBlue() * 255);
             String highLightColor = String.format("rgb( %s , %s , %s )", currentMessage.getTextColor().darker().getRed() * 255, currentMessage.getTextColor().darker().getGreen() * 255, currentMessage.getTextColor().darker().getBlue() * 255);
             updateMessage(currentMessage, textColor, highLightTextFillColor, highLightColor);
-        }), 0, Integer.parseInt(SettingsModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY).getAttribute()), TimeUnit.SECONDS);
+        }), 0, Integer.parseInt(DataModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY).getAttribute()), TimeUnit.SECONDS);
     }
 
     private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {

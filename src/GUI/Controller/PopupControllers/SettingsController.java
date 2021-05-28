@@ -2,6 +2,7 @@ package GUI.Controller.PopupControllers;
 
 import BE.Settings;
 import BE.SettingsType;
+import GUI.Model.DataModel;
 import GUI.Model.SettingsModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.ListChangeListener;
@@ -35,7 +36,7 @@ public class SettingsController implements Initializable {
     }
 
     private void initialize() {
-        settingsModel.getAllSettings().addListener((ListChangeListener<Settings>) c -> {
+        DataModel.getInstance().getSettings().addListener((ListChangeListener<Settings>) c -> {
             //setData();
         });
     }
@@ -96,26 +97,26 @@ public class SettingsController implements Initializable {
      * Update all the settings.
      */
     private void updateSettings() {
-        var allSettings = settingsModel.getAllSettings();
+        var allSettings = DataModel.getInstance().getSettings();
 
         if (allSettings.size() > 0) {
             for (int i = 0; i < allSettings.size(); i++) {
                 var setting = allSettings.get(i);
                 var updatedValue = getValueForSettingsType(setting.getType());
                 setting.setAttribute(updatedValue);
-                settingsModel.updateSetting(setting, setting);
+                DataModel.getInstance().updateSetting(setting, setting);
             }
         }
 
         // Create new settings...
-        if (settingsModel.getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY) == null)
-            settingsModel.addSetting(new Settings(SettingsType.MESSAGE_CHECK_FREQUENCY, getValueForSettingsType(SettingsType.MESSAGE_CHECK_FREQUENCY)));
+        if (DataModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY) == null)
+            DataModel.getInstance().addSetting(new Settings(SettingsType.MESSAGE_CHECK_FREQUENCY, getValueForSettingsType(SettingsType.MESSAGE_CHECK_FREQUENCY)));
 
-        if (settingsModel.getSettingByType(SettingsType.CARD_OPEN_DURATION) == null)
-            settingsModel.addSetting(new Settings(SettingsType.CARD_OPEN_DURATION, getValueForSettingsType(SettingsType.CARD_OPEN_DURATION)));
+        if (DataModel.getInstance().getSettingByType(SettingsType.CARD_OPEN_DURATION) == null)
+            DataModel.getInstance().addSetting(new Settings(SettingsType.CARD_OPEN_DURATION, getValueForSettingsType(SettingsType.CARD_OPEN_DURATION)));
 
-        if (settingsModel.getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION) == null)
-            settingsModel.addSetting(new Settings(SettingsType.WRONG_PASS_FREEZE_DURATION, getValueForSettingsType(SettingsType.WRONG_PASS_FREEZE_DURATION)));
+        if (DataModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION) == null)
+            DataModel.getInstance().addSetting(new Settings(SettingsType.WRONG_PASS_FREEZE_DURATION, getValueForSettingsType(SettingsType.WRONG_PASS_FREEZE_DURATION)));
     }
 
     /**

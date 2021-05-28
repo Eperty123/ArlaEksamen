@@ -14,19 +14,10 @@ public final class ScreenModel {
     private final ScreenManager screenManager;
     private static ScreenModel instance;
 
-    private final ObservableList<ScreenBit> allScreenBits;
+
 
     private ScreenModel() {
         screenManager = new ScreenManager();
-        allScreenBits = FXCollections.observableArrayList();
-        initialize();
-    }
-
-    /**
-     * Initializing the allScreenBits list with a database query through ScreenManager
-     */
-    private void initialize() {
-        allScreenBits.addAll(screenManager.getScreenBits());
     }
 
     /**
@@ -39,25 +30,16 @@ public final class ScreenModel {
     }
 
     /**
-
+     * Adds a new ScreenBit to the database.
      *
      * @param newScreenBit object containing info on the new ScreenBit
      */
     public int addScreenBit(ScreenBit newScreenBit) {
         // Not sure if this still return false with ! in it.
-        if (allScreenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
-            return screenManager.addScreenBit(newScreenBit);
-        }
-        return -1;
+          return screenManager.addScreenBit(newScreenBit);
     }
 
-    /**
-     * Method used to re-initialize the allScreenBits list after CRUD operations.
-     */
-    public void updateScreenBits() {
-        allScreenBits.clear();
-        allScreenBits.addAll(screenManager.getScreenBits());
-    }
+
 
     /**
      * Deletes the specified ScreenBit from the database.
@@ -72,8 +54,8 @@ public final class ScreenModel {
     /**
      * @return A list of all ScreenBit objects
      */
-    public ObservableList<ScreenBit> getAllScreenBits() {
-        return allScreenBits;
+    public List<ScreenBit> getAllScreenBits() {
+        return screenManager.getScreenBits();
     }
 
     /**
@@ -85,7 +67,7 @@ public final class ScreenModel {
      */
     public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit) {
         screenManager.updateScreenBit(newScreenBit, oldScreenBit);
-        updateScreenBits();
+
     }
 
     /**

@@ -69,7 +69,7 @@ public class EmployeeCardController {
     }
 
     public void setData(User u) {
-        String time = SettingsModel.getInstance().getSettingByType(SettingsType.CARD_OPEN_DURATION).getAttribute();
+        String time = DataModel.getInstance().getSettingByType(SettingsType.CARD_OPEN_DURATION).getAttribute();
         Long l = Long.valueOf(time);
         setCountdownDuration(Duration.ofMinutes(l));
 
