@@ -249,6 +249,7 @@ public class ManagerMessageController implements Initializable {
             // Add the message to database.
             try {
                 DataModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
+                currentUsersMessages.add(newMessage);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong when attempting to add a message " +
@@ -259,7 +260,6 @@ public class ManagerMessageController implements Initializable {
 
             if (confirmUpdate){
                 Message updatedMessage = getUpdatedMessage();
-                System.out.println(updatedMessage.getId());
                 DataModel.getInstance().updateMessage(selectedMessage, updatedMessage);
                 currentUsersMessages.remove(selectedMessage);
                 currentUsersMessages.add(updatedMessage);
