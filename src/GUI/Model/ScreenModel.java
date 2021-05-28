@@ -39,8 +39,6 @@ public final class ScreenModel {
           return screenManager.addScreenBit(newScreenBit);
     }
 
-
-
     /**
      * Deletes the specified ScreenBit from the database.
      *
@@ -71,7 +69,7 @@ public final class ScreenModel {
     }
 
     /**
-     * This method calls ScreenManager, and throuhg that ScreenDal to assign screen rights
+     * This method calls ScreenManager, and through that ScreenDal to assign screen rights
      * to a user. After this, the updateScreen() method re-initializes the allScreenBits list.
      *
      * @param user      object used to identify the user to be assigned rights in the database.
@@ -81,15 +79,30 @@ public final class ScreenModel {
         screenManager.assignScreenBitRights(user, screenBit);
     }
 
+    /**
+     * Creates an association between users and ScreenBit in the database.
+     * @param users
+     * @param screenBit
+     */
     public void assignScreenBitRights(List<User> users, ScreenBit screenBit) {
         screenManager.assignScreenBitRights(users, screenBit);
     }
 
+    /**
+     * Removes the association between users and ScreenBit in the database.
+     * @param user
+     * @param screenBit
+     */
     public void removeScreenBitRights(User user, ScreenBit screenBit) {
         screenManager.removeScreenBitRights(user, screenBit);
 
     }
 
+    /**
+     * Removes the association between users and ScreenBit in the database.
+     * @param users
+     * @param screenBit
+     */
     public void removeScreenBitRights(List<User> users, ScreenBit screenBit) {
         screenManager.removeScreenBitRights(users, screenBit);
 

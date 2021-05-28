@@ -57,6 +57,11 @@ public class UserManager {
         userDAL.deleteUser(user);
     }
 
+    /**
+     * Updates the user-department relations in the database, based on a list of departments (which contains
+     * the assigned users).
+     * @param departments
+     */
     public void updateUserDepartment(List<Department> departments){
         this.userDAL.updateUserDepartment(departments);
     }
