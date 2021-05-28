@@ -42,6 +42,13 @@ public interface IScreenCRUD {
      */
     void assignScreenBitRights(User user, ScreenBit screenBit) throws SQLException;
 
+    /**
+     * Assign a list of Users with a list of ScreenBits.
+     *
+     * @param users     The users to associate screens with.
+     * @param screenBit The screens to associate with users.
+     * @throws SQLException
+     */
     void assignScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException;
 
     /**
@@ -60,5 +67,10 @@ public interface IScreenCRUD {
      */
     void removeScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException;
 
+    /**
+     * Does any ScreenBits exist in the database at all?
+     *
+     * @return Returns true if yes otherwise false.
+     */
     boolean hasScreenBitsLoaded();
 }

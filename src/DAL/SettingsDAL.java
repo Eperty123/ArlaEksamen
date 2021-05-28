@@ -37,8 +37,6 @@ public class SettingsDAL implements ISettingsCRUD {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to get all settings " +
-//                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -53,8 +51,6 @@ public class SettingsDAL implements ISettingsCRUD {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to add the setting " +
-//                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -92,8 +88,6 @@ public class SettingsDAL implements ISettingsCRUD {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete the setting " +
-//                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -108,8 +102,6 @@ public class SettingsDAL implements ISettingsCRUD {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to update the setting " +
-//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 

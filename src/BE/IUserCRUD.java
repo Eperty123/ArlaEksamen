@@ -50,7 +50,18 @@ public interface IUserCRUD {
      */
     void deleteUser(User user) throws SQLException;
 
+    /**
+     * Update the user's departments.
+     *
+     * @param departments The departments to update.
+     * @throws SQLException
+     */
     void updateUserDepartment(List<Department> departments) throws SQLException;
 
+    /**
+     * Does any users exist at all in the database?
+     *
+     * @return Returns true if yes otherwise false.
+     */
     boolean hasUsersLoaded();
 }

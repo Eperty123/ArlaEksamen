@@ -1,6 +1,7 @@
 package DAL.DbConnector;
 
 import GUI.Controller.PopupControllers.WarningController;
+import org.apache.commons.io.function.IOSupplier;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +31,7 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
     public DbMysqlConnectionProvider() {
     }
 
-    public DbMysqlConnectionProvider(String settingsFile) {
+    public DbMysqlConnectionProvider(String settingsFile) throws IOException {
         loadSettingsFile(settingsFile);
         connect();
     }
@@ -55,17 +56,15 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
     }
 
     @Override
-    public Connection reconnect() {
+    public Connection reconnect() throws SQLException {
         try {
             if (connection == null || connection.isClosed())
                 return connect();
             return connection;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong trying to reconnect to the Database." +
-                    " Please try again. If the problem persists, please contact an IT-Administrator");
+            throw throwables;
         }
-        return null;
     }
 
 
@@ -75,7 +74,7 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
      * @return The current connection.
      */
     @Override
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
         return reconnect();
     }
 
@@ -190,7 +189,7 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
      * @param path The path to the database settings file.
      */
     @Override
-    public void loadSettingsFile(String path) {
+    public void loadSettingsFile(String path) throws IOException {
         if (!path.isEmpty()) {
             try {
                 databasePath = path;
@@ -205,8 +204,7 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                WarningController.createWarning("Oh no! Something went wrong trying to read the Database settings. " +
-                    "It might be corrupted or lost. Please try again. If the problem persists, please contact an IT-Administrator");
+                throw e;
             }
         }
     }
@@ -217,7 +215,7 @@ public class DbMysqlConnectionProvider implements IDbConnectionProvider {
      * @param path The path to the database settings file.
      */
     @Override
-    public void setSettingsFile(String path) {
+    public void setSettingsFile(String path) throws IOException {
         if (!path.isEmpty()) {
             databasePath = path;
             loadSettingsFile(path);

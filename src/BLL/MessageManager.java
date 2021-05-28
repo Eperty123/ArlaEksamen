@@ -28,9 +28,9 @@ public class MessageManager implements IMessageCRUD {
     /**
      * Adds a message to the database, and creates a relation
      *
-     * @param user
-     * @param newMessage
-     * @param assignedScreenBits
+     * @param user               The user associated with the message.
+     * @param newMessage         The message to put in to the database.
+     * @param assignedScreenBits The list of screens to add the message to.
      * @throws SQLException
      */
     @Override
@@ -41,8 +41,7 @@ public class MessageManager implements IMessageCRUD {
     /**
      * Retrieves all messages from the database, related to the specified user.
      *
-     * @param user
-     * @return
+     * @param message The message to remove.
      */
     @Override
     public void deleteMessage(Message message) throws SQLException {
@@ -62,7 +61,7 @@ public class MessageManager implements IMessageCRUD {
     /**
      * Retrieves all messages from the database, related to the specified user name.
      *
-     * @param user
+     * @param user The user to get messages of.
      * @return
      */
     @Override
@@ -80,11 +79,21 @@ public class MessageManager implements IMessageCRUD {
         messageDAL.loadScreenBitsMessages(screen);
     }
 
+    /**
+     * Get all messages in form of an ObservableList.
+     *
+     * @return
+     */
     @Override
     public ObservableList<Message> getAllMessages() {
         return FXCollections.observableArrayList(messageDAL.getAllMessages());
     }
 
+    /**
+     * Does messages exist in the database at all?
+     *
+     * @return Returns true if yes otherwise false.
+     */
     @Override
     public boolean hasMessagesLoaded() {
         return messagesLoaded;

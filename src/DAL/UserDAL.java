@@ -53,8 +53,6 @@ public class UserDAL {
             throwables.printStackTrace();
             //throw throwables;
             return null;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to get all users " +
-//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -81,8 +79,6 @@ public class UserDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
-//                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -332,8 +328,6 @@ public class UserDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user - screen association " +
-//                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
     }

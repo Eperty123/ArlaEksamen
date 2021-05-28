@@ -23,8 +23,6 @@ public class TitleDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to add a new title " +
-//                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -80,8 +78,6 @@ public class TitleDAL {
             throwables.printStackTrace();
             //throw throwables;
             return null;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to retrieve all titles " +
-//                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 

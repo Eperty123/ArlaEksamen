@@ -27,8 +27,6 @@ public class BugDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a bug from " +
-//                    "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -52,8 +50,6 @@ public class BugDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to update a bug " +
-//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -78,8 +74,6 @@ public class BugDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to add a bug " +
-//                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -103,10 +97,11 @@ public class BugDAL {
                 Bug bug = resultSetParser.getBug(rs);
                 allBugs.add(bug);
             }
+
+            return allBugs;
         } catch (SQLException throwables) {
-            WarningController.createWarning("Oh no! Something went wrong when attempting to get all bugs from " +
-                    "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throwables.printStackTrace();
+            return null;
         }
-        return allBugs;
     }
 }

@@ -16,69 +16,68 @@ public class DepartmentModel implements IDepartmentCRUD {
     private final DepartmentManager departmentManager = new DepartmentManager();
     private static DepartmentModel instance;
 
-    public void exportPhoneNumbers(List<Department> departments) {
-        departmentManager.exportPhoneNumbers(departments);
-    }
-
-    public void exportPhoneNumbers(List<Department> departments, String outputFile) {
-        departmentManager.exportPhoneNumbers(departments, outputFile);
-    }
-
-    public void exportPhoneNumbers(List<Department> departments, File outputFile) {
-        departmentManager.exportPhoneNumbers(departments, outputFile);
-    }
-
-    public void exportPhoneNumbers(Department department) {
-        var departments = new ArrayList<Department>();
-        departments.add(department);
-        departmentManager.exportPhoneNumbers(departments);
-    }
-
-    public void exportPhoneNumbers(Department department, String outputFile) {
-        var departments = new ArrayList<Department>();
-        departments.add(department);
-        departmentManager.exportPhoneNumbers(departments, outputFile);
-    }
-
-    public void exportPhoneNumbers(Department department, File outputFile) {
-        var departments = new ArrayList<Department>();
-        departments.add(department);
-        departmentManager.exportPhoneNumbers(departments, outputFile);
-    }
-
     public static DepartmentModel getInstance() {
         return instance == null ? instance = new DepartmentModel() : instance;
     }
 
+    /**
+     * Add a new department to the database.
+     *
+     * @param newDepartment The department to add.
+     * @throws SQLException
+     */
     public void addDepartment(Department newDepartment) throws SQLException {
         departmentManager.addDepartment(newDepartment);
     }
 
+    /**
+     * Remove the given department from the database.
+     *
+     * @param department The department to remove.
+     */
     @Override
     public void removeDepartment(Department department) {
         departmentManager.removeDepartment(department);
     }
 
+    /**
+     * Edit the given department.
+     *
+     * @param department The department to edit.
+     * @throws SQLException
+     */
     @Override
     public void editDepartment(Department department) throws SQLException {
         departmentManager.editDepartment(department);
     }
 
+    /**
+     * Add a sub department to the given main department.
+     *
+     * @param department    The main department to add the sub department to.
+     * @param subDepartment The sub department to add to the main department.
+     * @throws SQLException
+     */
     public void addSubDepartment(Department department, Department subDepartment) throws SQLException {
         departmentManager.addSubDepartment(department, subDepartment);
     }
 
     /**
-     * Deletes a department from the database.
+     * Remove the specified department from the database.
      *
-     * @param d
+     * @param d The department to remove.
      * @throws SQLException
      */
     public void deleteDepartment(Department d) throws SQLException {
         departmentManager.deleteDepartment(d);
     }
 
-    // TODO migrate to department class
+    /**
+     * Get the given user filtered by its username.
+     *
+     * @param username The username of the user to get.
+     * @return Returns the found user.
+     */
     public User getUser(String username) {
         var departments = getAllDepartments();
         for (int i = 0; i < departments.size(); i++) {
@@ -97,8 +96,8 @@ public class DepartmentModel implements IDepartmentCRUD {
     /**
      * Retrieves a department matching the specified department id.
      *
-     * @param departmentId
-     * @return
+     * @param departmentId The department id.
+     * @return Returns the desired department.
      */
     public Department getDepartment(int departmentId) {
         var departments = getAllDepartments();
@@ -117,7 +116,7 @@ public class DepartmentModel implements IDepartmentCRUD {
     /**
      * Returns an observable list of all departments.
      *
-     * @return
+     * @return Returns an ObservableList of departments.
      */
     public ObservableList<Department> getAllDepartments() {
         return departmentManager.getAllDepartments();
@@ -139,7 +138,7 @@ public class DepartmentModel implements IDepartmentCRUD {
     /**
      * Returns a list of the departments(') super departments.
      *
-     * @return
+     * @return Returns a list of departments(')?
      */
     public List<Department> getSuperDepartments() {
         return departmentManager.getSuperDepartments();

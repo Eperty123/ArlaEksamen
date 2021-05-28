@@ -6,6 +6,7 @@ import javafx.scene.chart.StackedAreaChart;
 import javafx.scene.layout.BorderPane;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class StackedAreaChartNode implements IDataNode {
     /**
@@ -16,7 +17,7 @@ public class StackedAreaChartNode implements IDataNode {
      * @return A Node with the given StackedAreaChart
      */
     @Override
-    public Node getData(BorderPane pane, File file) {
+    public Node getData(BorderPane pane, File file) throws FileNotFoundException {
         StackedAreaChart stackedAreaChart = DataGenerator.getStackedAreaChart(file.getPath());
 
         //Makes it follow the panes width
@@ -37,7 +38,7 @@ public class StackedAreaChartNode implements IDataNode {
     }
 
     @Override
-    public Node getData(BorderPane pane, String uri) {
+    public Node getData(BorderPane pane, String uri) throws FileNotFoundException {
         return this.getData(pane, new File(uri));
     }
 }

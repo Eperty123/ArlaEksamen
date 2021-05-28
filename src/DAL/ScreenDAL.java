@@ -62,8 +62,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message on the given screen " +
-//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
     }
@@ -79,8 +77,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a timetable on the given screen " +
-//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -98,8 +94,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user - screen association" +
-//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -121,8 +115,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to update the given screen " +
-//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -147,8 +139,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to add the given screen " +
-//                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -173,8 +163,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to add a timetable the given screen " +
-//                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
 
     }
@@ -220,8 +208,6 @@ public class ScreenDAL {
             throwables.printStackTrace();
             //throw throwables;
             return null;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to get all screens from " +
-//                    "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -243,8 +229,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to assign screen rights between " +
-//                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -262,8 +246,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to assign screen rights between " +
-//                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -284,8 +266,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to remove screen rights between " +
-//                    "the given user and screen. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -312,8 +292,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to remove screen rights between " +
-//                    "the given list of users and screen. Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 
@@ -366,8 +344,6 @@ public class ScreenDAL {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             throw throwables;
-//            WarningController.createWarning("Oh no! Something went wrong when attempting to load timetables from the Database. " +
-//                    "Please try again, and if the problem persists, contact an IT Administrator.");
         }
     }
 

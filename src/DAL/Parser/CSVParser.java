@@ -26,12 +26,13 @@ public class CSVParser implements IFileParser {
         initialize();
     }
 
-    public CSVParser(String file) {
+    public CSVParser(String file) throws FileNotFoundException {
         initialize();
         loadFile(file);
     }
 
-    public CSVParser(String file, char delimeter) {
+
+    public CSVParser(String file, char delimeter) throws FileNotFoundException {
         initialize();
         this.delimeter = delimeter;
         loadFile(file);
@@ -50,7 +51,7 @@ public class CSVParser implements IFileParser {
      *
      * @param file The CSV file to load.
      */
-    public void loadFile(String file) {
+    public void loadFile(String file) throws FileNotFoundException {
         var _file = new File(file);
 
         try {
@@ -69,9 +70,7 @@ public class CSVParser implements IFileParser {
             parse();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            WarningController.createWarning("Warning! Something went wrong trying to make the chart. \n\n" +
-                    "Please ensure the selected excel/csv/website/PDF file is valid or contact an admin");
-
+            throw e;
         }
     }
 
@@ -82,7 +81,7 @@ public class CSVParser implements IFileParser {
      * @param <T>  The return type.
      * @return Returns a List of parsed content.
      */
-    public <T> T parse(String file) {
+    public <T> T parse(String file) throws FileNotFoundException {
         loadFile(file);
         return parse();
     }
@@ -151,7 +150,7 @@ public class CSVParser implements IFileParser {
      * @param file The file to parse.
      * @return Returns an instance of CSVParser with parsed data.
      */
-    public static CSVParser parseFile(String file) {
+    public static CSVParser parseFile(String file) throws FileNotFoundException {
         return new CSVParser(file);
     }
 }

@@ -81,44 +81,6 @@ public class BugModel implements IBugCRUD {
     }
 
     /**
-     * Send an email about a bug report to all the admins.
-     *
-     * @param bug       The bug to send an email about.
-     * @param screenBit The associated screen.
-     * @param user      The user who sends the email.
-     */
-    public void sendEmailBugReportToAllAdmins(Bug bug, ScreenBit screenBit, User user) {
-        if (bug != null && user != null) {
-            var admins = UserModel.getInstance().getAllUsersByRole(UserType.Admin);
-            for (int i = 0; i < admins.size(); i++) {
-                var admin = admins.get(i);
-
-                var adminEmail = admin.getEmail().startsWith("@") ? admin.getEmail().substring(1, admin.getEmail().length() - 1) : admin.getEmail();
-                var userEmail = user.getEmail().startsWith("@") ? user.getEmail().substring(1, user.getEmail().length() - 1) : user.getEmail();
-
-                String emailRegex = "^(.+)@(.+)$";
-
-                Pattern pattern = Pattern.compile(emailRegex);
-                var emailMatcher = pattern.matcher(adminEmail);
-
-                // If the email regex has matches, it must be a correct email format.
-                if (emailMatcher.matches()) {
-
-                    // Only send email if the following email providers are used in the admin mail. This is to avoid spam.
-                    if (!emailMatcher.group(2).contains("gmail") && !emailMatcher.group(2).contains("yahoo") && !emailMatcher.group(2).contains("hotmail")
-                            && !emailMatcher.group(2).contains("live") && !emailMatcher.group(2).contains("easv365")) {
-                        continue;
-                    }
-
-                    // Send the bug report to the admin.
-                    var bugEmail = new Email(adminEmail, userEmail, String.format("Bug on screen: %s", screenBit.getName()), bug.getDescription());
-                    EmailManager.getInstance().sendTo(bugEmail);
-                }
-            }
-        }
-    }
-
-    /**
      * Reset the singleton instance.
      */
     public void resetSingleton() {

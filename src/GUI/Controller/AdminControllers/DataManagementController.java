@@ -151,6 +151,7 @@ public class DataManagementController implements Initializable {
                 ViewMaker.callProperMethod(pickerStageController, selectedItem, file.get());
             } catch (Exception e) {
                 e.printStackTrace();
+                WarningController.createWarning(String.format("Failed to create the view for: %s! Please check if the file exists or chart format is correct.", comboBox.getSelectionModel().getSelectedItem()));
             }
         }
     }
@@ -161,6 +162,7 @@ public class DataManagementController implements Initializable {
                 ViewMaker.callProperMethod(pickerStageController, selectedItem, uri);
             } catch (Exception e) {
                 e.printStackTrace();
+                WarningController.createWarning(String.format("Failed to create the view for: %s! Please check the url.", comboBox.getSelectionModel().getSelectedItem()));
             }
         }
     }

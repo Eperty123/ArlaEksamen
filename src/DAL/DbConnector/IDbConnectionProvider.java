@@ -1,6 +1,8 @@
 package DAL.DbConnector;
 
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -14,7 +16,7 @@ public interface IDbConnectionProvider {
      *
      * @return The current active connection.
      */
-    Connection getConnection();
+    Connection getConnection() throws SQLException;
 
     /**
      * Get the name of the database.
@@ -54,12 +56,12 @@ public interface IDbConnectionProvider {
     /**
      * Connect to the database.
      */
-    Connection connect();
+    Connection connect() throws SQLException;
 
     /**
      * Reconnect to the database.
      */
-    Connection reconnect();
+    Connection reconnect() throws SQLException;
 
     /**
      * Set the database name.
@@ -99,14 +101,14 @@ public interface IDbConnectionProvider {
     /**
      * Load the specified settings file from path.
      */
-    void loadSettingsFile(String path);
+    void loadSettingsFile(String path) throws IOException;
 
     /**
      * Set the specified database settings file.
      *
      * @param path
      */
-    void setSettingsFile(String path);
+    void setSettingsFile(String path) throws IOException;
 
     /**
      * Get the path for the database settings file.

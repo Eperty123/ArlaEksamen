@@ -100,19 +100,6 @@ public class DepartmentManager implements IDepartmentCRUD {
         departmentDAL.deleteDepartment(department);
     }
 
-    //TODO add javadoc to this
-    public void exportPhoneNumbers(List<Department> departments) {
-        departmentDAL.exportPhoneNumbers(departments);
-    }
-
-    public void exportPhoneNumbers(List<Department> departments, String outputFile) {
-        departmentDAL.exportPhoneNumbers(departments, outputFile);
-    }
-
-    public void exportPhoneNumbers(List<Department> departments, File outputFile) {
-        departmentDAL.exportPhoneNumbers(departments, outputFile);
-    }
-
     /**
      * Adds a department's subDepartment association to the database
      *
