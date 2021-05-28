@@ -50,7 +50,6 @@ public class DepartmentBuilder implements IDepartmentBuilder{
 
     @Override
     public void addSubdepartments(ResultSet rs) throws SQLException {
-
         while (rs.next()) {
             for (Department dpt : departments) {
                 if (dpt.getId() == rs.getInt("dptId")) {

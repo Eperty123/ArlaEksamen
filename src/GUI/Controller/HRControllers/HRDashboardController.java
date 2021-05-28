@@ -72,8 +72,8 @@ public class HRDashboardController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
-        for(Department department : DataModel.getInstance().getSuperDepartment())
-        con2.addChildrenNode(department);
+        for (Department department : DataModel.getInstance().getSuperDepartments())
+            con2.addChildrenNode(department);
         JFXButton b = new JFXButton("Save");
         b.getStyleClass().add("addSubDeptButton");
         con2.getChildrenNodes().add(b);
@@ -85,10 +85,10 @@ public class HRDashboardController implements Initializable {
                 con2.getDepartmentViewControllers().forEach(vc -> {
                     vc.getAllSubDepartments().forEach(item -> {
                         List<User> users = new ArrayList<>(item.getUsers());
-                        users.removeIf(u -> u.getUserName().isEmpty() || u.getUserRole() != UserType.Admin);
-                        if (!users.isEmpty() && item.getManager() == null) {
+                        users.removeIf(u -> u.getUserName().isEmpty());
+                        if (!users.isEmpty()) {
                             item.setManager(users.get(0));
-                            DataModel.getInstance().addDepartment(item);
+                            DataModel.getInstance().updateDepartment(item);
 
                             for (Department dpt : vc.getDepartment().getAllSubDepartments()) {
                                 if (dpt.getSubDepartments().contains(item)) {
@@ -96,10 +96,11 @@ public class HRDashboardController implements Initializable {
                                     break;
                                 }
                             }
-                        } else if (item.getManager() == null) {
-                            User placeholderUser = new User();
-                            placeholderUser.setUserName("admtest");
-                            item.setManager(placeholderUser);
+                        }
+                        if (item.getManager().getUserName()=="place") {
+                            boolean confirm2 = ConfirmationDialog.createConfirmationDialog("dpt needs user");
+                            if (confirm2)
+                                return;
                         }
                     });
                     UserModel.getInstance().updateUserDepartment(vc.getAllSubDepartments());
@@ -174,7 +175,7 @@ public class HRDashboardController implements Initializable {
                 ScreenModel.getInstance().resetSingleton();
 
                 StageShower stageShower = new StageShower();
-                stageShower.handleLogout(root1,sceneMover);
+                stageShower.handleLogout(root1, sceneMover);
             }
         }
     }
