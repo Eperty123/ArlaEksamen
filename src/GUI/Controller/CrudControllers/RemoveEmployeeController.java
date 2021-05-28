@@ -1,6 +1,7 @@
 package GUI.Controller.CrudControllers;
 
 import BE.User;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DataModel;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.event.ActionEvent;
@@ -8,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.sql.SQLException;
 
 public class RemoveEmployeeController {
     @FXML
@@ -26,7 +29,13 @@ public class RemoveEmployeeController {
 
     public void handleJa(ActionEvent actionEvent) {
 
-        DataModel.getInstance().deleteUser(user);
+        try {
+            DataModel.getInstance().deleteUser(user);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user " +
+                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+        }
 
 
         Stage stage = (Stage) root.getScene().getWindow();

@@ -23,7 +23,7 @@ public final class TitleModel {
         titleManager.addTitle(newTitle);
     }
 
-    public void deleteTitle(String title){
+    public void deleteTitle(String title) throws SQLException {
         titleManager.deleteTitle(title);
     }
 

@@ -5,6 +5,7 @@ import BE.Department;
 import BE.User;
 import DAL.UserDAL;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserManager {
@@ -26,15 +27,15 @@ public class UserManager {
      * @param user the desired user to be added.
      */
     public void addUser(User user, Department department) {
-        this.userDAL.addUser(user, department);
+        userDAL.addUser(user, department);
     }
 
     /**
      * Import a list of CSVUsers in to the database.
      * @param users The list of CSVUsers to import.
      */
-    public void addUsers(List<CSVUser> users) {
-        this.userDAL.addUsers(users);
+    public void addUsers(List<CSVUser> users) throws SQLException {
+        userDAL.addUsers(users);
     }
 
     /**
@@ -43,8 +44,8 @@ public class UserManager {
      * @param user        the old user to be updated.
      * @param department the updated user.
      */
-    public void updateUser(User user, Department department) {
-        this.userDAL.updateUser(user, department);
+    public void updateUser(User user, Department department) throws SQLException {
+        userDAL.updateUser(user, department);
     }
 
     /**
@@ -52,8 +53,8 @@ public class UserManager {
      *
      * @param user the User to be deleted.
      */
-    public void deleteUser(User user) {
-        this.userDAL.deleteUser(user);
+    public void deleteUser(User user) throws SQLException {
+        userDAL.deleteUser(user);
     }
 
     public void updateUserDepartment(List<Department> departments){

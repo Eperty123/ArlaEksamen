@@ -7,6 +7,7 @@ import BLL.MessageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public final class MessageModel {
@@ -28,7 +29,7 @@ public final class MessageModel {
         return instance == null ? instance = new MessageModel() : instance;
     }
 
-    public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
+    public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
         messageManager.addMessage(user, newMessage, assignedScreenBits);
     }
 

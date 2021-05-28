@@ -55,22 +55,38 @@ public class DepartmentDAL {
         }
     }
 
-    public void deleteDepartment(Department department) {
+    public void deleteDepartment(Department department) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
+
+            con.setAutoCommit(false); // Enable transaction
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             deleteDepartmentUserAssociations(con, department);
             deleteDepartmentSubDepartmentAssociations(con, department);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Department WHERE Id=?");
             pSql.setInt(1, department.getId());
-            pSql.execute();
+
+            try{
+                pSql.execute();
+            } catch (SQLException throwables){
+                con.rollback();
+                con.setAutoCommit(true);
+                con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+                throw throwables;
+            }
+
+            con.commit();
+            con.setAutoCommit(true);
+            con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a department " +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
 
     private void deleteDepartmentSubDepartmentAssociations(Connection con, Department department) throws SQLException {
+
         PreparedStatement pSql = con.prepareStatement("DELETE FROM SubDepartment WHERE DptId=? OR SubDptId=?");
         pSql.setInt(1, department.getId());
         pSql.setInt(2, department.getId());
