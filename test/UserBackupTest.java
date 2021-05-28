@@ -13,7 +13,7 @@ public class UserBackupTest {
         try {
             var importedUsers = userImporter.importUsers("src/Resources/User_backup_2021-05-25_2045305923.csv");
             Assertions.assertNotEquals(0, importedUsers.size());
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

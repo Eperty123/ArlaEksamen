@@ -222,7 +222,7 @@ public class HRDepartmentController implements Initializable {
         if (chosenFile != null && chosenFile.exists()) {
             try {
                 userBackUp.importUsers(chosenFile.getAbsolutePath());
-            } catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 WarningController.createWarning("Failed to import the backup file! Please check if the file path is correct.");
             }
