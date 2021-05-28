@@ -35,9 +35,6 @@ public class DataModel {
     }
 
     private void initialize() {
-
-
-
         departmentModel = DepartmentModel.getInstance();
         messageModel = MessageModel.getInstance();
         screenModel = ScreenModel.getInstance();
@@ -320,17 +317,14 @@ public class DataModel {
 
     public void addSubDepartment(Department department, Department subDepartment) {
         departmentModel.addSubDepartment(department, subDepartment);
-        addSubDepartmentToDepartment(department, subDepartment);
-    }
-
-    private void addSubDepartmentToDepartment(Department department, Department subDepartment) {
-        departments.forEach(dpt -> {
-            if(dpt.getId() == department.getId()){dpt.addSubDepartment(subDepartment);}
-        });
     }
 
     public void deleteDepartment(Department d) throws SQLException {
         departmentModel.deleteDepartment(d);
+        departments.forEach(dpt->{
+            if(dpt.getSubDepartments().contains(d))
+                dpt.getSubDepartments().remove(d);
+        });
         departments.remove(d);
     }
 
@@ -363,8 +357,8 @@ public class DataModel {
 
 
 
-    public List<Department> getSuperDepartment() {
-        return departmentModel.getSuperDepartment();
+    public List<Department> getSuperDepartments() {
+        return departmentModel.getSuperDepartments();
     }
 
     // _____ Messages _____

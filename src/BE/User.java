@@ -25,6 +25,11 @@ public class User {
     public User() {
     }
 
+    public User(int id, String username){
+        this.id.set(id);
+        this.userName.set(username);
+    }
+
     public User(String userName) {
         this.userName.set(userName);
     }
@@ -173,7 +178,6 @@ public class User {
 
 
     }
-
 
     public int getId() {
         return this.id.get();
