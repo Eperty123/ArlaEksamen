@@ -153,23 +153,21 @@ public class UserDAL {
     /**
      * Updates an existing user in the database's User table.
      *
-     * @param user        object used to identify the row to be updated.
-     * @param updatedUser object containing the new user information.
+     * @param user object used to identify the row to be updated.
+     * @param department object containing the new department information.
      */
-    public void updateUser(User user, User updatedUser, Department oldDepartment, Department newDepartment) {
+    public void updateUser(User user, Department department) {
 
         try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement("UPDATE [User] SET FirstName = ?, LastName = ?, " +
                     "UserName = ?, Email = ?, Password = ?, UserRole = ?, Phone = ?, Gender = ?, " +
                     "PhotoPath = ?, Title = ? WHERE Id = ?");
-            setUserValues(updatedUser, pSql);
+            setUserValues(user, pSql);
             pSql.setInt(11, user.getId());
             pSql.execute();
 
-            if (!oldDepartment.getName().equals(newDepartment.getName())) {
-                updateDepartmentUser(con, user, updatedUser, oldDepartment, newDepartment);
-            }
+            updateDepartmentUser(con, user, department);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -204,20 +202,14 @@ public class UserDAL {
         pSql.execute();
     }
 
-    private void updateDepartmentUser(Connection con, User user, User updatedUser, Department oldDepartment, Department newDepartment) throws SQLException {
+    private void updateDepartmentUser(Connection con, User user, Department department) throws SQLException {
 
-        if (!user.getUserName().equals(updatedUser.getUserName())) {
-            PreparedStatement pSql = con.prepareStatement("UPDATE DepartmentUser SET DepartmentId=?, UserName=? WHERE UserName=?");
-            pSql.setInt(1, newDepartment.getId());
-            pSql.setString(2, updatedUser.getUserName());
-            pSql.setString(3, user.getUserName());
-            pSql.execute();
-        } else {
-            PreparedStatement pSql = con.prepareStatement("UPDATE DepartmentUser SET DepartmentId=? WHERE UserName=?");
-            pSql.setInt(1, newDepartment.getId());
+            PreparedStatement pSql = con.prepareStatement("UPDATE DepartmentUser SET DepartmentId=?, UserName=? WHERE UserName=? AND DepartmentId=?");
+            pSql.setInt(1, department.getId());
             pSql.setString(2, user.getUserName());
+            pSql.setString(3, user.getUserName());
+            pSql.setInt(4, department.getId());
             pSql.execute();
-        }
     }
 
 

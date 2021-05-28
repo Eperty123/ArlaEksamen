@@ -13,11 +13,10 @@ public final class MessageModel {
 
     private static MessageModel instance;
     private final MessageManager messageManager;
-    private final ObservableList<Message> allMessages;
+
 
     private MessageModel(){
         messageManager = new MessageManager();
-        allMessages = FXCollections.observableArrayList();
     }
 
     /**
@@ -31,7 +30,6 @@ public final class MessageModel {
 
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
         messageManager.addMessage(user, newMessage, assignedScreenBits);
-        allMessages.add(newMessage);
     }
 
     public void deleteMessage(Message message){
@@ -40,22 +38,13 @@ public final class MessageModel {
 
     public void updateMessage(Message oldMessage, Message newMessage) {
         messageManager.updateMessage(oldMessage, newMessage);
-        allMessages.remove(oldMessage);
-        allMessages.add(newMessage);
     }
 
-    // TODO But why.....?
-    public void loadUserMessages(User user) {
-        if (user != null) allMessages.setAll(getUsersMessages(user));
-    }
 
     public List<Message> getUsersMessages(User user) {
         return messageManager.getUsersMessages(user);
     }
 
-    public ObservableList<Message> getAllUserMessages() {
-        return allMessages;
-    }
 
     /**
      * Reset the singleton instance.

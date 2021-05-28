@@ -2,8 +2,6 @@ package GUI.Controller.CrudControllers;
 
 import BE.User;
 import GUI.Model.DataModel;
-import GUI.Model.ScreenModel;
-import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +16,6 @@ public class RemoveEmployeeController {
     private AnchorPane root;
 
     private User user;
-    private final UserModel userModel = UserModel.getInstance();
 
     public void setData(User user){
         this.user = user;

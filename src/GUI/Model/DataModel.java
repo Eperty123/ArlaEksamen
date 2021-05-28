@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class DataModel {
@@ -106,6 +107,7 @@ public class DataModel {
 
     public void addUser(User newUser, Department department) {
         if (users.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
+            userModel.addUser(newUser, department);
             users.add(newUser);
             addUserToDepartment(newUser, department);
         }
@@ -120,26 +122,36 @@ public class DataModel {
     }
 
     // update to only use new user
-    public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
+    public void updateUser(User user, Department department) {
 
-        if(oldDepartment.getId() != newDepartment.getId() && oldUser.equals(newUser)){
-            moveUser(oldUser, oldUser, oldDepartment, newDepartment);
-        } else if (oldDepartment.getId() != newDepartment.getId() && !oldUser.equals(newUser)){
-            moveUser(oldUser, newUser, oldDepartment, newDepartment);
+        userModel.updateUser(user, department);
+        User userToDelete = new User();
+        for (User u : users) {
+            if (u.getId() == user.getId()) {
+                userToDelete = u;
+
+            }
         }
-        userModel.updateUser(oldUser, newUser, oldDepartment, newDepartment);
-        users.remove(oldUser);
-        users.add(newUser);
+        users.remove(userToDelete);
+        users.add(user);
+        moveUser(user, department);
 
     }
 
-    private void moveUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
-        departments.forEach(dpt -> {
-            if(dpt.getId() == oldDepartment.getId()){ dpt.getUsers().remove(oldUser); }
-        });
-        departments.forEach(dpt -> {
-            if(dpt.getId() == newDepartment.getId()){ dpt.getUsers().add(newUser); }
-        });
+    private void moveUser(User user, Department department) {
+        for(Iterator<Department> dptIterator = departments.iterator(); dptIterator.hasNext();){
+            Department dpt = dptIterator.next();
+
+            for(Iterator<User> userIterator = dpt.getUsers().iterator(); userIterator.hasNext();){
+                User u = userIterator.next();
+                if(u.getId() == user.getId()){
+                    userIterator.remove();
+                }
+            }
+            if(dpt.getId() == department.getId()){
+                dpt.addUser(user);
+            }
+        }
     }
 
     public void updateUserDepartment(List<Department> departments){

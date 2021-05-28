@@ -59,6 +59,7 @@ public class ScreenDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenTime WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
+            int r = 4;
 
         }catch (SQLException throwables){
             throwables.printStackTrace();

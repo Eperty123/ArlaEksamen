@@ -74,7 +74,6 @@ public class ManagerMessageController implements Initializable {
     private User currentUser;
 
     private final List<ScreenBit> selectedScreens = new ArrayList<>();
-    private final MessageModel messageModel = MessageModel.getInstance();
     private final ObservableList<Message> currentUsersMessages = FXCollections.observableArrayList();
     private Message selectedMessage;
     private Boolean isAllSelected = false;
@@ -256,7 +255,7 @@ public class ManagerMessageController implements Initializable {
         }
 
         // Then reload all the updated messages.
-        currentUsersMessages.setAll(messageModel.getAllUserMessages());
+        currentUsersMessages.setAll(DataModel.getInstance().getUsersMessages(currentUser));
         sortMessagesByStartTime();
         clearMessageFields();
     }

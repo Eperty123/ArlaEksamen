@@ -14,8 +14,6 @@ import java.util.regex.Pattern;
 public class BugModel {
 
     private static BugModel instance;
-    private ObservableList<Bug> allBugs;
-    private ObservableList<Bug> unresolvedBugs;
     private BugManager bugManager;
 
     public BugModel() {
@@ -27,9 +25,6 @@ public class BugModel {
      */
     private void initialize() {
         bugManager = new BugManager();
-        allBugs = FXCollections.observableArrayList();
-        unresolvedBugs = FXCollections.observableArrayList();
-        updateAllBugs();
     }
 
     /**
@@ -47,19 +42,9 @@ public class BugModel {
      *
      * @return Returns a List of Bug reports.
      */
-    public ObservableList<Bug> getAllBugs() {
-        return allBugs;
+    public List<Bug> getAllBugs() {
+        return bugManager.getBugs();
     }
-
-    /**
-     * Get all the unresolved Bug reports.
-     *
-     * @return Returns a List of Bug reports.
-     */
-    public ObservableList<Bug> getAllUnresolvedBugs() {
-        return unresolvedBugs;
-    }
-
 
     /**
      * Update an existing Bug reported.
@@ -69,26 +54,6 @@ public class BugModel {
      */
     public void updateBug(Bug oldBug, Bug newBug) {
         bugManager.updateBug(oldBug, newBug);
-    }
-
-    /**
-     * Update the ObservableList of Bug reports.
-     */
-    public void updateAllBugs() {
-        var managerBugs = bugManager.getBugs();
-        List<Bug> _unresolvedBugs = new ArrayList<>();
-        allBugs.setAll(managerBugs);
-
-        // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports for each bug.
-        managerBugs.forEach((x) -> {
-            if (!x.isBugResolved()) {
-                _unresolvedBugs.add(x);
-            }
-        });
-
-        // Now set the unresolved bug ObservableList.
-        unresolvedBugs.setAll(_unresolvedBugs);
-
     }
 
     /**
