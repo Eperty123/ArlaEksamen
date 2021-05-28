@@ -48,7 +48,7 @@ public class User {
         this.userName = new SimpleStringProperty(userName);
         this.email = new SimpleStringProperty(email);
         this.phone.set(Integer.valueOf(phoneNumber));
-        setUserRole(userRole);
+        this.setUserRole(userRole);
         this.password = new SimpleIntegerProperty(password);
         this.gender = gender;
         this.photoPath.set(photoPath);
@@ -139,7 +139,7 @@ public class User {
         this.userName.set(userName);
         this.email.set(email);
         this.phone.set(phoneNumber);
-        setUserRole(userRole);
+        this.setUserRole(userRole);
         this.password.set(password);
         this.gender = gender;
         this.photoPath.set(photoPath);
@@ -291,7 +291,7 @@ public class User {
     }
 
 
-    public void setPhone(Integer phone) {
+    public void setPhone(final Integer phone) {
         this.phone.set(phone);
     }
 
@@ -303,7 +303,7 @@ public class User {
         return this.photoPath;
     }
 
-    public void setPhotoPath(String photoPath) {
+    public void setPhotoPath(final String photoPath) {
         this.photoPath.set(photoPath);
     }
 
@@ -315,7 +315,7 @@ public class User {
         return this.title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title.set(title);
     }
 
@@ -324,7 +324,7 @@ public class User {
         return this.gender;
     }
 
-    public void setGender(Enum gender) {
+    public void setGender(final Enum gender) {
         this.gender = gender;
     }
 
@@ -336,25 +336,25 @@ public class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || this.getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(getId(), user.getId()) &&
-                Objects.equals(getFirstName(), user.getFirstName()) &&
-                Objects.equals(getLastName(), user.getLastName()) &&
-                Objects.equals(getUserName(), user.getUserName()) &&
-                Objects.equals(getEmail(), user.getEmail()) &&
-                Objects.equals(getUserRole(), user.getUserRole()) &&
-                Objects.equals(getPassword(), user.getPassword()) &&
-                Objects.equals(getPhone(), user.getPhone()) &&
-                Objects.equals(getAssignedScreenBits(), user.getAssignedScreenBits()) &&
-                Objects.equals(getPhotoPath(), user.getPhotoPath()) &&
-                Objects.equals(getTitle(), user.getTitle()) &&
-                Objects.equals(getGender(), user.getGender());
+        return Objects.equals(this.getId(), user.getId()) &&
+                Objects.equals(this.getFirstName(), user.getFirstName()) &&
+                Objects.equals(this.getLastName(), user.getLastName()) &&
+                Objects.equals(this.getUserName(), user.getUserName()) &&
+                Objects.equals(this.getEmail(), user.getEmail()) &&
+                Objects.equals(this.getUserRole(), user.getUserRole()) &&
+                Objects.equals(this.getPassword(), user.getPassword()) &&
+                Objects.equals(this.getPhone(), user.getPhone()) &&
+                Objects.equals(this.getAssignedScreenBits(), user.getAssignedScreenBits()) &&
+                Objects.equals(this.getPhotoPath(), user.getPhotoPath()) &&
+                Objects.equals(this.getTitle(), user.getTitle()) &&
+                Objects.equals(this.getGender(), user.getGender());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getUserName(), getEmail(), getUserRole(), getPassword(), getPhone(), getAssignedScreenBits(), getPhotoPath(), getTitle(), getGender());
+        return Objects.hash(this.getId(), this.getFirstName(), this.getLastName(), this.getUserName(), this.getEmail(), this.getUserRole(), this.getPassword(), this.getPhone(), this.getAssignedScreenBits(), this.getPhotoPath(), this.getTitle(), this.getGender());
     }
 
     @Override
@@ -362,16 +362,31 @@ public class User {
         return this.userName.getValue() + " - " + this.firstName.getValue() + " " + this.lastName.getValue();
     }
 
-    public void addScreenAssignment(ScreenBit screenBit) {
+    /**
+     * Adds a ScreenBit to the User's list of assigned ScreenBits.
+     * @param screenBit assigned ScreenBit
+     */
+    public void addScreenAssignment(final ScreenBit screenBit) {
         this.assignedScreenBits.add(screenBit);
     }
 
-    public void removeScreenBit(ScreenBit screenBit) {
-        assignedScreenBits.remove(screenBit);
+    /**
+     * Removes a ScreenBit from the User's list of assigned ScreenBits.
+     * @param screenBit ScreenBit to be removed.
+     */
+    public void removeScreenBit(final ScreenBit screenBit) {
+        this.assignedScreenBits.remove(screenBit);
     }
 
-    public void updateScreenBit(ScreenBit oldScreenBit, ScreenBit newScreenBit) {
-        assignedScreenBits.remove(oldScreenBit);
-        assignedScreenBits.add(newScreenBit);
+    /**
+     * Updates a ScreenBit in the User's list of assigned ScreenBits.
+     * @param oldScreenBit ScreenBit to be removed.
+     * @param newScreenBit ScreenBit to be removed.
+     */
+    public void updateScreenBit(final ScreenBit oldScreenBit, ScreenBit newScreenBit) {
+        this.assignedScreenBits.remove(oldScreenBit);
+        this.assignedScreenBits.add(newScreenBit);
     }
+
+
 }

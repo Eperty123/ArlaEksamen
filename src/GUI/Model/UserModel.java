@@ -169,6 +169,10 @@ public final class UserModel {
         }
     }
 
+    /**
+     * Updates the DepartmentUser table in the database, with relations between departments and users.
+     * @param departments
+     */
     public void updateUserDepartment(List<Department> departments) {
         userManager.updateUserDepartment(departments);
     }

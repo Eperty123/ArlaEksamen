@@ -11,6 +11,11 @@ import java.time.format.DateTimeFormatter;
 
 public final class ClockCalender {
 
+    /**
+     * This method is used to animate the labels displaying date and time on the GUI. The format can me modified
+     * by editing the formatString, and the refresh rate can be changed using the Duration.millis().
+     * @param dateTimeLabel label to be updated.
+     */
     public static void initClock(Label dateTimeLabel) {
         Timeline dateTime = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             DateTimeFormatter formatString = DateTimeFormatter.ofPattern("HH:mm:ss   |   dd/MM-yyyy");

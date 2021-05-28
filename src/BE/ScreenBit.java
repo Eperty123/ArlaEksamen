@@ -44,14 +44,6 @@ public class ScreenBit {
         this.messages = new ArrayList<>();
     }
 
-    public ScreenBit(int id, String name, String screenInfo, List<User> assignedUsers, List<Message> messages) {
-        this.id = id;
-        this.name = name;
-        this.screenInfo = screenInfo;
-        this.assignedUsers = assignedUsers;
-        this.messages = messages;
-        this.timeTable = new HashMap<>();
-    }
 
     /**
      * Get the Screen id.
@@ -161,27 +153,53 @@ public class ScreenBit {
         this.pane = pane;
     }
 
-    // TODO Jonas javadoc
+    /**
+     * Get the ScreenBit's messages.
+     * @return list of messages.
+     */
     public List<Message> getMessages() {
         return this.messages;
     }
 
+    /**
+     * Sets the ScreenBit's messages.
+     * @param messages list of messages.
+     */
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
 
+    /**
+     * Adds a message to the ScreenBit's messages.
+     * @param message
+     */
     public void addMessage(Message message){
         this.messages.add(message);
     }
 
+    /**
+     * Removes a message from the ScreenBit.
+     * @param message
+     */
     public void removeMessage(Message message){
         this.messages.remove(message);
     }
 
+    /**
+     * Checks to se if a given timeslot is available for booking on the screen.
+     * If a message is already assigned for this timeslot, false will be returned and vice versa.
+     * @return
+     */
     public HashMap<LocalDateTime, Boolean> getTimeTable() {
         return this.timeTable;
     }
 
+    /**
+     * Checks to see what message should be displayed on the ScreenBit currently.
+     * Admin messages will have top priority, otherwise the message with start time < now, and
+     * end time > now will be returned.
+     * @return
+     */
     public Message getCurrentMessage(){
         for(Message m : this.messages){
             if(m.getMessageType() == MessageType.Admin){
@@ -195,6 +213,11 @@ public class ScreenBit {
         return this.messages.get(0);
     }
 
+    /**
+     * Looks at a message's start time and duration, and books the appropriate time slots from the
+     * ScreenBit's timetable.
+     * @param message
+     */
     public void bookTimeSlots(Message message){
         int slotCount = TimeSlotCalculator.calculateTimeSlots(message);
 
