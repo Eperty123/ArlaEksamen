@@ -17,21 +17,30 @@ public class TableDragMod {
     private static TableView<User> initialTableView;
     private static TableView<User> finalTableView;
     private static final User userPlaceHolder = new User("", "", "", -1);
-    private static TableView<User> dontDeleteFromTable;
     private static final List<User> selections = new ArrayList<>();
     private static final List<TableView<User>> tableViews = new ArrayList<>();
+    private static final List<TableView<User>> uneditableTables = new ArrayList<>();
 
-    public static void setDontDeleteFromTable(TableView<User> dontDeleteFromTable) {
-        TableDragMod.dontDeleteFromTable = dontDeleteFromTable;
+    /**
+     * Makes a table uneditable
+     * @param uneditableTable
+     */
+    public static void setUeditableTable(TableView<User> uneditableTable) {
+        if(!uneditableTables.contains(uneditableTable))
+            uneditableTables.add(uneditableTable);
     }
 
     /**
-     * Does a lot of stuff to make items in a table be draggable
+     * Adds listeners to a the given table to make items in the table be draggable
      *
      * @param tableView the tableView you want to be draggable
      */
     public static void makeTableDraggable(TableView<User> tableView) {
-        if (tableView != dontDeleteFromTable)
+        doMakeTableDraggable(tableView);
+    }
+
+    private static void doMakeTableDraggable(TableView<User> tableView) {
+        if (!uneditableTables.contains(tableView))
             tableViews.add(tableView);
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         //If the table is empty we add a user place holder, no users in a tables makes problems
@@ -106,7 +115,7 @@ public class TableDragMod {
                             dI = finalTableView.getItems().get(dropIndex);
                         }
 
-                    if (!initialTableView.equals(dontDeleteFromTable)) {
+                    if (!uneditableTables.contains(initialTableView)) {
                         for (User u : selections)
                             initialTableView.getItems().remove(u);
                     }

@@ -51,8 +51,7 @@ public class Timer {
      * per standard it has duration of 30 seconds
      */
     public Timer() {
-        String time = DataModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION).getAttribute();
-        Long l = Long.valueOf(time);
+        Long l = Long.valueOf(5);
 
         setTimeoutDuration(Duration.ofSeconds(l));
     }
