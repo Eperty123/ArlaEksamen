@@ -3,6 +3,7 @@ package GUI.Controller.DPT;
 import BE.Department;
 import BE.User;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import com.jfoenix.controls.JFXButton;
@@ -26,6 +27,7 @@ import javafx.scene.paint.Paint;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class DepartmentViewController implements Initializable {
@@ -101,7 +103,13 @@ public class DepartmentViewController implements Initializable {
         removeIcon.setOnMouseClicked((v) -> {
             if (ConfirmationDialog.createConfirmationDialog("Are you sure you want to remove this department?\n\n" +
                     "This action is not reversible")) {
-                DataModel.getInstance().deleteDepartment(department);
+                try {
+                    DataModel.getInstance().deleteDepartment(department);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                    WarningController.createWarning("Oh no! Something went wrong when attempting to delete a department " +
+                            "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+                }
                 superAC.getChildren().clear();
             }
         });

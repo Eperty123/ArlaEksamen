@@ -87,7 +87,13 @@ public class EditEmployeeController implements Initializable {
             Department newDepartment = chsDepartment.getValue();
 
 
-            DataModel.getInstance().updateUser(newUser, newDepartment);
+            try {
+                DataModel.getInstance().updateUser(newUser, newDepartment);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong when attempting to update a user " +
+                        "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            }
 
 
             Stage stage = (Stage) root.getScene().getWindow();

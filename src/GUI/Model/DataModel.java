@@ -74,7 +74,7 @@ public class DataModel {
         }
     }
 
-    public void deleteTitle(String title){
+    public void deleteTitle(String title) throws SQLException {
         if(titles.contains(title)){
             titleModel.deleteTitle(title);
             titles.remove(title);
@@ -123,7 +123,7 @@ public class DataModel {
     }
 
     // update to only use new user
-    public void updateUser(User user, Department department) {
+    public void updateUser(User user, Department department) throws SQLException {
 
         userModel.updateUser(user, department);
         User userToDelete = new User();
@@ -176,7 +176,7 @@ public class DataModel {
         });
     }
 
-    public void deleteUser(User user) {
+    public void deleteUser(User user) throws SQLException {
         userModel.deleteUser(user);
         users.remove(user);
         deleteUserFromDepartments(user);
@@ -329,7 +329,7 @@ public class DataModel {
         });
     }
 
-    public void deleteDepartment(Department d) {
+    public void deleteDepartment(Department d) throws SQLException {
         departmentModel.deleteDepartment(d);
         departments.remove(d);
     }
@@ -369,7 +369,7 @@ public class DataModel {
 
     // _____ Messages _____
 
-    public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
+    public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
         messageModel.addMessage(user, newMessage, assignedScreenBits);
         messages.add(newMessage);
         addMessageToScreenBits(newMessage, assignedScreenBits);

@@ -26,6 +26,7 @@ public class ScreenDAL {
 
         // First the ScreenBit is deleted from the ScreenRights junction table.
         try (Connection con = dbCon.getConnection()) {
+
             con.setAutoCommit(false); // Enable transaction
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             deleteScreenBitUserAssociations(con, screenBit);

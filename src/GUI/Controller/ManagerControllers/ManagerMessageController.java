@@ -32,6 +32,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -248,7 +249,13 @@ public class ManagerMessageController implements Initializable {
         if (selectedMessage == null) {
             Message newMessage = getMessage();
             // Add the message to database.
-            DataModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
+            try {
+                DataModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong when attempting to add a message " +
+                        "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            }
         } else {
             var confirmUpdate = ConfirmationDialog.createConfirmationDialog("Are you sure you want to update the existing bug report?");
 

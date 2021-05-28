@@ -141,10 +141,12 @@ public class MessageDAL {
      * @param newMessage Object containing the new message information.
      * @param assignedScreenBits ScreenBit(s) to have the message assigned to it.
      */
-    public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
+    public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
 
         try(Connection con = dbCon.getConnection()){
 
+            con.setAutoCommit(false); // Enable transaction
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Message VALUES(?,?,?,?,?,?,?)");
             pSql.setInt(1, newMessage.getId());
             pSql.setString(2, newMessage.getMessage());
@@ -153,20 +155,29 @@ public class MessageDAL {
             pSql.setString(5, String.valueOf(newMessage.getTextColor()));
             pSql.setInt(6, newMessage.getMessageType().ordinal());
             pSql.setString(7, user.getUserName());
-            pSql.execute();
 
+            try{
+                pSql.execute();
+                // Toggle's the ScreenBits timetable, so that it is booked during the message's duration.
+                if(newMessage.getMessageType() != MessageType.Admin){
+                    bookTimeSlots(con, newMessage, assignedScreenBits);
+                }
 
-
-            // Toggle's the ScreenBits timetable, so that it is booked during the message's duration.
-            if(newMessage.getMessageType() != MessageType.Admin){
-                bookTimeSlots(con, newMessage, assignedScreenBits);
+            } catch (SQLException throwables){
+                con.rollback();
+                con.setAutoCommit(true);
+                con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+                throw throwables;
             }
+
+            con.commit();
+            con.setAutoCommit(true);
+            con.setTransactionIsolation(Connection.TRANSACTION_NONE);
 
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add a message " +
-                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
             // Creates associations between message and ScreenBit(s) in the ScreenMessage junction table.
             assignScreenBitMessages(user, newMessage, assignedScreenBits);

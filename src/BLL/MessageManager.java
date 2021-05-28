@@ -7,6 +7,7 @@ import DAL.MessageDAL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class MessageManager {
@@ -17,7 +18,7 @@ public class MessageManager {
         this.messageDAL = new MessageDAL();
     }
 
-    public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) {
+    public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
         this.messageDAL.addMessage(user, newMessage, assignedScreenBits);
     }
 
