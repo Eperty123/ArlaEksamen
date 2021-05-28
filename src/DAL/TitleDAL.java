@@ -67,7 +67,7 @@ public class TitleDAL {
         return titles;
     }
 
-    public void updateTitle(String oldTitle, String title){
+    public void updateTitle(String oldTitle, String title) throws SQLException {
 
         try(Connection con = dbCon.getConnection()){
             PreparedStatement pSql = con.prepareStatement("UPDATE Title SET Title=? WHERE Title=?");
@@ -75,9 +75,10 @@ public class TitleDAL {
             pSql.setString(2, oldTitle);
             pSql.execute();
         } catch (SQLException throwables) {
+
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to update a title " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
+
         }
     }
 

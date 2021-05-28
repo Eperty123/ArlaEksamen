@@ -84,7 +84,7 @@ public class DepartmentDAL {
         pSql.execute();
     }
 
-    // TODO join with users.
+
     public List<Department> getDepartments() {
         List<Department> departments = new ArrayList<>();
 

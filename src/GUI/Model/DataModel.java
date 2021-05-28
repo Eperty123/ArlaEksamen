@@ -4,7 +4,9 @@ import BE.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class DataModel {
@@ -16,12 +18,16 @@ public class DataModel {
     private DepartmentModel departmentModel;
     private MessageModel messageModel;
     private TitleModel titleModel;
+    private BugModel bugModel;
 
     private ObservableList<User> users;
     private ObservableList<ScreenBit> screenBits;
     private ObservableList<Department> departments;
-    private ObservableList<Message> messages; // TODO maybe change to currentUsersMessages?
+    private ObservableList<Message> messages;
     private ObservableList<String> titles;
+    private ObservableList<Bug> bugs;
+    private ObservableList<Bug> unresolvedBugs;
+
 
 
     private DataModel(){
@@ -30,39 +36,29 @@ public class DataModel {
 
     private void initialize() {
 
-        // TODO prioritize, and make a thread for concurrent init
-        userModel = UserModel.getInstance();
 
-        screenBits = FXCollections.observableArrayList();
+
+        departmentModel = DepartmentModel.getInstance();
+        messageModel = MessageModel.getInstance();
+        screenModel = ScreenModel.getInstance();
+        titleModel = TitleModel.getInstance();
+        userModel = UserModel.getInstance();
+        bugModel = BugModel.getInstance();
+
+        unresolvedBugs = FXCollections.observableArrayList();
         departments = FXCollections.observableArrayList();
+        screenBits = FXCollections.observableArrayList();
         messages = FXCollections.observableArrayList();
         titles = FXCollections.observableArrayList();
         users = FXCollections.observableArrayList();
+        bugs = FXCollections.observableArrayList();
 
-        users.addAll(userModel.getAllUsers());
-
-
-        screenModel = ScreenModel.getInstance();
-        departmentModel = DepartmentModel.getInstance();
-        messageModel = MessageModel.getInstance();
-        titleModel = TitleModel.getInstance();
-
-        // TODO use internal
-
-        screenBits.addAll(screenModel.getAllScreenBits());
         departments.addAll(departmentModel.getAllDepartments());
+        screenBits.addAll(screenModel.getAllScreenBits());
         messages.addAll(messageModel.getAllMessages());
         titles.addAll(titleModel.getTitles());
-
-
-
-
-
-
-
-
-
-
+        users.addAll(userModel.getAllUsers());
+        bugs.addAll(bugModel.getAllBugs());
     }
 
     public static DataModel getInstance(){
@@ -85,7 +81,7 @@ public class DataModel {
         }
     }
 
-    public void updateTitle(String oldTitle, String newTitle){
+    public void updateTitle(String oldTitle, String newTitle) throws SQLException {
         titleModel.updateTitle(oldTitle, newTitle);
         titles.remove(oldTitle);
         titles.add(newTitle);
@@ -112,6 +108,7 @@ public class DataModel {
 
     public void addUser(User newUser, Department department) {
         if (users.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
+            userModel.addUser(newUser, department);
             users.add(newUser);
             addUserToDepartment(newUser, department);
         }
@@ -125,26 +122,37 @@ public class DataModel {
         });
     }
 
-    public void updateUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
+    // update to only use new user
+    public void updateUser(User user, Department department) {
 
-        if(oldDepartment.getId() != newDepartment.getId() && oldUser.equals(newUser)){
-            moveUser(oldUser, oldUser, oldDepartment, newDepartment);
-        } else if (oldDepartment.getId() != newDepartment.getId() && !oldUser.equals(newUser)){
-            moveUser(oldUser, newUser, oldDepartment, newDepartment);
+        userModel.updateUser(user, department);
+        User userToDelete = new User();
+        for (User u : users) {
+            if (u.getId() == user.getId()) {
+                userToDelete = u;
+
+            }
         }
-        userModel.updateUser(oldUser, newUser, oldDepartment, newDepartment);
-        users.remove(oldUser);
-        users.add(newUser);
+        users.remove(userToDelete);
+        users.add(user);
+        moveUser(user, department);
 
     }
 
-    private void moveUser(User oldUser, User newUser, Department oldDepartment, Department newDepartment) {
-        departments.forEach(dpt -> {
-            if(dpt.getId() == oldDepartment.getId()){ dpt.getUsers().remove(oldUser); }
-        });
-        departments.forEach(dpt -> {
-            if(dpt.getId() == newDepartment.getId()){ dpt.getUsers().add(newUser); }
-        });
+    private void moveUser(User user, Department department) {
+        for(Iterator<Department> dptIterator = departments.iterator(); dptIterator.hasNext();){
+            Department dpt = dptIterator.next();
+
+            for(Iterator<User> userIterator = dpt.getUsers().iterator(); userIterator.hasNext();){
+                User u = userIterator.next();
+                if(u.getId() == user.getId()){
+                    userIterator.remove();
+                }
+            }
+            if(dpt.getId() == department.getId()){
+                dpt.addUser(user);
+            }
+        }
     }
 
     public void updateUserDepartment(List<Department> departments){
@@ -248,7 +256,7 @@ public class DataModel {
      *
      * @param screenBit object containing information to identify the row in the database.
      */
-    public void deleteScreenBit(ScreenBit screenBit) {
+    public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
         screenModel.deleteScreenBit(screenBit);
         users.forEach(u -> {
             if(u.getAssignedScreenBits().contains(screenBit)){ u.removeScreenBit(screenBit); }
@@ -396,6 +404,7 @@ public class DataModel {
             });
     }
 
+
     public void updateMessage(Message oldMessage, Message newMessage) {
         messageModel.updateMessage(oldMessage, newMessage);
         messages.remove(oldMessage);
@@ -425,6 +434,54 @@ public class DataModel {
 
     public void loadScreenBitsMessages(ScreenBit screen) {
         messageModel.loadScreenBitsMessages(screen);
+    }
+
+    // _____ Bugs _____
+
+    public void addBug(Bug newBug) {
+        bugModel.addBug(newBug);
+    }
+
+    public void updateBug(Bug oldBug, Bug newBug) {
+        bugModel.updateBug(oldBug, newBug);
+        bugs.remove(oldBug);
+        bugs.add(newBug);
+    }
+
+    public void deleteBug(Bug bug) {
+        bugModel.deleteBug(bug);
+        bugs.remove(bug);
+    }
+
+    public ObservableList<Bug> getAllBugs() {
+        return bugs;
+    }
+
+    public ObservableList<Bug> getAllUnresolvedBugs() {
+        ObservableList<Bug> unresolvedBugs = FXCollections.observableArrayList();
+        for(Bug b : bugs){
+            if(!b.isBugResolved()){
+                unresolvedBugs.add(b);
+            }
+        }
+        return unresolvedBugs;
+    }
+
+    public void updateAllBugs() {
+        var managerBugs = bugs;
+        List<Bug> _unresolvedBugs = new ArrayList<>();
+
+
+        // Loop through the DAL bugs. This is to not let the Snackbar spam the admin about incoming bug reports for each bug.
+        managerBugs.forEach((x) -> {
+            if (!x.isBugResolved()) {
+                _unresolvedBugs.add(x);
+            }
+        });
+
+        // Now set the unresolved bug ObservableList.
+        unresolvedBugs.setAll(_unresolvedBugs);
+
     }
 
 }

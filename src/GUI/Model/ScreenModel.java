@@ -6,6 +6,7 @@ import BLL.ScreenManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public final class ScreenModel {
@@ -63,7 +64,7 @@ public final class ScreenModel {
      *
      * @param screenBit object containing information to identify the row in the database.
      */
-    public void deleteScreenBit(ScreenBit screenBit) {
+    public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
         screenManager.deleteScreenBit(screenBit);
 
     }

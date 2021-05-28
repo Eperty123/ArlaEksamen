@@ -60,7 +60,6 @@ public class EditEmployeeController implements Initializable {
 
 
     private User oldUser;
-    private final UserModel userModel = UserModel.getInstance();
     private final PasswordManager passwordManager = new PasswordManager();
 
     public void handleSave(ActionEvent actionEvent) {
@@ -68,6 +67,7 @@ public class EditEmployeeController implements Initializable {
                 && !txtEmail.getText().isEmpty() && !txtPhoneNumber.getText().isEmpty() && chsSex.getSelectionModel().getSelectedItem() != null
                 && chsDepartment.getSelectionModel() != null && chsRole.getSelectionModel().getSelectedItem() != null && !txtUsername.getText().isEmpty()
                 && !txtPassword.getText().isEmpty()) {
+            int id = oldUser.getId();
             String firstName = txtFirstname.getText();
             String lastName = txtLastname.getText();
             String jobTitle = chsTitle.getValue();
@@ -81,18 +81,13 @@ public class EditEmployeeController implements Initializable {
             String imgPath = image.getImage().getUrl().isEmpty() ? new Image("/GUI/Resources/defaultPerson.png").getUrl() : image.getImage().getUrl();
 
 
-            //public User(String firstName, String lastName, String userName, String email, int password, int userRole, int phoneNumber, Enum gender, String photoPath, String title) {
-
-            User newUser = new User(firstName, lastName, username, email, password, userRole.ordinal(), phone, sex, imgPath, jobTitle);
+            User newUser = new User(id, firstName, lastName, username, email, password, userRole.ordinal(), phone, sex, imgPath, jobTitle);
 
 
-            Department oldDepartment = getUsersDepartment();
             Department newDepartment = chsDepartment.getValue();
 
-            oldDepartment.getUsers().remove(oldUser);
-            newDepartment.addUser(newUser);
 
-            DataModel.getInstance().updateUser(oldUser, newUser, oldDepartment, newDepartment);
+            DataModel.getInstance().updateUser(newUser, newDepartment);
 
 
             Stage stage = (Stage) root.getScene().getWindow();
