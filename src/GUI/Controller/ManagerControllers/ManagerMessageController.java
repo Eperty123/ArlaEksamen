@@ -347,8 +347,15 @@ public class ManagerMessageController implements Initializable {
 
     public void showSelectedMessage(MouseEvent mouseEvent) {
 
-        selectedMessage = comingMessages.getSelectionModel().getSelectedItem();
+        if(selectedMessage != null && selectedMessage.getId() == comingMessages.getSelectionModel().getSelectedItem().getId()){
+            comingMessages.getSelectionModel().clearSelection();
+            selectedMessage = null;
+        } else {
+            selectedMessage = comingMessages.getSelectionModel().getSelectedItem();
+        }
+
         if (selectedMessage != null) {
+
             // If the user has written text in message that don't match the selected message, ask for confirmation
             // to override the current data.
             if (!messageArea.getText().equals(selectedMessage.getMessage()) && !messageArea.getText().isEmpty()) {
@@ -357,6 +364,8 @@ public class ManagerMessageController implements Initializable {
                 if (confirmation) loadSelectedMessage(selectedMessage);
             } else if (messageArea.getText().isEmpty())
                 loadSelectedMessage(selectedMessage);
+        } else{
+            clearMessageFields();
         }
     }
 
