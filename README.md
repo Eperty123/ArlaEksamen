@@ -26,6 +26,9 @@ Arla Infographic System or AIS is a clean, all in one infographic system created
 - Screen viewing for employees which can contain all JavaFX chart types aswell as a webview, PDF View and a configurable message.
 - A messaging system in which a higher ranking employee can set a time based message for each individual screen the higher ranking employee has access to.
 - An orginization diagram display which displays all employees sorted after title, with the ability to look up a employees personal information name, mail and phone number.
+- A infoboard with departments and users in those departments.
+- Settings system for admins, with ability to customize message update freq. Length of time a user has to wait if they try to login with credentials that doesnt exist and how long a employee card is open for before auto closing.
+- Basic encryption for storing passwords in database.
 
 
 [Back To The Top](#Arla-Infographic-System)
@@ -47,6 +50,9 @@ To login and use the system, you can use the following credentials to access dif
 - IT-Administrator
     - Username: admtest
     - Password: testa
+- HR
+    - Username: hrtest
+    - Password: testhr
 
 #### VM options
 ```
@@ -86,7 +92,6 @@ javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED
 - org.apache.poi:poi:4.1.1
 - org.junit.jupiter:junit-jupiter:5.5.2
 - org.openjfx:javafx-fxml:16
-- org.openjfx:javafx-fxml:16-ea+7
 - org.openjfx:javafx-web:16
 
 [Back To The Top](#Arla-Infographic-System)
