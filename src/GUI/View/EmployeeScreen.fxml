@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" stylesheets="@../Resources/Styles.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.EmployeeScreenController">
+<BorderPane fx:id="root" stylesheets="@../Resources/Styles.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller.EmployeeScreenController">
    <center>
       <AnchorPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../Resources/Styles.css">
          <children>
@@ -88,7 +88,7 @@
                <left>
                   <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="242.0" BorderPane.alignment="CENTER">
                      <children>
-                        <JFXButton layoutX="152.0" onAction="#handleReportIssue" onTouchPressed="#handleReportIssue" prefHeight="25.0" prefWidth="90.0" styleClass="SMButtons" text="Repport issue" />
+                        <JFXButton layoutX="152.0" onAction="#handleReportIssue" onTouchPressed="#handleReportIssue" prefHeight="25.0" prefWidth="90.0" styleClass="SMButtons" text="Report issue" />
                         <Label fx:id="lblTime" layoutX="18.0" layoutY="4.0" text="Label" />
                      </children>
                   </Pane>

@@ -96,7 +96,7 @@
                         </JFXButton>
                      </right>
                      <left>
-                        <Label fx:id="lblTime" text="Label" BorderPane.alignment="CENTER">
+                        <Label fx:id="lblTime" layoutX="18.0" layoutY="4.0" text="Label" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets left="5.0" />
                            </BorderPane.margin>

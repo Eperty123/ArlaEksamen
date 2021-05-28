@@ -32,7 +32,7 @@ public class ScreenDAL {
             deleteScreenBitUserAssociations(con, screenBit);
             deleteScreenBitTimeTable(con,screenBit);
             deleteScreenBitMessage(con,screenBit);
-            PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreQadmtesten WHERE Id=?");
+            PreparedStatement pSql = con.prepareStatement("DELETE FROM Screen WHERE Id=?");
             pSql.setInt(1, screenBit.getId());
 
             try{

@@ -127,7 +127,7 @@ public class DepartmentViewController implements Initializable {
 
     public void setDepartment(Department department) {
         this.department = department;
-        this.subDepartments = department.getSubDepartments();
+        this.subDepartments = FXCollections.observableArrayList(department.getSubDepartments());
         dptUsersTable.setItems(department.getUsers());
         department.setDepartmentViewController(this);
 
@@ -156,14 +156,24 @@ public class DepartmentViewController implements Initializable {
     }
 
     private void addSubDepartment() {
+        for (Department d : DataModel.getInstance().getDepartments()) {
+            if (d.getManager().getUserName() == "place") {
+                WarningController.createWarning("Could not create a new department since " + d.getName() + " needs a manager.");
+                return;
+            }
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
             AnchorPane pane = loader.load();
             DepartmentViewController con = loader.getController();
             Department dpt = new Department("New Department" + dptCount++);
-            department.addSubDepartment(dpt);
+            User mgr = new User();
+            mgr.setUserName("place");
+            dpt.setManager(mgr);
             DataModel.getInstance().addDepartment(dpt);
             DataModel.getInstance().addSubDepartment(department, dpt);
+            department.getSubDepartments().add(dpt);
+            subDepartments.add(dpt);
             con.setDepartment(dpt);
             department.setDepartmentViewController(con);
             hBox.getChildren().add(hBox.getChildren().size() - 1, pane);
