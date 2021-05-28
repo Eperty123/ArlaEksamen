@@ -17,6 +17,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -242,22 +243,20 @@ public class ManagerMessageController implements Initializable {
     }
 
     public void handleSave() {
-
-
-
         // If no previous message is selected, create new and add it to the database.
         if (selectedMessage == null) {
             Message newMessage = getMessage();
             // Add the message to database.
             try {
                 DataModel.getInstance().addMessage(currentUser, newMessage, selectedScreens);
+                currentUsersMessages.add(newMessage);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong when attempting to add a message " +
                         "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
             }
         } else {
-            var confirmUpdate = ConfirmationDialog.createConfirmationDialog("Are you sure you want to update the existing bug report?");
+            var confirmUpdate = ConfirmationDialog.createConfirmationDialog("Are you sure you want to update the existing message report?");
 
             if (confirmUpdate){
                 Message updatedMessage = getUpdatedMessage();
@@ -268,7 +267,6 @@ public class ManagerMessageController implements Initializable {
         }
 
         // Then reload all the updated messages.
-        currentUsersMessages.setAll(DataModel.getInstance().getUsersMessages(currentUser));
         sortMessagesByStartTime();
         clearMessageFields();
     }
@@ -336,6 +334,7 @@ public class ManagerMessageController implements Initializable {
         minuteBox.setValue(0);
         durationHoursChoice.setValue(0);
         durationMinutesChoice.setValue(0);
+        selectedMessage=null;
     }
 
     @FXML
@@ -370,7 +369,7 @@ public class ManagerMessageController implements Initializable {
         }
     }
 
-    public void showSelectedMessage(MouseEvent mouseEvent) {
+    public void showSelectedMessage() {
 
         if(selectedMessage != null && selectedMessage.getId() == comingMessages.getSelectionModel().getSelectedItem().getId()){
             comingMessages.getSelectionModel().clearSelection();
@@ -397,8 +396,14 @@ public class ManagerMessageController implements Initializable {
     public void handleDeleteMessage() {
         if (comingMessages.getSelectionModel().getSelectedItem() != null) {
             MessageModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
+            currentUsersMessages.remove(comingMessages.getSelectionModel().getSelectedItem());
+            clearMessageFields();
         } else {
             WarningController.createWarning("Please select a message to delete!");
         }
+    }
+
+    public void resetMessage() {
+        clearMessageFields();
     }
 }
