@@ -15,7 +15,11 @@ public class DepartmentBuilder implements IDepartmentBuilder{
 
     private List<Department> departments = new ArrayList<>();
 
-
+    /**
+     * Creates a department with a placeholder User, as manager. This will be updated by the addUsers() method.
+     * @param rs
+     * @throws SQLException
+     */
     @Override
     public void makeDepartment(ResultSet rs) throws SQLException {
         User placeHolderUser = new User("PlaceHolder");
@@ -29,6 +33,11 @@ public class DepartmentBuilder implements IDepartmentBuilder{
         rs.beforeFirst();
     }
 
+    /**
+     * Adds users (users, and a manager) to the departments. Users are created from the passed ResultSet.
+     * @param rs ResultSet containing Department, User and Sub Department info.
+     * @throws SQLException
+     */
     @Override
     public void addUsers(ResultSet rs) throws SQLException {
 
@@ -48,6 +57,11 @@ public class DepartmentBuilder implements IDepartmentBuilder{
         rs.beforeFirst();
     }
 
+    /**
+     * Assigns sub departments to the super department, based on the passed ResultSet.
+     * @param rs
+     * @throws SQLException
+     */
     @Override
     public void addSubdepartments(ResultSet rs) throws SQLException {
         while (rs.next()) {

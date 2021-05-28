@@ -138,4 +138,12 @@ public class DepartmentModel {
             instance = null;
         }
     }
+
+    /**
+     * Returns a list of the departments(') super departments.
+     * @return
+     */
+    public List<Department> getSuperDepartments() {
+        return departmentManager.getSuperDepartment();
+    }
 }
