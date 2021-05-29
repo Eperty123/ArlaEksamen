@@ -5,7 +5,7 @@ import BLL.EmailManager;
 import BLL.LoginManager;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.WarningController;
-import GUI.Controller.StageBuilder;
+import BLL.StageBuilder;
 import GUI.Model.DataModel;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.application.Platform;
