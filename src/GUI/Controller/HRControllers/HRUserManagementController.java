@@ -62,9 +62,16 @@ public class HRUserManagementController implements Initializable {
         // Remove all nodes.
         flowpane.getChildren().clear();
 
-        // Add all screens.
-        for (User u : UserModel.getInstance().getAllUsers()) {
-            handleNewUser(u);
+
+        try {
+            // Add all screens.
+            for (User u : UserModel.getInstance().getAllUsers()) {
+                handleNewUser(u);
+            }
+        }
+        catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all users! Please try again. If this persists, contact an IT-Administrator.");
         }
     }
 

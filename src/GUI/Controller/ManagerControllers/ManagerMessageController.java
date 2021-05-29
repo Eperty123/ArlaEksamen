@@ -93,11 +93,15 @@ public class ManagerMessageController implements Initializable {
 
         // Set the Message Model's current user to be the one now. Needed in order to know which manager messages to load.
 
-        // Then get all the user's (manager) messages.
-        currentUsersMessages.setAll(DataModel.getInstance().getUsersMessages(currentUser));
-
-        // Sort the messages by start time (date & time reported).
-        sortMessagesByStartTime();
+        try {
+            // Then get all the user's (manager) messages.
+            currentUsersMessages.setAll(DataModel.getInstance().getUsersMessages(currentUser));
+            // Sort the messages by start time (date & time reported).
+            sortMessagesByStartTime();
+        } catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all user messages! Please try again. If this persists, contact an IT-Administrator.");
+        }
     }
 
     /**
@@ -151,15 +155,22 @@ public class ManagerMessageController implements Initializable {
         // Remove all nodes.
         screenContainer.getChildren().clear();
         currentUser = LoginManager.getCurrentUser();
-        if (currentUser.getUserRole() == UserType.Admin) {
-            for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
-                makeScreen(s);
+
+        try {
+            if (currentUser.getUserRole() == UserType.Admin) {
+                for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
+                    makeScreen(s);
+                }
+            } else {
+                // Add all screens.
+                for (ScreenBit s : currentUser.getAssignedScreenBits()) {
+                    makeScreen(s);
+                }
             }
-        } else {
-            // Add all screens.
-            for (ScreenBit s : currentUser.getAssignedScreenBits()) {
-                makeScreen(s);
-            }
+        }
+        catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all screens! Please try again. If this persists, contact an IT-Administrator.");
         }
     }
 

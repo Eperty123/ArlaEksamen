@@ -83,9 +83,15 @@ public class HRDepartmentController implements Initializable {
         // Remove all nodes.
         flowpane.getChildren().clear();
 
-        // Add all screens.
-        for (Department d : DataModel.getInstance().getDepartments()) {
-            handleNewDepartment(d);
+        // Add all departments.
+
+        try {
+            for (Department d : DataModel.getInstance().getDepartments()) {
+                handleNewDepartment(d);
+            }
+        } catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all departments! Please try again. If this persists, contact an IT-Administrator.");
         }
     }
 

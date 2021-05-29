@@ -73,8 +73,14 @@ public class HRDashboardController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
-        for (Department department : DataModel.getInstance().getSuperDepartments())
-            con2.addChildrenNode(department);
+
+        try {
+            for (Department department : DataModel.getInstance().getSuperDepartments())
+                con2.addChildrenNode(department);
+        } catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all departments! Please try again. If this persists, contact an IT-Administrator.");
+        }
         JFXButton b = new JFXButton("Save");
         b.getStyleClass().add("addSubDeptButton");
         con2.getChildrenNodes().add(b);

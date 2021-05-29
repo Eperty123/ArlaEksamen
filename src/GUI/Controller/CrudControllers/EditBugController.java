@@ -68,13 +68,19 @@ public class EditBugController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<User> admins = new ArrayList<>();
 
-        for (User u : DataModel.getInstance().getUsers()) {
-            if (u.getUserRole() == UserType.Admin) {
-                admins.add(u);
+        try {
+            for (User u : DataModel.getInstance().getUsers()) {
+                if (u.getUserRole() == UserType.Admin) {
+                    admins.add(u);
+                }
             }
-        }
 
-        chsAdmin.getItems().addAll(admins);
-        chsAdmin.getSelectionModel().selectFirst();
+            chsAdmin.getItems().addAll(admins);
+            chsAdmin.getSelectionModel().selectFirst();
+        }
+        catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all users! Please try again. If this persists, contact an IT-Administrator.");
+        }
     }
 }

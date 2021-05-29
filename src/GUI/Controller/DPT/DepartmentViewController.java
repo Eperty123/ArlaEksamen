@@ -149,9 +149,16 @@ public class DepartmentViewController implements Initializable {
      */
     public void setDepartment(Department department) {
         this.department = department;
-        subDepartments = FXCollections.observableArrayList(department.getSubDepartments());
-        dptUsersTable.setItems(department.getUsers());
-        department.setDepartmentViewController(this);
+
+        try {
+            subDepartments = FXCollections.observableArrayList(department.getSubDepartments());
+            dptUsersTable.setItems(department.getUsers());
+            department.setDepartmentViewController(this);
+        }
+        catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all sub departments! Please try again. If this persists, contact an IT-Administrator.");
+        }
 
         TableDragMod.makeTableDraggable(dptUsersTable);
 
@@ -181,12 +188,20 @@ public class DepartmentViewController implements Initializable {
      * Adds a subDepartment, if there isn't a department with no users
      */
     private void addSubDepartment() {
-        for (Department d : DataModel.getInstance().getDepartments()) {
-            if (d.getManager().getUserName() == "place") {
-                WarningController.createWarning("Could not create a new department since " + d.getName() + " needs a manager.");
-                return;
+
+        try {
+            for (Department d : DataModel.getInstance().getDepartments()) {
+                if (d.getManager().getUserName() == "place") {
+                    WarningController.createWarning("Could not create a new department since " + d.getName() + " needs a manager.");
+                    return;
+                }
             }
         }
+        catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all departments! Please try again. If this persists, contact an IT-Administrator.");
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/View/DPT/DepartmentView.fxml"));
             AnchorPane pane = loader.load();
