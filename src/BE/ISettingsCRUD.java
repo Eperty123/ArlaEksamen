@@ -28,7 +28,7 @@ public interface ISettingsCRUD {
 
     /**
      * Delete the specified settings from the database.
-     * @param settings
+     * @param settings The settings to delete.
      * @throws SQLException
      */
     void deleteSetting(Settings settings) throws SQLException;

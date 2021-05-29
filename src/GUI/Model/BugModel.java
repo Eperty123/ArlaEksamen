@@ -65,12 +65,6 @@ public class BugModel implements IBugCRUD {
         bugManager.deleteBug(bug);
     }
 
-    @Override
-    public boolean hasBugsLoaded() {
-        return bugManager.hasBugsLoaded();
-    }
-
-
     /**
      * Get the singleton instance.
      *

@@ -11,20 +11,14 @@ import java.sql.SQLException;
 public class BugManager implements IBugCRUD {
 
     BugDAL bugDAL = new BugDAL();
-    private ObservableList<Bug> bugsList;
-    private boolean bugsLoaded;
+    private final ObservableList<Bug> bugsList = FXCollections.observableArrayList();
 
     public BugManager() {
         initialize();
     }
 
     private void initialize() {
-        var bugs = bugDAL.getAllBugs();
-        if (bugs != null) {
-            bugsList = FXCollections.observableArrayList();
-            bugsList.addAll(bugs);
-            bugsLoaded = true;
-        }
+        bugsList.addAll(bugDAL.getAllBugs());
     }
 
     /**
@@ -32,6 +26,7 @@ public class BugManager implements IBugCRUD {
      *
      * @return a list of bugs from the database.
      */
+    @Override
     public ObservableList<Bug> getAllBugs() {
         return bugsList;
     }
@@ -41,6 +36,7 @@ public class BugManager implements IBugCRUD {
      *
      * @param bug the given bug to add.
      */
+    @Override
     public void addBug(Bug bug) throws SQLException {
         bugDAL.addBug(bug);
     }
@@ -51,6 +47,7 @@ public class BugManager implements IBugCRUD {
      * @param oldBug     the old bug to be updated.
      * @param updatedBug the updated bug.
      */
+    @Override
     public void updateBug(Bug oldBug, Bug updatedBug) throws SQLException {
         bugDAL.updateBug(oldBug, updatedBug);
     }
@@ -60,12 +57,8 @@ public class BugManager implements IBugCRUD {
      *
      * @param bug the bug to be deleted.
      */
+    @Override
     public void deleteBug(Bug bug) throws SQLException {
         bugDAL.deleteBug(bug);
-    }
-
-    @Override
-    public boolean hasBugsLoaded() {
-        return bugsLoaded;
     }
 }

@@ -59,11 +59,6 @@ public final class MessageModel implements IMessageCRUD {
     }
 
     @Override
-    public boolean hasMessagesLoaded() {
-        return messageManager.hasMessagesLoaded();
-    }
-
-    @Override
     public void loadScreenBitsMessages(ScreenBit screen) throws SQLException {
         messageManager.loadScreenBitsMessages(screen);
     }

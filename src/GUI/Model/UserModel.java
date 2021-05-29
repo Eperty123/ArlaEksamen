@@ -12,13 +12,15 @@ import java.util.List;
 public final class UserModel implements IUserCRUD {
 
     private static UserModel instance;
-    private final ObservableList<User> allUsers;
+    private final ObservableList<User> allUsers = FXCollections.observableArrayList();
     private final UserManager userManager = new UserManager();
 
     public UserModel() {
-        allUsers = FXCollections.observableArrayList();
-        allUsers.addAll(userManager.getUsers());
+        initialize();
+    }
 
+    private void initialize() {
+        allUsers.addAll(userManager.getUsers());
     }
 
     @Override
@@ -32,6 +34,7 @@ public final class UserModel implements IUserCRUD {
      *
      * @param newUser object to be written to the database.
      */
+    @Override
     public void addUser(User newUser, Department department) throws SQLException {
 
         userManager.addUser(newUser, department);
@@ -43,6 +46,7 @@ public final class UserModel implements IUserCRUD {
      *
      * @param users The list of CSVUsers to import.
      */
+    @Override
     public void addUsers(List<CSVUser> users) throws SQLException {
         userManager.addUsers(users);
     }
@@ -52,6 +56,7 @@ public final class UserModel implements IUserCRUD {
      *
      * @return list of all users in the database.
      */
+    @Override
     public ObservableList<User> getAllUsers() {
         return allUsers;
     }
@@ -63,6 +68,7 @@ public final class UserModel implements IUserCRUD {
      * @param user       object used to identify the row that is to be updated.
      * @param department object containing the updated User information.
      */
+    @Override
     public void updateUser(User user, Department department) throws SQLException {
         userManager.updateUser(user, department);
     }
@@ -73,9 +79,14 @@ public final class UserModel implements IUserCRUD {
      *
      * @param user user to be deleted.
      */
+    @Override
     public void deleteUser(User user) throws SQLException {
         userManager.deleteUser(user);
+    }
 
+    @Override
+    public void updateUserDepartment(List<Department> departments) throws SQLException {
+        userManager.updateUserDepartment(departments);
     }
 
     /**
@@ -153,15 +164,6 @@ public final class UserModel implements IUserCRUD {
                 filteredUsers.add(user);
         }
         return filteredUsers;
-    }
-
-    public void updateUserDepartment(List<Department> departments) throws SQLException {
-        userManager.updateUserDepartment(departments);
-    }
-
-    @Override
-    public boolean hasUsersLoaded() {
-        return userManager.hasUsersLoaded();
     }
 
     /**

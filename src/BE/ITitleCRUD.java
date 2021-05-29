@@ -36,11 +36,4 @@ public interface ITitleCRUD {
      * @throws SQLException
      */
     void updateTitle(String oldTitle, String newTitle) throws SQLException;
-
-    /**
-     * Does any title exist in the database at all?
-     *
-     * @return Returns true if yes otherwise false.
-     */
-    boolean hasTitlesLoaded();
 }

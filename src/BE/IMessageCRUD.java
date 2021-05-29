@@ -64,11 +64,4 @@ public interface IMessageCRUD {
      * @return
      */
     ObservableList<Message> getAllMessages();
-
-    /**
-     * Does messages exist in the database at all?
-     *
-     * @return Returns true if yes otherwise false.
-     */
-    boolean hasMessagesLoaded();
 }

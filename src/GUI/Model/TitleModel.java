@@ -44,12 +44,11 @@ public final class TitleModel implements ITitleCRUD {
         return titleManager.getTitles();
     }
 
-    @Override
-    public boolean hasTitlesLoaded() {
-        return titleManager.hasTitlesLoaded();
-    }
-
-
+    /**
+     * Returns an instance of the Singleton TitleModel.
+     *
+     * @return TitleModel.
+     */
     public static TitleModel getInstance() {
         return instance == null ? instance = new TitleModel() : instance;
     }

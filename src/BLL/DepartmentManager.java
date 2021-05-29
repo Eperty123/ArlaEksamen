@@ -13,10 +13,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class DepartmentManager implements IDepartmentCRUD {
-    private ObservableList<Department> departmentList;
+    private final ObservableList<Department> departmentList = FXCollections.observableArrayList();
     private final DepartmentDAL departmentDAL = new DepartmentDAL();
-
-    private boolean departmentLoaded;
 
     public DepartmentManager() {
         initialize();
@@ -29,12 +27,7 @@ public class DepartmentManager implements IDepartmentCRUD {
      */
 
     private void initialize() {
-        var departments = departmentDAL.getDepartments();
-        if (departments != null) {
-            departmentList = FXCollections.observableArrayList();
-            departmentList.addAll(departmentDAL.getDepartments());
-            departmentLoaded = true;
-        }
+        departmentList.addAll(departmentDAL.getDepartments());
     }
 
     @Override
@@ -65,10 +58,12 @@ public class DepartmentManager implements IDepartmentCRUD {
      *
      * @return a list of all departments
      */
+    @Override
     public ObservableList<Department> getAllDepartments() {
         return departmentList;
     }
 
+    @Override
     public void addDepartment(Department department) throws SQLException {
         departmentDAL.addDepartment(department);
     }
@@ -78,6 +73,7 @@ public class DepartmentManager implements IDepartmentCRUD {
      *
      * @param department
      */
+    @Override
     public void removeDepartment(Department department) {
         departmentList.remove(department);
     }
@@ -87,6 +83,7 @@ public class DepartmentManager implements IDepartmentCRUD {
      *
      * @param department the updated department
      */
+    @Override
     public void editDepartment(Department department) throws SQLException {
         departmentDAL.updateDepartment(department);
     }
@@ -97,6 +94,7 @@ public class DepartmentManager implements IDepartmentCRUD {
      * @param department the department you want to delete from the database
      * @throws SQLException
      */
+    @Override
     public void deleteDepartment(Department department) throws SQLException {
         departmentDAL.deleteDepartment(department);
     }
@@ -107,11 +105,8 @@ public class DepartmentManager implements IDepartmentCRUD {
      * @param department    the superDepartment
      * @param subDepartment the subDepartment
      */
+    @Override
     public void addSubDepartment(Department department, Department subDepartment) throws SQLException {
         departmentDAL.addSubDepartment(department, subDepartment);
-    }
-
-    public boolean hasDepartmentsLoaded() {
-        return departmentLoaded;
     }
 }

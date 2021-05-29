@@ -50,11 +50,4 @@ public interface IDepartmentCRUD {
      * @throws SQLException
      */
     void addSubDepartment(Department department, Department subDepartment) throws SQLException;
-
-    /**
-     * Does departments exist in the database at all?
-     *
-     * @return Returns true if yes otherwise false.
-     */
-    boolean hasDepartmentsLoaded();
 }

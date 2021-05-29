@@ -34,6 +34,4 @@ public interface IBugCRUD {
      * @param bug the bug to be deleted.
      */
     void deleteBug(Bug bug) throws SQLException;
-
-    boolean hasBugsLoaded();
 }

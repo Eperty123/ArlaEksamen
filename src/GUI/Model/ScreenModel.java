@@ -96,11 +96,6 @@ public final class ScreenModel implements IScreenCRUD {
 
     }
 
-    @Override
-    public boolean hasScreenBitsLoaded() {
-        return screenManager.hasScreenBitsLoaded();
-    }
-
     /**
      * Returns an instance of the Singleton ScreenManager
      *

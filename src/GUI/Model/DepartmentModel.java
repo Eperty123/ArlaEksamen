@@ -122,10 +122,6 @@ public class DepartmentModel implements IDepartmentCRUD {
         return departmentManager.getAllDepartments();
     }
 
-    public boolean hasDepartmentsLoaded() {
-        return departmentManager.hasDepartmentsLoaded();
-    }
-
     /**
      * Reset the singleton instance.
      */

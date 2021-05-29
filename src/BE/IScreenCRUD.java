@@ -66,11 +66,4 @@ public interface IScreenCRUD {
      * @param screenBit the ScreenBit the association is going to be removed from.
      */
     void removeScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException;
-
-    /**
-     * Does any ScreenBits exist in the database at all?
-     *
-     * @return Returns true if yes otherwise false.
-     */
-    boolean hasScreenBitsLoaded();
 }
