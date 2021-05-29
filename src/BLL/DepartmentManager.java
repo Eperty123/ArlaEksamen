@@ -44,6 +44,7 @@ public class DepartmentManager implements IDepartmentCRUD {
             DataModel.getInstance().getDepartments().forEach(department -> {
                 department.getSubDepartments().forEach(subDepartment -> tmp.remove(subDepartment));
             });
+
             if (DataModel.getInstance().getDepartments().isEmpty()) {
                 Department newDepartment = new Department("new Department");
                 User user = new User();
@@ -51,12 +52,12 @@ public class DepartmentManager implements IDepartmentCRUD {
                 newDepartment.setManager(user);
                 addDepartment(newDepartment);
                 tmp.add(newDepartment);
-                return tmp;
             }
+            return tmp;
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             return null;
         }
-        return null;
     }
 
     /**
