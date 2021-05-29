@@ -1,49 +1,56 @@
 package BLL;
 
+import BE.ITitleCRUD;
 import DAL.TitleDAL;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class TitleManager {
+public class TitleManager implements ITitleCRUD {
 
     private final TitleDAL titleDAL = new TitleDAL();
-
+    
     /**
-     * Adds a title to the database.
-     * @param newTitle
+     * Add the specified title to the database.
+     *
+     * @param newTitle The title to add.
+     * @throws SQLException
      */
-    public void addTitle(String newTitle){
-        this.titleDAL.addTitle(newTitle);
+    @Override
+    public void addTitle(String newTitle) throws SQLException {
+        titleDAL.addTitle(newTitle);
     }
 
     /**
-     * Deletes a title from the database.
-     * @param title
+     * Delete the title from the database.
+     *
+     * @param title The title to delete.
      * @throws SQLException
      */
+    @Override
     public void deleteTitle(String title) throws SQLException {
-        this.titleDAL.deleteTitle(title);
+        titleDAL.deleteTitle(title);
     }
 
     /**
-     * Retrieves all titles stored in the database.
-     * @return
+     * Get a list of titles.
+     *
+     * @return Returns a list of titles.
      */
-    public List<String> getTitles(){
-        return this.titleDAL.getTitles();
+    @Override
+    public List<String> getTitles() {
+        return titleDAL.getTitles();
     }
 
     /**
-     * Updates a title in the database.
-     * @param oldTitle
-     * @param newTitle
+     * Update a title with a new one.
+     *
+     * @param oldTitle The current title to update.
+     * @param newTitle The new title to update to.
      * @throws SQLException
      */
+    @Override
     public void updateTitle(String oldTitle, String newTitle) throws SQLException {
-        this.titleDAL.updateTitle(oldTitle, newTitle);
+        titleDAL.updateTitle(oldTitle, newTitle);
     }
-
-
-
 }

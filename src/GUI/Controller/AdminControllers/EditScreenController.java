@@ -4,6 +4,7 @@ import BE.ScreenBit;
 import BE.Searcher;
 import BE.User;
 import BE.UserType;
+import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DataModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -42,7 +44,7 @@ public class EditScreenController implements Initializable {
 
     }
 
-    public void setData(List<User> users){
+    public void setData(List<User> users) {
         this.users = new ArrayList<>(users);
 
         this.users.removeIf(user -> user.getUserRole() == UserType.Admin ||
@@ -51,10 +53,10 @@ public class EditScreenController implements Initializable {
         lstUsers.getItems().addAll(this.users);
     }
 
-    public void setScreen(ScreenBit screenBit){
+    public void setScreen(ScreenBit screenBit) {
         this.screenBit = screenBit;
         lblScreenName.setText(screenBit.getName());
-        if (screenBit.getAssignedUsers() !=null) {
+        if (screenBit.getAssignedUsers() != null) {
             lstScreenUsers.getItems().addAll(screenBit.getAssignedUsers());
         }
     }
@@ -68,13 +70,22 @@ public class EditScreenController implements Initializable {
 
 
     public void handleSave(ActionEvent actionEvent) {
-        if(usersToDelete != null){
-            DataModel.getInstance().removeScreenBitRights(usersToDelete, screenBit);
+        if (usersToDelete != null) {
+            try {
+                DataModel.getInstance().removeScreenBitRights(usersToDelete, screenBit);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong when attempting to remove screen rights between the given list of users and screen. Please try again, and if the problem persists, contact an IT Administrator.");
+            }
         }
-        if(usersToAdd != null){
-            DataModel.getInstance().assignScreenBitRights(usersToAdd, screenBit);
+        if (usersToAdd != null) {
+            try {
+                DataModel.getInstance().assignScreenBitRights(usersToAdd, screenBit);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong when attempting to assign screen rights between the given list of users and screen. Please try again, and if the problem persists, contact an IT Administrator.");
+            }
         }
-
 
 
         setData(DataModel.getInstance().getUsers());

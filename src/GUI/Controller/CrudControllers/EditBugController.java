@@ -3,21 +3,14 @@ package GUI.Controller.CrudControllers;
 import BE.Bug;
 import BE.User;
 import BE.UserType;
-import BLL.PasswordManager;
 import GUI.Controller.PopupControllers.WarningController;
-import GUI.Model.BugModel;
 import GUI.Model.DataModel;
-import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,8 +26,7 @@ public class EditBugController implements Initializable {
     private JFXComboBox<User> chsAdmin;
 
     private Bug selectedBug;
-    private final BugModel bugModel = BugModel.getInstance();
-    private final PasswordManager passwordManager = new PasswordManager();
+    private final DataModel dataModel = DataModel.getInstance();
 
     public void setData(Bug bug) {
         selectedBug = bug;
@@ -50,8 +42,14 @@ public class EditBugController implements Initializable {
             newBug.setAdminId(chsAdmin.getSelectionModel().getSelectedItem().getId());
             newBug.setReferencedScreen(selectedBug.getReferencedScreen());
 
-            // Update the selected Bug report.
-            bugModel.updateBug(selectedBug, newBug);
+            try {
+                // Update the selected Bug report.
+                dataModel.updateBug(selectedBug, newBug);
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                WarningController.createWarning("Oh no! Failed to add the bug report to the database. If this persists, contact an IT-Administrator.");
+            }
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
@@ -70,13 +68,19 @@ public class EditBugController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<User> admins = new ArrayList<>();
 
-        for (User u : DataModel.getInstance().getUsers()) {
-            if (u.getUserRole() == UserType.Admin) {
-                admins.add(u);
+        try {
+            for (User u : DataModel.getInstance().getUsers()) {
+                if (u.getUserRole() == UserType.Admin) {
+                    admins.add(u);
+                }
             }
-        }
 
-        chsAdmin.getItems().addAll(admins);
-        chsAdmin.getSelectionModel().selectFirst();
+            chsAdmin.getItems().addAll(admins);
+            chsAdmin.getSelectionModel().selectFirst();
+        }
+        catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all users! Please try again. If this persists, contact an IT-Administrator.");
+        }
     }
 }

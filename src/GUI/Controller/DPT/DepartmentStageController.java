@@ -2,7 +2,8 @@ package GUI.Controller.DPT;
 
 import BE.Department;
 import BE.User;
-import GUI.Model.UserModel;
+import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.DataModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,17 +48,24 @@ public class DepartmentStageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<User> allUsers = UserModel.getInstance().getAllUsers();
-        ObservableList<User> userCopy = FXCollections.observableArrayList(UserModel.getInstance().getAllUsers());
-        userCopy.removeIf(u -> u.getUserName().equals("place"));
-        userTable.setItems(userCopy);
-        userTableColumn.setCellValueFactory(data -> data.getValue().getFullNameProperty());
 
-        initSearchField(allUsers);
+        try {
+            ObservableList<User> allUsers = DataModel.getInstance().getUsers();
+            ObservableList<User> userCopy = FXCollections.observableArrayList(DataModel.getInstance().getUsers());
+            userCopy.removeIf(u -> u.getUserName().equals("place"));
+            userTable.setItems(userCopy);
+            userTableColumn.setCellValueFactory(data -> data.getValue().getFullNameProperty());
 
-        TableDragMod.setUeditableTable(userTable);
-        TableDragMod.makeTableDraggable(userTable);
-        autofitSize();
+            initSearchField(allUsers);
+
+            TableDragMod.setUeditableTable(userTable);
+            TableDragMod.makeTableDraggable(userTable);
+            autofitSize();
+        }
+        catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all users! Please try again. If this persists, contact an IT-Administrator.");
+        }
     }
 
     /**

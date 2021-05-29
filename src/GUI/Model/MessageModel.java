@@ -1,94 +1,82 @@
 package GUI.Model;
 
+import BE.IMessageCRUD;
 import BE.Message;
 import BE.ScreenBit;
 import BE.User;
 import BLL.MessageManager;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public final class MessageModel {
+public final class MessageModel implements IMessageCRUD {
 
     private static MessageModel instance;
     private final MessageManager messageManager;
 
 
-    private MessageModel(){
+    private MessageModel() {
         messageManager = new MessageManager();
     }
 
     /**
-     * Get the singleton instance.
-     *
-     * @return Returns a singleton instance of this class.
-     */
-    public static MessageModel getInstance() {
-        return instance == null ? instance = new MessageModel() : instance;
-    }
-
-    /**
      * Adds a message to the database, and assigns it to the ScreenBit(s) provided.
+     *
      * @param user
      * @param newMessage
      * @param assignedScreenBits
      * @throws SQLException
      */
+    @Override
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
         messageManager.addMessage(user, newMessage, assignedScreenBits);
     }
 
-    /**
-     * Deletes a message in the database, referencing message id.
-     * @param message
-     */
-    public void deleteMessage(Message message){
+    @Override
+    public void deleteMessage(Message message) throws SQLException {
         messageManager.deleteMessage(message);
     }
 
-    /**
-     * Updates a message in the database, referencing message id.
-     * @param oldMessage
-     * @param newMessage
-     */
-    public void updateMessage(Message oldMessage, Message newMessage) {
+    @Override
+    public void updateMessage(Message oldMessage, Message newMessage) throws SQLException {
         messageManager.updateMessage(oldMessage, newMessage);
     }
 
-    /**
-     * Retrieves all messages related to a specific user.
-     * @param user
-     * @return
-     */
+    @Override
     public List<Message> getUsersMessages(User user) {
         return messageManager.getUsersMessages(user);
     }
 
-    /**
-     * Retrieves all messages from the database.
-     * @return
-     */
-    public ObservableList<Message> getAllMessages(){
+    @Override
+    public List<Message> getUsersMessages(String user) {
+        return messageManager.getUsersMessages(user);
+    }
+
+    @Override
+    public ObservableList<Message> getAllMessages() {
         return messageManager.getAllMessages();
     }
 
-    /**
-     * Get all messages related to a specific user, retrieved by UserName.
-     * @param userName
-     * @return
-     */
+    @Override
+    public void loadScreenBitsMessages(ScreenBit screen) throws SQLException {
+        messageManager.loadScreenBitsMessages(screen);
+    }
+
     public List<Message> getAllUserMessages(String userName) {
         return messageManager.getUsersMessages(userName);
     }
 
     /**
      * Loads a ScreenBit's messages to it, from the database.
-     * @param screen
+     * <p>
+     * Get the singleton instance.
+     *
+     * @return Returns a singleton instance of this class.
      */
-    public void loadScreenBitsMessages(ScreenBit screen) {
-        messageManager.loadScreenBitsMessages(screen);
+
+    public static MessageModel getInstance() {
+        return instance == null ? instance = new MessageModel() : instance;
     }
 
     /**

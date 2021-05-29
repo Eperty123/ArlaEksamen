@@ -1,57 +1,56 @@
 package GUI.Model;
 
+import BE.ITitleCRUD;
 import BLL.TitleManager;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public final class TitleModel {
+public final class TitleModel implements ITitleCRUD {
 
     private static TitleModel instance;
-    private final TitleManager titleManager;
+    private final TitleManager titleManager = new TitleManager();
 
-
-    public static TitleModel getInstance(){
-        return instance == null ? instance = new TitleModel() : instance;
-    }
-
-    private TitleModel(){
-        titleManager = new TitleManager();
-    }
-
-    /**
-     * Adds a title to the database.
-     * @param newTitle
-     */
-    public void addTitle(String newTitle){
+    @Override
+    public void addTitle(String newTitle) throws SQLException {
         titleManager.addTitle(newTitle);
     }
 
-    /**
-     * Deletes a title in the database.
-     * @param title
-     * @throws SQLException
-     */
+    @Override
     public void deleteTitle(String title) throws SQLException {
         titleManager.deleteTitle(title);
     }
 
     /**
-     * Returns a list of all titles.
-     * @return
-     */
-    public List<String> getTitles(){
-        return titleManager.getTitles();
-    }
-
-    /**
      * Updates the old title, to the new title in the database.
+     *
      * @param oldTitle
      * @param newTitle
      * @throws SQLException
      */
+
+    @Override
     public void updateTitle(String oldTitle, String newTitle) throws SQLException {
         titleManager.updateTitle(oldTitle, newTitle);
+    }
+
+    /**
+     * Returns a list of all titles.
+     *
+     * @return
+     */
+    @Override
+    public List<String> getTitles() {
+        return titleManager.getTitles();
+    }
+
+    /**
+     * Returns an instance of the Singleton TitleModel.
+     *
+     * @return TitleModel.
+     */
+    public static TitleModel getInstance() {
+        return instance == null ? instance = new TitleModel() : instance;
     }
 
 }

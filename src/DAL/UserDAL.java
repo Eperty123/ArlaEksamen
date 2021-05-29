@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class UserDAL {
     private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
     private final ResultSetParser resultSetParser = new ResultSetParser();
@@ -48,12 +47,13 @@ public class UserDAL {
                 ScreenBit screenBit = resultSetParser.getScreenBit(rs);
                 addUsersAndScreenBits(allUsers, newUser, screenBit);
             }
+
+            return allUsers;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to get all users " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            //throw throwables;
+            return null;
         }
-        return allUsers;
     }
 
 
@@ -62,7 +62,7 @@ public class UserDAL {
      *
      * @param user object containing information on the new user.
      */
-    public void addUser(User user, Department department) {
+    public void addUser(User user, Department department) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
 
@@ -78,8 +78,7 @@ public class UserDAL {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
-                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
 
@@ -99,6 +98,7 @@ public class UserDAL {
 
     /**
      * Import a list of CSVUsers in to the database.
+     *
      * @param users The list of CSVUsers to import.
      */
     public void addUsers(List<CSVUser> users) throws SQLException {
@@ -117,9 +117,9 @@ public class UserDAL {
                     addUserDepartmentRelation(con, user, user.getDepartment());
                 }
             }
-            try{
+            try {
                 pSql.executeBatch();
-            } catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 con.rollback();
                 con.setAutoCommit(true);
                 con.setTransactionIsolation(Connection.TRANSACTION_NONE);
@@ -138,8 +138,9 @@ public class UserDAL {
 
     /**
      * Associate a relation to a department for the specfied user.
-     * @param con The database connection to use.
-     * @param user The user to associate with.
+     *
+     * @param con        The database connection to use.
+     * @param user       The user to associate with.
      * @param department The department to associate the user with.
      * @throws SQLException
      */
@@ -164,7 +165,7 @@ public class UserDAL {
     /**
      * Updates an existing user in the database's User table.
      *
-     * @param user object used to identify the row to be updated.
+     * @param user       object used to identify the row to be updated.
      * @param department object containing the new department information.
      */
     public void updateUser(User user, Department department) throws SQLException {
@@ -179,10 +180,10 @@ public class UserDAL {
             setUserValues(user, pSql);
             pSql.setInt(11, user.getId());
 
-            try{
+            try {
                 pSql.execute();
                 updateDepartmentUser(con, user, department);
-            } catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 con.rollback();
                 con.setAutoCommit(true);
                 con.setTransactionIsolation(Connection.TRANSACTION_NONE);
@@ -195,13 +196,13 @@ public class UserDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            throw  throwables;
+            throw throwables;
 
         }
     }
 
 
-    public void updateUserDepartment(List<Department> departments) {
+    public void updateUserDepartment(List<Department> departments) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             deleteAllUserDepartmentAssociation(con);
@@ -217,6 +218,7 @@ public class UserDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            throw throwables;
         }
 
     }
@@ -228,12 +230,12 @@ public class UserDAL {
 
     private void updateDepartmentUser(Connection con, User user, Department department) throws SQLException {
 
-            PreparedStatement pSql = con.prepareStatement("UPDATE DepartmentUser SET DepartmentId=?, UserName=? WHERE UserName=? AND DepartmentId=?");
-            pSql.setInt(1, department.getId());
-            pSql.setString(2, user.getUserName());
-            pSql.setString(3, user.getUserName());
-            pSql.setInt(4, department.getId());
-            pSql.execute();
+        PreparedStatement pSql = con.prepareStatement("UPDATE DepartmentUser SET DepartmentId=?, UserName=? WHERE UserName=? AND DepartmentId=?");
+        pSql.setInt(1, department.getId());
+        pSql.setString(2, user.getUserName());
+        pSql.setString(3, user.getUserName());
+        pSql.setInt(4, department.getId());
+        pSql.execute();
     }
 
 
@@ -255,9 +257,9 @@ public class UserDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM [User] WHERE Id=?");
             pSql.setInt(1, user.getId());
 
-            try{
+            try {
                 pSql.execute();
-            }catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 con.rollback();
                 con.setAutoCommit(true);
                 con.setTransactionIsolation(Connection.TRANSACTION_NONE);
@@ -316,7 +318,7 @@ public class UserDAL {
      *
      * @param user used to identify which rows to delete.
      */
-    private void deleteUserScreenAssociation(Connection con, User user) {
+    private void deleteUserScreenAssociation(Connection con, User user) throws SQLException {
 
         try (PreparedStatement pSql = con.prepareStatement("DELETE FROM ScreenRights WHERE UserName=?")) {
 
@@ -325,8 +327,7 @@ public class UserDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a user - screen association " +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
 
     }

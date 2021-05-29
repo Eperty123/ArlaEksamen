@@ -9,6 +9,7 @@ import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,7 +25,13 @@ import java.util.List;
 public class UserBackUp {
     private final String HEADER_INFO_FORMAT = "Id;FirstName;LastName;UserName;Email;PhoneNumber;UserRole;Password;Gender;DepartmentId;Title\n";
 
-    public List<CSVUser> importUsers(String filePath) {
+    /**
+     * Import a csv backup from the given file path.
+     *
+     * @param filePath The file path of the csv file to import.
+     * @return Returns list of CSVUser.
+     */
+    public List<CSVUser> importUsers(String filePath) throws Exception {
         List<CSVUser> importedUsers = new ArrayList<>();
         var userModel = UserModel.getInstance();
         var departmentModel = DepartmentModel.getInstance();
@@ -61,21 +68,14 @@ public class UserBackUp {
                     // I
                     if (desiredDepartment != null) {
                         // No existing found, check some other criteria in case a user is found with the same name.
-                        if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && departmentModel.getUser(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null) {
+                        if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && departmentModel.getUser(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null)
                             importedUsers.add(parsedUser);
-                            System.out.println(String.format("User: %s %s (%d) imported.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
-                        } else
-                            System.out.println(String.format("User: %s %s (id: %d, email: %s) already exists in the %s department! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId(), parsedUser.getEmail(), desiredDepartment.getName()));
                     } else {
-
                         if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null) {
                             importedUsers.add(parsedUser);
-                            System.out.println(String.format("User: %s %s (%d) imported.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
-                        } else
-                            System.out.println(String.format("User: %s %s (id: %d, email: %s) already exists but without department! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId(), parsedUser.getEmail()));
+                        }
                     }
-                } else
-                    System.out.println(String.format("User: %s %s (%d) already exists! Ignored.", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getId()));
+                }
 
                 //System.out.println(String.format("User: %s %s (%d).", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getPhone()));
             }
@@ -84,14 +84,19 @@ public class UserBackUp {
                 userModel.addUsers(importedUsers);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-                WarningController.createWarning("Oh no! Something went wrong when attempting to add a user " +
-                        "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+                throw throwables;
             }
-        } else System.out.println(String.format("The backup file: %s doesn't exist!", filePath));
+        }
 
         return importedUsers;
     }
 
+    /**
+     * Export all the departments's users to the given file path.
+     *
+     * @param departments The departments to export.
+     * @param outputFile  The output file path to save the backup.
+     */
     public void exportUsers(List<Department> departments, String outputFile) {
         //File csvOutputFile = new File(getFileName());
         File csvOutputFile = new File(outputFile);
@@ -113,6 +118,12 @@ public class UserBackUp {
         }
     }
 
+    /**
+     * Export all the departments's users to the given file path.
+     *
+     * @param departments The departments to export.
+     * @param outputFile  The File instance to use for export.
+     */
     public void exportUsers(List<Department> departments, File outputFile) {
         //File csvOutputFile = new File(getFileName());
 
@@ -133,6 +144,11 @@ public class UserBackUp {
         }
     }
 
+    /**
+     * Export all the departments's users to the Resource folder.
+     *
+     * @param departments The departments to export.
+     */
     public void exportUsers(List<Department> departments) {
         File csvOutputFile = new File(getFileName());
         try (FileWriter csvWriter = new FileWriter(csvOutputFile)) {
@@ -152,6 +168,11 @@ public class UserBackUp {
         }
     }
 
+    /**
+     * Export the department's users to the Resource folder.
+     *
+     * @param department The department to export.
+     */
     public void exportUsers(Department department) {
 
         File csvOutputFile = new File(getFileName());
@@ -171,6 +192,11 @@ public class UserBackUp {
         }
     }
 
+    /**
+     * Get a random generated file name.
+     *
+     * @return Returns the generated file name.
+     */
     private String getFileName() {
         return "src/Resources/User_backup_" + LocalDate.now() + "_" + LocalTime.now().hashCode() + ".csv";
     }

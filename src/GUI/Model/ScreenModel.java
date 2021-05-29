@@ -1,19 +1,17 @@
 package GUI.Model;
 
+import BE.IScreenCRUD;
 import BE.ScreenBit;
 import BE.User;
 import BLL.ScreenManager;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public final class ScreenModel {
+public final class ScreenModel implements IScreenCRUD {
 
     private final ScreenManager screenManager;
     private static ScreenModel instance;
-
 
 
     private ScreenModel() {
@@ -21,22 +19,14 @@ public final class ScreenModel {
     }
 
     /**
-     * Returns an instance of the Singleton ScreenManager
-     *
-     * @return ScreenManager
-     */
-    public static ScreenModel getInstance() {
-        return instance == null ? instance = new ScreenModel() : instance;
-    }
-
-    /**
      * Adds a new ScreenBit to the database.
      *
      * @param newScreenBit object containing info on the new ScreenBit
      */
-    public int addScreenBit(ScreenBit newScreenBit) {
+    @Override
+    public int addScreenBit(ScreenBit newScreenBit) throws SQLException {
         // Not sure if this still return false with ! in it.
-          return screenManager.addScreenBit(newScreenBit);
+        return screenManager.addScreenBit(newScreenBit);
     }
 
     /**
@@ -44,6 +34,7 @@ public final class ScreenModel {
      *
      * @param screenBit object containing information to identify the row in the database.
      */
+    @Override
     public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
         screenManager.deleteScreenBit(screenBit);
 
@@ -52,8 +43,9 @@ public final class ScreenModel {
     /**
      * @return A list of all ScreenBit objects
      */
+    @Override
     public List<ScreenBit> getAllScreenBits() {
-        return screenManager.getScreenBits();
+        return screenManager.getAllScreenBits();
     }
 
     /**
@@ -63,7 +55,8 @@ public final class ScreenModel {
      * @param newScreenBit object containing the new ScreenBit information
      * @param oldScreenBit object used to identify the existing row in the database.
      */
-    public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit) {
+    @Override
+    public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit) throws SQLException {
         screenManager.updateScreenBit(newScreenBit, oldScreenBit);
 
     }
@@ -75,38 +68,43 @@ public final class ScreenModel {
      * @param user      object used to identify the user to be assigned rights in the database.
      * @param screenBit object used to identify the screen to be assigned to the user.
      */
-    public void assignScreenBitRights(User user, ScreenBit screenBit) {
+    @Override
+    public void assignScreenBitRights(User user, ScreenBit screenBit) throws SQLException {
         screenManager.assignScreenBitRights(user, screenBit);
     }
 
-    /**
-     * Creates an association between users and ScreenBit in the database.
-     * @param users
-     * @param screenBit
-     */
-    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) {
+    @Override
+    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException {
         screenManager.assignScreenBitRights(users, screenBit);
     }
 
-    /**
-     * Removes the association between users and ScreenBit in the database.
-     * @param user
-     * @param screenBit
-     */
-    public void removeScreenBitRights(User user, ScreenBit screenBit) {
+    @Override
+    public void removeScreenBitRights(User user, ScreenBit screenBit) throws SQLException {
         screenManager.removeScreenBitRights(user, screenBit);
 
     }
 
     /**
      * Removes the association between users and ScreenBit in the database.
+     *
      * @param users
      * @param screenBit
      */
-    public void removeScreenBitRights(List<User> users, ScreenBit screenBit) {
+    @Override
+    public void removeScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException {
         screenManager.removeScreenBitRights(users, screenBit);
 
     }
+
+    /**
+     * Returns an instance of the Singleton ScreenManager
+     *
+     * @return ScreenManager
+     */
+    public static ScreenModel getInstance() {
+        return instance == null ? instance = new ScreenModel() : instance;
+    }
+
 
     /**
      * Reset the singleton instance.
@@ -116,6 +114,4 @@ public final class ScreenModel {
             instance = null;
         }
     }
-
-
 }

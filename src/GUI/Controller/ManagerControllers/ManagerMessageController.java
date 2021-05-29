@@ -93,11 +93,15 @@ public class ManagerMessageController implements Initializable {
 
         // Set the Message Model's current user to be the one now. Needed in order to know which manager messages to load.
 
-        // Then get all the user's (manager) messages.
-        currentUsersMessages.setAll(DataModel.getInstance().getUsersMessages(currentUser));
-
-        // Sort the messages by start time (date & time reported).
-        sortMessagesByStartTime();
+        try {
+            // Then get all the user's (manager) messages.
+            currentUsersMessages.setAll(DataModel.getInstance().getUsersMessages(currentUser));
+            // Sort the messages by start time (date & time reported).
+            sortMessagesByStartTime();
+        } catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all user messages! Please try again. If this persists, contact an IT-Administrator.");
+        }
     }
 
     /**
@@ -151,15 +155,22 @@ public class ManagerMessageController implements Initializable {
         // Remove all nodes.
         screenContainer.getChildren().clear();
         currentUser = LoginManager.getCurrentUser();
-        if (currentUser.getUserRole() == UserType.Admin) {
-            for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
-                makeScreen(s);
+
+        try {
+            if (currentUser.getUserRole() == UserType.Admin) {
+                for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
+                    makeScreen(s);
+                }
+            } else {
+                // Add all screens.
+                for (ScreenBit s : currentUser.getAssignedScreenBits()) {
+                    makeScreen(s);
+                }
             }
-        } else {
-            // Add all screens.
-            for (ScreenBit s : currentUser.getAssignedScreenBits()) {
-                makeScreen(s);
-            }
+        }
+        catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all screens! Please try again. If this persists, contact an IT-Administrator.");
         }
     }
 
@@ -258,11 +269,18 @@ public class ManagerMessageController implements Initializable {
         } else {
             var confirmUpdate = ConfirmationDialog.createConfirmationDialog("Are you sure you want to update the existing message report?");
 
-            if (confirmUpdate){
+            if (confirmUpdate) {
                 Message updatedMessage = getUpdatedMessage();
-                DataModel.getInstance().updateMessage(selectedMessage, updatedMessage);
-                currentUsersMessages.remove(selectedMessage);
-                currentUsersMessages.add(updatedMessage);
+                try {
+
+                    DataModel.getInstance().updateMessage(selectedMessage, updatedMessage);
+                    currentUsersMessages.remove(selectedMessage);
+                    currentUsersMessages.add(updatedMessage);
+                    System.out.println(String.format("Id: %d, message: %s", updatedMessage.getId(), updatedMessage.getMessage()));
+                } catch (SQLException throwables) {
+                    //throwables.printStackTrace();
+                    WarningController.createWarning("Oh no! Something went wrong when attempting to update the selected message. Please try again, and if the problem persists, contact an IT Administrator.");
+                }
             }
         }
 
@@ -290,7 +308,7 @@ public class ManagerMessageController implements Initializable {
         LocalDateTime endTime = startTime.plusHours(getDurationHours()).plusMinutes(getDurationMinutes());
         MessageType messageType = currentUser.getUserRole() == UserType.Manager ? MessageType.Manager : MessageType.Admin;
 
-        Message newMessage = new Message(id, message, startTime, endTime,  color, messageType);
+        Message newMessage = new Message(id, message, startTime, endTime, color, messageType);
         return newMessage;
     }
 
@@ -334,7 +352,7 @@ public class ManagerMessageController implements Initializable {
         minuteBox.setValue(0);
         durationHoursChoice.setValue(0);
         durationMinutesChoice.setValue(0);
-        selectedMessage=null;
+        selectedMessage = null;
     }
 
     @FXML
@@ -371,7 +389,7 @@ public class ManagerMessageController implements Initializable {
 
     public void showSelectedMessage() {
 
-        if(selectedMessage != null && selectedMessage.getId() == comingMessages.getSelectionModel().getSelectedItem().getId()){
+        if (selectedMessage != null && selectedMessage.getId() == comingMessages.getSelectionModel().getSelectedItem().getId()) {
             comingMessages.getSelectionModel().clearSelection();
             selectedMessage = null;
         } else {
@@ -388,16 +406,21 @@ public class ManagerMessageController implements Initializable {
                 if (confirmation) loadSelectedMessage(selectedMessage);
             } else if (messageArea.getText().isEmpty())
                 loadSelectedMessage(selectedMessage);
-        } else{
+        } else {
             clearMessageFields();
         }
     }
 
     public void handleDeleteMessage() {
         if (comingMessages.getSelectionModel().getSelectedItem() != null) {
-            MessageModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
-            currentUsersMessages.remove(comingMessages.getSelectionModel().getSelectedItem());
-            clearMessageFields();
+            try {
+                DataModel.getInstance().deleteMessage(comingMessages.getSelectionModel().getSelectedItem());
+                currentUsersMessages.remove(comingMessages.getSelectionModel().getSelectedItem());
+                clearMessageFields();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                WarningController.createWarning("Oh no! Something went wrong when attempting to delete the selected message. Please try again, and if the problem persists, contact an IT Administrator.");
+            }
         } else {
             WarningController.createWarning("Please select a message to delete!");
         }

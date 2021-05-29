@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 
@@ -19,7 +20,7 @@ public class DataGenerator {
      * @param filename file to be parsed by getParsedData() method.
      * @return BarChart
      */
-    public static BarChart<String, Number> getBarChart(String filename) {
+    public static BarChart<String, Number> getBarChart(String filename) throws FileNotFoundException {
 
         final String seriesHeader = "Units Produced Pr. Hour";
         XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
@@ -40,7 +41,7 @@ public class DataGenerator {
      * @param filepath file to create chart from.
      * @return PieChart - Department vs. Proficiency
      */
-    public static PieChart getPieChart(String filepath) {
+    public static PieChart getPieChart(String filepath) throws FileNotFoundException {
 
         PieChart pieChart = new PieChart(DataGenerator.getPieChartData(filepath));
         pieChart.setTitle("Department Proficiency");
@@ -54,7 +55,7 @@ public class DataGenerator {
      * @param filepath file to be parsed by getParsedData() method.
      * @return ObservableList of PieChart data.
      */
-    private static ObservableList<PieChart.Data> getPieChartData(String filepath) {
+    private static ObservableList<PieChart.Data> getPieChartData(String filepath) throws FileNotFoundException {
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
 
         List<String[]> data = DataGenerator.getParsedData(filepath);
@@ -71,7 +72,7 @@ public class DataGenerator {
      * @param filename file to be parsed by getParsedData() method.
      * @return ScatterChart
      */
-    public static ScatterChart<String, Number> getScatterChart(String filename) {
+    public static ScatterChart<String, Number> getScatterChart(String filename) throws FileNotFoundException {
 
         final String seriesHeader = "Temperature Pr. Hour";
         XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
@@ -93,7 +94,7 @@ public class DataGenerator {
      * @param filename file to be parsed by getParsedData() method.
      * @return BubbleChart
      */
-    public static BubbleChart<Number, Number> getBubbleChart(String filename) {
+    public static BubbleChart<Number, Number> getBubbleChart(String filename) throws FileNotFoundException {
 
         final String seriesHeader = "Duration Per. Hour";
         XYChart.Series<Number, Number> series = DataGenerator.getXYSeriesNumberNumber(DataGenerator.getParsedData(filename), seriesHeader);
@@ -115,7 +116,7 @@ public class DataGenerator {
      * @param filename file to be parsed by getParsedData() method.
      * @return AreaChart
      */
-    public static AreaChart<String, Number> getAreaChart(String filename) {
+    public static AreaChart<String, Number> getAreaChart(String filename) throws FileNotFoundException {
 
         final String seriesHeader = "Sales Pr. Hour";
         XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
@@ -137,7 +138,7 @@ public class DataGenerator {
      * @param filename file to be parsed by getParsedData() method.
      * @return LineChart
      */
-    public static LineChart<String, Number> getLineChart(String filename) {
+    public static LineChart<String, Number> getLineChart(String filename) throws FileNotFoundException {
 
         final String seriesHeader = "Attendance pr. Day";
         XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
@@ -159,7 +160,7 @@ public class DataGenerator {
      * @param filename file to be parsed by getParsedData() method.
      * @return StackedBarChart
      */
-    public static StackedBarChart<String, Number> getStackedBarChart(String filename) {
+    public static StackedBarChart<String, Number> getStackedBarChart(String filename) throws FileNotFoundException {
 
         final String seriesHeader = "Sales Pr. Hour";
         XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
@@ -187,7 +188,7 @@ public class DataGenerator {
      * @param filename file to be parsed by getParsedData() method.
      * @return StackedAreaChart
      */
-    public static StackedAreaChart<String, Number> getStackedAreaChart(String filename) {
+    public static StackedAreaChart<String, Number> getStackedAreaChart(String filename) throws FileNotFoundException {
 
         final String seriesHeader = "Sales Pr. Hour";
         XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
@@ -218,7 +219,7 @@ public class DataGenerator {
      * @param filepath file to be parsed
      * @return String[] with row data. [0] is x-axis info, [1] is y-axis info.
      */
-    private static List<String[]> getParsedData(String filepath) {
+    private static List<String[]> getParsedData(String filepath) throws FileNotFoundException {
 
         return DataGenerator.isCSV(filepath) ? DataGenerator.getCSVData(filepath) : DataGenerator.getXLXSData(filepath);
     }
@@ -229,7 +230,7 @@ public class DataGenerator {
      * @param filepath string containing filepath of the file.
      * @return
      */
-    private static List<String[]> getCSVData(String filepath) {
+    private static List<String[]> getCSVData(String filepath) throws FileNotFoundException {
 
         return CSVParser.parseFile(filepath).getParsedData();
     }

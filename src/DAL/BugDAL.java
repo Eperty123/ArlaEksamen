@@ -17,7 +17,7 @@ public class BugDAL {
      *
      * @param bug The Bug report to delete.
      */
-    public void deleteBug(Bug bug) {
+    public void deleteBug(Bug bug) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Bug WHERE Id=?");
@@ -26,8 +26,7 @@ public class BugDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a bug from " +
-                    "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
 
@@ -37,7 +36,7 @@ public class BugDAL {
      * @param newBug The Bug report to use information of.
      * @param oldBug The existing Bug report to update.
      */
-    public void updateBug(Bug newBug, Bug oldBug) {
+    public void updateBug(Bug newBug, Bug oldBug) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
 
@@ -50,8 +49,7 @@ public class BugDAL {
             pSql.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to update a bug " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
 
@@ -60,7 +58,7 @@ public class BugDAL {
      *
      * @param newBug The Bug report instance to insert into the database.
      */
-    public void addBug(Bug newBug) {
+    public void addBug(Bug newBug) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Bug VALUES(?,?,?,?,?,?,?)");
@@ -70,13 +68,12 @@ public class BugDAL {
             pSql.setString(4, newBug.getReferencedScreen());
             pSql.setString(5, newBug.getReferencedUser());
             pSql.setInt(6, newBug.getAdminId() != 0 ? newBug.getAdminId() : 0);
-            pSql.setInt(7,0);
+            pSql.setInt(7, 0);
             pSql.execute();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add a bug " +
-                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
 
@@ -100,10 +97,11 @@ public class BugDAL {
                 Bug bug = resultSetParser.getBug(rs);
                 allBugs.add(bug);
             }
+
+            return allBugs;
         } catch (SQLException throwables) {
-            WarningController.createWarning("Oh no! Something went wrong when attempting to get all bugs from " +
-                    "the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throwables.printStackTrace();
+            return null;
         }
-        return allBugs;
     }
 }

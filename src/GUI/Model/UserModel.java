@@ -1,9 +1,6 @@
 package GUI.Model;
 
-import BE.CSVUser;
-import BE.Department;
-import BE.User;
-import BE.UserType;
+import BE.*;
 import BLL.UserManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,24 +9,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class UserModel {
+public final class UserModel implements IUserCRUD {
 
     private static UserModel instance;
-    private final ObservableList<User> allUsers;
-    private final UserManager userManager;
+    private final ObservableList<User> allUsers = FXCollections.observableArrayList();
+    private final UserManager userManager = new UserManager();
 
-    private UserModel() {
-        userManager = new UserManager();
-        allUsers = FXCollections.observableArrayList();
-        allUsers.addAll(userManager.getUsers());
-
+    public UserModel() {
+        initialize();
     }
 
-    /**
-     * @return the UserModel Singleton instance.
-     */
-    public static UserModel getInstance() {
-        return instance == null ? instance = new UserModel() : instance;
+    private void initialize() {
+        allUsers.addAll(userManager.getUsers());
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return userManager.getUsers();
     }
 
     /**
@@ -38,16 +34,19 @@ public final class UserModel {
      *
      * @param newUser object to be written to the database.
      */
-    public void addUser(User newUser, Department department) {
+    @Override
+    public void addUser(User newUser, Department department) throws SQLException {
 
-            userManager.addUser(newUser, department);
+        userManager.addUser(newUser, department);
 
     }
 
     /**
      * Import a list of CSVUsers in to the database.
+     *
      * @param users The list of CSVUsers to import.
      */
+    @Override
     public void addUsers(List<CSVUser> users) throws SQLException {
         userManager.addUsers(users);
     }
@@ -57,6 +56,7 @@ public final class UserModel {
      *
      * @return list of all users in the database.
      */
+    @Override
     public ObservableList<User> getAllUsers() {
         return allUsers;
     }
@@ -65,9 +65,10 @@ public final class UserModel {
      * Updates a user in the database. Passes a old and new user object to UserManager,
      * which passes them on to UserDAL.
      *
-     * @param user object used to identify the row that is to be updated.
+     * @param user       object used to identify the row that is to be updated.
      * @param department object containing the updated User information.
      */
+    @Override
     public void updateUser(User user, Department department) throws SQLException {
         userManager.updateUser(user, department);
     }
@@ -78,9 +79,14 @@ public final class UserModel {
      *
      * @param user user to be deleted.
      */
+    @Override
     public void deleteUser(User user) throws SQLException {
         userManager.deleteUser(user);
+    }
 
+    @Override
+    public void updateUserDepartment(List<Department> departments) throws SQLException {
+        userManager.updateUserDepartment(departments);
     }
 
     /**
@@ -161,19 +167,20 @@ public final class UserModel {
     }
 
     /**
+     * @return the UserModel Singleton instance.
+     */
+
+    public static UserModel getInstance() {
+        return instance == null ? instance = new UserModel() : instance;
+    }
+
+
+    /**
      * Reset the singleton instance.
      */
     public void resetSingleton() {
         if (instance != null) {
             instance = null;
         }
-    }
-
-    /**
-     * Updates the DepartmentUser table in the database, with relations between departments and users.
-     * @param departments
-     */
-    public void updateUserDepartment(List<Department> departments) {
-        userManager.updateUserDepartment(departments);
     }
 }

@@ -31,8 +31,7 @@ public class DataModel {
     private ObservableList<Settings> settings;
 
 
-
-    private DataModel(){
+    private DataModel() {
         initialize();
     }
 
@@ -63,21 +62,21 @@ public class DataModel {
         bugs.addAll(bugModel.getAllBugs());
     }
 
-    public static DataModel getInstance(){
+    public static DataModel getInstance() {
         return instance == null ? instance = new DataModel() : instance;
     }
 
     // _____ Title _____
 
-    public void addTitle(String title){
-        if(!titles.contains(title)){
+    public void addTitle(String title) throws SQLException {
+        if (!titles.contains(title)) {
             titleModel.addTitle(title);
             titles.add(title);
         }
     }
 
     public void deleteTitle(String title) throws SQLException {
-        if(titles.contains(title)){
+        if (titles.contains(title)) {
             titleModel.deleteTitle(title);
             titles.remove(title);
         }
@@ -91,8 +90,8 @@ public class DataModel {
     }
 
     private void updateUserTitles(String oldTitle, String newTitle) {
-        for(User u: users){
-            if(u.getTitle().equals(oldTitle)){
+        for (User u : users) {
+            if (u.getTitle().equals(oldTitle)) {
                 u.setTitle(newTitle);
             }
         }
@@ -108,7 +107,7 @@ public class DataModel {
 
     // _____ User _____
 
-    public void addUser(User newUser, Department department) {
+    public void addUser(User newUser, Department department) throws SQLException {
         if (users.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
             userModel.addUser(newUser, department);
             users.add(newUser);
@@ -118,7 +117,7 @@ public class DataModel {
 
     private void addUserToDepartment(User newUser, Department department) {
         departments.forEach(dpt -> {
-            if(dpt.getId() == department.getId()){
+            if (dpt.getId() == department.getId()) {
                 dpt.addUser(newUser);
             }
         });
@@ -142,25 +141,24 @@ public class DataModel {
     }
 
     private void moveUser(User user, Department department) {
-        for(Iterator<Department> dptIterator = departments.iterator(); dptIterator.hasNext();){
+        for (Iterator<Department> dptIterator = departments.iterator(); dptIterator.hasNext(); ) {
             Department dpt = dptIterator.next();
 
-            for(Iterator<User> userIterator = dpt.getUsers().iterator(); userIterator.hasNext();){
+            for (Iterator<User> userIterator = dpt.getUsers().iterator(); userIterator.hasNext(); ) {
                 User u = userIterator.next();
-                if(u.getId() == user.getId()){
+                if (u.getId() == user.getId()) {
                     userIterator.remove();
                 }
             }
-            if(dpt.getId() == department.getId()){
+            if (dpt.getId() == department.getId()) {
                 dpt.addUser(user);
             }
         }
     }
 
-    public void updateUserDepartment(List<Department> departments){
+    public void updateUserDepartment(List<Department> departments) throws SQLException {
         userModel.updateUserDepartment(departments);
         updateUserDepartmentRelation(departments);
-
     }
 
     private void updateUserDepartmentRelation(List<Department> departments) {
@@ -171,7 +169,7 @@ public class DataModel {
         //Re-assign users to departments
         this.departments.forEach(dpt -> {
             departments.forEach(newDpt -> {
-                if(dpt.getId() == newDpt.getId()){
+                if (dpt.getId() == newDpt.getId()) {
                     dpt.setUsers(newDpt.getUsers());
                 }
             });
@@ -237,7 +235,6 @@ public class DataModel {
     }
 
 
-
     public void setUsers(ObservableList<User> users) {
         this.users = users;
     }
@@ -245,7 +242,7 @@ public class DataModel {
     // _____ ScreenBits _____
 
 
-    public void addScreenBit(ScreenBit newScreenBit) {
+    public void addScreenBit(ScreenBit newScreenBit) throws SQLException {
 
         if (screenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
             newScreenBit.setId(ScreenModel.getInstance().addScreenBit(newScreenBit));
@@ -261,48 +258,74 @@ public class DataModel {
     public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
         screenModel.deleteScreenBit(screenBit);
         users.forEach(u -> {
-            if(u.getAssignedScreenBits().contains(screenBit)){ u.removeScreenBit(screenBit); }
+            if (u.getAssignedScreenBits().contains(screenBit)) {
+                u.removeScreenBit(screenBit);
+            }
         });
     }
 
 
-    public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit) {
+    public void updateScreenBit(ScreenBit newScreenBit, ScreenBit oldScreenBit) throws SQLException {
         screenModel.updateScreenBit(newScreenBit, oldScreenBit);
         updateScreenBitsOnUsers(newScreenBit, oldScreenBit);
     }
 
     private void updateScreenBitsOnUsers(ScreenBit newScreenBit, ScreenBit oldScreenBit) {
-        users.forEach(u -> { if(u.getAssignedScreenBits().contains(oldScreenBit)){ u.updateScreenBit(oldScreenBit, newScreenBit); } });
+        users.forEach(u -> {
+            if (u.getAssignedScreenBits().contains(oldScreenBit)) {
+                u.updateScreenBit(oldScreenBit, newScreenBit);
+            }
+        });
     }
 
-    public void assignScreenBitRights(User user, ScreenBit screenBit) {
+    public void assignScreenBitRights(User user, ScreenBit screenBit) throws SQLException {
         screenModel.assignScreenBitRights(user, screenBit);
         assignScreenBitUserRights(user, screenBit);
     }
 
-    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) {
+    public void assignScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException {
         screenModel.assignScreenBitRights(users, screenBit);
-        users.forEach(u -> {assignScreenBitUserRights(u, screenBit);});
+        users.forEach(u -> {
+            assignScreenBitUserRights(u, screenBit);
+        });
     }
 
     private void assignScreenBitUserRights(User user, ScreenBit screenBit) {
-        users.forEach(u -> { if(u.getId() == user.getId()) {u.addScreenAssignment(screenBit);} });
-        screenBits.forEach(s -> { if(s.getId() == screenBit.getId()) {s.addAssignedUser(user);} });
+        users.forEach(u -> {
+            if (u.getId() == user.getId()) {
+                u.addScreenAssignment(screenBit);
+            }
+        });
+        screenBits.forEach(s -> {
+            if (s.getId() == screenBit.getId()) {
+                s.addAssignedUser(user);
+            }
+        });
     }
 
-    public void removeScreenBitRights(User user, ScreenBit screenBit) {
+    public void removeScreenBitRights(User user, ScreenBit screenBit) throws SQLException {
         screenModel.removeScreenBitRights(user, screenBit);
         deleteScreenBitUserRights(user, screenBit);
     }
 
-    public void removeScreenBitRights(List<User> users, ScreenBit screenBit) {
+    public void removeScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException {
         screenModel.removeScreenBitRights(users, screenBit);
-        users.forEach(u -> {deleteScreenBitUserRights(u, screenBit);});
+        users.forEach(u -> {
+            deleteScreenBitUserRights(u, screenBit);
+        });
     }
 
     private void deleteScreenBitUserRights(User user, ScreenBit screenBit) {
-        users.forEach(u -> { if(u.getId() == user.getId()) {u.removeScreenBit(screenBit);} });
-        screenBits.forEach(s -> { if(s.getId() == screenBit.getId()) {s.removeUser(user);} });
+        users.forEach(u -> {
+            if (u.getId() == user.getId()) {
+                u.removeScreenBit(screenBit);
+            }
+        });
+        screenBits.forEach(s -> {
+            if (s.getId() == screenBit.getId()) {
+                s.removeUser(user);
+            }
+        });
     }
 
     public ObservableList<ScreenBit> getScreenBits() {
@@ -315,28 +338,28 @@ public class DataModel {
 
     // _____ Departments _____
 
-    public void addDepartment(Department newDepartment) {
+    public void addDepartment(Department newDepartment) throws SQLException {
         departmentModel.addDepartment(newDepartment);
         departments.add(newDepartment);
     }
 
-    public void addSubDepartment(Department department, Department subDepartment) {
+    public void addSubDepartment(Department department, Department subDepartment) throws SQLException {
         departmentModel.addSubDepartment(department, subDepartment);
     }
 
     public void deleteDepartment(Department d) throws SQLException {
         departmentModel.deleteDepartment(d);
-        departments.forEach(dpt->{
-            if(dpt.getSubDepartments().contains(d))
+        departments.forEach(dpt -> {
+            if (dpt.getSubDepartments().contains(d))
                 dpt.getSubDepartments().remove(d);
         });
         departments.remove(d);
     }
 
-    public void updateDepartment(Department department) {
+    public void updateDepartment(Department department) throws SQLException {
         departmentModel.updateDepartment(department);
         departments.forEach(dpt -> {
-            if( dpt.getId() == department.getId()){
+            if (dpt.getId() == department.getId()) {
                 dpt.setName(department.getName());
                 dpt.setManager(department.getManager());
             }
@@ -352,8 +375,8 @@ public class DataModel {
     }
 
     public Department getDepartment(String departmentName) {
-        for(Department d : departments){
-            if(d.getName().equals(departmentName)){
+        for (Department d : departments) {
+            if (d.getName().equals(departmentName)) {
                 return d;
             }
         }
@@ -361,9 +384,9 @@ public class DataModel {
     }
 
 
-
     public List<Department> getSuperDepartments() {
         return departmentModel.getSuperDepartments();
+        //return null;
     }
 
     // _____ Messages _____
@@ -375,9 +398,9 @@ public class DataModel {
         bookScreenBitTimeTables(newMessage, assignedScreenBits);
     }
 
-    private void addMessageToScreenBits( Message newMessage, List<ScreenBit> assignedScreenBits) {
-        assignedScreenBits.forEach( assignedScreenBit -> {
-            screenBits.forEach( screenBit -> {
+    private void addMessageToScreenBits(Message newMessage, List<ScreenBit> assignedScreenBits) {
+        assignedScreenBits.forEach(assignedScreenBit -> {
+            screenBits.forEach(screenBit -> {
                 if (assignedScreenBit.getId() == screenBit.getId()) {
                     screenBit.addMessage(newMessage);
                 }
@@ -386,30 +409,31 @@ public class DataModel {
     }
 
     private void bookScreenBitTimeTables(Message newMessage, List<ScreenBit> assignedScreenBits) {
-        assignedScreenBits.forEach( screenBit -> { screenBit.bookTimeSlots(newMessage); });
+        assignedScreenBits.forEach(screenBit -> {
+            screenBit.bookTimeSlots(newMessage);
+        });
     }
 
-    public void deleteMessage(Message message){
+    public void deleteMessage(Message message) throws SQLException {
         messageModel.deleteMessage(message);
         messages.remove(message);
         deleteMessageFromScreenBits(message);
     }
 
-    private void deleteMessageFromScreenBits( Message message) {
-            screenBits.forEach( screenBit -> {
-                if (screenBit.getMessages().contains(message)) {
-                    screenBit.removeMessage(message);
-                }
-            });
+    private void deleteMessageFromScreenBits(Message message) {
+        screenBits.forEach(screenBit -> {
+            if (screenBit.getMessages().contains(message)) {
+                screenBit.removeMessage(message);
+            }
+        });
     }
 
 
-    public void updateMessage(Message oldMessage, Message newMessage) {
+    public void updateMessage(Message oldMessage, Message newMessage) throws SQLException {
         messageModel.updateMessage(oldMessage, newMessage);
         messages.remove(oldMessage);
         messages.add(newMessage);
         updateMessageOnScreenBits(oldMessage, newMessage);
-
     }
 
     private void updateMessageOnScreenBits(Message oldMessage, Message newMessage) {
@@ -431,24 +455,24 @@ public class DataModel {
         this.messages = messages;
     }
 
-    public void loadScreenBitsMessages(ScreenBit screen) {
+    public void loadScreenBitsMessages(ScreenBit screen) throws SQLException {
         messageModel.loadScreenBitsMessages(screen);
     }
 
     // _____ Bugs _____
 
-    public void addBug(Bug newBug) {
+    public void addBug(Bug newBug) throws SQLException {
         getAllUnresolvedBugs().add(newBug);
         bugModel.addBug(newBug);
     }
 
-    public void updateBug(Bug oldBug, Bug newBug) {
+    public void updateBug(Bug oldBug, Bug newBug) throws SQLException {
         bugModel.updateBug(oldBug, newBug);
         bugs.remove(oldBug);
         bugs.add(newBug);
     }
 
-    public void deleteBug(Bug bug) {
+    public void deleteBug(Bug bug) throws SQLException {
         bugModel.deleteBug(bug);
         bugs.remove(bug);
     }
@@ -459,8 +483,8 @@ public class DataModel {
 
     public ObservableList<Bug> getAllUnresolvedBugs() {
         ObservableList<Bug> unresolvedBugs = FXCollections.observableArrayList();
-        for(Bug b : bugs){
-            if(!b.isBugResolved()){
+        for (Bug b : bugs) {
+            if (!b.isBugResolved()) {
                 unresolvedBugs.add(b);
             }
         }
@@ -487,7 +511,7 @@ public class DataModel {
 
     // TODO Carlo javadoc
 
-    public void addSetting(Settings settings) {
+    public void addSetting(Settings settings) throws SQLException {
         settingsModel.addSetting(settings);
         this.settings.add(settings);
     }
@@ -512,12 +536,12 @@ public class DataModel {
         return null;
     }
 
-    public void deleteSetting(Settings settings) {
+    public void deleteSetting(Settings settings) throws SQLException {
         settingsModel.deleteSetting(settings);
         this.settings.remove(settings);
     }
 
-    public void updateSetting(Settings oldSettings, Settings newSettings) {
+    public void updateSetting(Settings oldSettings, Settings newSettings) throws SQLException {
         settingsModel.updateSetting(oldSettings, newSettings);
         settings.remove(oldSettings);
         settings.add(newSettings);

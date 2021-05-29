@@ -44,7 +44,6 @@ public class AdminDashboardController implements Initializable {
     private ImageView image;
 
     private boolean isMaximized = false;
-    private BugModel bugModel = BugModel.getInstance();
     private EmailManager emailManager = EmailManager.getInstance();
 
     @Override
@@ -78,8 +77,6 @@ public class AdminDashboardController implements Initializable {
 
         if (!emailManager.canSendEmail())
             WarningController.createWarning(String.format("The email: \"%s\" for sending email notification for administrators is incorrect! Managers and users are not able to send emails until it's set correctly.", emailManager.getUsername()));
-
-
     }
 
     /**
@@ -158,11 +155,11 @@ public class AdminDashboardController implements Initializable {
                 SceneMover sceneMover = new SceneMover();
 
                 // Reset the singleton instance so we don't leave any cache behind.
-                UserModel.getInstance().resetSingleton();
-                ScreenModel.getInstance().resetSingleton();
-                BugModel.getInstance().resetSingleton();
-                MessageModel.getInstance().resetSingleton();
-                SettingsModel.getInstance().resetSingleton();
+//                UserModel.getInstance().resetSingleton();
+//                ScreenModel.getInstance().resetSingleton();
+//                BugModel.getInstance().resetSingleton();
+//                MessageModel.getInstance().resetSingleton();
+//                SettingsModel.getInstance().resetSingleton();
 
                 StageShower stageShower = new StageShower();
 

@@ -1,12 +1,13 @@
 package DAL;
 
 import BE.Department;
-import BE.User;
 import BLL.DepartmentBuilder;
 import DAL.DbConnector.DbConnectionHandler;
-import GUI.Controller.PopupControllers.WarningController;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,14 +17,14 @@ import java.util.List;
 public class DepartmentDAL {
 
     private final DbConnectionHandler dbCon = DbConnectionHandler.getInstance();
-    private final ResultSetParser resultSetParser = new ResultSetParser();
     private final DepartmentBuilder departmentBuilder = new DepartmentBuilder();
 
     /**
      * Adds a department to the database, and sets the id of the department to the identity given in the Database
      * @param department the department you want to add
      */
-    public void addDepartment(Department department) {
+    public void addDepartment(Department department) throws SQLException {
+
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Department VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             pSql.setString(1, department.getName());
@@ -33,10 +34,9 @@ public class DepartmentDAL {
             generatedKeys.next();
             department.setId(generatedKeys.getInt(1));
 
-        }catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add a new department " +
-                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
 
     }
@@ -46,7 +46,8 @@ public class DepartmentDAL {
      * @param department the superDepartment
      * @param subDepartment the subDepartment
      */
-    public void addSubDepartment(Department department, Department subDepartment) {
+
+    public void addSubDepartment(Department department, Department subDepartment) throws SQLException {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO SubDepartment VALUES(?,?)");
             pSql.setInt(1, department.getId());
@@ -54,8 +55,7 @@ public class DepartmentDAL {
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to add a new department " +
-                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
 
@@ -75,9 +75,9 @@ public class DepartmentDAL {
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Department WHERE Id=?");
             pSql.setInt(1, department.getId());
 
-            try{
+            try {
                 pSql.execute();
-            } catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 con.rollback();
                 con.setAutoCommit(true);
                 con.setTransactionIsolation(Connection.TRANSACTION_NONE);
@@ -147,13 +147,12 @@ public class DepartmentDAL {
             pSql.execute();
 
             addDepartmentsAndUsers(departments, pSql.getResultSet());
+            return departments;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to retrieve all titles " +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            return null;
         }
-        return departments;
     }
 
     /**
@@ -170,11 +169,12 @@ public class DepartmentDAL {
 
     }
 
+
     /**
      * Updates the given department with the given parameters in the department
      * @param department the department
      */
-    public void updateDepartment(Department department) {
+    public void updateDepartment(Department department) throws SQLException {
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("UPDATE Department SET Name=?, Manager=? WHERE Id=?");
             pSql.setString(1, department.getName());
@@ -183,99 +183,7 @@ public class DepartmentDAL {
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to update a title " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
-        }
-    }
-
-    public void exportPhoneNumbers(List<Department> departments) {
-        try {
-            var sb = new StringBuilder();
-            for (int i = 0; i < departments.size(); i++) {
-                var department = departments.get(i);
-                var users = department.getUsers();
-
-                sb.append(String.format("====== %s ======\n", department.getName()));
-
-                int userCount = 0;
-                for (int u = 0; u < users.size(); u++) {
-                    userCount++;
-                    var user = users.get(u);
-                    int phone = user.getPhone() < 0 ? user.getPhone() * -1 : user.getPhone();
-                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), phone));
-                }
-
-                sb.append("\n\n");
-            }
-
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            var file = new File(String.format("src/Resources/phonelist_%s_%s.txt", LocalDateTime.now().format(format), LocalDateTime.now().hashCode()));
-            var writer = new BufferedWriter(new FileWriter(file));
-            writer.write(sb.toString());
-
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // TODO extract duplicate method
-    public void exportPhoneNumbers(List<Department> departments, String outputFile) {
-        try {
-            var sb = new StringBuilder();
-            for (int i = 0; i < departments.size(); i++) {
-                var department = departments.get(i);
-                var users = department.getUsers();
-
-                sb.append(String.format("====== %s ======\n", department.getName()));
-
-                int userCount = 0;
-                for (int u = 0; u < users.size(); u++) {
-                    userCount++;
-                    var user = users.get(u);
-                    int phone = user.getPhone() < 0 ? user.getPhone() * -1 : user.getPhone();
-                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), phone));
-                }
-
-                sb.append("\n\n");
-            }
-
-            var file = new File(outputFile);
-            var writer = new BufferedWriter(new FileWriter(file));
-            writer.write(sb.toString());
-
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void exportPhoneNumbers(List<Department> departments, File outputFile) {
-        try {
-            var sb = new StringBuilder();
-            for (int i = 0; i < departments.size(); i++) {
-                var department = departments.get(i);
-                var users = department.getUsers();
-
-                sb.append(String.format("============ %s ============\n", department.getName()));
-
-                int userCount = 0;
-                for (int u = 0; u < users.size(); u++) {
-                    userCount++;
-                    var user = users.get(u);
-                    int phone = user.getPhone() < 0 ? user.getPhone() * -1 : user.getPhone();
-                    sb.append(String.format("%s     %s      %d\n", user.getFirstName(), user.getLastName(), phone));
-                }
-
-                sb.append("\n\n");
-            }
-
-            var writer = new BufferedWriter(new FileWriter(outputFile));
-            writer.write(sb.toString());
-
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            throw throwables;
         }
     }
 }

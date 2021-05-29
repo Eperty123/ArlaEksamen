@@ -35,7 +35,7 @@ public class DbMSSQLConnectionProvider implements IDbConnectionProvider {
     public DbMSSQLConnectionProvider() {
     }
 
-    public DbMSSQLConnectionProvider(String settingsFile) {
+    public DbMSSQLConnectionProvider(String settingsFile) throws SQLException {
         loadSettingsFile(settingsFile);
         connect();
     }
@@ -48,7 +48,7 @@ public class DbMSSQLConnectionProvider implements IDbConnectionProvider {
     /**
      * Connect to the database.
      */
-    public Connection connect() {
+    public Connection connect() throws SQLException {
         ds = new SQLServerDataSource();
         ds.setServerName(getHost());
         ds.setDatabaseName(getDatabase());
@@ -63,18 +63,15 @@ public class DbMSSQLConnectionProvider implements IDbConnectionProvider {
      * Reconnect to the database.
      */
     @Override
-    public Connection reconnect() {
+    public Connection reconnect() throws SQLException {
         try {
             if (ds == null || ds.getConnection() != null && ds.getConnection().isClosed())
                 return connect();
             return ds.getConnection();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong trying to reconnect to the Database." +
-                    " Please try again. If the problem persists, please contact an IT-Administrator");
-
+            throw throwables;
         }
-        return null;
     }
 
 
@@ -84,7 +81,7 @@ public class DbMSSQLConnectionProvider implements IDbConnectionProvider {
      * @return The current Connection instance.
      */
     @Override
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
         return reconnect();
     }
 

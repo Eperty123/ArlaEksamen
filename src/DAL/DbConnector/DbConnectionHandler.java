@@ -6,6 +6,7 @@ import GUI.Controller.PopupControllers.WarningController;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -21,6 +22,10 @@ public class DbConnectionHandler {
 
     public DbConnectionHandler() {
         loadDatabaseSettings();
+    }
+
+    public DbConnectionHandler(String databaseSettings) throws IOException {
+        loadDatabaseSettings(databaseSettings);
     }
 
     /**
@@ -47,8 +52,31 @@ public class DbConnectionHandler {
             database.setPort(Integer.parseInt(databaseProperties.getProperty("Port")));
         } catch (IOException e) {
             e.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong trying to read the Database settings." +
-                    " Please try again. If the problem persists, please contact an IT-Administrator");
+        }
+    }
+
+    private void loadDatabaseSettings(String databaseSettings) throws IOException {
+        Properties databaseProperties = new Properties();
+        try {
+            databaseProperties.load(new FileInputStream(databaseSettings));
+
+            // Get the database type and determine which of the connection providers to use.
+            DatabaseType databaseType = DatabaseType.valueOf(databaseProperties.getProperty("DatabaseType"));
+
+            switch (databaseType) {
+                case MySQL -> database = new DbMysqlConnectionProvider();
+                case MSSQL -> database = new DbMSSQLConnectionProvider();
+            }
+
+            // Now load database settings.
+            database.setHost(databaseProperties.getProperty("Server"));
+            database.setDatabase(databaseProperties.getProperty("Database"));
+            database.setUser(databaseProperties.getProperty("User"));
+            database.setPassword(databaseProperties.getProperty("Password"));
+            database.setPort(Integer.parseInt(databaseProperties.getProperty("Port")));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -59,7 +87,7 @@ public class DbConnectionHandler {
      *
      * @return Returns the current active Connection to the database.
      */
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
         return database.getConnection();
     }
 

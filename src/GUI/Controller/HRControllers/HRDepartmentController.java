@@ -1,6 +1,7 @@
 package GUI.Controller.HRControllers;
 
 import BE.Department;
+import BLL.DepartmentExtension;
 import BE.SceneMover;
 import BE.Searcher;
 import DAL.Parser.UserBackUp;
@@ -27,8 +28,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.xml.crypto.Data;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -83,9 +83,15 @@ public class HRDepartmentController implements Initializable {
         // Remove all nodes.
         flowpane.getChildren().clear();
 
-        // Add all screens.
-        for (Department d : DataModel.getInstance().getDepartments()) {
-            handleNewDepartment(d);
+        // Add all departments.
+
+        try {
+            for (Department d : DataModel.getInstance().getDepartments()) {
+                handleNewDepartment(d);
+            }
+        } catch (NullPointerException throwables) {
+            throwables.printStackTrace();
+            WarningController.createWarning("Oh no! Failed to load all departments! Please try again. If this persists, contact an IT-Administrator.");
         }
     }
 
@@ -211,7 +217,6 @@ public class HRDepartmentController implements Initializable {
 
     /**
      * Displays the add Employee screen.
-     *
      */
     public void handleImportUsers() {
 
@@ -221,7 +226,12 @@ public class HRDepartmentController implements Initializable {
         fileChooser.setTitle("Select a user backup to import");
         var chosenFile = fileChooser.showOpenDialog(stage);
         if (chosenFile != null && chosenFile.exists()) {
-            userBackUp.importUsers(chosenFile.getAbsolutePath());
+            try {
+                userBackUp.importUsers(chosenFile.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace();
+                WarningController.createWarning("Failed to import the backup file! Please check if the file path is correct.");
+            }
             loadAllDepartments();
         }
     }
@@ -259,7 +269,7 @@ public class HRDepartmentController implements Initializable {
             fileChooser.setInitialFileName(String.format("phone_list_%s", LocalDateTime.now().format(formatter)));
             var chosenFile = fileChooser.showSaveDialog(stage);
             if (chosenFile != null) {
-                departmentModel.exportPhoneNumbers(selectedDepartments, chosenFile);
+                DepartmentExtension.exportPhoneNumbers(selectedDepartments, chosenFile);
                 //loadAllDepartments();
             }
         } else {

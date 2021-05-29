@@ -1,5 +1,7 @@
 package DAL.Parser;
 
+import java.io.FileNotFoundException;
+
 /**
  * Author: Carlo De Leon
  * Version: 1.0.0
@@ -10,7 +12,7 @@ public interface IFileParser {
      *
      * @param file The CSV file to load.
      */
-    void loadFile(String file);
+    void loadFile(String file) throws FileNotFoundException;
 
     /**
      * Parse the file.
@@ -19,7 +21,7 @@ public interface IFileParser {
      * @param <T>  The return type.
      * @return Returns the parsed file.
      */
-    <T> T parse(String file);
+    <T> T parse(String file) throws FileNotFoundException;
 
     /**
      * Parse the loaded file.

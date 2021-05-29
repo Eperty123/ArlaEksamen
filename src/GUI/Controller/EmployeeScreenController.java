@@ -26,6 +26,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -117,7 +118,12 @@ public class EmployeeScreenController implements Initializable {
             userMessages.forEach(message -> {
                 if (txtMessage.getText() == message.getMessage() || LocalDateTime.now().isBefore(message.getMessageStartTime()) || LocalDateTime.now().isAfter(message.getMessageEndTime())) {
                     if (message.getMessageEndTime().isBefore(LocalDateTime.now())) ;
-                    DataModel.getInstance().deleteMessage(message);
+                    try {
+                        DataModel.getInstance().deleteMessage(message);
+                    } catch (SQLException throwables) {
+                        //throwables.printStackTrace();
+                        WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message. Please try again, and if the problem persists, contact an IT Administrator.");
+                    }
                 } else {
                     if (messageAtomicReference.get() == null || messageAtomicReference.get().getMessageType() != MessageType.Admin || message.getMessageType() == MessageType.Admin)
                         messageAtomicReference.set(message);
@@ -216,9 +222,15 @@ public class EmployeeScreenController implements Initializable {
                 Bug newBug = new Bug(result.get(), Timestamp.valueOf(LocalDateTime.now()).toString());
                 newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
-                DataModel.getInstance().addBug(newBug);
-                WarningController.createWarning("Report Send!", "Bug report successfully send, " +
-                        "thank you for helping improving this program!");
+                try {
+                    DataModel.getInstance().addBug(newBug);
+                    WarningController.createWarning("Report Send!", "Bug report successfully send, " +
+                            "thank you for helping improving this program!");
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                    WarningController.createWarning("Oh no! Failed to add the bug report to the database. If this persists, contact an IT-Administrator.");
+                }
             }
         }
     }

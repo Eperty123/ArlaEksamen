@@ -5,7 +5,6 @@ import BLL.DepartmentManager;
 import GUI.Controller.DPT.DepartmentStageController;
 import GUI.Controller.StageBuilder;
 import GUI.Model.DataModel;
-import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +36,8 @@ public class DPMAINTEST extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/View/DPT/DepartmentStage.fxml"));
         AnchorPane node = loader.load();
         DepartmentStageController con2 = loader.getController();
-        for(Department department:departmentManager.getSuperDepartment())
-        con2.addChildrenNode(department);
+        for (Department department : departmentManager.getSuperDepartments())
+            con2.addChildrenNode(department);
 
         Button b = new Button("Save");
         con2.getChildrenNodes().add(b);
@@ -46,16 +46,20 @@ public class DPMAINTEST extends Application {
             con2.getDepartmentViewControllers().forEach(vc -> {
                 vc.getAllSubDepartments().forEach(item -> {
                     List<User> users = new ArrayList<>(item.getUsers());
-                    users.removeIf(u->u.getUserName().isEmpty() || u.getUserRole()!=UserType.Admin);
+                    users.removeIf(u -> u.getUserName().isEmpty() || u.getUserRole() != UserType.Admin);
                     if (!users.isEmpty() && item.getManager() == null) {
                         item.setManager(users.get(0));
-                        DataModel.getInstance().addDepartment(item);
+                        try {
+                            DataModel.getInstance().addDepartment(item);
 
-                        for (Department dpt : vc.getDepartment().getAllSubDepartments()) {
-                            if (dpt.getSubDepartments().contains(item)) {
-                                DataModel.getInstance().addSubDepartment(dpt, item);
-                                break;
+                            for (Department dpt : vc.getDepartment().getAllSubDepartments()) {
+                                if (dpt.getSubDepartments().contains(item)) {
+                                    DataModel.getInstance().addSubDepartment(dpt, item);
+                                    break;
+                                }
                             }
+                        } catch (SQLException throwables) {
+                            // Error on adding and updating department.
                         }
                     } else if (item.getManager() == null) {
                         User placeholderUser = new User();
@@ -63,7 +67,12 @@ public class DPMAINTEST extends Application {
                         item.setManager(placeholderUser);
                     }
                 });
-                UserModel.getInstance().updateUserDepartment(vc.getAllSubDepartments());
+                try {
+                    UserModel.getInstance().updateUserDepartment(vc.getAllSubDepartments());
+                }
+                catch (SQLException throwables) {
+                    // Error on update user department.
+                }
             });
         });
 

@@ -26,70 +26,75 @@ public class MessageDAL {
     public List<Message> getAllMessages() {
         List<Message> messages = new ArrayList<>();
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("SELECT * FROM Message");
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
 
-            while(rs.next()){
+            while (rs.next()) {
                 messages.add(getMessage(rs));
             }
 
+            return messages;
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages " +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            //throw throwables;
+            return null;
         }
-        return messages;
     }
 
     /**
      * Retrieves a list of messages, specific to a user.
+     *
      * @param user user who's messages are retrieved.
      * @return List
      */
     public List<Message> getUsersMessages(User user) {
         List<Message> messages = new ArrayList<>();
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("SELECT * FROM Message WHERE Author=?");
             pSql.setString(1, user.getUserName());
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
-            while(rs.next()){
+            while (rs.next()) {
                 messages.add(getMessage(rs));
             }
+
+            return messages;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages for the specified user" +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            //throw throwables;
+            return null;
         }
-        return messages;
     }
 
     public List<Message> getUsersMessages(String user) {
         List<Message> messages = new ArrayList<>();
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("SELECT * FROM Message WHERE Author=?");
             pSql.setString(1, user);
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
-            while(rs.next()){
+            while (rs.next()) {
                 messages.add(getMessage(rs));
             }
+            return messages;
         } catch (SQLException throwables) {
-            WarningController.createWarning("Oh no! Something went wrong when attempting to get all messages for the specified user" +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throwables.printStackTrace();
+            //throw throwables;
+            return null;
         }
-        return messages;
     }
 
     /**
      * Creates a Message object from a ResultSet row.
+     *
      * @param rs
      * @throws SQLException
      */
@@ -110,16 +115,16 @@ public class MessageDAL {
      *
      * @param screenBit ScreenBit to
      */
-    public void loadScreenBitsMessages(ScreenBit screenBit)  {
+    public void loadScreenBitsMessages(ScreenBit screenBit) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement(
-             "SELECT [Message].*, " +
-                 "ScreenMessage.ScreenId AS ScreenId " +
-                 "FROM Message " +
-                 "LEFT OUTER JOIN ScreenMessage " +
-                 "ON [Message].Id = ScreenMessage.MessageId WHERE ScreenId=?");
-            pSql.setInt(1,screenBit.getId());
+                    "SELECT [Message].*, " +
+                            "ScreenMessage.ScreenId AS ScreenId " +
+                            "FROM Message " +
+                            "LEFT OUTER JOIN ScreenMessage " +
+                            "ON [Message].Id = ScreenMessage.MessageId WHERE ScreenId=?");
+            pSql.setInt(1, screenBit.getId());
             pSql.execute();
 
             ResultSet rs = pSql.getResultSet();
@@ -128,8 +133,7 @@ public class MessageDAL {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong trying to load the messages for this screen. " +
-                    "Please try again. If the problem persists, please contact an IT-Administrator");
+            throw throwables;
         }
     }
 
@@ -137,13 +141,13 @@ public class MessageDAL {
      * Adds the new message to the database, books the relevant time slots in the ScreenBit(s) time table,
      * and creates associations between the message and the ScreenBit(s) it is assigned to.
      *
-     * @param user used to set the message's author in the database.
-     * @param newMessage Object containing the new message information.
+     * @param user               used to set the message's author in the database.
+     * @param newMessage         Object containing the new message information.
      * @param assignedScreenBits ScreenBit(s) to have the message assigned to it.
      */
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
 
             con.setAutoCommit(false); // Enable transaction
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
@@ -156,14 +160,14 @@ public class MessageDAL {
             pSql.setInt(6, newMessage.getMessageType().ordinal());
             pSql.setString(7, user.getUserName());
 
-            try{
+            try {
                 pSql.execute();
                 // Toggle's the ScreenBits timetable, so that it is booked during the message's duration.
-                if(newMessage.getMessageType() != MessageType.Admin){
+                if (newMessage.getMessageType() != MessageType.Admin) {
                     bookTimeSlots(con, newMessage, assignedScreenBits);
                 }
 
-            } catch (SQLException throwables){
+            } catch (SQLException throwables) {
                 con.rollback();
                 con.setAutoCommit(true);
                 con.setTransactionIsolation(Connection.TRANSACTION_NONE);
@@ -179,16 +183,16 @@ public class MessageDAL {
             throwables.printStackTrace();
             throw throwables;
         }
-            // Creates associations between message and ScreenBit(s) in the ScreenMessage junction table.
-            assignScreenBitMessages(user, newMessage, assignedScreenBits);
+        // Creates associations between message and ScreenBit(s) in the ScreenMessage junction table.
+        assignScreenBitMessages(user, newMessage, assignedScreenBits);
     }
 
     /**
      * A ScreenBit has a time table with possible time slots for a message to be displayed. When assigning a
      * message, the time slots corresponding to the duration of the message will be set du "unavailable".
      *
-     * @param con Connection to the database.
-     * @param newMessage Object
+     * @param con                Connection to the database.
+     * @param newMessage         Object
      * @param assignedScreenBits
      * @throws SQLException
      */
@@ -197,9 +201,9 @@ public class MessageDAL {
         List<LocalDateTime> timeSlots = getSlots(newMessage);
 
         PreparedStatement pSql = con.prepareStatement("UPDATE ScreenTime SET Available=? WHERE ScreenId=? AND TimeSlot=?");
-        for(ScreenBit s : assignedScreenBits){
-            for(int i = 0; i < timeSlots.size(); i++){
-                pSql.setBoolean(1,false);
+        for (ScreenBit s : assignedScreenBits) {
+            for (int i = 0; i < timeSlots.size(); i++) {
+                pSql.setBoolean(1, false);
                 pSql.setInt(2, s.getId());
                 pSql.setTimestamp(3, Timestamp.valueOf(timeSlots.get(i)));
                 pSql.addBatch();
@@ -220,7 +224,7 @@ public class MessageDAL {
         int slotCount = TimeSlotCalculator.calculateTimeSlots(newMessage);
 
         // Adding LocalDateTime objects with 30 minute increments (appropriate for the ScreenBit's time table.
-        for(int i = 0; i < slotCount; i++){
+        for (int i = 0; i < slotCount; i++) {
             timeSlots.add(newMessage.getMessageStartTime().plusMinutes(i * 30));
         }
         return timeSlots;
@@ -231,17 +235,17 @@ public class MessageDAL {
      * in the junction table ScreenMessage in the database. The method uses batches in case more than one ScreenBit
      * has been assigned.
      *
-     * @param user // TODO delete this param?
-     * @param message Object containing message information.
+     * @param user               // TODO delete this param?
+     * @param message            Object containing message information.
      * @param assignedScreenBits List of ScreenBits to have the message assigned to them.
      */
-    private void assignScreenBitMessages(User user, Message message, List<ScreenBit> assignedScreenBits) {
-        try(Connection con = dbCon.getConnection()){
+    private void assignScreenBitMessages(User user, Message message, List<ScreenBit> assignedScreenBits) throws SQLException {
+        try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement("INSERT INTO ScreenMessage VALUES (?,?)");
 
-            for(ScreenBit s : assignedScreenBits){
-                pSql.setInt(1,message.getId());
+            for (ScreenBit s : assignedScreenBits) {
+                pSql.setInt(1, message.getId());
                 pSql.setInt(2, s.getId());
                 pSql.addBatch();
             }
@@ -249,19 +253,19 @@ public class MessageDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to make an associtaion between " +
-                    "a list of screens and a message in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
 
 
     /**
      * Deletes a message from the database.
+     *
      * @param message message to be deleted.
      */
-    public void deleteMessage(Message message) {
+    public void deleteMessage(Message message) throws SQLException {
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
             // Deletes all association entries from the junction table ScreenMessage.
             deleteMessageScreenAssociation(con, message);
 
@@ -270,16 +274,15 @@ public class MessageDAL {
             pSql.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message " +
-                    "from the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
 
     }
-  
+
     /**
      * Deletes all association entries from the junction table ScreenMessage.
      *
-     * @param con Connection to the database.
+     * @param con     Connection to the database.
      * @param message object containing the message Id, which is used in the query.
      * @throws SQLException
      */
@@ -293,20 +296,21 @@ public class MessageDAL {
     /**
      * Updates an existing message in the database. Message, start- and end-time, and color can be changed
      * by the client.
+     *
      * @param oldMessage object containing the old message info for referencing the database.
      * @param newMessage object containing the new message info for updating the database.
      */
-    public void updateMessage(Message oldMessage, Message newMessage) {
+    public void updateMessage(Message oldMessage, Message newMessage) throws SQLException {
 
-        try(Connection con = dbCon.getConnection()){
+        try (Connection con = dbCon.getConnection()) {
 
             PreparedStatement pSql = con.prepareStatement(
                     "UPDATE Message " +
-                        "SET Message=?," +
-                        "StartTime=?, " +
+                            "SET Message=?," +
+                            "StartTime=?, " +
                             "EndTime=?, " +
                             "TextColor=?" +
-                        "WHERE Id=?");
+                            " WHERE Id=?");
 
             pSql.setString(1, newMessage.getMessage());
             pSql.setTimestamp(2, Timestamp.valueOf(newMessage.getMessageStartTime()));
@@ -314,14 +318,11 @@ public class MessageDAL {
             pSql.setString(4, String.valueOf(newMessage.getTextColor()));
             pSql.setInt(5, oldMessage.getId());
 
+            pSql.executeUpdate();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-
-            WarningController.createWarning("Oh no! Something went wrong when attempting to update a message " +
-                    "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+            throw throwables;
         }
     }
-
-
-
 }

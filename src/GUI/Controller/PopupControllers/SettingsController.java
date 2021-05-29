@@ -16,6 +16,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
@@ -104,20 +105,32 @@ public class SettingsController implements Initializable {
                 var setting = allSettings.get(i);
                 var updatedValue = getValueForSettingsType(setting.getType());
                 Settings newSetting = new Settings();
+                newSetting.setType(setting.getType());
                 newSetting.setAttribute(updatedValue);
-                DataModel.getInstance().updateSetting(setting, newSetting);
+                try {
+                    DataModel.getInstance().updateSetting(setting, newSetting);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                    WarningController.createWarning("Oh no! Something went wrong when attempting to update the setting " +
+                            "in the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+                }
             }
         }
 
         // Create new settings...
-        if (DataModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY) == null)
-            DataModel.getInstance().addSetting(new Settings(SettingsType.MESSAGE_CHECK_FREQUENCY, getValueForSettingsType(SettingsType.MESSAGE_CHECK_FREQUENCY)));
+        try {
+            if (DataModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY) == null)
+                DataModel.getInstance().addSetting(new Settings(SettingsType.MESSAGE_CHECK_FREQUENCY, getValueForSettingsType(SettingsType.MESSAGE_CHECK_FREQUENCY)));
 
-        if (DataModel.getInstance().getSettingByType(SettingsType.CARD_OPEN_DURATION) == null)
-            DataModel.getInstance().addSetting(new Settings(SettingsType.CARD_OPEN_DURATION, getValueForSettingsType(SettingsType.CARD_OPEN_DURATION)));
+            if (DataModel.getInstance().getSettingByType(SettingsType.CARD_OPEN_DURATION) == null)
+                DataModel.getInstance().addSetting(new Settings(SettingsType.CARD_OPEN_DURATION, getValueForSettingsType(SettingsType.CARD_OPEN_DURATION)));
 
-        if (DataModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION) == null)
-            DataModel.getInstance().addSetting(new Settings(SettingsType.WRONG_PASS_FREEZE_DURATION, getValueForSettingsType(SettingsType.WRONG_PASS_FREEZE_DURATION)));
+            if (DataModel.getInstance().getSettingByType(SettingsType.WRONG_PASS_FREEZE_DURATION) == null)
+                DataModel.getInstance().addSetting(new Settings(SettingsType.WRONG_PASS_FREEZE_DURATION, getValueForSettingsType(SettingsType.WRONG_PASS_FREEZE_DURATION)));
+        } catch (SQLException throwables) {
+            WarningController.createWarning("Oh no! Something went wrong when attempting to add the setting " +
+                    "to the Database. Please try again, and if the problem persists, contact an IT Administrator.");
+        }
     }
 
     /**

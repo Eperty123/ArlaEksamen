@@ -1,5 +1,6 @@
 package BLL;
 
+import BE.IMessageCRUD;
 import BE.Message;
 import BE.ScreenBit;
 import BE.User;
@@ -10,75 +11,84 @@ import javafx.collections.ObservableList;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MessageManager {
+public class MessageManager implements IMessageCRUD {
 
-    private final MessageDAL messageDAL;
-
-    public MessageManager() {
-        this.messageDAL = new MessageDAL();
-    }
+    private final MessageDAL messageDAL = new MessageDAL();
 
     /**
      * Adds a message to the database, and creates a relation
-     * @param user
-     * @param newMessage
-     * @param assignedScreenBits
+     *
+     * @param user               The user associated with the message.
+     * @param newMessage         The message to put in to the database.
+     * @param assignedScreenBits The list of screens to add the message to.
      * @throws SQLException
      */
+    @Override
     public void addMessage(User user, Message newMessage, List<ScreenBit> assignedScreenBits) throws SQLException {
-        this.messageDAL.addMessage(user, newMessage, assignedScreenBits);
-    }
-
-    /**
-     * Deletes a message from the database.
-     * @param message
-     */
-    public void deleteMessage(Message message) {
-        this.messageDAL.deleteMessage(message);
-    }
-
-    /**
-     * Updates message information in the database.
-     * @param oldMessage
-     * @param newMessage
-     */
-    public void updateMessage(Message oldMessage, Message newMessage) {
-        this.messageDAL.updateMessage(oldMessage, newMessage);
+        messageDAL.addMessage(user, newMessage, assignedScreenBits);
     }
 
     /**
      * Retrieves all messages from the database, related to the specified user.
-     * @param user
-     * @return
+     *
+     * @param message The message to remove.
      */
+    @Override
+    public void deleteMessage(Message message) throws SQLException {
+        messageDAL.deleteMessage(message);
+    }
+
+    /**
+     * Update an existing message with a new one.
+     *
+     * @param oldMessage The current message to update.
+     * @param newMessage The new message to update to.
+     * @throws SQLException
+     */
+    @Override
+    public void updateMessage(Message oldMessage, Message newMessage) throws SQLException {
+        messageDAL.updateMessage(oldMessage, newMessage);
+    }
+
+    /**
+     * Get a list of messages of the specified user.
+     *
+     * @param user The user to get messages of.
+     * @return Returns a list of the user's messages.
+     */
+    @Override
     public List<Message> getUsersMessages(User user) {
-        return this.messageDAL.getUsersMessages(user);
+        return messageDAL.getUsersMessages(user);
     }
 
     /**
      * Retrieves all messages from the database, related to the specified user name.
-     * @param user
+     *
+     * @param user The user to get messages of.
      * @return
      */
+    @Override
     public List<Message> getUsersMessages(String user) {
-        return this.messageDAL.getUsersMessages(user);
-    }
-
-    /**
-     * Load messages from the database related to the specified ScreenBit.
-     * @param screen
-     */
-    public void loadScreenBitsMessages(ScreenBit screen) {
-        this.messageDAL.loadScreenBitsMessages(screen);
+        return messageDAL.getUsersMessages(user);
     }
 
     /**
      * Retrieves all messages from the database.
+     *
      * @return
      */
-    public ObservableList<Message> getAllMessages() {
-        return FXCollections.observableArrayList(this.messageDAL.getAllMessages());
+    @Override
+    public void loadScreenBitsMessages(ScreenBit screen) throws SQLException {
+        messageDAL.loadScreenBitsMessages(screen);
     }
 
-
+    /**
+     * Get all messages in form of an ObservableList.
+     *
+     * @return
+     */
+    @Override
+    public ObservableList<Message> getAllMessages() {
+        return FXCollections.observableArrayList(messageDAL.getAllMessages());
+    }
 }
