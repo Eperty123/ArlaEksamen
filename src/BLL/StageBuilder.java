@@ -58,9 +58,9 @@ public class StageBuilder {
             pickerStageController.flipSplitPane();
         }
         //Ensures the builderString follows the pattern below which is the first letter of the orientation, and a double less than one with two decimal points
-        String pickerPattern = "^[HV][01]\\.\\d\\d";
+        String pickerPattern = "^[HV]0\\.\\d\\d";
         if (builderString.length() >= 5 && Pattern.matches(pickerPattern, builderString.substring(0, 5))) {
-            //At this stage we pull the orientation and Devider position from the builderString, split the stage and cut these parts off the builderString
+            //At this stage we pull the orientation  and Devider position from the builderString, split the stage and cut these parts off the builderString
             pickerStageController.split(getOrientation(builderString));
             builderString = builderString.substring(1);
             double dividerPoint = Double.parseDouble(builderString.substring(0, 3));
