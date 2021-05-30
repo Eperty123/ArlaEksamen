@@ -48,7 +48,6 @@ public class DepartmentStageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         try {
             ObservableList<User> allUsers = DataModel.getInstance().getUsers();
             ObservableList<User> userCopy = FXCollections.observableArrayList(DataModel.getInstance().getUsers());
@@ -58,7 +57,7 @@ public class DepartmentStageController implements Initializable {
 
             initSearchField(allUsers);
 
-            TableDragMod.setUeditableTable(userTable);
+            TableDragMod.addUneditableTable(userTable);
             TableDragMod.makeTableDraggable(userTable);
             autofitSize();
         }
