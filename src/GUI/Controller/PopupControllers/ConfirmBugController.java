@@ -40,6 +40,7 @@ public class ConfirmBugController {
 
                 try {
                     DataModel.getInstance().updateBug(selectedBug, updatedBug);
+                    DataModel.getInstance().updateAllBugs();
 
                     Stage stage = (Stage) root.getScene().getWindow();
                     stage.close();
