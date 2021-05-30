@@ -75,7 +75,8 @@ public class PickerStageController implements Initializable {
                 new MenuItemBit("Change Orientation", (action) -> {
                     if (closestParentPickerStageController != null) {
                         Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
-                        closestParentPickerStageController.getSplitPane().setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
+                        closestParentPickerStageController.getSplitPane().setOrientation(
+                                oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
                     } else {
                         Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
                         splitPane.setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);

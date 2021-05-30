@@ -91,7 +91,8 @@ public class StageBuilder {
     private void splitToSeparateControllers(PickerStageController pickerStageController, String builderString, String pickerPattern) {
         //If the builderString contains '{' we are safe to assume it contains the end bracket,
         //so we use helper method findEndBracket to find the right end bracket and split it up to two strings
-        String[] builderStrings = {builderString.substring(0, findEndBracket(builderString, '{', '}') + 1), builderString.substring(findEndBracket(builderString, '{', '}') + 1)};
+        String[] builderStrings = {builderString.substring(0, findEndBracket(builderString, '{', '}') + 1),
+                builderString.substring(findEndBracket(builderString, '{', '}') + 1)};
         //If it doesnt have the start bracket, we can assume it doesnt have an end bracket and can split it by the "|"
         if (!builderString.contains("{") && builderString.split("\\|").length == 2) {
             builderStrings = builderString.split("\\|");
