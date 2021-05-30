@@ -25,7 +25,7 @@ public class TableDragMod {
      * Makes a table uneditable
      * @param uneditableTable
      */
-    public static void setUeditableTable(TableView<User> uneditableTable) {
+    public static void addUneditableTable(TableView<User> uneditableTable) {
         if(!uneditableTables.contains(uneditableTable))
             uneditableTables.add(uneditableTable);
     }

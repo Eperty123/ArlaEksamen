@@ -57,10 +57,12 @@ public class StageBuilder {
 
             pickerStageController.flipSplitPane();
         }
-        //Ensures the builderString follows the pattern below which is the first letter of the orientation, and a double less than one with two decimal points
+        //Ensures the builderString follows the pattern below which is the first letter of the orientation,
+        // and a double less than one with two decimal points
         String pickerPattern = "^[HV]0\\.\\d\\d";
         if (builderString.length() >= 5 && Pattern.matches(pickerPattern, builderString.substring(0, 5))) {
-            //At this stage we pull the orientation  and Devider position from the builderString, split the stage and cut these parts off the builderString
+            //At this stage we pull the orientation  and Devider position from the builderString, split
+            // the stage and cut these parts off the builderString
             pickerStageController.split(getOrientation(builderString));
             builderString = builderString.substring(1);
             double dividerPoint = Double.parseDouble(builderString.substring(0, 3));
@@ -72,7 +74,8 @@ public class StageBuilder {
                 splitToSeparateControllers(pickerStageController, builderString, pickerPattern);
             }
         } else {
-            //if it does not follow the picker pattern its either and invalid builder pattern or a view, so we try to make it
+            //if it does not follow the picker pattern its either an
+            // invalid builder pattern or a view, so we try to make it
             makeView(pickerStageController, builderString);
         }
         return node;
