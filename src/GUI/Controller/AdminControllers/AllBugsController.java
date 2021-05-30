@@ -3,7 +3,7 @@ package GUI.Controller.AdminControllers;
 import BE.Bug;
 import BE.Searcher;
 import BE.User;
-import GUI.Controller.StageBuilder;
+import BLL.StageBuilder;
 import GUI.Model.DataModel;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.ReadOnlyObjectWrapper;

@@ -3,7 +3,7 @@ import BE.User;
 import BE.UserType;
 import BLL.DepartmentManager;
 import GUI.Controller.DPT.DepartmentStageController;
-import GUI.Controller.StageBuilder;
+import BLL.StageBuilder;
 import GUI.Model.DataModel;
 import GUI.Model.UserModel;
 import javafx.application.Application;

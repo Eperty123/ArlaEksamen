@@ -1,4 +1,4 @@
-package GUI.Controller;
+package BLL;
 
 import BLL.DataNodes.ViewType;
 import BLL.ViewMaker;
