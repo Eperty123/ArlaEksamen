@@ -1,8 +1,9 @@
-package BE;
+package BLL;
 
+import BE.Department;
+import BE.User;
 import GUI.Controller.EmployeeCardController;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -10,23 +11,16 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.TextAlignment;
-import java.util.List;
-import java.util.ArrayList;
 
-public final class UserManagementPaneFactory {
+public final class InfoboardPaneBuilder {
     private static Department currentDepartment;
 
-    private static final ArrayList<User> selectedUser = new ArrayList<>();
-    private static final List<FontAwesomeIconView> icons = new ArrayList<>();
-
-    public static BorderPane createUserManagementBoard(Department department, VBox root) {
+    public static BorderPane createInfoBoard(Department department) {
         currentDepartment = department;
 
         BorderPane bp = new BorderPane();
@@ -34,16 +28,8 @@ public final class UserManagementPaneFactory {
         bp.setTop(createBar(currentDepartment));
         bp.setCenter(createFlowPane());
 
+
         return bp;
-    }
-
-    public static void setCheckmarkVisibility(boolean visible){
-        UserManagementPaneFactory.icons.forEach(i->i.setVisible(visible));
-    }
-
-    public static void clearSelectedUserList()
-    {
-        selectedUser.clear();
     }
 
     private static Pane createBar(Department currentDepartment) {
@@ -82,8 +68,8 @@ public final class UserManagementPaneFactory {
         flowPane.setOrientation(Orientation.HORIZONTAL);
 
         for (User u : currentDepartment.getUsers()) {
-            flowPane.getChildren().add(0, createUser(u));
-            FlowPane.setMargin(createUser(u), new Insets(25, 25, 0, 25));
+                flowPane.getChildren().add(0, createUser(u));
+                FlowPane.setMargin(createUser(u), new Insets(25, 25, 0, 25));
         }
 
         return flowPane;
@@ -99,18 +85,6 @@ public final class UserManagementPaneFactory {
         newRectangle.setArcWidth(50);
         newRectangle.setFill(Paint.valueOf("#154c5d"));
         newRectangle.getStyleClass().add("SMButtons");
-
-        FontAwesomeIconView check = new FontAwesomeIconView();
-        check.setMouseTransparent(true);
-        check.setId("Check");
-        check.setIcon(FontAwesomeIcon.CHECK_CIRCLE_ALT);
-        check.setFill(Paint.valueOf("#97CE68"));
-        check.getStyleClass().add("SMButtons");
-        check.setLayoutX(128);
-        check.setLayoutY(26);
-        check.setSize(String.valueOf(16));
-        check.setVisible(false);
-        UserManagementPaneFactory.icons.add(check);
 
         ImageView image = new ImageView();
         image.setImage(u.getPhotoPath() == null ? new Image("/GUI/Resources/defaultPerson.png") : new Image(u.getPhotoPath()));
@@ -194,28 +168,53 @@ public final class UserManagementPaneFactory {
             EmployeeCardController.OpenEmployeeCard(u);
         });
 
-        newRectangle.setOnMouseClicked(e -> {
-
-            if (!selectedUser.contains(u)) {
-                UserManagementPaneFactory.selectedUser.clear();
-                setCheckmarkVisibility(false);
-                selectedUser.add(u);
-                check.setVisible(true);
-            }
-            else{
-                UserManagementPaneFactory.selectedUser.clear();
-                setCheckmarkVisibility(false);
-                check.setVisible(false);
-            }
-        });
-
-        newPane.getChildren().addAll(newRectangle, check, image, underBar, name, title, department, viewMoreButton, viewMoreLabel);
+        newPane.getChildren().addAll(newRectangle, image, underBar, name, title, department, viewMoreButton, viewMoreLabel);
 
         FlowPane.setMargin(newPane, new Insets(25, 25, 25, 25));
         return newPane;
     }
 
-    public static ArrayList<User> getSelectedUser() {
-        return selectedUser;
+    public static Pane createDepartmentLabel(Department d, HBox hbox){
+        Pane pane = new Pane();
+        pane.setPrefWidth(-1);
+        pane.setPrefHeight(30);
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setArcHeight(25);
+        rectangle.setArcWidth(25);
+        rectangle.setHeight(25);
+        rectangle.setWidth(150);
+        rectangle.setLayoutY(3);
+        rectangle.setFill(Paint.valueOf("#154c5d"));
+        rectangle.setStroke(Paint.valueOf("#ffffff"));
+        rectangle.setStrokeWidth(1);
+        rectangle.setStrokeType(StrokeType.OUTSIDE);
+
+        Label deptname = new Label();
+        deptname.setId("ID");
+        deptname.setText(d.getName());
+        deptname.setTextFill(Paint.valueOf("#ffffff"));
+        deptname.setStyle("-fx-font-size: 12px;-fx-font-weight: bold; -fx-font-style: italic");
+        deptname.setPrefSize(110,17);
+        deptname.setLayoutX(14);
+        deptname.setLayoutY(7);
+
+        MaterialDesignIconView close = new MaterialDesignIconView();
+        close.getStyleClass().add("removeUser");
+        close.setFill(Paint.valueOf("#ffffff"));
+        close.setLayoutX(128);
+        close.setLayoutY(22);
+        close.setGlyphName("CLOSE_CIRCLE_OUTLINE");
+        close.setSize("16");
+
+        close.setOnMouseClicked(e -> {
+            hbox.getChildren().remove(pane);
+        });
+
+        pane.getChildren().addAll(rectangle,deptname,close);
+
+        FlowPane.setMargin(pane,new Insets(0,0,0,20));
+
+        return pane;
     }
 }
