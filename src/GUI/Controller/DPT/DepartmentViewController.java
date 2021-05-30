@@ -157,7 +157,8 @@ public class DepartmentViewController implements Initializable {
         }
         catch (NullPointerException throwables) {
             throwables.printStackTrace();
-            WarningController.createWarning("Oh no! Failed to load all sub departments! Please try again. If this persists, contact an IT-Administrator.");
+            WarningController.createWarning("Oh no! Failed to load all sub departments!" +
+                    " Please try again. If this persists, contact an IT-Administrator.");
         }
 
         TableDragMod.makeTableDraggable(dptUsersTable);
