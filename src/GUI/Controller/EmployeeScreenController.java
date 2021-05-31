@@ -139,7 +139,6 @@ public class EmployeeScreenController implements Initializable {
             });
 
             Message message = messageAtomicReference.get();
-            System.out.println(message);
             String textColor = String.format("rgb( %s , %s , %s )", message.getTextColor().getRed() * 255, message.getTextColor().getGreen() * 255, message.getTextColor().getBlue() * 255);
             String highLightTextFillColor = String.format("rgb( %s , %s , %s )", message.getTextColor().brighter().getRed() * 255, message.getTextColor().brighter().getGreen() * 255, message.getTextColor().brighter().getBlue() * 255);
             String highLightColor = String.format("rgb( %s , %s , %s )", message.getTextColor().darker().getRed() * 255, message.getTextColor().darker().getGreen() * 255, message.getTextColor().darker().getBlue() * 255);
