@@ -55,7 +55,7 @@
                            <right>
                               <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="360.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <JFXTextField fx:id="txtSearch" focusColor="#94bdd3" layoutX="180.0" layoutY="2.0" onAction="#handleSearch" promptText="Search for a bug" styleClass="bugSearch" unFocusColor="#9f9f9f" />
+                                    <JFXTextField fx:id="txtSearch" focusColor="#94bdd3" layoutX="180.0" layoutY="2.0" onKeyPressed="#handleSearch" promptText="Search for a bug" styleClass="bugSearch" unFocusColor="#9f9f9f" />
                                     <FontAwesomeIconView fill="#ddf3f9" glyphName="SEARCH" layoutX="161.0" layoutY="20.0" />
                                  </children>
                               </Pane>

@@ -3,14 +3,7 @@ package DAL;
 import BE.Department;
 import BLL.DepartmentBuilder;
 import DAL.DbConnector.DbConnectionHandler;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,12 +63,11 @@ public class DepartmentDAL {
 
             con.setAutoCommit(false); // Enable transaction
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            deleteDepartmentUserAssociations(con, department);
-            deleteDepartmentSubDepartmentAssociations(con, department);
             PreparedStatement pSql = con.prepareStatement("DELETE FROM Department WHERE Id=?");
             pSql.setInt(1, department.getId());
-
             try {
+                deleteDepartmentUserAssociations(con, department);
+                deleteDepartmentSubDepartmentAssociations(con, department);
                 pSql.execute();
             } catch (SQLException throwables) {
                 con.rollback();

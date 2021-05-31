@@ -121,9 +121,10 @@ public class MessageDAL {
             PreparedStatement pSql = con.prepareStatement(
                     "SELECT [Message].*, " +
                             "ScreenMessage.ScreenId AS ScreenId " +
-                            "FROM Message " +
-                            "LEFT OUTER JOIN ScreenMessage " +
-                            "ON [Message].Id = ScreenMessage.MessageId WHERE ScreenId=?");
+                        "FROM Message " +
+                        "LEFT OUTER JOIN ScreenMessage " +
+                        "    ON [Message].Id = ScreenMessage.MessageId " +
+                        "    WHERE ScreenId=?");
             pSql.setInt(1, screenBit.getId());
             pSql.execute();
 
@@ -151,7 +152,8 @@ public class MessageDAL {
 
             con.setAutoCommit(false); // Enable transaction
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            PreparedStatement pSql = con.prepareStatement("INSERT INTO Message VALUES(?,?,?,?,?,?,?)");
+            PreparedStatement pSql = con.prepareStatement("" +
+                    "INSERT INTO Message VALUES(?,?,?,?,?,?,?)");
             pSql.setInt(1, newMessage.getId());
             pSql.setString(2, newMessage.getMessage());
             pSql.setTimestamp(3, Timestamp.valueOf(newMessage.getMessageStartTime()));
@@ -200,7 +202,11 @@ public class MessageDAL {
 
         List<LocalDateTime> timeSlots = getSlots(newMessage);
 
-        PreparedStatement pSql = con.prepareStatement("UPDATE ScreenTime SET Available=? WHERE ScreenId=? AND TimeSlot=?");
+        PreparedStatement pSql = con.prepareStatement(
+                "UPDATE ScreenTime " +
+                        "SET Available=? " +
+                        "    WHERE ScreenId=? " +
+                        "     AND TimeSlot=?");
         for (ScreenBit s : assignedScreenBits) {
             for (int i = 0; i < timeSlots.size(); i++) {
                 pSql.setBoolean(1, false);
@@ -223,7 +229,8 @@ public class MessageDAL {
         List<LocalDateTime> timeSlots = new ArrayList<>();
         int slotCount = TimeSlotCalculator.calculateTimeSlots(newMessage);
 
-        // Adding LocalDateTime objects with 30 minute increments (appropriate for the ScreenBit's time table.
+        // Adding LocalDateTime objects with 30 minute increments
+        // (appropriate for the ScreenBit's time table.)
         for (int i = 0; i < slotCount; i++) {
             timeSlots.add(newMessage.getMessageStartTime().plusMinutes(i * 30));
         }

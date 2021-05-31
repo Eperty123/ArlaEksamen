@@ -22,6 +22,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -99,6 +100,9 @@ public class EmployeeScreenController implements Initializable {
             if (comboScreens.getSelectionModel().getSelectedItem() != null) {
                 try {
                     setScreen(comboScreens.getValue());
+                    lblBar.setText("Employee Screen - " + comboScreens.getValue().getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                    DataModel.getInstance().loadScreenBitsMessages(screenBit);
+                    autoUpdateMessageBox();
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -111,9 +115,13 @@ public class EmployeeScreenController implements Initializable {
     private void autoUpdateMessageBox() {
         service.scheduleAtFixedRate(new Thread(() -> {
             //TODO fix such that this get the relevant messages for the current screen
-            userMessages = new ArrayList<>(DataModel.getInstance().getMessages());
+            txtMessage.clear();
+            userMessages = new ArrayList<>();
+            userMessages.clear();
+            userMessages.addAll(comboScreens.getValue().getMessages());
             userMessages.sort(Comparator.comparing(Message::getMessageStartTime));
             AtomicReference<Message> messageAtomicReference = new AtomicReference<>();
+
             userMessages.forEach(message -> {
                 if (txtMessage.getText() == message.getMessage() || LocalDateTime.now().isBefore(message.getMessageStartTime()) || LocalDateTime.now().isAfter(message.getMessageEndTime())) {
                     if (message.getMessageEndTime().isBefore(LocalDateTime.now())) ;
@@ -126,20 +134,28 @@ public class EmployeeScreenController implements Initializable {
                 } else {
                     if (messageAtomicReference.get() == null || messageAtomicReference.get().getMessageType() != MessageType.Admin || message.getMessageType() == MessageType.Admin)
                         messageAtomicReference.set(message);
+
                 }
             });
+
             Message message = messageAtomicReference.get();
             String textColor = String.format("rgb( %s , %s , %s )", message.getTextColor().getRed() * 255, message.getTextColor().getGreen() * 255, message.getTextColor().getBlue() * 255);
             String highLightTextFillColor = String.format("rgb( %s , %s , %s )", message.getTextColor().brighter().getRed() * 255, message.getTextColor().brighter().getGreen() * 255, message.getTextColor().brighter().getBlue() * 255);
             String highLightColor = String.format("rgb( %s , %s , %s )", message.getTextColor().darker().getRed() * 255, message.getTextColor().darker().getGreen() * 255, message.getTextColor().darker().getBlue() * 255);
             updateMessage(message, textColor, highLightTextFillColor, highLightColor);
-        }), 0, Integer.parseInt(DataModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY).getAttribute()), TimeUnit.SECONDS);
+            }), 0, Integer.parseInt(DataModel.getInstance().getSettingByType(SettingsType.MESSAGE_CHECK_FREQUENCY).getAttribute()), TimeUnit.SECONDS);
     }
 
     private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {
         Platform.runLater(new Thread(() -> {
             txtMessage.setStyle(String.format("-fx-text-fill: %s; -fx-highlight-text-fill: %s; -fx-highlight-fill: %s;", textColor, highLightTextFillColor, hightLightColor));
-            txtMessage.setText(message.getMessage());
+            if (message != null) {
+                txtMessage.setText(message.getMessage());
+            } else {
+                System.out.println(message.getMessage());
+                txtMessage.setText("");
+            }
+
         }));
     }
 
@@ -173,6 +189,7 @@ public class EmployeeScreenController implements Initializable {
         StageBuilder stageBuilder = new StageBuilder();
         Node screen = stageBuilder.makeStage(s.getScreenInfo());
         stageBuilder.getRootController().lockPanes();
+        DataModel.getInstance().loadScreenBitsMessages(s);
         borderPane.setCenter(screen);
     }
 
