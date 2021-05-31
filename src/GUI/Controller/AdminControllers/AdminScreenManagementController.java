@@ -91,11 +91,12 @@ public class AdminScreenManagementController implements Initializable {
         // Remove all nodes.
         root.getChildren().clear();
 
-        ObservableList<ScreenBit> sbs = DataModel.getInstance().getScreenBits();
+        ObservableList<ScreenBit> screens = FXCollections.observableArrayList(DataModel.getInstance().getScreenBits());
+
 
         try {
             // Add all screens.
-            for (ScreenBit s : sbs) {
+            for (ScreenBit s : screens) {
                 handleNewScreen(s);
             }
         } catch (NullPointerException throwables) {
@@ -228,6 +229,7 @@ public class AdminScreenManagementController implements Initializable {
 
         if (result.isPresent()) {
             ScreenBit newScreenBit = new ScreenBit(result.get(), "");
+            boolean exists = false;
             try {
                 DataModel.getInstance().addScreenBit(newScreenBit);
                 handleNewScreen(newScreenBit);
