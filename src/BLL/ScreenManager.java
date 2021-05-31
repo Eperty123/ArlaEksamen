@@ -29,8 +29,8 @@ public class ScreenManager implements IScreenCRUD {
      * @param newScreenBit the desired ScreenBit to be added.
      */
     @Override
-    public int addScreenBit(ScreenBit newScreenBit) throws SQLException {
-        return screenDAL.addScreenBit(newScreenBit);
+    public void addScreenBit(ScreenBit newScreenBit) throws SQLException {
+        screenDAL.addScreenBit(newScreenBit);
     }
 
     /**
@@ -106,5 +106,6 @@ public class ScreenManager implements IScreenCRUD {
      */
     @Override
     public void removeScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException {
+        screenDAL.removeScreenBitRights(users, screenBit);
     }
 }
