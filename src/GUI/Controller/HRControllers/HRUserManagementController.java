@@ -63,9 +63,11 @@ public class HRUserManagementController implements Initializable {
         flowpane.getChildren().clear();
 
 
+        List<User> users = UserModel.getInstance().getAllUsers();
+
         try {
             // Add all screens.
-            for (User u : UserModel.getInstance().getAllUsers()) {
+            for (User u : users) {
                 handleNewUser(u);
             }
         }
