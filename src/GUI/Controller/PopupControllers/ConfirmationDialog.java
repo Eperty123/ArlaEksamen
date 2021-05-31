@@ -42,7 +42,6 @@ public class ConfirmationDialog extends Dialog<Boolean> {
             ConfirmationController controller = loader.getController();
 
             getDialogPane().setContent(root);
-            //FIXME MEGET MEGET MEGET CRUDE Men det virker. FIX PLEASE
             AnchorPane test = (AnchorPane) getDialogPane().getContent().getScene().getRoot().getChildrenUnmodifiable().get(getDialogPane().getContent().getScene().getRoot().getChildrenUnmodifiable().size() - 1);
             Pane test2 = (Pane) test.getChildren().get(0);
             JFXTextArea textArea = (JFXTextArea) test2.getChildrenUnmodifiable().get(test2.getChildrenUnmodifiable().size() - 1);

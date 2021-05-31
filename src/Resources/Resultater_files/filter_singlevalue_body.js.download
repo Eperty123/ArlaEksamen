@@ -43,7 +43,7 @@ ms_outHtml.push(''
 ,'        <div class="top_refiner_container" id="Container">'
 ,'                    <input type="radio" name="', $htmlEncode(inputName) ,'" id="', inputId ,'" value="" checked="checked" onclick="$getClientControl(this).updateRefinementFilters(\'', $scriptEncode(propertyName) ,'\', null);" />'
 ,'                    <label for="', $htmlEncode(inputId) ,'" class="', nameClass ,' first_element">'
-,'                        Alle <!-- TODO: Add localization -->'
+,'                        Alle <!--
 ,'                    </label>'
 ); 		
 

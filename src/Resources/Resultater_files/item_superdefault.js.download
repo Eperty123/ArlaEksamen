@@ -158,7 +158,7 @@ ms_outHtml.push('  '
 							    ms_outHtml.push(''
 ,'							    <span class="search_col_item">'
 );					
-									// TODO: We currently dont have information about control, china or brasil in the database, so we cant test for control on the way		    	
+
 							    	if(item.smiley1 == 0 && item.smiley2 == 0 && item.smiley3 == 0 && item.smiley4 == 0)
 							    	{
 							    		img1Url = "/PublishingImages/kontrolpåVej.png";

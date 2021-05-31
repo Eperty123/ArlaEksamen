@@ -43,7 +43,6 @@ public class EScreenSelectDialog extends Dialog<ScreenBit> {
             EmployeeScreenSelectController controller = loader.getController();
 
             getDialogPane().setContent(root);
-            //FIXME MEGET MEGET MEGET CRUDE Men det virker. FIX PLEASE
             AnchorPane test = (AnchorPane) getDialogPane().getContent().getScene().getRoot().getChildrenUnmodifiable().get(getDialogPane().getContent().getScene().getRoot().getChildrenUnmodifiable().size()-1);
             Pane test2 = (Pane) test.getChildren().get(0);
             JFXComboBox<ScreenBit> comboBox = (JFXComboBox) test2.getChildrenUnmodifiable().get(test2.getChildrenUnmodifiable().size()-3);

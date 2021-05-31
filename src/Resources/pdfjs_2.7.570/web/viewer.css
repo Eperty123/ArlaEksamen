@@ -3343,7 +3343,7 @@ html[dir="rtl"] .treeItemToggler::before {
   }
 }
 
-/* TODO: file FF bug to support ::-moz-selection:window-inactive
+/*
    so we can override the opaque grey background when the window is inactive;
    see https://bugzilla.mozilla.org/show_bug.cgi?id=706209 */
 ::-moz-selection {

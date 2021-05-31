@@ -73,6 +73,12 @@ public class ResultSetParser {
         return new Bug(bugId, description, fixMessage, dateRegistered, bugResolved, adminId, screenName, referencedUser);
     }
 
+    /**
+     * Returns a setting.
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
     public Settings getSetting(ResultSet rs) throws SQLException {
         int settingsId = rs.getInt("Id");
         SettingsType settingsType = SettingsType.valueOf(rs.getInt("Type"));
@@ -80,6 +86,12 @@ public class ResultSetParser {
         return new Settings(settingsId, settingsType, attribute);
     }
 
+    /**
+     * Returns the generated key, retrieved by a executeUpdate().
+     * @param pSql
+     * @return
+     * @throws SQLException
+     */
     public int getGeneratedKey(PreparedStatement pSql) throws SQLException {
         ResultSet generatedKeys = pSql.getGeneratedKeys();
         generatedKeys.next();
