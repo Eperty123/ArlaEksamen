@@ -2,6 +2,7 @@ package GUI.Controller;
 
 import BE.*;
 import BLL.*;
+import DAL.MessageDAL;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
@@ -124,21 +125,29 @@ public class EmployeeScreenController implements Initializable {
     private void autoUpdateMessageBox() {
         service.scheduleAtFixedRate(new Thread(() -> {
             //TODO fix such that this get the relevant messages for the current screen
-            txtMessage.clear();
-            userMessages = new ArrayList<>();
+            try {
+                DataModel.getInstance().loadScreenBitsMessages(comboScreens.getValue());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             userMessages.clear();
             userMessages.addAll(comboScreens.getValue().getMessages());
             userMessages.sort(Comparator.comparing(Message::getMessageStartTime));
             AtomicReference<Message> messageAtomicReference = new AtomicReference<>();
 
+            if(userMessages.isEmpty())
+                txtMessage.setText("");
+
             userMessages.forEach(message -> {
-                if (txtMessage.getText() == message.getMessage() || LocalDateTime.now().isBefore(message.getMessageStartTime()) || LocalDateTime.now().isAfter(message.getMessageEndTime())) {
-                    if (message.getMessageEndTime().isBefore(LocalDateTime.now())) ;
-                    try {
-                        DataModel.getInstance().deleteMessage(message);
-                    } catch (SQLException throwables) {
-                        //throwables.printStackTrace();
-                        WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message. Please try again, and if the problem persists, contact an IT Administrator.");
+                if (!txtMessage.getText().isEmpty() && txtMessage.getText() == message.getMessage() || LocalDateTime.now().isBefore(message.getMessageStartTime()) || LocalDateTime.now().isAfter(message.getMessageEndTime())) {
+                    if (message.getMessageEndTime().isBefore(LocalDateTime.now()));
+                    {
+                        try {
+                            DataModel.getInstance().deleteMessage(message);
+                        } catch (SQLException throwables) {
+                            //throwables.printStackTrace();
+                            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message. Please try again, and if the problem persists, contact an IT Administrator.");
+                        }
                     }
                 } else {
                     if (messageAtomicReference.get() == null || messageAtomicReference.get().getMessageType() != MessageType.Admin || message.getMessageType() == MessageType.Admin)
