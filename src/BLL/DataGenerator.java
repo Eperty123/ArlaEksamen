@@ -82,7 +82,7 @@ public class DataGenerator {
         NumberAxis yAxis = new NumberAxis();
         ScatterChart<String, Number> scatterChart = new ScatterChart<>(xAxis, yAxis);
 
-        // TODO: Add proper title.
+
         scatterChart.setTitle("Max Temperature");
         scatterChart.getData().add(series);
 
@@ -104,7 +104,7 @@ public class DataGenerator {
         NumberAxis yAxis = new NumberAxis();
         BubbleChart<Number, Number> bubbleChart = new BubbleChart(xAxis, yAxis);
 
-        // TODO: Add proper title.
+
         bubbleChart.setTitle("Total Duration");
         bubbleChart.getData().add(series);
 
@@ -126,7 +126,7 @@ public class DataGenerator {
         NumberAxis yAxis = new NumberAxis();
         AreaChart<String, Number> areaChart = new AreaChart<>(xAxis, yAxis);
 
-        // TODO: Add proper title.
+
         areaChart.setTitle("Total Sales");
         areaChart.getData().add(series);
 
@@ -148,7 +148,6 @@ public class DataGenerator {
         NumberAxis yAxis = new NumberAxis();
         LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
 
-        // TODO: Add proper title.
         lineChart.setTitle("Total Attendance");
         lineChart.getData().add(series);
 
@@ -174,7 +173,7 @@ public class DataGenerator {
         NumberAxis yAxis = new NumberAxis();
         StackedBarChart<String, Number> stackedBarChart = new StackedBarChart<>(xAxis, yAxis);
 
-        // TODO: Add proper title.
+
         stackedBarChart.setTitle("Total Sales");
         stackedBarChart.getData().add(series);
         stackedBarChart.getData().add(series1);
@@ -202,7 +201,7 @@ public class DataGenerator {
         NumberAxis yAxis = new NumberAxis();
         StackedAreaChart<String, Number> stackedAreaChart = new StackedAreaChart<>(xAxis, yAxis);
 
-        // TODO: Add proper title.
+
         stackedAreaChart.setTitle("Total Sales");
         stackedAreaChart.getData().add(series);
         stackedAreaChart.getData().add(series1);

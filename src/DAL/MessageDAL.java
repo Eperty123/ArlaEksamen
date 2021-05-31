@@ -242,7 +242,7 @@ public class MessageDAL {
      * in the junction table ScreenMessage in the database. The method uses batches in case more than one ScreenBit
      * has been assigned.
      *
-     * @param user               // TODO delete this param?
+     * @param user
      * @param message            Object containing message information.
      * @param assignedScreenBits List of ScreenBits to have the message assigned to them.
      */

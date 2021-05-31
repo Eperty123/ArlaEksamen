@@ -205,7 +205,7 @@ public class ManagerScreenViewController implements Initializable {
                 try {
                     dataModel.addBug(newBug);
 
-                    //TODO uncheck
+
 
                     // Check if we can send emails at all.
                     if (emailManager.canSendEmail()) {

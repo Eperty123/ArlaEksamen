@@ -1387,7 +1387,7 @@ process.binding = function (name) {
     throw new Error('process.binding is not supported');
 }
 
-// TODO(shtylman)
+
 process.cwd = function () { return '/' };
 process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
@@ -2286,7 +2286,7 @@ $(".PickerShow, .plus_minus").click(function() {
     $(this).closest('.toggle_btn').find('input').trigger('click');
 });
 
-//TOGGLE + - icons - IS USED ON ALL GUIDE ROOLUP ! TODO:REMOVE USAGE OF THIS CLAS AND CHANGE TO SAME AS ABOVE
+//TOGGLE + - icons - IS USED ON ALL GUIDE ROOLUP !
 $(".template_toggle_btn").click(function () {
     $(this).find('i').toggleClass('plus_icon minus_icon');
 });
