@@ -240,7 +240,6 @@ public class ScreenBit {
 
         // timeTable is a HashMap with a LocalDateTime object as key, and a boolean as value.
         // If a time slot is booked, the boolean is set to false.
-
         for(int i = 0; i < slotCount; i++){
             if(!this.timeTable.get(startTime.plusMinutes(i * 30))){
                 return false;

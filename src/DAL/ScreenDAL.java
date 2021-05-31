@@ -189,9 +189,9 @@ public class ScreenDAL {
                     "LEFT OUTER JOIN ScreenRights" +
                     "    ON Screen.Id = ScreenRights.ScreenId " +
                     "LEFT OUTER JOIN [User]" +
-                    "    ON  ScreenId = ScreenRights.ScreenId AND [User].[UserName] = ScreenRights.UserName;");
+                    "    ON  ScreenId = ScreenRights.ScreenId " +
+                    "    AND [User].[UserName] = ScreenRights.UserName;");
             pSql.execute();
-
             ResultSet rs = pSql.getResultSet();
 
             while (rs.next()) {
@@ -206,7 +206,6 @@ public class ScreenDAL {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            //throw throwables;
             return null;
         }
     }
@@ -232,6 +231,7 @@ public class ScreenDAL {
         }
     }
 
+    // TODO javadoc jonas
     public void assignScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {

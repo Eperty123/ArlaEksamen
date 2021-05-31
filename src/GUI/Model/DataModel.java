@@ -108,7 +108,8 @@ public class DataModel {
     // _____ User _____
 
     public void addUser(User newUser, Department department) throws SQLException {
-        if (users.stream().noneMatch(o -> o.getUserName().equals(newUser.getUserName()))) {
+        if (users.stream().noneMatch(
+                o -> o.getUserName().equals(newUser.getUserName()))) {
             userModel.addUser(newUser, department);
             users.add(newUser);
             addUserToDepartment(newUser, department);
@@ -131,7 +132,6 @@ public class DataModel {
         for (User u : users) {
             if (u.getId() == user.getId()) {
                 userToDelete = u;
-
             }
         }
         users.remove(userToDelete);
