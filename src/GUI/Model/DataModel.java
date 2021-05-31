@@ -243,7 +243,7 @@ public class DataModel {
 
 
     public void addScreenBit(ScreenBit newScreenBit) throws SQLException {
-        newScreenBit.setId(ScreenModel.getInstance().addScreenBit(newScreenBit));
+        ScreenModel.getInstance().addScreenBit(newScreenBit);
     }
 
     /**

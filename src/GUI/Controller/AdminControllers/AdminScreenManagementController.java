@@ -228,7 +228,6 @@ public class AdminScreenManagementController implements Initializable {
 
         if (result.isPresent()) {
             ScreenBit newScreenBit = new ScreenBit(result.get(), "");
-            boolean exists = false;
             try {
                 DataModel.getInstance().addScreenBit(newScreenBit);
                 handleNewScreen(newScreenBit);
