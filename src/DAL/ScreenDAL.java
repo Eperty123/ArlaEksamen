@@ -54,12 +54,6 @@ public class ScreenDAL {
         }
     }
 
-    /**
-     * Deletes all associations between a ScreenBit and all messages.
-     * @param con
-     * @param screenBit
-     * @throws SQLException
-     */
     private void deleteScreenBitMessage(Connection con, ScreenBit screenBit) throws SQLException {
 
         try {
@@ -72,12 +66,6 @@ public class ScreenDAL {
 
     }
 
-    /**
-     * Deletes a ScreenBits timetable from the database.
-     * @param con
-     * @param screenBit
-     * @throws SQLException
-     */
     private void deleteScreenBitTimeTable(Connection con, ScreenBit screenBit) throws SQLException {
 
         try {
@@ -135,7 +123,7 @@ public class ScreenDAL {
      *
      * @param newScreenBit
      */
-    public void addScreenBit(ScreenBit newScreenBit) throws SQLException {
+    public int addScreenBit(ScreenBit newScreenBit) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Screen VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -146,22 +134,13 @@ public class ScreenDAL {
             int screenId = resultSetParser.getGeneratedKey(pSql);
             newScreenBit.setId(screenId);
 
-            createScreenBitTimeTable(con, screenId);
+            return screenId;
 
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            throw throwables;
         }
     }
 
-    /**
-     * Creates a time table for the ScreenBit associated with ScreenId. A time table consist of 48 time slots
-     * of 30 minutes pr. day, 14 days ahead.
-     * @param con
-     * @param screenId
-     * @throws SQLException
-     */
+    // TODO javadoc jonas
     public void createScreenBitTimeTable(Connection con, int screenId) throws SQLException {
 
         try {
@@ -250,12 +229,7 @@ public class ScreenDAL {
         }
     }
 
-    /**
-     * Creates an association between the specifiec Users and the ScreenBit in the database.
-     * @param users
-     * @param screenBit
-     * @throws SQLException
-     */
+    // TODO javadoc jonas
     public void assignScreenBitRights(List<User> users, ScreenBit screenBit) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
@@ -345,12 +319,7 @@ public class ScreenDAL {
         }
     }
 
-    /**
-     * Loads the specified ScreenBits timetables from the database.
-     * @param con
-     * @param screenBits
-     * @throws SQLException
-     */
+    // TODO javadoc jonas
     private void loadTimeTables(Connection con, List<ScreenBit> screenBits) throws SQLException {
 
         try {

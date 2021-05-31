@@ -2,10 +2,12 @@ package GUI.Controller;
 
 import BE.*;
 import BLL.*;
+import DAL.MessageDAL;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.*;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -22,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -43,6 +46,8 @@ public class EmployeeScreenController implements Initializable {
     @FXML
     private TextArea txtMessage;
     @FXML
+    private JFXButton logoutButton;
+    @FXML
     private JFXComboBox<ScreenBit> comboScreens;
     private final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     private List<Message> userMessages = new ArrayList<>();
@@ -50,11 +55,17 @@ public class EmployeeScreenController implements Initializable {
 
     private User currentUser;
     private boolean isMaximized = false;
+    private Stage parentStage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentUser = LoginManager.getCurrentUser();
         ClockCalender.initClock(lblTime);
+        if (currentUser.getUserRole() == UserType.Manager) {
+            logoutButton.setText("Back");
+        } else {
+            logoutButton.setText("Logout");
+        }
 
         comboScreens.getItems().addAll(currentUser.getAssignedScreenBits());
     }
@@ -65,7 +76,7 @@ public class EmployeeScreenController implements Initializable {
                 try {
                     setScreen(currentUser.getAssignedScreenBits().get(0));
                     comboScreens.setValue(currentUser.getAssignedScreenBits().get(0));
-                    lblBar.setText("Employee Screen - " + currentUser.getAssignedScreenBits().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                    lblBar.setText(currentUser.getUserRole().toString() + " Screen - " + currentUser.getAssignedScreenBits().get(0).getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -75,7 +86,7 @@ public class EmployeeScreenController implements Initializable {
 
                 ScreenBit s = screenBit;
                 comboScreens.getSelectionModel().select(s);
-                lblBar.setText("Employee Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                lblBar.setText(currentUser.getUserRole().toString() + " Screen - " + s.getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
 
                 try {
                     setScreen(s);
@@ -88,7 +99,7 @@ public class EmployeeScreenController implements Initializable {
         } else {
             try {
                 displayNoScreenWarning();
-                lblBar.setText("Employee Screen - NONE Contact admin - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                lblBar.setText(currentUser.getUserRole().toString() + " Screen - NONE Contact admin - " + currentUser.getFirstName() + " " + currentUser.getLastName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -99,6 +110,9 @@ public class EmployeeScreenController implements Initializable {
             if (comboScreens.getSelectionModel().getSelectedItem() != null) {
                 try {
                     setScreen(comboScreens.getValue());
+                    lblBar.setText(currentUser.getUserRole().toString() + " Screen - " + comboScreens.getValue().getName() + " - " + currentUser.getFirstName() + " " + currentUser.getLastName());
+                    DataModel.getInstance().loadScreenBitsMessages(screenBit);
+                    autoUpdateMessageBox();
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -110,23 +124,38 @@ public class EmployeeScreenController implements Initializable {
 
     private void autoUpdateMessageBox() {
         service.scheduleAtFixedRate(new Thread(() -> {
-            userMessages = new ArrayList<>(DataModel.getInstance().getMessages());
+            //TODO fix such that this get the relevant messages for the current screen
+            try {
+                DataModel.getInstance().loadScreenBitsMessages(comboScreens.getValue());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            userMessages.clear();
+            userMessages.addAll(comboScreens.getValue().getMessages());
             userMessages.sort(Comparator.comparing(Message::getMessageStartTime));
             AtomicReference<Message> messageAtomicReference = new AtomicReference<>();
+
+            if(userMessages.isEmpty())
+                txtMessage.setText("");
+
             userMessages.forEach(message -> {
-                if (txtMessage.getText() == message.getMessage() || LocalDateTime.now().isBefore(message.getMessageStartTime()) || LocalDateTime.now().isAfter(message.getMessageEndTime())) {
-                    if (message.getMessageEndTime().isBefore(LocalDateTime.now())) ;
-                    try {
-                        DataModel.getInstance().deleteMessage(message);
-                    } catch (SQLException throwables) {
-                        //throwables.printStackTrace();
-                        WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message. Please try again, and if the problem persists, contact an IT Administrator.");
+                if (!txtMessage.getText().isEmpty() && txtMessage.getText() == message.getMessage() || LocalDateTime.now().isBefore(message.getMessageStartTime()) || LocalDateTime.now().isAfter(message.getMessageEndTime())) {
+                    if (message.getMessageEndTime().isBefore(LocalDateTime.now()));
+                    {
+                        try {
+                            DataModel.getInstance().deleteMessage(message);
+                        } catch (SQLException throwables) {
+                            //throwables.printStackTrace();
+                            WarningController.createWarning("Oh no! Something went wrong when attempting to delete a message. Please try again, and if the problem persists, contact an IT Administrator.");
+                        }
                     }
                 } else {
                     if (messageAtomicReference.get() == null || messageAtomicReference.get().getMessageType() != MessageType.Admin || message.getMessageType() == MessageType.Admin)
                         messageAtomicReference.set(message);
+
                 }
             });
+
             Message message = messageAtomicReference.get();
             String textColor = String.format("rgb( %s , %s , %s )", message.getTextColor().getRed() * 255, message.getTextColor().getGreen() * 255, message.getTextColor().getBlue() * 255);
             String highLightTextFillColor = String.format("rgb( %s , %s , %s )", message.getTextColor().brighter().getRed() * 255, message.getTextColor().brighter().getGreen() * 255, message.getTextColor().brighter().getBlue() * 255);
@@ -138,7 +167,13 @@ public class EmployeeScreenController implements Initializable {
     private void updateMessage(Message message, String textColor, String highLightTextFillColor, String hightLightColor) {
         Platform.runLater(new Thread(() -> {
             txtMessage.setStyle(String.format("-fx-text-fill: %s; -fx-highlight-text-fill: %s; -fx-highlight-fill: %s;", textColor, highLightTextFillColor, hightLightColor));
-            txtMessage.setText(message.getMessage());
+            if (message != null) {
+                txtMessage.setText(message.getMessage());
+            } else {
+                System.out.println(message.getMessage());
+                txtMessage.setText("");
+            }
+
         }));
     }
 
@@ -172,22 +207,29 @@ public class EmployeeScreenController implements Initializable {
         StageBuilder stageBuilder = new StageBuilder();
         Node screen = stageBuilder.makeStage(s.getScreenInfo());
         stageBuilder.getRootController().lockPanes();
+        DataModel.getInstance().loadScreenBitsMessages(s);
         borderPane.setCenter(screen);
     }
 
     public void handleLogout() throws IOException {
-        ConfirmationDialog confirmation = new ConfirmationDialog("Are you sure you want to logout of the application?");
+        if (currentUser.getUserRole() == UserType.Manager) {
+            parentStage.setIconified(false);
+            Stage stage = (Stage) borderPane.getScene().getWindow();
+            stage.close();
+        } else {
+            ConfirmationDialog confirmation = new ConfirmationDialog("Are you sure you want to logout of the application?");
 
-        Optional<Boolean> result = confirmation.showAndWait();
+            Optional<Boolean> result = confirmation.showAndWait();
 
-        if (result.isPresent()) {
-            if (result.get()) {
-                SceneMover sceneMover = new SceneMover();
-                StageShower stageShower = new StageShower();
+            if (result.isPresent()) {
+                if (result.get()) {
+                    SceneMover sceneMover = new SceneMover();
+                    StageShower stageShower = new StageShower();
 
-                Stage root1 = (Stage) borderPane.getScene().getWindow();
+                    Stage root1 = (Stage) borderPane.getScene().getWindow();
 
-                stageShower.handleLogout(root1, sceneMover);
+                    stageShower.handleLogout(root1, sceneMover);
+                }
             }
         }
     }
@@ -206,9 +248,9 @@ public class EmployeeScreenController implements Initializable {
     }
 
     @FXML
-    private void handleClose(MouseEvent mouseEvent) {
-        Stage stage = (Stage) borderPane.getScene().getWindow();
-        stage.close();
+    private void handleClose(MouseEvent mouseEvent) throws IOException {
+        handleLogout();
+
     }
 
     public void handleReportIssue() throws IOException {
@@ -240,5 +282,9 @@ public class EmployeeScreenController implements Initializable {
                 }
             }
         }
+    }
+
+    public void setParentStage(Stage parentStage) {
+        this.parentStage = parentStage;
     }
 }

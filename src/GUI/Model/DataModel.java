@@ -343,11 +343,7 @@ public class DataModel {
      * @throws SQLException
      */
     public void addScreenBit(ScreenBit newScreenBit) throws SQLException {
-
-        if (screenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
-            ScreenModel.getInstance().addScreenBit(newScreenBit);
-            screenBits.add(newScreenBit);
-        }
+        ScreenModel.getInstance().addScreenBit(newScreenBit);
     }
 
     /**
@@ -357,6 +353,7 @@ public class DataModel {
      */
     public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
         screenModel.deleteScreenBit(screenBit);
+        screenBits.removeIf(screen->screen.getName()==screenBit.getName());
         users.forEach(u -> {
             if (u.getAssignedScreenBits().contains(screenBit)) {
                 u.removeScreenBit(screenBit);
@@ -694,6 +691,7 @@ public class DataModel {
      * @throws SQLException
      */
     public void loadScreenBitsMessages(ScreenBit screen) throws SQLException {
+        screen.getMessages().clear();
         messageModel.loadScreenBitsMessages(screen);
     }
 

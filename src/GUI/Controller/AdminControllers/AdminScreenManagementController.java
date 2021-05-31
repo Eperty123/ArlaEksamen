@@ -8,11 +8,14 @@ import GUI.Controller.HRControllers.HRDepartmentController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
 import GUI.Model.DataModel;
+import GUI.Model.ScreenModel;
 import com.mysql.cj.xdevapi.Warning;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,11 +34,13 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import jdk.jfr.DataAmount;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -83,13 +88,14 @@ public class AdminScreenManagementController implements Initializable {
      */
     private void loadAllScreens() {
 
-
         // Remove all nodes.
         root.getChildren().clear();
 
+        ObservableList<ScreenBit> screens = FXCollections.observableArrayList(DataModel.getInstance().getScreenBits());
+
         try {
             // Add all screens.
-            for (ScreenBit s : DataModel.getInstance().getScreenBits()) {
+            for (ScreenBit s : screens) {
                 handleNewScreen(s);
             }
         } catch (NullPointerException throwables) {
@@ -221,17 +227,13 @@ public class AdminScreenManagementController implements Initializable {
         Optional<String> result = screenDialog.showAndWait();
 
         if (result.isPresent()) {
-
-
+            ScreenBit newScreenBit = new ScreenBit(result.get(), "");
             try {
-                DataModel.getInstance().addScreenBit(new ScreenBit(result.get(), ""));
-                // Reload all screens. Can be optimized further using thread to not halt the gui.
-                loadAllScreens();
+                DataModel.getInstance().addScreenBit(newScreenBit);
+                handleNewScreen(newScreenBit);
             } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                WarningController.createWarning("Oh no! Something went wrong when attempting to add the given screen to the database. Please try again, and if the problem persists, contact an IT Administrator.");
+                WarningController.createWarning("Screen already exists!");
             }
-            //handleNewScreen(new ScreenBit(result.get()));
         }
     }
 

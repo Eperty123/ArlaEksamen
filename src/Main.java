@@ -29,7 +29,7 @@ public class Main extends Application {
                 new Image("/GUI/Resources/AppIcons/icon64x64.png"));
         primaryStage.show();
 
-        Node bar = root.getChildrenUnmodifiable().get(root.getChildrenUnmodifiable().size() - 2);
+        Node bar = root.getChildrenUnmodifiable().get(1);
         SceneMover sceneMover = new SceneMover();
         sceneMover.move(primaryStage, bar);
     }

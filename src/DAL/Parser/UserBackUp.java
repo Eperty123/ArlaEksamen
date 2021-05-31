@@ -5,9 +5,11 @@ import BE.CSVUser;
 import BE.Department;
 import BE.User;
 import GUI.Controller.PopupControllers.WarningController;
+import GUI.Model.DataModel;
 import GUI.Model.DepartmentModel;
 import GUI.Model.UserModel;
 
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -58,6 +61,8 @@ public class UserBackUp {
                 String title = line[10];
                 CSVUser parsedUser = new CSVUser(id, firstName, lastName, userName, email, phoneNumber, userRole, password, gender, department, title);
 
+                parsedUser.setDepartment(DepartmentModel.getInstance().getDepartment(department));
+
                 // Check if an existing user with the id exists, if none import it.
                 // If no id, check for first, last name, department and phone number.
                 var existing = userModel.getUserById(id);
@@ -68,8 +73,9 @@ public class UserBackUp {
                     // I
                     if (desiredDepartment != null) {
                         // No existing found, check some other criteria in case a user is found with the same name.
-                        if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && departmentModel.getUser(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null)
+                        if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && departmentModel.getUser(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null) {
                             importedUsers.add(parsedUser);
+                        }
                     } else {
                         if (userModel.getUserByFirstLastName(parsedUser.getFirstName(), parsedUser.getLastName()) == null && userModel.getUserByUsername(parsedUser.getUserName()) == null && userModel.getUserByEmail(parsedUser.getEmail()) == null) {
                             importedUsers.add(parsedUser);
@@ -79,13 +85,13 @@ public class UserBackUp {
 
                 //System.out.println(String.format("User: %s %s (%d).", parsedUser.getFirstName(), parsedUser.getLastName(), parsedUser.getPhone()));
             }
-
-            try {
-                userModel.addUsers(importedUsers);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                throw throwables;
-            }
+            importedUsers.forEach(u -> {
+                try {
+                    DataModel.getInstance().addUser(u, u.getDepartment());
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
         }
 
         return importedUsers;
