@@ -10,7 +10,7 @@ public interface IScreenCRUD {
      *
      * @param newScreenBit the desired ScreenBit to be added.
      */
-    int addScreenBit(ScreenBit newScreenBit) throws SQLException;
+    void addScreenBit(ScreenBit newScreenBit) throws SQLException;
 
     /**
      * Deletes a ScreenBit from the Database.
