@@ -75,7 +75,8 @@ public class PickerStageController implements Initializable {
                 new MenuItemBit("Change Orientation", (action) -> {
                     if (closestParentPickerStageController != null) {
                         Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
-                        closestParentPickerStageController.getSplitPane().setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
+                        closestParentPickerStageController.getSplitPane().setOrientation(
+                                oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
                     } else {
                         Orientation oldOrientation = closestParentPickerStageController.getSplitPane().getOrientation();
                         splitPane.setOrientation(oldOrientation == Orientation.HORIZONTAL ? Orientation.VERTICAL : Orientation.HORIZONTAL);
@@ -422,10 +423,13 @@ public class PickerStageController implements Initializable {
         else {
             StringBuilder stringBuilder = new StringBuilder("");
             if (!splitPane.getDividers().isEmpty()) {
-                stringBuilder.append(String.format("%n%s%.02f", splitPane.getOrientation().toString().charAt(0), splitPane.getDividers().get(0).getPosition()));
+                stringBuilder.append(String.format("%n%s%.02f",
+                        splitPane.getOrientation().toString().charAt(0),
+                        splitPane.getDividers().get(0).getPosition()));
                 stringBuilder.append("{");
                 controllersOfInterest.forEach(c -> {
-                    stringBuilder.append(c.getBuilderString()).append(controllersOfInterest.indexOf(c) < controllersOfInterest.size() - 1 ? "|" : "");
+                    stringBuilder.append(c.getBuilderString()).append(
+                            controllersOfInterest.indexOf(c) < controllersOfInterest.size() - 1 ? "|" : "");
                 });
                 stringBuilder.append("}");
             }

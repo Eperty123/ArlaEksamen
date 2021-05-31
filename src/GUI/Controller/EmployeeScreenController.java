@@ -1,9 +1,7 @@
 package GUI.Controller;
 
 import BE.*;
-import BLL.LoginManager;
-import BLL.StageBuilder;
-import BLL.StageShower;
+import BLL.*;
 import GUI.Controller.PopupControllers.BugReportDialog;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.WarningController;
@@ -48,6 +46,7 @@ public class EmployeeScreenController implements Initializable {
     private JFXComboBox<ScreenBit> comboScreens;
     private final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     private List<Message> userMessages = new ArrayList<>();
+    private EmailManager emailManager = EmailManager.getInstance();
 
     private User currentUser;
     private boolean isMaximized = false;
@@ -223,7 +222,16 @@ public class EmployeeScreenController implements Initializable {
                 newBug.setReferencedScreen(comboScreens.getSelectionModel().getSelectedItem() != null ? comboScreens.getSelectionModel().getSelectedItem().getName() : "None");
                 newBug.setReferencedUser(currentUser.getUserName());
                 try {
+
+                    // Send the bug report.
                     DataModel.getInstance().addBug(newBug);
+
+                    // Check if we can send emails at all.
+                    if (emailManager.canSendEmail()) {
+                        // Proceed to do so.
+                        EmailExtension.sendEmailBugReportToAllAdmins(newBug, comboScreens.getSelectionModel().getSelectedItem(), currentUser);
+                    } else
+                        WarningController.createWarning("The email for sending email notification for administrators is incorrect! Please contact an IT-Administrator about this!");
                     WarningController.createWarning("Report Send!", "Bug report successfully send, " +
                             "thank you for helping improving this program!");
 
