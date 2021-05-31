@@ -72,7 +72,7 @@ public class LoginController implements Initializable {
 
         Boolean isCorrectLogin = loginManager.attemptLogin(txtUsername.getText(), txtPassword.getText(), users);
 
-        if (!isCorrectLogin){
+        if (!isCorrectLogin) {
             Label label = new Label();
 
             label.setTextAlignment(TextAlignment.CENTER);
@@ -103,23 +103,23 @@ public class LoginController implements Initializable {
                 Parent parent = fxmlLoader.load();
                 stage.setTitle("Admin dashboard");
                 BorderPane borderPane = (BorderPane) parent.getChildrenUnmodifiable().get(0);
-                stageShower.showScene(stage, parent,sceneMover,borderPane.getTop());
+                stageShower.showScene(stage, parent, sceneMover, borderPane.getTop());
                 root1.close();
-            } else if(u.getUserRole() == UserType.Manager) {
+            } else if (u.getUserRole() == UserType.Manager) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerDashboard.fxml"));
                 stage.setTitle("Manager Dashboard");
                 Parent parent = fxmlLoader.load();
                 BorderPane borderPane = (BorderPane) parent.getChildrenUnmodifiable().get(0);
-                stageShower.showScene(stage, parent,sceneMover,borderPane.getTop());
+                stageShower.showScene(stage, parent, sceneMover, borderPane.getTop());
                 root1.close();
-            }else if(u.getUserRole() == UserType.HR){
+            } else if (u.getUserRole() == UserType.HR) {
                 fxmlLoader.setLocation(getClass().getResource("/GUI/View/HRViews/HRDashboard.fxml"));
                 stage.setTitle("HR Dashboard");
                 Parent parent = fxmlLoader.load();
                 BorderPane borderPane = (BorderPane) parent.getChildrenUnmodifiable().get(0);
-                stageShower.showScene(stage, parent,sceneMover,borderPane.getTop());
+                stageShower.showScene(stage, parent, sceneMover, borderPane.getTop());
                 root1.close();
-            }else{
+            } else {
                 EScreenSelectDialog selectDialog = new EScreenSelectDialog(u.getAssignedScreenBits());
 
                 Optional<ScreenBit> result = selectDialog.showAndWait();
@@ -135,7 +135,7 @@ public class LoginController implements Initializable {
 
                         BorderPane bp = (BorderPane) parent;
                         sceneMover.move(stage, bp.getTop());
-                        stageShower.showScene(stage, parent,sceneMover,bp.getTop());
+                        stageShower.showScene(stage, parent, sceneMover, bp.getTop());
                         root1.close();
                     }
                 }
