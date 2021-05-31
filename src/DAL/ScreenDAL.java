@@ -123,7 +123,7 @@ public class ScreenDAL {
      *
      * @param newScreenBit
      */
-    public int addScreenBit(ScreenBit newScreenBit) throws SQLException {
+    public void addScreenBit(ScreenBit newScreenBit) throws SQLException {
 
         try (Connection con = dbCon.getConnection()) {
             PreparedStatement pSql = con.prepareStatement("INSERT INTO Screen VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -132,9 +132,10 @@ public class ScreenDAL {
             pSql.executeUpdate();
 
             int screenId = resultSetParser.getGeneratedKey(pSql);
+            newScreenBit.setId(screenId);
 
-            createScreenBitTimeTable(con, screenId);
-            return screenId;
+            // createScreenBitTimeTable(con, screenId);
+
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

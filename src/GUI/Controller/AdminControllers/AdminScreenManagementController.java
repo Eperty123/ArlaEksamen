@@ -51,7 +51,7 @@ public class AdminScreenManagementController implements Initializable {
     private final SceneMover sceneMover = new SceneMover();
     private Node createBtnNode;
 
-    private final List<User> userList = DataModel.getInstance().getUsers();
+    private List<User> userList = DataModel.getInstance().getUsers();
     private final StageShower stageShower = new StageShower();
 
     @Override

@@ -24,9 +24,9 @@ public final class ScreenModel implements IScreenCRUD {
      * @param newScreenBit object containing info on the new ScreenBit
      */
     @Override
-    public int addScreenBit(ScreenBit newScreenBit) throws SQLException {
+    public void addScreenBit(ScreenBit newScreenBit) throws SQLException {
         // Not sure if this still return false with ! in it.
-        return screenManager.addScreenBit(newScreenBit);
+        screenManager.addScreenBit(newScreenBit);
     }
 
     /**
@@ -37,7 +37,6 @@ public final class ScreenModel implements IScreenCRUD {
     @Override
     public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
         screenManager.deleteScreenBit(screenBit);
-
     }
 
     /**

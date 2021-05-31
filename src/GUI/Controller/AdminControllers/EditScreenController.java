@@ -36,8 +36,8 @@ public class EditScreenController implements Initializable {
 
     private ScreenBit screenBit;
     private List<User> users;
-    private final List<User> usersToAdd = new ArrayList<>();
-    private final List<User> usersToDelete = new ArrayList<>();
+    private List<User> usersToAdd = new ArrayList<>();
+    private List<User> usersToDelete = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,6 +73,7 @@ public class EditScreenController implements Initializable {
         if (usersToDelete != null) {
             try {
                 DataModel.getInstance().removeScreenBitRights(usersToDelete, screenBit);
+                System.out.println("remove called");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong when attempting to remove screen rights between the given list of users and screen. Please try again, and if the problem persists, contact an IT Administrator.");
@@ -81,6 +82,7 @@ public class EditScreenController implements Initializable {
         if (usersToAdd != null) {
             try {
                 DataModel.getInstance().assignScreenBitRights(usersToAdd, screenBit);
+                System.out.println("assign called");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 WarningController.createWarning("Oh no! Something went wrong when attempting to assign screen rights between the given list of users and screen. Please try again, and if the problem persists, contact an IT Administrator.");

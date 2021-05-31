@@ -245,7 +245,7 @@ public class DataModel {
     public void addScreenBit(ScreenBit newScreenBit) throws SQLException {
 
         if (screenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
-            newScreenBit.setId(ScreenModel.getInstance().addScreenBit(newScreenBit));
+            ScreenModel.getInstance().addScreenBit(newScreenBit);
             screenBits.add(newScreenBit);
         }
     }
