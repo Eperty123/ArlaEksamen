@@ -2,13 +2,13 @@ package GUI.Controller.AdminControllers;
 
 import BE.*;
 import BLL.StageShower;
+import BLL.UserManagementPaneBuilder;
 import GUI.Controller.CrudControllers.AddEmployeeController;
 import GUI.Controller.CrudControllers.EditEmployeeController;
 import GUI.Controller.CrudControllers.RemoveEmployeeController;
 import GUI.Model.DataModel;
 import GUI.Model.UserModel;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.InvalidationListener;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,13 +45,13 @@ public class AdminManagementController implements Initializable {
      * Load all the available screens.
      */
     private void loadAllUsers() {
-        UserManagementPaneFactory.getSelectedUser().clear();
+        UserManagementPaneBuilder.getSelectedUser().clear();
         // Remove all nodes.
         vbox.getChildren().clear();
         // Add all screens.
         for (Department d : DataModel.getInstance().getDepartments()) {
             if (!d.getUsers().isEmpty())
-                vbox.getChildren().add(UserManagementPaneFactory.createUserManagementBoard(d, vbox));
+                vbox.getChildren().add(UserManagementPaneBuilder.createUserManagementBoard(d, vbox));
         }
     }
 
@@ -59,7 +59,7 @@ public class AdminManagementController implements Initializable {
         vbox.getChildren().clear();
         if (!txtSearch.getText().isEmpty() || !txtSearch.getText().isBlank()) {
             for (Department d : Searcher.searchDepartmentUsers(DataModel.getInstance().getDepartments(), txtSearch.getText())){
-                vbox.getChildren().add((UserManagementPaneFactory.createUserManagementBoard(d,vbox)));
+                vbox.getChildren().add((UserManagementPaneBuilder.createUserManagementBoard(d,vbox)));
             }
         }else{
             loadAllUsers();
@@ -96,14 +96,14 @@ public class AdminManagementController implements Initializable {
 
 
     public void handleEditEmployee() throws IOException {
-        if (UserManagementPaneFactory.getSelectedUser().get(0) != null) {
+        if (UserManagementPaneBuilder.getSelectedUser().get(0) != null) {
             Stage editEmployee = new Stage();
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/GUI/VIEW/CRUDViews/EditEmployee.fxml"));
             editEmployee.setTitle("Edit Employee");
             Parent root = (Parent) loader.load();
             EditEmployeeController editEmployeeController = loader.getController();
-            editEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
+            editEmployeeController.setData(UserManagementPaneBuilder.getSelectedUser().get(0));
 
             stageShower.showScene(editEmployee,root,sceneMover);
         }
@@ -111,7 +111,7 @@ public class AdminManagementController implements Initializable {
 
 
     public void handleRemoveEmployee() throws IOException {
-        if (UserManagementPaneFactory.getSelectedUser().get(0) != null) {
+        if (UserManagementPaneBuilder.getSelectedUser().get(0) != null) {
 
             Stage removeEmployeeStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
@@ -119,7 +119,7 @@ public class AdminManagementController implements Initializable {
 
             Parent root = (Parent) loader.load();
             RemoveEmployeeController removeEmployeeController = loader.getController();
-            removeEmployeeController.setData(UserManagementPaneFactory.getSelectedUser().get(0));
+            removeEmployeeController.setData(UserManagementPaneBuilder.getSelectedUser().get(0));
             removeEmployeeStage.setTitle("Remove Employee");
 
             stageShower.showScene(removeEmployeeStage,root,sceneMover);

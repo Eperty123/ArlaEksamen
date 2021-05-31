@@ -482,12 +482,6 @@ public class DataModel {
     }
 
     public ObservableList<Bug> getAllUnresolvedBugs() {
-        ObservableList<Bug> unresolvedBugs = FXCollections.observableArrayList();
-        for (Bug b : bugs) {
-            if (!b.isBugResolved()) {
-                unresolvedBugs.add(b);
-            }
-        }
         return unresolvedBugs;
     }
 
