@@ -42,9 +42,13 @@ class DepartmentTest {
 
     @Test
     void getUsers() {
-        assertTrue(subDepartments.get(0).getUsers().size()==5 && subDepartments.get(1).getUsers().size()==5, "Users get added to the proper classes");
+        assertTrue(subDepartments.get(0).getUsers().size()==5
+                &&
+                subDepartments.get(1).getUsers().size()==5, "Users get added to the proper classes");
 
-        assertTrue(subDepartments.get(0).getUsers().stream().allMatch(u->u.getId()%2==0)&&!subDepartments.get(1).getUsers().stream().allMatch(u->u.getId()%2==0), "The specific users i add get added to the specific department");
+        assertTrue(subDepartments.get(0).getUsers().stream().allMatch(u->u.getId()%2==0)
+                &&
+                !subDepartments.get(1).getUsers().stream().allMatch(u->u.getId()%2==0), "The specific users i add get added to the specific department");
     }
 
     @Test
