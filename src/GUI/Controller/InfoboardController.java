@@ -1,9 +1,8 @@
 package GUI.Controller;
 
 import BE.Department;
-import BE.InfoboardPaneFactory;
+import BLL.InfoboardPaneBuilder;
 import GUI.Model.DataModel;
-import GUI.Model.DepartmentModel;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,8 +30,8 @@ public class InfoboardController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for (Department d : DataModel.getInstance().getDepartments()) {
             if (!d.getUsers().isEmpty()) {
-                hbox.getChildren().add(InfoboardPaneFactory.createDepartmentLabel(d, hbox));
-                vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(d));
+                hbox.getChildren().add(InfoboardPaneBuilder.createDepartmentLabel(d, hbox));
+                vbox.getChildren().add(InfoboardPaneBuilder.createInfoBoard(d));
             }
         }
 
@@ -49,7 +48,7 @@ public class InfoboardController implements Initializable {
                     vbox.getChildren().clear();
                     for (Node n : hbox.lookupAll("#ID")) {
                         Department department = DataModel.getInstance().getDepartment(((Label) n).getText());
-                        vbox.getChildren().add(InfoboardPaneFactory.createInfoBoard(department));
+                        vbox.getChildren().add(InfoboardPaneBuilder.createInfoBoard(department));
                     }
                 }
             }
@@ -68,9 +67,9 @@ public class InfoboardController implements Initializable {
   
     public void handleAddDepartment() {
         if (cmbAddDepartment.getValue() != null) {
-            Node infoBoard = InfoboardPaneFactory.createInfoBoard(cmbAddDepartment.getValue());
+            Node infoBoard = InfoboardPaneBuilder.createInfoBoard(cmbAddDepartment.getValue());
             vbox.getChildren().add(Math.min(hbox.getChildren().size(),DataModel.getInstance().getDepartments().indexOf(cmbAddDepartment.getValue())),infoBoard);
-            Node departmentLabel = InfoboardPaneFactory.createDepartmentLabel(cmbAddDepartment.getValue(), hbox);
+            Node departmentLabel = InfoboardPaneBuilder.createDepartmentLabel(cmbAddDepartment.getValue(), hbox);
             hbox.getChildren().add(Math.min(hbox.getChildren().size(),DataModel.getInstance().getDepartments().indexOf(cmbAddDepartment.getValue())),departmentLabel);
             cmbAddDepartment.getItems().remove(cmbAddDepartment.getSelectionModel().getSelectedItem());
             cmbAddDepartment.getSelectionModel().select(null);
