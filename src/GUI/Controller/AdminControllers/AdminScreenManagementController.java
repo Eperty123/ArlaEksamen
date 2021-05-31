@@ -93,7 +93,6 @@ public class AdminScreenManagementController implements Initializable {
 
         ObservableList<ScreenBit> screens = FXCollections.observableArrayList(DataModel.getInstance().getScreenBits());
 
-
         try {
             // Add all screens.
             for (ScreenBit s : screens) {
