@@ -4,6 +4,7 @@ import BE.*;
 import BLL.EmailManager;
 import BLL.LoginManager;
 import BLL.StageShower;
+import GUI.Controller.EmployeeScreenController;
 import GUI.Controller.PopupControllers.ConfirmationDialog;
 import GUI.Controller.PopupControllers.EScreenSelectDialog;
 import GUI.Controller.PopupControllers.WarningController;
@@ -83,9 +84,9 @@ public class ManagerDashboardController implements Initializable {
             if (result.get() != null) {
                 Stage stage = new Stage();
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/GUI/View/ManagerViews/ManagerScreenView.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/GUI/View/EmployeeScreen.fxml"));
                 Parent parent = fxmlLoader.load();
-                ManagerScreenViewController controller = fxmlLoader.getController();
+                EmployeeScreenController controller = fxmlLoader.getController();
                 controller.init(result.get());
                 controller.setParentStage((Stage) this.root.getScene().getWindow());
 

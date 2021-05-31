@@ -71,7 +71,7 @@
                         <Pane prefHeight="25.0" prefWidth="381.0" BorderPane.alignment="CENTER">
                            <children>
                               <JFXComboBox fx:id="comboScreens" focusColor="#94bdd3" layoutX="120.0" prefHeight="25.0" prefWidth="150.0" promptText="Screen" unFocusColor="#9f9f9f" />
-                              <JFXButton layoutX="280.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleLogout" onTouchPressed="#handleLogout" prefHeight="25.0" prefWidth="90.0" styleClass="employeeLogout" text="Logout" />
+                              <JFXButton fx:id="logoutButton" layoutX="280.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleLogout" onTouchPressed="#handleLogout" prefHeight="25.0" prefWidth="90.0" styleClass="employeeLogout" text="Logout" />
                               <Label layoutX="41.0" layoutY="4.0" text="Select Screen">
                                  <font>
                                     <Font name="System Italic" size="12.0" />
