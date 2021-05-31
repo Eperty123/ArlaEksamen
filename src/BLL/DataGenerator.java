@@ -23,7 +23,8 @@ public class DataGenerator {
     public static BarChart<String, Number> getBarChart(String filename) throws FileNotFoundException {
 
         final String seriesHeader = "Units Produced Pr. Hour";
-        XYChart.Series<String, Number> series = DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
+        XYChart.Series<String, Number> series =
+        DataGenerator.getXYSeriesStringNumber(DataGenerator.getParsedData(filename), seriesHeader);
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();

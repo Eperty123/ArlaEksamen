@@ -25,7 +25,8 @@ public class DepartmentBuilder implements IDepartmentBuilder{
         User placeHolderUser = new User("PlaceHolder");
 
         while (rs.next()) {
-            Department newDepartment = new Department(rs.getInt("dptId"), rs.getString("dptName"), placeHolderUser);
+            Department newDepartment = new Department(rs.getInt("dptId"),
+                    rs.getString("dptName"), placeHolderUser);
             if (departments.stream().noneMatch(o -> o.getId() == newDepartment.getId())) {
                 departments.add(newDepartment);
             }
@@ -45,11 +46,13 @@ public class DepartmentBuilder implements IDepartmentBuilder{
 
             User user = resultSetParser.getUser(rs);
             for (Department d : departments) {
-                if (d.getManager().getUserName().equals(user.getUserName())) {
+                if (rs.getInt("dptId") == d.getId() &&
+                        user.getUserName().equals(rs.getString("Manager"))) {
                     d.setManager(user);
                 }
                 if (user.getUserName() != null)
-                    if (rs.getString("dptName").equals(d.getName()) && d.getUsers().stream().noneMatch(o -> o.getUserName().equals(user.getUserName()))) {
+                    if (rs.getString("dptName").equals(d.getName()) && d.getUsers().stream().noneMatch(
+                            o -> o.getUserName().equals(user.getUserName()))) {
                         d.addUser(user);
                     }
             }
