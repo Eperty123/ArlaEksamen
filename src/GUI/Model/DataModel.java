@@ -242,12 +242,9 @@ public class DataModel {
     // _____ ScreenBits _____
 
 
-    public void addScreenBit(ScreenBit newScreenBit) throws SQLException {
-
-        if (screenBits.stream().noneMatch(o -> o.getName().equals(newScreenBit.getName()))) {
-            newScreenBit.setId(ScreenModel.getInstance().addScreenBit(newScreenBit));
-            screenBits.add(newScreenBit);
-        }
+    public boolean addScreenBit(ScreenBit newScreenBit) throws SQLException {
+        newScreenBit.setId(ScreenModel.getInstance().addScreenBit(newScreenBit));
+        return false;
     }
 
     /**
@@ -257,6 +254,7 @@ public class DataModel {
      */
     public void deleteScreenBit(ScreenBit screenBit) throws SQLException {
         screenModel.deleteScreenBit(screenBit);
+        screenBits.removeAll(screenBit);
         users.forEach(u -> {
             if (u.getAssignedScreenBits().contains(screenBit)) {
                 u.removeScreenBit(screenBit);

@@ -14,8 +14,6 @@ public class NewScreenController {
     @FXML
     private AnchorPane root;
 
-    private final ScreenModel screenModel = ScreenModel.getInstance();
-
 
     public String handleContinue() {
         if (!txtScreenName.getText().isEmpty()){

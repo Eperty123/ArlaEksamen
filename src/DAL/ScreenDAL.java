@@ -136,9 +136,6 @@ public class ScreenDAL {
             createScreenBitTimeTable(con, screenId);
             return screenId;
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            throw throwables;
         }
     }
 
