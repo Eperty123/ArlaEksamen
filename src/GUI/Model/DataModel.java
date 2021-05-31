@@ -456,6 +456,7 @@ public class DataModel {
     }
 
     public void loadScreenBitsMessages(ScreenBit screen) throws SQLException {
+        screen.getMessages().clear();
         messageModel.loadScreenBitsMessages(screen);
     }
 
