@@ -14,12 +14,9 @@ public class NewScreenController {
     @FXML
     private AnchorPane root;
 
-    private final ScreenModel screenModel = ScreenModel.getInstance();
-
 
     public String handleContinue() {
         if (!txtScreenName.getText().isEmpty()){
-            DataModel.getInstance().getScreenBits().add(0, new ScreenBit(txtScreenName.getText()));
 
             Stage stage = (Stage) root.getScene().getWindow();
             stage.close();
