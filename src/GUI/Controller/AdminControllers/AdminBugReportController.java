@@ -26,6 +26,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,8 +42,8 @@ public class AdminBugReportController implements Initializable {
     private TableColumn<Bug, String> bAR;
 
     private final SceneMover sceneMover = new SceneMover();
-    private final DataModel dataModel = DataModel.getInstance();
-    private final ObservableList<Bug> bugs = dataModel.getAllBugs();
+    private final ObservableList<Bug> bugs = FXCollections.observableArrayList(DataModel.getInstance().getAllBugs());
+    private final ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
     private final StageShower stageShower = new StageShower();
 
 
@@ -79,8 +80,6 @@ public class AdminBugReportController implements Initializable {
      * Load all bugs in the database.
      */
     private void loadAllBugs() {
-        ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
-
         try {
             allUnresolvedBugs.addAll(bugs);
             allUnresolvedBugs.removeIf(Bug::isBugResolved);
@@ -99,7 +98,7 @@ public class AdminBugReportController implements Initializable {
      * @return Returns the admin's username.
      */
     private String getAdmin(int id) {
-        for (User u : dataModel.getUsers()) {
+        for (User u : DataModel.getInstance().getUsers()) {
             if (u.getId() == id) {
                 return u.getUserName();
             }
@@ -113,15 +112,14 @@ public class AdminBugReportController implements Initializable {
     private void handleBugUpdate() {
 
         try {
-            bugs.addListener((ListChangeListener<Bug>) c -> {
-
-                try {
-                    ObservableList<Bug> allUnresolvedBugs = FXCollections.observableArrayList();
-                    allUnresolvedBugs.addAll(bugs);
-                    allUnresolvedBugs.removeIf(Bug::isBugResolved);
-                    tblBugs.setItems(allUnresolvedBugs);
-                } catch (NullPointerException throwables) {
-                    WarningController.createWarning("Oh no! Failed to load all updated bug reports from the database!");
+            DataModel.getInstance().getAllBugs().addListener((ListChangeListener<Bug>) c -> {
+                if (c.next()) {
+                    try {
+                        tblBugs.getItems().clear();
+                        loadAllBugs();
+                    } catch (NullPointerException throwables) {
+                        WarningController.createWarning("Oh no! Failed to load all updated bug reports from the database!");
+                    }
                 }
             });
         } catch (NullPointerException throwables) {
